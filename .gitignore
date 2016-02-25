@@ -1,0 +1,8 @@
+*.DS_Store
+.sass-cache
+node_modules/
+dist/
+site/src/components/
+/node_modules
+site/src/app/**/*.js.map
+.env
