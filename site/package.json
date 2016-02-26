@@ -1,37 +1,38 @@
 {
-  "author": "Josh David Miller",
-  "name": "ngbp",
-  "version": "0.3.2",
-  "homepage": "https://github.com/ngbp/ngbp",
+  "author": "Malisa Ncube",
+  "name": "vc_dashboard",
+  "version": "0.1.0",
+  "homepage": "https://github.com/CHAIUganda/vc_dashboard.git",
   "licenses": {
     "type": "MIT",
-    "url": "https://raw.github.com/ngbp/ngbp/master/LICENSE"
+    "url": "https://github.com/CHAIUganda/vc_dashboard/wiki"
   },
-  "bugs": "https://github.com/ngbp/ngbp/issues",
+  "bugs": "https://github.com/CHAIUganda/vc_dashboard/issues",
   "repository": {
     "type": "git",
-    "url": "git@github.com:ngbp/ngbp.git"
+    "url": "https://github.com/CHAIUganda/vc_dashboard.git"
   },
   "dependencies": {},
   "devDependencies": {
     "grunt": "~0.4.1",
-    "grunt-bump": "0.0.6",
+    "grunt-bump": "^0.7.0",
     "grunt-coffeelint": "~0.0.10",
-    "grunt-contrib-clean": "^0.4.1",
-    "grunt-contrib-coffee": "^0.7.0",
-    "grunt-contrib-concat": "^0.3.0",
-    "grunt-contrib-copy": "^0.4.1",
-    "grunt-contrib-jshint": "^0.4.3",
-    "grunt-contrib-less": "~0.11.0",
-    "grunt-contrib-uglify": "^0.2.7",
-    "grunt-contrib-watch": "^0.4.4",
-    "grunt-conventional-changelog": "^0.1.2",
-    "grunt-html2js": "^0.1.9",
-    "grunt-karma": "^0.8.2",
-    "grunt-ng-annotate": "^0.8.0",
-    "karma": "^0.12.9",
-    "karma-coffee-preprocessor": "^0.2.1",
+    "grunt-contrib-clean": "^1.0.0",
+    "grunt-contrib-coffee": "^1.0.0",
+    "grunt-contrib-concat": "^1.0.0",
+    "grunt-contrib-copy": "^0.8.2",
+    "grunt-contrib-jshint": "^1.0.0",
+    "grunt-contrib-less": "^1.2.0",
+    "grunt-contrib-uglify": "^0.11.1",
+    "grunt-contrib-watch": "^0.6.1",
+    "grunt-conventional-changelog": "^6.1.0",
+    "grunt-html2js": "^0.3.5",
+    "grunt-karma": "^0.12.1",
+    "grunt-ng-annotate": "^1.0.1",
+    "jasmine-core": "^2.4.1",
+    "karma": "^0.13.21",
+    "karma-coffee-preprocessor": "^0.3.0",
     "karma-firefox-launcher": "^0.1.3",
-    "karma-jasmine": "^0.1.5"
+    "karma-jasmine": "^0.3.7"
   }
 }
