@@ -6,3 +6,9 @@ site/src/components/
 /node_modules
 site/src/app/**/*.js.map
 .env
+*.sw*
+*~
+site/build/
+site/bin/
+site/node_modules/
+site/vendor/
