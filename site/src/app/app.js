@@ -2,7 +2,9 @@ angular.module( 'ngDashboard', [
   'templates-app',
   'templates-common',
   'ngDashboard.home',
-  'ngDashboard.about',
+  'ngDashboard.stock',
+  'ngDashboard.fridge',
+  'ngDashboard.survellance',
   'ui.router'
 ])
 

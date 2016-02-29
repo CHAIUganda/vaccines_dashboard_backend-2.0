@@ -1,23 +1,23 @@
-angular.module( 'ngDashboard.about', [
+angular.module( 'ngDashboard.fridge', [
   'ui.router',
   'placeholders',
   'ui.bootstrap'
 ])
 
 .config(function config( $stateProvider ) {
-  $stateProvider.state( 'about', {
-    url: '/about',
+  $stateProvider.state( 'fridge', {
+    url: '/fridge',
     views: {
       "main": {
-        controller: 'AboutCtrl',
-        templateUrl: 'about/about.tpl.html'
+        controller: 'FridgeCtrl',
+        templateUrl: 'fridge/fridge.tpl.html'
       }
     },
     data:{ pageTitle: 'What is It?' }
   });
 })
 
-.controller( 'AboutCtrl', function AboutCtrl( $scope ) {
+.controller( 'FridgeCtrl', function FridgeCtrl( $scope ) {
   // This is simple a demo for UI Boostrap.
   $scope.dropdownDemoItems = [
     "The first choice!",
