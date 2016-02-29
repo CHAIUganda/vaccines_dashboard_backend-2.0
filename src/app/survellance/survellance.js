@@ -13,7 +13,7 @@ angular.module( 'ngDashboard.survellance', [
         templateUrl: 'survellance/survellance.tpl.html'
       }
     },
-    data:{ pageTitle: 'What is It?' }
+    data:{ pageTitle: 'Survellance' }
   });
 })
 

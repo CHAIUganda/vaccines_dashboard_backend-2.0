@@ -13,7 +13,7 @@ angular.module( 'ngDashboard.stock', [
         templateUrl: 'stock/stock.tpl.html'
       }
     },
-    data:{ pageTitle: 'What is It?' }
+    data:{ pageTitle: 'Stock Management' }
   });
 })
 

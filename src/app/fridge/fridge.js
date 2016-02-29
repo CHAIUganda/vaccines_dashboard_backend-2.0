@@ -13,7 +13,7 @@ angular.module( 'ngDashboard.fridge', [
         templateUrl: 'fridge/fridge.tpl.html'
       }
     },
-    data:{ pageTitle: 'What is It?' }
+    data:{ pageTitle: 'Fridge Coverage' }
   });
 })
 
