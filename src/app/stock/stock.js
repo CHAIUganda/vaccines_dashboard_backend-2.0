@@ -47,7 +47,7 @@ angular.module( 'ngDashboard.stock', [
         }
         delete $scope.districts["all"];
         delete $scope.vaccines["all"];
-    }
+    };
   
 })
 
