@@ -1,7 +1,31 @@
 <div class="row">
-  <h1 class="page-header">
-    FILTERS (Stock)
-  </h1>
+
+     <table border='1' cellpadding='0' cellspacing='0' class='filter-tb'>
+        <tr>
+            <td width='20%' id='dist_elmt'>
+                <select ng-model="district" ng-init="district='all'" ng-change="filter('district')">
+                    <option value='all'>DISTRICTS</option>
+                    <option class="ng-cloak" ng-repeat="dist in districts | orderBy:'name'" value="<% dist.id %>">
+                        <% dist.name %>
+                    </option>
+                </select>
+            </td>
+            <td width='20%' id='dist_elmt'>
+                <select ng-model="vaccine" ng-init="vaccine='all'" ng-change="filter('vaccine')">
+                    <option value='all'>VACCINE</option>
+                    <option class="ng-cloak" ng-repeat="vc in vaccines|orderBy:'name'" value="<% vc.id %>">
+                        <% vc.name %>
+                    </option>
+                </select>
+            </td>
+             
+        </tr>
+     </table>
+      <span ng-model="loading" ng-init="loading=true"></span>
+      <div ng-show="loading" style="text-align: center;padding:10px;"> <img src="{{ asset('/images/loading.gif') }}" height="20" width="20"> processing</div>
+     <br>
+     <label class='hdr hdr-grey'> KEY METRICS</label>
+
 
 </div>
 
