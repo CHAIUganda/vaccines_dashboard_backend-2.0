@@ -4,7 +4,7 @@ angular.module( 'ngDashboard', [
   'ngDashboard.home',
   'ngDashboard.stock',
   'ngDashboard.fridge',
-  'ngDashboard.survellance',
+  'ngDashboard.surveillance',
   'ngDashboard.admin',
   'ui.router'
 ])

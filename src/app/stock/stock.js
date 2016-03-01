@@ -1,8 +1,7 @@
 angular.module( 'ngDashboard.stock', [
   'ui.router',
   'placeholders',
-  'ui.bootstrap',
-  'http'
+  'ui.bootstrap'
 ])
 
 .config(function config( $stateProvider ) {
@@ -40,7 +39,7 @@ angular.module( 'ngDashboard.stock', [
                 $scope.districts[$scope.district] = $scope.districts[$scope.district];
                 $scope.district = 'all';
             break;
-            case "district":
+            case "vaccines":
                 $scope.vaccines[$scope.vaccine] = $scope.vaccines[$scope.vaccine];
                 $scope.vaccine = 'all';
             break;

@@ -27,10 +27,6 @@
     <!-- compiled JavaScript --><% scripts.forEach( function ( file ) { %>
     <script type="text/javascript" src="<%= file %>"></script><% }); %>
 
-    <!-- it's stupid to have to load it here, but this is for the +1 button -->
-    <script type="text/javascript" src="https://apis.google.com/js/plusone.js">
-      { "parsetags": "explicit" }
-    </script>
   </head>
   <body>
     <div class="container">
@@ -73,14 +69,14 @@
               </a>
             </li>
             <li ui-sref-active="active">
-              <a ui-sref="survellance">
+              <a ui-sref="surveillance">
                 <i class="fa fa-github-alt"></i>
-                Survellance
+                Surveillance
               </a>
             </li>
              <li ui-sref-active="active">
               <a ui-sref="admin">
-                <i class="fa fa-github-alt"></i>
+                <i class="fa fa-book"></i>
                 Admin
               </a>
             </li>

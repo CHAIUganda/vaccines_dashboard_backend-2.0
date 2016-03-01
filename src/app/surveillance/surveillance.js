@@ -1,23 +1,23 @@
-angular.module( 'ngDashboard.survellance', [
+angular.module( 'ngDashboard.surveillance', [
   'ui.router',
   'placeholders',
   'ui.bootstrap'
 ])
 
 .config(function config( $stateProvider ) {
-  $stateProvider.state( 'survellance', {
-    url: '/survellance',
+  $stateProvider.state( 'surveillance', {
+    url: '/surveillance',
     views: {
       "main": {
-        controller: 'SurvellanceCtrl',
-        templateUrl: 'survellance/survellance.tpl.html'
+        controller: 'SurveillanceCtrl',
+        templateUrl: 'surveillance/surveillance.tpl.html'
       }
     },
-    data:{ pageTitle: 'Survellance' }
+    data:{ pageTitle: 'Surveillance' }
   });
 })
 
-.controller( 'SurvellanceCtrl', function SurvellanceCtrl( $scope ) {
+.controller( 'SurveillanceCtrl', function SurvellanceCtrl( $scope ) {
   // This is simple a demo for UI Boostrap.
   $scope.dropdownDemoItems = [
     "The first choice!",

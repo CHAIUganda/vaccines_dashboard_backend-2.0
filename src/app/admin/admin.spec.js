@@ -4,7 +4,7 @@
  * build process will exclude all `.spec.js` files from the build
  * automatically.
  */
-describe( 'Excel import', function() {
+describe( '>excel import', function() {
   beforeEach( module( 'ngDashboard.admin' ) );
 
   it( 'should import excel document', inject( function() {
