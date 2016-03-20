@@ -11,8 +11,6 @@ import os
 
 from django.core.wsgi import get_wsgi_application
 
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "dashboard.settings")
-
-from .celery import app as celery_app
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "dashboard.settings.prod")
 
 application = get_wsgi_application()

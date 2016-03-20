@@ -1,35 +1,45 @@
-FROM python:2.7
+from ubuntu:14.04
 
-RUN set -ex \
-	&& for key in \
-		7937DFD2AB06298B2293C3187D33FF9D0246406D \
-		114F43EE0176B71C7BC219DD50A3051F888C628D \
-	; do \
-		gpg --keyserver ha.pool.sks-keyservers.net --recv-keys "$key"; \
-	done
+maintainer Malisa Ncube "mnncube@clintonhealthaccess.org"
 
-ENV NODE_VERSION 0.10.40
-ENV NPM_VERSION 2.14.1
+run apt-get update
+run apt-get install -y software-properties-common build-essential git python python-dev python-setuptools nginx supervisor mysql-client libmysqlclient-dev wget libfontenc1 libxrender1 libxrender-dev fontconfig libxfont1 xfonts-75dpi xfonts-base xfonts-encodings xfonts-utils
+run easy_install pip
+run wget http://download.gna.org/wkhtmltopdf/0.12/0.12.2.1/wkhtmltox-0.12.2.1_linux-trusty-amd64.deb
+run dpkg -i wkhtmltox-0.12.2.1_linux-trusty-amd64.deb
 
-RUN curl -SLO "https://nodejs.org/dist/v$NODE_VERSION/node-v$NODE_VERSION-linux-x64.tar.gz" \
-	&& curl -SLO "https://nodejs.org/dist/v$NODE_VERSION/SHASUMS256.txt.asc" \
-	&& gpg --verify SHASUMS256.txt.asc \
-	&& grep " node-v$NODE_VERSION-linux-x64.tar.gz\$" SHASUMS256.txt.asc | sha256sum -c - \
-	&& tar -xzf "node-v$NODE_VERSION-linux-x64.tar.gz" -C /usr/local --strip-components=1 \
-	&& rm "node-v$NODE_VERSION-linux-x64.tar.gz" SHASUMS256.txt.asc \
-	&& npm install -g npm@"$NPM_VERSION" \
-	&& npm cache clear
-RUN npm install -g bower
+# install uwsgi now because it takes a little while
+run pip install uwsgi
 
-RUN mkdir -p /usr/src/app
-WORKDIR /usr/src/app
+# install nginx
+run apt-get install -y python-software-properties
+run add-apt-repository -y ppa:nginx/stable
+run apt-get install -y sqlite3
 
-COPY requirements.txt /usr/src/app/
-COPY requirements /usr/src/app/
-COPY requirements/*.txt /usr/src/app/requirements/
+# add celery user
+run groupadd -r celery && useradd -r -g celery celery
 
-RUN pip install --no-cache-dir -r requirements.txt
+add requirements /home/docker/code/requirements/
 
-COPY . /usr/src/app
+# run pip install
+run pip install -r /home/docker/code/requirements/prod.txt
 
-RUN bower install --allow-root
+env DATABASE_URL mysql://root:ha9zqx@mysql:3306/dashboard
+
+# install our code
+add . /home/docker/code/
+
+# create log file
+run touch /tmp/django-errors.log && chmod go+w /tmp/django-errors.log
+
+# setup all the configfiles
+run echo "daemon off;" >> /etc/nginx/nginx.conf
+run rm /etc/nginx/sites-enabled/default
+run ln -s /home/docker/code/nginx-app.conf /etc/nginx/sites-enabled/
+run ln -s /home/docker/code/supervisor-app.conf /etc/supervisor/conf.d/
+
+# run collectstatic
+run python /home/docker/code/dashboard/manage.py collectstatic --noinput --settings=dashboard.settings.prod
+
+expose 8000
+cmd ["supervisord", "-n"]
