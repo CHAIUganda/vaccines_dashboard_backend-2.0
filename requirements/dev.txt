@@ -1,0 +1,8 @@
+-r common.txt
+django-jenkins
+coverage
+django-webtest
+mock
+django-nose
+nose-timer
+model_mommy
