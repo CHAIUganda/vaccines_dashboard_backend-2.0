@@ -5,6 +5,3 @@ urlpatterns = [
     url('^$', ImportView, name='import_view'),
 ]
 
-# urlpatterns = patterns('',
-#                        url('^$', ImportView, name='import_view'),
-#                        )

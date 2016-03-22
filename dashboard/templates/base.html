@@ -86,12 +86,9 @@
                         <li class="{{ facilities_active|yesno:"active," }}">
                             <a href="{% url 'facilities:list' %}">Facilities</a>
                         </li>
-                        {% has_perm 'facilities.view_import' request.user as can_import %}
-                        {% if can_import %}
                         <li class="{{ import_active|yesno:"active," }}">
                             <a href="{% url 'import' %}">Import Data</a>
                         </li>
-                        {% endif %}
                         <li class="{{ report_active|yesno:"active," }}">
                             <a href="{% url 'reports:list' %}">Reports</a>
                         </li>-->

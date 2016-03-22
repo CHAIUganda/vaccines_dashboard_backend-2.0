@@ -42,11 +42,12 @@ INSTALLED_APPS = [
     #'allauth',
     #'allauth.account',
     #'allauth.socialaccount',
-    #'rest_framework',
+    'rest_framework',
     #'rest_framework.authtoken',
 	# Vaccines Dashboard
     'dashboard',
     'home',
+    'api',
 ]
 
 MIDDLEWARE_CLASSES = [
