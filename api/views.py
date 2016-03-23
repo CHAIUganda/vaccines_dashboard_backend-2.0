@@ -10,12 +10,9 @@ from home.models import District
 
 @api_view(['GET'])
 def district_list(request):
-    """
-    List all districts
-    :param request:
-    :return: District
-    """
     if request.method == 'GET':
         districts = District.objects.all()
         serializer = DistrictSerializer(districts)
         return Response(serializer.data)
+
+

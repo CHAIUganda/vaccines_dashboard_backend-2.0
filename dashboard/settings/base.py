@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/1.9/ref/settings/
 
 import os
 
+DEBUG = True
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -67,6 +69,8 @@ AUTHENTICATION_BACKENDS = (
     # `allauth` specific authentication methods, such as login by e-mail
     "allauth.account.auth_backends.AuthenticationBackend",
 )
+
+
 
 
 ROOT_URLCONF = 'dashboard.urls'
@@ -232,7 +236,7 @@ CELERY_TASK_RESULT_EXPIRES = 10
 CELERYBEAT_SCHEDULER = "djcelery.schedulers.DatabaseScheduler"
 CELERY_DEFAULT_QUEUE = 'dashboard'
 
-LOGIN_EXEMPT_URLS = ["/reports/pdf_report/", '/api/v1/']
+#LOGIN_EXEMPT_URLS = ["/reports/pdf_report/", '/api/v1/']
 
 REST_FRAMEWORK = {
     #'DEFAULT_PERMISSION_CLASSES': ('rest_framework.permissions.IsAdminUser',),

@@ -62,7 +62,7 @@
         <header class="header fixed-top clearfix">
             <!--logo start-->
             <div class="brand">
-                <a href="/" title="NMS CMP"><img src="{% static 'img/NMSLogo.jpg' %}" alt="NMS CMP"/></a>
+                <a href="/" title="Vaccines"><img src="{% static 'img/VaccinesLogo.jpg' %}" alt="Vaccines"/></a>
             </div>
             <!--logo end-->
 
@@ -70,28 +70,25 @@
             <div class="horizontal-menu navbar-collapse collapse ">
                 <ul class="nav navbar-nav">
                     <li class="{{ amc_active|yesno:"active," }}">
-                        <a href="{% url 'reports:amc' %}">Average Monthly Consumption</a>
+                        <a href="#">Coverage</a>
                     </li>
                     <li class="{{ mc_active|yesno:"active," }}">
-                        <a href="{% url 'reports:mc' %}">Monthly Consumption</a>
+                        <a href="">Stock Management</a>
+                    </li>
+                    <li class="">
+                        <a href="">Fridge Coverage</a>
+                    </li>
+                    <li class="">
+                        <a href="">Survellance</a>
+                    </li>
+                    <li class="">
+                        <a href="">Admin</a>
                     </li>
                     <!--<li class="{{ dashboard_active|yesno:"active," }}">
                         <a href="/">Dashboard</a>
                     </li>
 
-                        <li class="{{ districts_active|yesno:"active," }}">
-                            <a href="{% url 'districts:list' %}">Districts</a>
-                        </li>
 
-                        <li class="{{ facilities_active|yesno:"active," }}">
-                            <a href="{% url 'facilities:list' %}">Facilities</a>
-                        </li>
-                        <li class="{{ import_active|yesno:"active," }}">
-                            <a href="{% url 'import' %}">Import Data</a>
-                        </li>
-                        <li class="{{ report_active|yesno:"active," }}">
-                            <a href="{% url 'reports:list' %}">Reports</a>
-                        </li>-->
                 </ul>
             </div>
             <div class="top-nav hr-top-nav">
@@ -99,7 +96,7 @@
                     <!-- user login dropdown start-->
                     <li class="dropdown">
                         <a data-toggle="dropdown" class="dropdown-toggle" href="#" style="padding:4px 15px 4px 20px;">
-                            <span class="username">{{ request.user.get_full_name|default:"User" }}</span> <b
+                            <span class="username"></span> <b
                                 class="caret"></b>
                         </a>
                         <ul class="dropdown-menu extended logout">
@@ -110,7 +107,7 @@
                                 <a href="#"><i class="fa fa-bell-o"></i> Notification</a>
                             </li>
                             <li>
-                                <a href="{% url 'account_logout' %}"><i class="fa fa-key"></i> Log Out</a>
+                                <a href="#"><i class="fa fa-key"></i> Log Out</a>
                             </li>
                         </ul>
                     </li>
@@ -131,11 +128,7 @@
             <!-- page start-->
             <div class="row">
                 <ul class="messages">
-                    {% for message in messages %}
-                        <li class="alert alert-{{ message.tags }}">
-                            {{ message }}
-                        </li>
-                    {% endfor %}
+
                 </ul>
             </div>
 
@@ -160,7 +153,7 @@
     {% block footer %}
         <footer class="footer-section">
             <div class="text-center">
-                2015 &copy; Commodity Management Platform
+                2015 &copy;
                 <a href="#" class="go-top"> <i class="fa fa-angle-up"></i> </a>
             </div>
         </footer>
@@ -171,12 +164,6 @@
 <script src="{% static 'js/jquery-1.8.3.min.js' %}"></script>
 <script src="{% static 'bs3/js/bootstrap.min.js' %}"></script>
 <script src="{% static 'js/jquery-ui-1.9.2.custom.min.js' %}"></script>
-<script type="text/javascript">
-    analytics.identify('{{ user.id }}', {
-        name: '{{ user.first_name }} {{ user.last_name }}',
-        email: '{{ user.email }}'
-    });
-</script>
 
 
 {% block extra_scripts %}

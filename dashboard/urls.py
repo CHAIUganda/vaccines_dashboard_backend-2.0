@@ -24,11 +24,7 @@ from home.views import HomeView
 urlpatterns = [
     url(r'^$', HomeView.as_view()),
     url(r'^import/', include('home.urls')),
-    url(r'^api/', include('api.urls')),
+    # url(r'^api/', include('api.urls')),
     url(r'^admin/', admin.site.urls),
 ]
 
-# urlpatterns = [
-#     url(r'^admin/', include(admin.site.urls)),
-#     url(r'^home/',include('home.urls')),
-# ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
