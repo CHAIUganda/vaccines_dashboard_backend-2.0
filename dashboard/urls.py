@@ -24,7 +24,7 @@ from home.views import HomeView
 urlpatterns = [
     url(r'^$', HomeView.as_view()),
     url(r'^import/', include('home.urls')),
-    # url(r'^api/', include('api.urls')),
+    url(r'^api/', include('api.urls')),
     url(r'^admin/', admin.site.urls),
 ]
 

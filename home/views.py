@@ -16,7 +16,7 @@ from home.tasks import process_excel_file
 
 
 class HomeView(TemplateView):
-    template_name = "home.html"
+    template_name = "index.html"
 
 
 def ImportView(request):

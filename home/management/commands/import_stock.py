@@ -1,13 +1,12 @@
 import os
 from optparse import make_option
-
 import pandas as pd
 from django.core.management import BaseCommand
 from django.core.exceptions import ObjectDoesNotExist, MultipleObjectsReturned
 from django.db import transaction
 from django.utils import timezone
 from django.db import IntegrityError
-from home.models import DistrictBalance
+from home.models import DistrictBalance, District
 from home.utils import month_to_num
 
 
@@ -16,7 +15,7 @@ class Command(BaseCommand):
     help = """ Import balances and orders data  """
 
     def exists(self, month, year):
-        if DistrictBalance.objects.filter(month == month, year==year).exists():
+        if DistrictBalance.objects.filter(month == month, year == year).exists():
             return True
         else:
             return False
@@ -34,7 +33,7 @@ class Command(BaseCommand):
                 raise
 
             sheets_names = df.sheet_names
-            #print(sheets_names)
+            # print(sheets_names)
 
             # for idx, val in enumerate(sheets_names):
             #     print(idx)
@@ -47,14 +46,26 @@ class Command(BaseCommand):
             df = df[df.DISTRICT.notnull()]
             month, year = sheet_name.split()
 
-            if self.exists(month=month, year=year):
-                for row in df.index:
-                    for idx, column_name in enumerate(df.columns):
-                        if idx > 0:
-                            balance = DistrictBalance()
-                            balance.month = month_to_num(month)
-                            balance.year = year
-                            balance.district_name = df['DISTRICT'][row]
-                            balance.vaccine_name = column_name
-                            balance.dose = df[column_name][row]
-                            balance.save()
+            # if self.exists(month=month, year=year):
+            # for row in df.index:
+            #     for idx, column_name in enumerate(df.columns):
+            #         if idx > 0:
+            #             balance = DistrictBalance()
+            #             balance.month = month_to_num(month)
+            #             balance.year = year
+            #             balance.district_name = df['DISTRICT'][row]
+            #             balance.vaccine_name = column_name
+            #             balance.dose = df[column_name][row]
+            #             balance.save()
+
+            for index, row in df.iterrows():
+                district = District()
+                district.district_name = row['DISTRICT']
+                district.save()
+
+
+
+            #import districts
+            # for row in df.index:
+            #     print(df['DISTRICT'])
+
