@@ -3,25 +3,21 @@
 {% load static %}
 
 {% block extra_head %}
-<link rel="stylesheet" href="{% static 'dcjs/dc.css' %}">
-<script type="text/javascript" src="{% static 'colorbrewer/colorbrewer.js' %}"></script>
-<script type="text/javascript" src="{% static 'd3/d3.min.js' %}"></script>
-<script type="text/javascript" src="{% static 'crossfilter/crossfilter.min.js' %}"></script>
-<script type="text/javascript" src="{% static 'dcjs/dc.min.js' %}"></script>
-<script type="text/javascript" src ="{% static 'lodash/lodash.js' %}"></script>
-<style>
-a:hover, a:focus {
-color: #1FB5AD;
-    text-decoration: underline;
-}
-</style>
+    <link rel="stylesheet" href="{% static 'dcjs/dc.css' %}">
+    <script type="text/javascript" src="{% static 'crossfilter/crossfilter.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'lodash/lodash.js' %}"></script>
+    <style>
+        a:hover, a:focus {
+            color: #1FB5AD;
+            text-decoration: underline;
+        }
+    </style>
 
 {% endblock %}
 
 {% block extra_scripts %}
-<script type="text/javascript" src="{% static 'highcharts-release/highcharts.js' %}"></script>
-<script type="text/javascript" src="{% static 'highcharts-release/highcharts-more.js' %}"></script>
-<script type="text/javascript" src="{% static 'js/sparkline/jquery.sparkline.js' %}"></script>
+    <script type="text/javascript" src="{% static 'highcharts-release/highcharts-more.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/sparkline/jquery.sparkline.js' %}"></script>
 {% endblock %}
 
 {% block title %}Dashboard{% endblock %}
@@ -29,492 +25,358 @@ color: #1FB5AD;
 {% block breadcrumbs %}{% endblock %}
 
 {% block header %}
-<h2>Performance Dashboard</h2>
+    <h2>Performance Dashboard</h2>
 {% endblock %}
 
 {% block content %}
 
-<div class="row">
-    <div class="col-md-12">
-        <div class="panel tab-bg-dark-navy-blue">
-            <div class="panel-heading">
-                <!-- Nav tabs -->
-                <ul class="nav nav-tabs" role="tablist">
-                    <li class="active">
-                        <a href="#stockonhand" role="tab" data-toggle="tab" class="general-dash-link">STOCK ON HAND </a>
-                    </li>
-                    <li>
-                        <a href="#amc" role="tab" data-toggle="tab" class="orders-dash-link">AMC</a>
-                    </li>
-                    <li>
-                        <a href="#monthsleft" role ="tab" data-toggle="tab" class="budget-dash-link">MONTHS OF STOCK LEFT</a>
-                    </li>
-                    <li>
-                        <a href="#updaterate" role ="tab" data-toggle="tab" class="budget-dash-link">STOCK UPTAKE RATE</a>
-                    </li>
-                    <li>
-                        <a href="#wastagerate" role ="tab" data-toggle="tab" class="budget-dash-link">WASTAGE RATE</a>
-                    </li>
-                </ul>
-            </div>
-            <div class="panel-body">
-                <!-- Tab panes -->
-                <div class="tab-content">
-                    <div class="tab-pane active" id="stockonhand">
-                        <div class="row">
-                            <div class="col-sm-4">
-                                <div class="panel panel-default">
-                                    <div class="panel-heading">
-                                        <h4>Coverage</h4>
-                                    </div>
-                                    <div class="panel-body">
-                                        <table class="table">
-                                            <thead>
-                                                <tr>
-                                                    <th>Facility Name</th>
-                                                    <th>Target/Actual</th>
-                                                    <th>Utilization</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                {% for facility in high_budget_facs %}
-                                                <tr>
-                                                    <td><a href="{% url 'facilities:detail' facility.6 %}">{{ facility.5 }}</a></td>
-                                                    <td class="bullet">{{ facility.1|floatformat }},{{ facility.4|floatformat }},120,{{ facility.2|floatformat }},{{ facility.0|floatformat }}</td>
-                                                    <td>{{ facility.4|floatformat }}%</td>
-                                                </tr>
-                                                {% endfor %}
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-sm-4">
-                                <div class="panel panel-default">
-                                    <div class="panel-heading">
-                                        <h4>NMS Order Fulfillment Rate</h4>
-                                    </div>
-                                    <div class="panel-body">
-                                        <div id="order-issue-chart">
-                                        </div>
-                                        <small>Cycles currently underway will have lower percentages. <br>
-                                        Percentage Items Issued Within &plusmn;20% of Order Quantity For Each Order, by Cycle</small>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-sm-4">
-                                <div class="panel panel-default">
-                                    <div class="panel-heading">
-                                        <h4>Facility Adherence to Plan</h4>
-                                    </div>
-                                    <div class="panel-body">
-                                        <div id="order-plan-chart">
-                                        </div>
-                                    </div>
-                                    <small>Percentage Items Ordered Within &plusmn;20% of Plan Quantity For Each Order, by Cycle</small>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel tab-bg-dark-navy-blue">
+                <div class="panel-heading">
+                    <!-- Nav tabs -->
+                    <ul class="nav nav-tabs" role="tablist">
+                        <li class="active">
+                            <a href="#stockonhand" role="tab" data-toggle="tab" class="general-dash-link">STOCK ON
+                                HAND </a>
+                        </li>
+                        <li>
+                            <a href="#amc" role="tab" data-toggle="tab" class="orders-dash-link">AMC</a>
+                        </li>
+                        <li>
+                            <a href="#monthsleft" role="tab" data-toggle="tab" class="budget-dash-link">MONTHS OF STOCK
+                                LEFT</a>
+                        </li>
+                        <li>
+                            <a href="#updaterate" role="tab" data-toggle="tab" class="budget-dash-link">STOCK UPTAKE
+                                RATE</a>
+                        </li>
+                        <li>
+                            <a href="#wastagerate" role="tab" data-toggle="tab" class="budget-dash-link">WASTAGE
+                                RATE</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="panel-body">
+                    <!-- Tab panes -->
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="stockonhand">
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading">
+                                            <h4>Vaccine Stock on Hand</h4>
 
+
+
+
+
+
+                                        </div>
+                                    </div>
+                                </div>
+                                 <div class="col-sm-6">
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading">
+                                            <h4>DISTRICT</h4>
+                                            <h4>FACILITIES</h4>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="tab-pane" id="amc">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="panel panel-default">
+                                        <div class="panel-body">
+                                            Deviations are calculated on a per-item basis using quantity. Ordered items
+                                            are within bounds when the ordered quantity is 80 - 120% of the planned
+                                            quantity.
+                                            Orders that exceed plans by more than 120% are "over", and orders that are
+                                            less than 80% of plans are "under". <strong>Based on past 12 month
+                                            data.</strong>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
 
-                        </div>
-
-                    <div class="tab-pane" id="amc">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="panel panel-default">
-                                    <div class="panel-body">
-                                Deviations are calculated on a per-item basis using quantity. Ordered items are within bounds when the ordered quantity is 80 - 120% of the planned quantity.
-                                Orders that exceed plans by more than 120% are "over", and orders that are less than 80% of plans are "under". <strong>Based on past 12 month data.</strong>
+                        <div class="tab-pane" id="monthsleft">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="panel panel-default">
+                                        <div class="panel-body">
+                                            Deviations are calculated using Budget ceiling divided by number of cycles.
+                                            Budget spent is within bounds when the budget is 90 - 110% of cycle budget.
+                                            Budget that exceed a cycle budget by more than 110% are "over", and Budget
+                                            that are less than 90% of a cycle budget are "under".
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class ="col-md-12">
-                                <div class ="panel panel-default">
-                                    <div class="panel-body">
-                                        <div class="col-md-2">
-                                        <div id="xv-chart">
-                                            <h4 class="text-center">XV Classification <a class="reset" href="javascript:xvChart.filterAll('orderGroup');dc.redrawAll('orderGroup');" style="display: none;"> reset</a></h4>
+
+                        </div>
+
+                        <div class="tab-pane" id="updaterate">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="panel panel-default">
+                                        <div class="panel-body">
+                                            Deviations are calculated using Budget ceiling divided by number of cycles.
+                                            Budget spent is within bounds when the budget is 90 - 110% of cycle budget.
+                                            Budget that exceed a cycle budget by more than 110% are "over", and Budget
+                                            that are less than 90% of a cycle budget are "under".
                                         </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="panel panel-default">
+                                        <div class="panel-body">
+                                            <div class="col-md-4">
+                                                <div id="bgt-ccr-chart">
+                                                    <h4 class="text-center">CCR Region <a class="reset"
+                                                                                          href="javascript:bgtCcrChart.filterAll('budgetGroup');dc.redrawAll('budgetGroup');"
+                                                                                          style="display: none;">
+                                                        reset</a></h4>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div id="bgt-cycle-chart">
+                                                    <h4 class="text-center">Cycle <a class="reset"
+                                                                                     href="javascript:bgtCycleChart.filterAll('budgetGroup');dc.redrawAll('budgetGroup');"
+                                                                                     style="display: none;"> reset</a>
+                                                    </h4>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div id="bgt-level-chart">
+                                                    <h4 class="text-center">Level <a class="reset"
+                                                                                     href="javascript:bgtLevelChart.filterAll('budgetGroup');dc.redrawAll('budgetGroup');"
+                                                                                     style="display: none;"> reset</a>
+                                                    </h4>
+                                                </div>
+                                            </div>
+                                            <a class="pull-right reset_all"
+                                               href='javascript:dc.filterAll("budgetGroup"); dc.renderAll("budgetGroup");'>Reset
+                                                All</a>
                                         </div>
-                                        <div class="col-md-2">
-                                        <div id="ven-chart">
-                                            <h4 class="text-center">VEN Classification <a class="reset" href="javascript:venChart.filterAll('orderGroup');dc.redrawAll('orderGroup');" style="display: none;"> reset</a></h4>
-                                        </div>
-                                        </div>
-                                        <div class="col-md-3">
-                                        <div id="ccr-chart">
-                                            <h4 class="text-center">CCR Region <a class="reset" href="javascript:ccrChart.filterAll('orderGroup');dc.redrawAll('orderGroup');" style="display: none;"> reset</a></h4>
-                                        </div>
-                                        </div>
-                                        <div class="col-md-2">
-                                        <div id="cycle-chart">
-                                            <h4 class="text-center">Cycle <a class="reset" href="javascript:cycleChart.filterAll('orderGroup');dc.redrawAll('orderGroup');" style="display: none;"> reset</a></h4>
-                                        </div>
-                                        </div>
-                                        <div class="col-md-2">
-                                        <div id="level-chart">
-                                            <h4 class="text-center">Level <a class="reset" href="javascript:levelChart.filterAll('orderGroup');dc.redrawAll('orderGroup');" style="display: none;"> reset</a></h4>
-                                        </div></div><a class="pull-right" href='javascript:dc.filterAll("orderGroup"); dc.renderAll("orderGroup");'>Reset All</a>
-                                        <div class="col-md-12">
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="panel panel-default">
+                                        <div class="panel-body">
+                                            <a class="pull-right reset_all"
+                                               href='javascript:dc.filterAll("budgetGroup"); dc.renderAll("budgetGroup");'>Reset
+                                                All</a>
+
+                                            <div class="col-md-3">
+                                                <div id="bgt-yearly-bar-chart">
+                                                    <h4 class="text-center">Average Deviation <a class="reset"
+                                                                                                 href="javascript:bgtYearlyBarChart.filterAll('budgetGroup');dc.redrawAll('budgetGroup');"
+                                                                                                 style="display: none;">
+                                                        reset</a></h4>
+                                                </div>
+                                            </div>
                                             <div class="col-md-2">
-                                                <div id="yearly-bar-chart">
-                                                    <h4 class="text-center">Average Deviation <a class="reset" href="javascript:yearlyBarChart.filterAll('orderGroup');dc.redrawAll('orderGroup');" style="display: none;"> reset</a></h4>
+                                                <div id="bgt-deviation-chart">
+                                                    <h4 class="text-center">Budget/Utilization Deviation <a
+                                                            class="reset"
+                                                            href="javascript:bgtDeviationChart.filterAll('budgetGroup');dc.redrawAll('budgetGroup');"
+                                                            style="display: none;"> reset</a></h4>
                                                 </div>
                                             </div>
-                                            <div class="col-md-offset-1 col-md-2">
-                                                <div id="deviation-chart">
-                                                    <h4 class="text-center">Order/Plan Deviation <a class="reset" href="javascript:deviationChart.filterAll('orderGroup');dc.redrawAll('orderGroup');" style="display: none;"> reset</a></h4>
+                                            <div class="col-md-6">
+                                                <h4 class="text-center">Budget Deviation and Total Budget Volume</h4>
+
+                                                <div id="bgt-monthly-dev-chart"></div>
+
+                                                <div id="bgt-order-volume-chart"></div>
+                                            </div>
+
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="panel panel-default">
+                                            <div class="">
+                                                <div id="bgt-data-count" class="dc-bgt-data-count pull-right">
+                                                    <span class="filter-count"></span> selected out of <span
+                                                        class="total-count"></span> records. <a
+                                                        href='javascript:dc.filterAll("budgetGroup"); dc.renderAll("budgetGroup");'>Reset
+                                                    All</a>
+                                                </div>
+                                                <h4>Issues with Highest and Lowest Issues/Plan Deviation</h4>
+                                            </div>
+                                            <div class="panel-body">
+
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <table id="bgt-data-table" class="dc-bgt-data-table table">
+                                                            <thead>
+                                                            <tr class="header">
+                                                                <th>Cycle</th>
+                                                                <th>Facility</th>
+                                                                <th>Deviation</th>
+                                                            </tr>
+                                                            </thead>
+                                                        </table>
+                                                    </div>
+
+                                                    <div class="col-md-6">
+                                                        <table id="bgt-data-table-low"
+                                                               class="dc-lowest-bgt-data-table table">
+                                                            <thead>
+                                                            <tr class="header">
+                                                                <th>Cycle</th>
+                                                                <th>Facility</th>
+                                                                <th>Deviation</th>
+                                                            </tr>
+                                                            </thead>
+                                                        </table>
+                                                    </div>
                                                 </div>
                                             </div>
-                                            <div class="col-md-offset-1 col-md-5">
-                                                <h4>Order Item Deviation and Total Order Item Volume</h4>
-                                                <div id="monthly-dev-chart"></div>
-
-                                                <div id="order-volume-chart"></div>
-                                            </div>
-                                            <a class="pull-right" href='javascript:dc.filterAll("orderGroup"); dc.renderAll("orderGroup");'>Reset All</a>
-
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                             <div class="col-md-12">
-                                <div class="panel panel-default">
-                                    <div class="panel-heading">
-                                        <div id="data-count" class="dc-data-count pull-right">
-                                            <span class="filter-count"></span> selected out of <span class="total-count"></span> records. <a href='javascript:dc.filterAll("orderGroup"); dc.renderAll("orderGroup");'>Reset All</a>
-                                        </div>
-                                        <h4>Facilities by Percentage of Deviating Items</h4>
-                                    </div>
-                                    <div class="panel-body">
 
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <table id="data-table-top" class="dc-data-table-over table">
-                                                    <thead>
-                                                    <tr class="header">
-                                                        <th>Facility</th>
-                                                        <th>Items Exceeding Plan</th>
-                                                    </tr>
-                                                    </thead>
-                                                </table>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <table id="data-table-bottom" class="dc-data-table-under table">
-                                                    <thead>
-                                                    <tr class="header">
-                                                        <th>Facility</th>
-                                                        <th>Items Under Plan</th>
-                                                    </tr>
-                                                    </thead>
-                                                </table>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
                         </div>
-                    </div>
 
-                    <div class="tab-pane" id="monthsleft">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="panel panel-default">
-                                    <div class="panel-body">
-                                Deviations are calculated using Budget ceiling divided by number of cycles. Budget spent is within bounds when the budget is 90 - 110% of cycle budget.
-                                Budget that exceed a cycle budget by more than 110% are "over", and Budget that are less than 90% of a cycle budget are "under".
+                        <div class="tab-pane" id="wastagerate">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="panel panel-default">
+                                        <div class="panel-body">
+                                            Deviations are calculated using Budget ceiling divided by number of cycles.
+                                            Budget spent is within bounds when the budget is 90 - 110% of cycle budget.
+                                            Budget that exceed a cycle budget by more than 110% are "over", and Budget
+                                            that are less than 90% of a cycle budget are "under".
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class ="col-md-12">
-                                <div class ="panel panel-default">
-                                    <div class="panel-body">
-                                        <div class="col-md-4">
-                                        <div id="bgt-ccr-chart">
-                                            <h4 class="text-center">CCR Region <a class="reset" href="javascript:bgtCcrChart.filterAll('budgetGroup');dc.redrawAll('budgetGroup');" style="display: none;"> reset</a></h4>
-                                        </div>
-                                        </div>
-                                        <div class="col-md-4">
-                                        <div id="bgt-cycle-chart">
-                                            <h4 class="text-center">Cycle <a class="reset" href="javascript:bgtCycleChart.filterAll('budgetGroup');dc.redrawAll('budgetGroup');" style="display: none;"> reset</a></h4>
-                                        </div>
+                                <div class="col-md-12">
+                                    <div class="panel panel-default">
+                                        <div class="panel-body">
+                                            <div class="col-md-4">
+                                                <div id="bgt-ccr-chart">
+                                                    <h4 class="text-center">CCR Region <a class="reset"
+                                                                                          href="javascript:bgtCcrChart.filterAll('budgetGroup');dc.redrawAll('budgetGroup');"
+                                                                                          style="display: none;">
+                                                        reset</a></h4>
+                                                </div>
                                             </div>
-                                        <div class="col-md-3">
-                                         <div id="bgt-level-chart">
-                                            <h4 class="text-center">Level <a class="reset" href="javascript:bgtLevelChart.filterAll('budgetGroup');dc.redrawAll('budgetGroup');" style="display: none;"> reset</a></h4>
-                                        </div></div><a class="pull-right reset_all" href='javascript:dc.filterAll("budgetGroup"); dc.renderAll("budgetGroup");'>Reset All</a>
+                                            <div class="col-md-4">
+                                                <div id="bgt-cycle-chart">
+                                                    <h4 class="text-center">Cycle <a class="reset"
+                                                                                     href="javascript:bgtCycleChart.filterAll('budgetGroup');dc.redrawAll('budgetGroup');"
+                                                                                     style="display: none;"> reset</a>
+                                                    </h4>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div id="bgt-level-chart">
+                                                    <h4 class="text-center">Level <a class="reset"
+                                                                                     href="javascript:bgtLevelChart.filterAll('budgetGroup');dc.redrawAll('budgetGroup');"
+                                                                                     style="display: none;"> reset</a>
+                                                    </h4>
+                                                </div>
+                                            </div>
+                                            <a class="pull-right reset_all"
+                                               href='javascript:dc.filterAll("budgetGroup"); dc.renderAll("budgetGroup");'>Reset
+                                                All</a>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="col-md-12">
-                                <div class="panel panel-default">
-                                    <div class="panel-body">
-                                        <a class="pull-right reset_all" href='javascript:dc.filterAll("budgetGroup"); dc.renderAll("budgetGroup");'>Reset All</a>
-                                        <div class="col-md-3">
-                                        <div id="bgt-yearly-bar-chart">
-                                            <h4 class="text-center">Average Deviation <a class="reset" href="javascript:bgtYearlyBarChart.filterAll('budgetGroup');dc.redrawAll('budgetGroup');" style="display: none;"> reset</a></h4>
-                                        </div>
+                                <div class="col-md-12">
+                                    <div class="panel panel-default">
+                                        <div class="panel-body">
+                                            <a class="pull-right reset_all"
+                                               href='javascript:dc.filterAll("budgetGroup"); dc.renderAll("budgetGroup");'>Reset
+                                                All</a>
+
+                                            <div class="col-md-3">
+                                                <div id="bgt-yearly-bar-chart">
+                                                    <h4 class="text-center">Average Deviation <a class="reset"
+                                                                                                 href="javascript:bgtYearlyBarChart.filterAll('budgetGroup');dc.redrawAll('budgetGroup');"
+                                                                                                 style="display: none;">
+                                                        reset</a></h4>
+                                                </div>
                                             </div>
-                                        <div class="col-md-2">
-                                        <div id="bgt-deviation-chart">
-                                            <h4 class="text-center">Budget/Utilization Deviation <a class="reset" href="javascript:bgtDeviationChart.filterAll('budgetGroup');dc.redrawAll('budgetGroup');" style="display: none;"> reset</a></h4>
-                                        </div>
+                                            <div class="col-md-2">
+                                                <div id="bgt-deviation-chart">
+                                                    <h4 class="text-center">Budget/Utilization Deviation <a
+                                                            class="reset"
+                                                            href="javascript:bgtDeviationChart.filterAll('budgetGroup');dc.redrawAll('budgetGroup');"
+                                                            style="display: none;"> reset</a></h4>
+                                                </div>
                                             </div>
-                                        <div class="col-md-6">
-                                            <h4 class="text-center">Budget Deviation and Total Budget Volume</h4>
-                                            <div id="bgt-monthly-dev-chart"></div>
-
-                                            <div id="bgt-order-volume-chart"></div>
-                                        </div>
-
-
-                                    </div>
-                                </div>
-                            </div>
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="panel panel-default">
-                                    <div class="">
-                                        <div id="bgt-data-count" class="dc-bgt-data-count pull-right">
-                                            <span class="filter-count"></span> selected out of <span class="total-count"></span> records. <a href='javascript:dc.filterAll("budgetGroup"); dc.renderAll("budgetGroup");'>Reset All</a>
-                                        </div>
-                                        <h4>Issues with Highest and Lowest Issues/Plan Deviation</h4>
-                                    </div>
-                                    <div class="panel-body">
-
-                                        <div class="row">
                                             <div class="col-md-6">
-                                                <table id="bgt-data-table" class="dc-bgt-data-table table">
-                                                    <thead>
-                                                    <tr class="header">
-                                                        <th>Cycle</th>
-                                                        <th>Facility</th>
-                                                        <th>Deviation</th>
-                                                    </tr>
-                                                    </thead>
-                                                </table>
+                                                <h4 class="text-center">Budget Deviation and Total Budget Volume</h4>
+
+                                                <div id="bgt-monthly-dev-chart"></div>
+
+                                                <div id="bgt-order-volume-chart"></div>
                                             </div>
 
-                                            <div class="col-md-6">
-                                                <table id="bgt-data-table-low" class="dc-lowest-bgt-data-table table">
-                                                    <thead>
-                                                    <tr class="header">
-                                                        <th>Cycle</th>
-                                                        <th>Facility</th>
-                                                        <th>Deviation</th>
-                                                    </tr>
-                                                    </thead>
-                                                </table>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="panel panel-default">
+                                            <div class="">
+                                                <div id="bgt-data-count" class="dc-bgt-data-count pull-right">
+                                                    <span class="filter-count"></span> selected out of <span
+                                                        class="total-count"></span> records. <a
+                                                        href='javascript:dc.filterAll("budgetGroup"); dc.renderAll("budgetGroup");'>Reset
+                                                    All</a>
+                                                </div>
+                                                <h4>Issues with Highest and Lowest Issues/Plan Deviation</h4>
+                                            </div>
+                                            <div class="panel-body">
+
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <table id="bgt-data-table" class="dc-bgt-data-table table">
+                                                            <thead>
+                                                            <tr class="header">
+                                                                <th>Cycle</th>
+                                                                <th>Facility</th>
+                                                                <th>Deviation</th>
+                                                            </tr>
+                                                            </thead>
+                                                        </table>
+                                                    </div>
+
+                                                    <div class="col-md-6">
+                                                        <table id="bgt-data-table-low"
+                                                               class="dc-lowest-bgt-data-table table">
+                                                            <thead>
+                                                            <tr class="header">
+                                                                <th>Cycle</th>
+                                                                <th>Facility</th>
+                                                                <th>Deviation</th>
+                                                            </tr>
+                                                            </thead>
+                                                        </table>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
+
                         </div>
-                    </div>
-
-                    </div>
-
-                    <div class="tab-pane" id="updaterate">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="panel panel-default">
-                                    <div class="panel-body">
-                                Deviations are calculated using Budget ceiling divided by number of cycles. Budget spent is within bounds when the budget is 90 - 110% of cycle budget.
-                                Budget that exceed a cycle budget by more than 110% are "over", and Budget that are less than 90% of a cycle budget are "under".
-                                    </div>
-                                </div>
-                            </div>
-                            <div class ="col-md-12">
-                                <div class ="panel panel-default">
-                                    <div class="panel-body">
-                                        <div class="col-md-4">
-                                        <div id="bgt-ccr-chart">
-                                            <h4 class="text-center">CCR Region <a class="reset" href="javascript:bgtCcrChart.filterAll('budgetGroup');dc.redrawAll('budgetGroup');" style="display: none;"> reset</a></h4>
-                                        </div>
-                                        </div>
-                                        <div class="col-md-4">
-                                        <div id="bgt-cycle-chart">
-                                            <h4 class="text-center">Cycle <a class="reset" href="javascript:bgtCycleChart.filterAll('budgetGroup');dc.redrawAll('budgetGroup');" style="display: none;"> reset</a></h4>
-                                        </div>
-                                            </div>
-                                        <div class="col-md-3">
-                                         <div id="bgt-level-chart">
-                                            <h4 class="text-center">Level <a class="reset" href="javascript:bgtLevelChart.filterAll('budgetGroup');dc.redrawAll('budgetGroup');" style="display: none;"> reset</a></h4>
-                                        </div></div><a class="pull-right reset_all" href='javascript:dc.filterAll("budgetGroup"); dc.renderAll("budgetGroup");'>Reset All</a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-12">
-                                <div class="panel panel-default">
-                                    <div class="panel-body">
-                                        <a class="pull-right reset_all" href='javascript:dc.filterAll("budgetGroup"); dc.renderAll("budgetGroup");'>Reset All</a>
-                                        <div class="col-md-3">
-                                        <div id="bgt-yearly-bar-chart">
-                                            <h4 class="text-center">Average Deviation <a class="reset" href="javascript:bgtYearlyBarChart.filterAll('budgetGroup');dc.redrawAll('budgetGroup');" style="display: none;"> reset</a></h4>
-                                        </div>
-                                            </div>
-                                        <div class="col-md-2">
-                                        <div id="bgt-deviation-chart">
-                                            <h4 class="text-center">Budget/Utilization Deviation <a class="reset" href="javascript:bgtDeviationChart.filterAll('budgetGroup');dc.redrawAll('budgetGroup');" style="display: none;"> reset</a></h4>
-                                        </div>
-                                            </div>
-                                        <div class="col-md-6">
-                                            <h4 class="text-center">Budget Deviation and Total Budget Volume</h4>
-                                            <div id="bgt-monthly-dev-chart"></div>
-
-                                            <div id="bgt-order-volume-chart"></div>
-                                        </div>
-
-
-                                    </div>
-                                </div>
-                            </div>
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="panel panel-default">
-                                    <div class="">
-                                        <div id="bgt-data-count" class="dc-bgt-data-count pull-right">
-                                            <span class="filter-count"></span> selected out of <span class="total-count"></span> records. <a href='javascript:dc.filterAll("budgetGroup"); dc.renderAll("budgetGroup");'>Reset All</a>
-                                        </div>
-                                        <h4>Issues with Highest and Lowest Issues/Plan Deviation</h4>
-                                    </div>
-                                    <div class="panel-body">
-
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <table id="bgt-data-table" class="dc-bgt-data-table table">
-                                                    <thead>
-                                                    <tr class="header">
-                                                        <th>Cycle</th>
-                                                        <th>Facility</th>
-                                                        <th>Deviation</th>
-                                                    </tr>
-                                                    </thead>
-                                                </table>
-                                            </div>
-
-                                            <div class="col-md-6">
-                                                <table id="bgt-data-table-low" class="dc-lowest-bgt-data-table table">
-                                                    <thead>
-                                                    <tr class="header">
-                                                        <th>Cycle</th>
-                                                        <th>Facility</th>
-                                                        <th>Deviation</th>
-                                                    </tr>
-                                                    </thead>
-                                                </table>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    </div>
-
-                    <div class="tab-pane" id="wastagerate">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="panel panel-default">
-                                    <div class="panel-body">
-                                Deviations are calculated using Budget ceiling divided by number of cycles. Budget spent is within bounds when the budget is 90 - 110% of cycle budget.
-                                Budget that exceed a cycle budget by more than 110% are "over", and Budget that are less than 90% of a cycle budget are "under".
-                                    </div>
-                                </div>
-                            </div>
-                            <div class ="col-md-12">
-                                <div class ="panel panel-default">
-                                    <div class="panel-body">
-                                        <div class="col-md-4">
-                                        <div id="bgt-ccr-chart">
-                                            <h4 class="text-center">CCR Region <a class="reset" href="javascript:bgtCcrChart.filterAll('budgetGroup');dc.redrawAll('budgetGroup');" style="display: none;"> reset</a></h4>
-                                        </div>
-                                        </div>
-                                        <div class="col-md-4">
-                                        <div id="bgt-cycle-chart">
-                                            <h4 class="text-center">Cycle <a class="reset" href="javascript:bgtCycleChart.filterAll('budgetGroup');dc.redrawAll('budgetGroup');" style="display: none;"> reset</a></h4>
-                                        </div>
-                                            </div>
-                                        <div class="col-md-3">
-                                         <div id="bgt-level-chart">
-                                            <h4 class="text-center">Level <a class="reset" href="javascript:bgtLevelChart.filterAll('budgetGroup');dc.redrawAll('budgetGroup');" style="display: none;"> reset</a></h4>
-                                        </div></div><a class="pull-right reset_all" href='javascript:dc.filterAll("budgetGroup"); dc.renderAll("budgetGroup");'>Reset All</a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-12">
-                                <div class="panel panel-default">
-                                    <div class="panel-body">
-                                        <a class="pull-right reset_all" href='javascript:dc.filterAll("budgetGroup"); dc.renderAll("budgetGroup");'>Reset All</a>
-                                        <div class="col-md-3">
-                                        <div id="bgt-yearly-bar-chart">
-                                            <h4 class="text-center">Average Deviation <a class="reset" href="javascript:bgtYearlyBarChart.filterAll('budgetGroup');dc.redrawAll('budgetGroup');" style="display: none;"> reset</a></h4>
-                                        </div>
-                                            </div>
-                                        <div class="col-md-2">
-                                        <div id="bgt-deviation-chart">
-                                            <h4 class="text-center">Budget/Utilization Deviation <a class="reset" href="javascript:bgtDeviationChart.filterAll('budgetGroup');dc.redrawAll('budgetGroup');" style="display: none;"> reset</a></h4>
-                                        </div>
-                                            </div>
-                                        <div class="col-md-6">
-                                            <h4 class="text-center">Budget Deviation and Total Budget Volume</h4>
-                                            <div id="bgt-monthly-dev-chart"></div>
-
-                                            <div id="bgt-order-volume-chart"></div>
-                                        </div>
-
-
-                                    </div>
-                                </div>
-                            </div>
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="panel panel-default">
-                                    <div class="">
-                                        <div id="bgt-data-count" class="dc-bgt-data-count pull-right">
-                                            <span class="filter-count"></span> selected out of <span class="total-count"></span> records. <a href='javascript:dc.filterAll("budgetGroup"); dc.renderAll("budgetGroup");'>Reset All</a>
-                                        </div>
-                                        <h4>Issues with Highest and Lowest Issues/Plan Deviation</h4>
-                                    </div>
-                                    <div class="panel-body">
-
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <table id="bgt-data-table" class="dc-bgt-data-table table">
-                                                    <thead>
-                                                    <tr class="header">
-                                                        <th>Cycle</th>
-                                                        <th>Facility</th>
-                                                        <th>Deviation</th>
-                                                    </tr>
-                                                    </thead>
-                                                </table>
-                                            </div>
-
-                                            <div class="col-md-6">
-                                                <table id="bgt-data-table-low" class="dc-lowest-bgt-data-table table">
-                                                    <thead>
-                                                    <tr class="header">
-                                                        <th>Cycle</th>
-                                                        <th>Facility</th>
-                                                        <th>Deviation</th>
-                                                    </tr>
-                                                    </thead>
-                                                </table>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
                     </div>
                 </div>
             </div>
         </div>
-    </div>
 {% endblock %}

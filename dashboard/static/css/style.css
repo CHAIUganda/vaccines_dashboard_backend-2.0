@@ -158,6 +158,16 @@ a,a:hover,a:focus {
     height: 100%;
 }
 
+.tab-pane
+{
+      /* position: relative; */
+  /* min-height: 1px; */
+  padding-left: 15px;
+  padding-right: 15px;
+  padding-top: 15px;
+  padding-bottom: 15px;
+}
+
 .right-stat-bar ul {
     list-style-type: none;
     padding-left: 0;
@@ -2901,13 +2911,14 @@ ul.amounts li {
     margin-top:10px;
 }
 .tab-head .nav-tabs>li>a {
-    border-radius:0;
+    border-radius:1px;
     margin-right:1px;
     color:#fff;
 }
 .tab-head .nav-tabs>li.active>a,.tab-head .nav-tabs>li>a:hover,.tab-head .nav-tabs>li.active>a:hover,.tab-head .nav-tabs>li.active>a:focus {
     background-color:#f1f2f7;
     border-color:#f1f2f7;
+    border-radius:1px;
     color: #797979;
 }
 /*general page*/
