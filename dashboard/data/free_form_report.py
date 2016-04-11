@@ -20,20 +20,21 @@ def get_real_facility_name(facility_name, district_name):
 class FreeFormReport():
     def __init__(self, path, cycle):
         self.path = path
-        self.cycle = cycle
+        #self.cycle = cycle
         self.name_cache = dict()
-        self.locs = []
-        self.pds = defaultdict(list)
-        self.ads = defaultdict(list)
-        self.cs = defaultdict(list)
+        #self.locs = []
+        #self.pds = defaultdict(list)
+        #self.ads = defaultdict(list)
+        #self.cs = defaultdict(list)
 
     def build_form_db(self, cycle):
-        state = cycle.state
-        self.cycle = cycle.title
-        self.locs = state.get(LOCS, None)
-        self.pds = state.get(PDS, None)
-        self.ads = state.get(ADS, None)
-        self.cs = state.get(CS, None)
+
+        #state = cycle.state
+        #self.cycle = cycle.title
+        #self.locs = state.get(LOCS, None)
+        #self.pds = state.get(PDS, None)
+        #self.ads = state.get(ADS, None)
+        #self.cs = state.get(CS, None)
         return self
 
     def save(self):
