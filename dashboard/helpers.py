@@ -26,10 +26,14 @@ def format_range(start, end):
     return "%s - %s %s" % (start.format('MMM'), end.format('MMM'), start.format('YYYY'))
 
 
+def format_month(start, end):
+    return "%s %s" % (start.format('MMM'), start.format('YYYY'))
+
+
 def generate_cycles(start, end):
     if start.month % 2 == 0:
         start = start.replace(months=-1)
-    return [format_range(s, e) for s, e in CustomArrow.span_range("month=2", start, end)]
+    return [format_month(s, e) for s, e in CustomArrow.span_range("month=1", start, end)]
 
 
 def generate_choices():

@@ -15,4 +15,4 @@ def validate_file_extension(value):
 
 class FileUploadForm(Form):
     import_file = FileField(validators=[validate_file_extension])
-    cycle = ChoiceField(choices=generate_choices())
+    year_month = ChoiceField(choices=generate_choices())

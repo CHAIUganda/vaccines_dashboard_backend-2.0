@@ -7,7 +7,7 @@ from django.utils.translation import ugettext_lazy
 from django.utils.translation import ugettext_lazy as _
 
 from dashboard.data.free_form_report import FreeFormReport
-from dashboard.models import DashboardUser, Consumption, Cycle, AdultPatientsRecord, PAEDPatientsRecord, \
+from dashboard.models import DashboardUser, Consumption, YearMonth, AdultPatientsRecord, PAEDPatientsRecord, \
     Score, MultipleOrderFacility
 from dashboard.tasks import calculate_scores_for_checks_in_cycle
 
@@ -90,8 +90,8 @@ class PatientAdmin(ModelAdmin):
 
 def run_tests(model_admin, request, queryset):
     data = queryset.all()
-    for cycle in data:
-        report = FreeFormReport(None, cycle.title).build_form_db(cycle)
+    for year_month in data:
+        report = FreeFormReport(None, year_month.title).build_form_db(year_month)
         calculate_scores_for_checks_in_cycle.delay(report)
 
 
@@ -144,5 +144,5 @@ admin_site.register(Score, ScoreAdmin)
 admin_site.register(AdultPatientsRecord, PatientAdmin)
 admin_site.register(PAEDPatientsRecord, PatientAdmin)
 admin_site.register(Consumption, ConsumptionAdmin)
-admin_site.register(Cycle, CycleAdmin)
+admin_site.register(YearMonth, CycleAdmin)
 admin_site.register(MultipleOrderFacility)

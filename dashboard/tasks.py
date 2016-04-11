@@ -14,7 +14,7 @@ from dashboard.data.nn import NNRTICURRENTADULTSCheck, NNRTINewAdultsCheck, NNRT
 from dashboard.data.nn import NNRTICURRENTPAEDCheck
 from dashboard.data.utils import facility_has_single_order
 from dashboard.helpers import YES, get_prev_cycle, WEB,F1, F2, F3, DEFAULT
-from dashboard.models import Score, Cycle, Consumption, AdultPatientsRecord, PAEDPatientsRecord, MultipleOrderFacility
+from dashboard.models import Score, YearMonth, Consumption, AdultPatientsRecord, PAEDPatientsRecord, MultipleOrderFacility
 
 
 def persist_consumption(report):
@@ -116,8 +116,8 @@ def run_checks(report):
 def get_report_for_other_cycle(report):
     prev_cycle_title = get_prev_cycle(report.cycle)
     other_report = FreeFormReport(None, prev_cycle_title)
-    if Cycle.objects.filter(title=prev_cycle_title).exists():
-        prev_cycle = Cycle.objects.get(title=prev_cycle_title)
+    if YearMonth.objects.filter(title=prev_cycle_title).exists():
+        prev_cycle = YearMonth.objects.get(title=prev_cycle_title)
         other_report = other_report.build_form_db(prev_cycle)
     return other_report
 
@@ -154,8 +154,8 @@ def persist_scores(report):
 
 
 @shared_task
-def import_general_report(path, cycle):
-    report = FreeFormReport(path, cycle).load()
+def import_general_report(path, year_month):
+    report = FreeFormReport(path, year_month).load()
     report.save()
     os.remove(path)
     calculate_scores_for_checks_in_cycle(report)

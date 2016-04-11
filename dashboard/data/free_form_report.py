@@ -4,7 +4,7 @@ from collections import defaultdict
 from openpyxl import load_workbook
 
 from dashboard.helpers import *
-from dashboard.models import Cycle
+from dashboard.models import YearMonth
 
 logger = logging.getLogger(__name__)
 
@@ -38,7 +38,7 @@ class FreeFormReport():
         return self
 
     def save(self):
-        cycle, created = Cycle.objects.get_or_create(title=self.cycle)
+        cycle, created = YearMonth.objects.get_or_create(title=self.cycle)
         state = {ADS: self.ads, PDS: self.pds, CS: self.cs, LOCS: self.locs}
         cycle.state = state
         cycle.save()

@@ -10,9 +10,9 @@ logger = logging.getLogger(__name__)
 
 @click.command()
 @click.argument('path')
-@click.argument('cycle')
-def command(path, cycle):
+@click.argument('year_month')
+def command(path, year_month):
     click.secho('Importing {}'.format(path), fg='red')
-    report = FreeFormReport(path, cycle).load()
+    report = FreeFormReport(path, year_month).load()
     report.save()
     calculate_scores_for_checks_in_cycle(report)

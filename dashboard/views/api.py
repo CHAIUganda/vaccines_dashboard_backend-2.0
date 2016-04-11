@@ -15,7 +15,7 @@ from django.db.models.expressions import F
 
 from dashboard.helpers import *
 
-from dashboard.models import Score, WAREHOUSE, DISTRICT, MultipleOrderFacility, Cycle
+from dashboard.models import Score, WAREHOUSE, DISTRICT, MultipleOrderFacility, YearMonth
 from dashboard.serializers import ScoreSerializer
 
 def aggregate_scores(user, test, cycles, formulation, keys, count_values):
@@ -68,7 +68,7 @@ class BestPerformingDistrictsView(APIView):
         formulation = request.GET.get('formulation', F1)
         level = request.GET.get('level', 'district').lower()
         name = levels.get(level, 'district')
-        records = [cycle['title'] for cycle in Cycle.objects.values('title').distinct()]
+        records = [cycle['title'] for cycle in YearMonth.objects.values('title').distinct()]
         cycles = sorted(records, key=cmp_to_key(sort_cycle), reverse=True)[:1]
         most_recent_cycle = cycles[0] if len(cycles) > 0 else None
         cycle = request.GET.get('cycle', most_recent_cycle)

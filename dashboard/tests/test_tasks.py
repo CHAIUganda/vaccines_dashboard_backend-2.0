@@ -4,7 +4,7 @@ from django.test import TestCase
 from mock import patch, call
 
 from dashboard.data.tests.test_data import FakeReport
-from dashboard.models import Score, Consumption, AdultPatientsRecord, PAEDPatientsRecord, Cycle, MultipleOrderFacility
+from dashboard.models import Score, Consumption, AdultPatientsRecord, PAEDPatientsRecord, YearMonth, MultipleOrderFacility
 from dashboard.tasks import persist_scores, persist_consumption, persist_adult_records, persist_paed_records, get_report_for_other_cycle, calculate_scores_for_checks_in_cycle, persist_multiple_order_records
 
 
@@ -145,7 +145,7 @@ class TaskTestCase(TestCase):
 
     def test_get_report_for_other_cycle(self):
         state = {'cs': [1, 2]}
-        Cycle.objects.create(title="May - Jun 2015", state=state)
+        YearMonth.objects.create(title="May - Jun 2015", state=state)
         report = FakeReport()
         report.cycle = 'Jul - Aug 2015'
         other_report = get_report_for_other_cycle(report)

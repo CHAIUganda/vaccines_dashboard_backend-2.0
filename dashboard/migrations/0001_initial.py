@@ -148,6 +148,6 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='consumption',
             name='facility_cycle',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='consumption', to='dashboard.Cycle'),
+            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='consumption', to='dashboard.models.YearMonth'),
         ),
     ]

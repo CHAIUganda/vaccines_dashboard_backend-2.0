@@ -1,7 +1,7 @@
 import json
 from rest_framework import serializers
 from rest_framework.serializers import ModelSerializer
-from dashboard.models import Score, Cycle
+from dashboard.models import Score, YearMonth
 
 
 class FacilityScoreSerializer(ModelSerializer):

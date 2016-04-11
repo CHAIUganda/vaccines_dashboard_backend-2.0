@@ -39,7 +39,7 @@ class DashboardUser(AbstractEmailUser):
         app_label = 'dashboard'
 
 
-class Cycle(models.Model):
+class YearMonth(models.Model):
     title = models.CharField(max_length=256, db_index=True, unique=True)
     state = PickledObjectField()
 

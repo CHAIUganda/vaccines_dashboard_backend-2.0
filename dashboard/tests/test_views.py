@@ -10,7 +10,7 @@ from mock import patch, ANY
 from webtest import Upload
 
 from dashboard.helpers import *
-from dashboard.models import Cycle, Score, DashboardUser, MultipleOrderFacility
+from dashboard.models import YearMonth, Score, DashboardUser, MultipleOrderFacility
 
 
 class HomeViewTestCase(WebTest):
@@ -56,7 +56,7 @@ class FacilitiesReportingView(WebTest):
         time_mock.return_value = arrow.Arrow(2015, 12, 1)
         cycle = 'Jan - Feb 2015'
         cycle_2 = 'Mar - Apr 2015'
-        Cycle.objects.create(title=cycle)
+        YearMonth.objects.create(title=cycle)
         url = "/api/test/submittedOrder?start=%s&end=%s" % (cycle, cycle_2)
         json_response = self.app.get(url, user="testuser").content.decode('utf8')
         data = loads(json_response)['values']
@@ -78,7 +78,7 @@ class WebBasedReportingViewTestCase(WebTest):
         time_mock.return_value = arrow.Arrow(2015, 12, 1)
         cycle = 'Jan - Feb 2015'
         cycle_2 = 'Mar - Apr 2015'
-        Cycle.objects.create(title=cycle)
+        YearMonth.objects.create(title=cycle)
         url = "/api/test/orderType?start=%s&end=%s" % (cycle, cycle_2)
         json_response = self.app.get(url, user="testuser").content.decode('utf8')
         data = loads(json_response)['values']
