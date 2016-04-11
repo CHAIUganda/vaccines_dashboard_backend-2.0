@@ -1,4 +1,4 @@
-# OrderQualityTool
-Order Quality Tool and Dashboard, to connect to DHIS2 data
+# Vaccines Dashboard
+Vaccines dashboard application
 
-[![Build Status](https://travis-ci.org/CHAIUganda/OrderQualityTool.svg?branch=develop)](https://travis-ci.org/CHAIUganda/OrderQualityTool)
+[ ![Codeship Status for CHAIUganda/vc_dashboard](https://codeship.com/projects/7bbbf8c0-beb4-0133-17ea-6e90c22d1400/status?branch=master)](https://codeship.com/projects/136982)
