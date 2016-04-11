@@ -1,0 +1,10 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<div class="container" >
+  <a href="{% url 'about.background' %}"><h3>BACKGROUND</h3></a>
+  <a href="{% url 'about.how_works' %}"><h3>HOW TOOL WORKS</h3></a>
+  <a href="{% url 'about.how_used' %}"><h3>HOW TOOL CAN BE USED</h3></a>
+  <a href="{% url 'about.tests' %}"><h3>EXPLANATION OF SYSTEM TESTS</h3></a>
+</div>
+{% endblock content %}

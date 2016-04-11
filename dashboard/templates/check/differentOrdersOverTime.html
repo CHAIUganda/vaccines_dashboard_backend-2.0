@@ -1,0 +1,55 @@
+{% extends "check/base.html" %}
+
+{% block content %}
+    <span class="score_detail_data_title col-md-12">{{ data.main_title }}</span>
+    {% for n in data.previous_cycle %}
+        <div class="col-md-6">
+            <table class="table table-striped table-bordered">
+                <thead>
+                <tr>
+                    <th class="left">{{ n.cycle }}</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for b in n.rows %}
+                    <tr>
+                        {% if b.isHeader %}
+                            <th class="left">{{ b.column }}</th>
+                            <th>{{ b.value }}</th>
+                        {% else %}
+                            <td>{{ b.column }}</td>
+                            <th>{{ b.value }}</th>
+                        {% endif %}
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% endfor %}
+    {% for n in data.current_cycle %}
+        <div class="col-md-6">
+            <table class="table table-striped table-bordered">
+                <thead>
+                <tr>
+                    <th class="left">{{ n.cycle }}</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for b in n.rows %}
+                    <tr>
+                        {% if b.isHeader %}
+                            <th class="left">{{ b.column }}</th>
+                            <th>{{ b.value }}</th>
+                        {% else %}
+                            <td>{{ b.column }}</td>
+                            <th>{{ b.value }}</th>
+                        {% endif %}
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% endfor %}
+{% endblock %}

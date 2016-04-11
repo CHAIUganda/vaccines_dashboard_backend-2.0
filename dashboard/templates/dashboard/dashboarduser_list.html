@@ -1,0 +1,65 @@
+{% extends "layout.html" %}
+{% load bootstrap3 %}
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-9">
+            <table class="table table-bordered">
+                <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Email Address</th>
+                    <th>Access Level</th>
+                    <th>Access Area</th>
+                    <th>Is Admin</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for user in object_list %}
+                <tr>
+                    <td>
+                        {{user.id}}
+                    </td>
+                    <td>
+                        {{user.email}}
+                    </td>
+                    <td>
+                        {{user.access_level}}
+                    </td>
+                    <td>
+                      {{user.access_area}}
+                    </td>
+
+                    <td>
+                        {% if user.is_staff %}
+                        <i class="fa fa-check"></i>
+                        {% else %}
+                        <i class="fa fa-times"></i>
+                        {% endif %}
+
+                    </td>
+                    <td>
+                        <a href="{% url 'users-edit' user.id %}" class="btn btn-xs btn-primary">Edit</a>
+                        <a href="{% url 'users-password' user.id %}" class="btn btn-xs btn-primary">Change Password</a>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td>No Users</td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class="col-md-2 pull-right">
+            <a href="{% url 'users-add' %}" class="btn btn-primary">
+                Add User
+            </a>
+        </div>
+
+        {% for user in object_list %}
+
+        {% endfor %}
+    </div>
+</div>
+{% endblock content %}

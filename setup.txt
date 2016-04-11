@@ -1,0 +1,14 @@
+@echo off
+pip install django
+pip install virtualenv
+virtualenv _env
+echo @echo off >run.cmd
+echo _env\Scripts\activate.bat >>run.cmd 
+run.cmd
+
+bower install
+npm install
+npm install --global gulp-cli
+npm install --save-dev gulp
+
+gulp 

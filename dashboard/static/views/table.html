@@ -1,0 +1,18 @@
+<div class="page_graph" ng-controller="MultipleOrdersController">
+    <table class="table table-bordered" ng-table="tableParams" >
+        <thead>
+            <tr>
+                <th>Facility Name</th>
+                <th>IP</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="facility in $data">
+                <td>
+                    {{facility.name}}
+                </td>
+                <td>{{facility.ip}}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>

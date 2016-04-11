@@ -1,0 +1,568 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<div class="container" >
+  <h3>EXPLANATION OF THE SYSTEM TESTS</h3>
+
+  The following table outlines in detail what is being assessed in each of the system’s tests.
+  <table class=MsoNormalTable border=0 cellspacing=0 cellpadding=0 width=460
+ style='width:459.75pt;margin-left:4.65pt;border-collapse:collapse;mso-yfti-tbllook:
+ 1184;mso-padding-alt:0cm 5.4pt 0cm 5.4pt'>
+ <tr style='mso-yfti-irow:0;mso-yfti-firstrow:yes;height:26.45pt'>
+  <td width=140 style='width:140.25pt;border:solid windowtext 1.0pt;mso-border-alt:
+  solid windowtext 1.0pt;mso-border-bottom-alt:solid windowtext .5pt;
+  background:#B7DEE8;padding:0cm 5.4pt 0cm 5.4pt;height:26.45pt'>
+  <p class=MsoNormal align=center style='margin-bottom:0cm;margin-bottom:.0001pt;
+  text-align:center;line-height:normal'><b style='mso-bidi-font-weight:normal'><span
+  lang=EN-GB style='font-size:12.0pt;mso-ascii-font-family:
+  Calibri;mso-fareast-font-family:"Times New Roman";mso-hansi-font-family:Calibri;
+  mso-bidi-font-family:"Times New Roman";color:black;mso-fareast-language:EN-GB;
+  mso-bidi-font-style:italic'>TEST<o:p></o:p></span></b></p>
+  </td>
+  <td width=320 style='width:319.5pt;border:solid windowtext 1.0pt;border-left:
+  none;mso-border-top-alt:solid windowtext 1.0pt;mso-border-bottom-alt:solid windowtext .5pt;
+  mso-border-right-alt:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:26.45pt'>
+  <p class=MsoNormal align=center style='margin-bottom:0cm;margin-bottom:.0001pt;
+  text-align:center;line-height:normal'><b style='mso-bidi-font-weight:normal'><span
+  lang=EN-GB style='font-size:12.0pt;mso-ascii-font-family:
+  Calibri;mso-fareast-font-family:"Times New Roman";mso-hansi-font-family:Calibri;
+  mso-bidi-font-family:"Times New Roman";color:black;mso-fareast-language:EN-GB'>EXPLANATION<o:p></o:p></span></b></p>
+  </td>
+ </tr>
+ <tr style='mso-yfti-irow:1;height:25.55pt'>
+  <td width=140 valign=top style='width:140.25pt;border:solid windowtext 1.0pt;
+  border-top:none;mso-border-top-alt:solid windowtext 1.0pt;mso-border-alt:
+  solid windowtext 1.0pt;mso-border-bottom-alt:solid windowtext .5pt;
+  background:#B7DEE8;padding:0cm 5.4pt 0cm 5.4pt;height:25.55pt'>
+  <p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;line-height:
+  normal'><i><span lang=EN-GB style='font-size:10.0pt;
+  color:black;mso-fareast-language:EN-GB'>Did the facility submit an order?<o:p></o:p></span></i></p>
+  </td>
+  <td width=320 valign=top style='width:319.5pt;border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  mso-border-top-alt:solid windowtext 1.0pt;mso-border-top-alt:solid windowtext 1.0pt;
+  mso-border-bottom-alt:solid windowtext .5pt;mso-border-right-alt:solid windowtext 1.0pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:25.55pt'>
+  <p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;line-height:
+  normal'><span lang=EN-GB style='font-size:10.0pt;
+  color:black;mso-fareast-language:EN-GB'>Reports if the facility has submitted
+  an order or not during a given cycle<o:p></o:p></span></p>
+  </td>
+ </tr>
+ <tr style='mso-yfti-irow:2;height:40.0pt'>
+  <td width=140 valign=top style='width:140.25pt;border:solid windowtext 1.0pt;
+  border-top:none;mso-border-left-alt:solid windowtext 1.0pt;mso-border-bottom-alt:
+  solid windowtext .5pt;mso-border-right-alt:solid windowtext 1.0pt;background:
+  #B7DEE8;padding:0cm 5.4pt 0cm 5.4pt;height:40.0pt'>
+  <p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;line-height:
+  normal'><i><span lang=EN-GB style='font-size:10.0pt;
+  color:black;mso-fareast-language:EN-GB'>Did the facility submit a web or
+  paper-based order?<o:p></o:p></span></i></p>
+  </td>
+  <td width=320 valign=top style='width:319.5pt;border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  mso-border-bottom-alt:solid windowtext .5pt;mso-border-right-alt:solid windowtext 1.0pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:40.0pt'>
+  <p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;line-height:
+  normal'><span lang=EN-GB style='font-size:10.0pt;
+  color:black;mso-fareast-language:EN-GB'>Reports if the facility has submitted
+  an order through WAOS or a paper-based submission (or not at all, where the
+  result is &quot;n/a&quot;)<o:p></o:p></span></p>
+  </td>
+ </tr>
+ <tr style='mso-yfti-irow:3;height:107.5pt'>
+  <td width=140 valign=top style='width:140.25pt;border:solid windowtext 1.0pt;
+  border-top:none;mso-border-left-alt:solid windowtext 1.0pt;mso-border-bottom-alt:
+  solid windowtext .5pt;mso-border-right-alt:solid windowtext 1.0pt;background:
+  #B7DEE8;padding:0cm 5.4pt 0cm 5.4pt;height:107.5pt'>
+  <p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;line-height:
+  normal'><i><span lang=EN-GB style='font-size:10.0pt;
+  color:black;mso-fareast-language:EN-GB'>GUIDELINE ADHERENCE (Adult 1L):
+  Estimated new patients on TDF-based formulations are 80%+ of total?<o:p></o:p></span></i></p>
+  </td>
+  <td width=320 valign=top style='width:319.5pt;border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  mso-border-bottom-alt:solid windowtext .5pt;mso-border-right-alt:solid windowtext 1.0pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:107.5pt'>
+  <p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;line-height:
+  normal'><span lang=EN-GB style='font-size:10.0pt;
+  color:black;mso-fareast-language:EN-GB'>Tests is the facility is adhering to
+  national guidelines for Adult 1st Line therapy.<br>
+  <br>
+  This is done by testing if the volume of estimated new ART patients on <u>Adult
+  TDF-based formulations</u> (i.e. TDF/3TC/EFV 300/300/600mg and TDF/3TC
+  300/300mg) represent <b>at least 80%</b> of the total of those on TDF-based
+  and AZT-based formulations (Adult AZT-based formulations are AZT/3TC/NVP
+  300/150/200mg and AZT/3TC 300/150mg)<o:p></o:p></span></p>
+  </td>
+ </tr>
+ <tr style='mso-yfti-irow:4;height:94.0pt'>
+  <td width=140 valign=top style='width:140.25pt;border:solid windowtext 1.0pt;
+  border-top:none;mso-border-left-alt:solid windowtext 1.0pt;mso-border-bottom-alt:
+  solid windowtext .5pt;mso-border-right-alt:solid windowtext 1.0pt;background:
+  #B7DEE8;padding:0cm 5.4pt 0cm 5.4pt;height:94.0pt'>
+  <p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;line-height:
+  normal'><i><span lang=EN-GB style='font-size:10.0pt;
+  color:black;mso-fareast-language:EN-GB'>GUIDELINE ADHERENCE (Adult 2L):
+  Estimated new patients on ATV/r-based formulations are 73%+ of total?<o:p></o:p></span></i></p>
+  </td>
+  <td width=320 valign=top style='width:319.5pt;border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  mso-border-bottom-alt:solid windowtext .5pt;mso-border-right-alt:solid windowtext 1.0pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:94.0pt'>
+  <p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;line-height:
+  normal'><span lang=EN-GB style='font-size:10.0pt;
+  color:black;mso-fareast-language:EN-GB'>Tests is the facility is adhering to
+  national guidelines for Adult 2nd Line therapy<br>
+  <br>
+  This is done by testing if the volume of estimated new ART patients on <u>Adult
+  ATV/r-based formulations</u> (i.e. ATV/r 300/100mg) represent <b>at least 73%</b>
+  of the total of those on ATV/r-based and LPV/r-based formulations (Adult
+  LPV/r-based formulations are LPV/r 200/50mg)<o:p></o:p></span></p>
+  </td>
+ </tr>
+ <tr style='mso-yfti-irow:5;height:107.5pt'>
+  <td width=140 valign=top style='width:140.25pt;border:solid windowtext 1.0pt;
+  border-top:none;mso-border-left-alt:solid windowtext 1.0pt;mso-border-bottom-alt:
+  solid windowtext .5pt;mso-border-right-alt:solid windowtext 1.0pt;background:
+  #B7DEE8;padding:0cm 5.4pt 0cm 5.4pt;height:107.5pt'>
+  <p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;line-height:
+  normal'><i><span lang=EN-GB style='font-size:10.0pt;
+  color:black;mso-fareast-language:EN-GB'>GUIDELINE ADHERENCE (Paediatric 1L):
+  Estimated new patients on ABC-based formulations are 80%+ of total?<o:p></o:p></span></i></p>
+  </td>
+  <td width=320 valign=top style='width:319.5pt;border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  mso-border-bottom-alt:solid windowtext .5pt;mso-border-right-alt:solid windowtext 1.0pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:107.5pt'>
+  <p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;line-height:
+  normal'><span lang=EN-GB style='font-size:10.0pt;
+  color:black;mso-fareast-language:EN-GB'>Tests is the facility is adhering to
+  national guidelines for Paediatric 1st Line therapy<br>
+  <br>
+  This is done by testing if the volume of estimated new ART patients on <u>Paediatric
+  ABC-based formulations</u> (i.e. ABC/3TC 60/30mg) represent <b>at least 80%</b>
+  of the total of those on ABC-based and AZT-based formulations (Paediatric
+  AZT-based formulations are AZT/3TC/NVP 60/30/50mg and AZT/3TC 60/30mg)<o:p></o:p></span></p>
+  </td>
+ </tr>
+ <tr style='mso-yfti-irow:6;height:30.0pt'>
+  <td width=140 valign=top style='width:140.25pt;border:solid windowtext 1.0pt;
+  border-top:none;mso-border-left-alt:solid windowtext 1.0pt;mso-border-bottom-alt:
+  solid windowtext .5pt;mso-border-right-alt:solid windowtext 1.0pt;background:
+  #B7DEE8;padding:0cm 5.4pt 0cm 5.4pt;height:30.0pt'>
+  <p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;line-height:
+  normal'><i><span lang=EN-GB style='font-size:10.0pt;
+  color:black;mso-fareast-language:EN-GB'>MULTIPLE ORDERS: Submitted more than
+  one order?<o:p></o:p></span></i></p>
+  </td>
+  <td width=320 valign=top style='width:319.5pt;border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  mso-border-bottom-alt:solid windowtext .5pt;mso-border-right-alt:solid windowtext 1.0pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:30.0pt'>
+  <p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;line-height:
+  normal'><span lang=EN-GB style='font-size:10.0pt;
+  color:black;mso-fareast-language:EN-GB'>Reports facilities that have
+  submitted more than one order during a given cycle<o:p></o:p></span></p>
+  </td>
+ </tr>
+ <tr style='mso-yfti-irow:7;height:45.85pt'>
+  <td width=140 valign=top style='width:140.25pt;border:solid windowtext 1.0pt;
+  border-top:none;mso-border-left-alt:solid windowtext 1.0pt;mso-border-bottom-alt:
+  solid windowtext .5pt;mso-border-right-alt:solid windowtext 1.0pt;background:
+  #B7DEE8;padding:0cm 5.4pt 0cm 5.4pt;height:45.85pt'>
+  <p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;line-height:
+  normal'><i><span lang=EN-GB style='font-size:10.0pt;
+  color:black;mso-fareast-language:EN-GB'>NO BLANKS: Order form free of blanks?<o:p></o:p></span></i></p>
+  </td>
+  <td width=320 valign=top style='width:319.5pt;border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  mso-border-bottom-alt:solid windowtext .5pt;mso-border-right-alt:solid windowtext 1.0pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:45.85pt'>
+  <p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;line-height:
+  normal'><span lang=EN-GB style='font-size:10.0pt;
+  color:black;mso-fareast-language:EN-GB'>Tests if the facility has submitted a
+  complete order form or has left blanks in any data fields where a number
+  (either zero or otherwise) should have been input<o:p></o:p></span></p>
+  </td>
+ </tr>
+ <tr style='mso-yfti-irow:8;height:98.05pt'>
+  <td width=140 valign=top style='width:140.25pt;border:solid windowtext 1.0pt;
+  border-top:none;mso-border-left-alt:solid windowtext 1.0pt;mso-border-bottom-alt:
+  solid windowtext .5pt;mso-border-right-alt:solid windowtext 1.0pt;background:
+  #B7DEE8;padding:0cm 5.4pt 0cm 5.4pt;height:98.05pt'>
+  <p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;line-height:
+  normal'><i><span lang=EN-GB style='font-size:10.0pt;
+  color:black;mso-fareast-language:EN-GB'>NO NEGATIVES: Order free of negative
+  inputs?<o:p></o:p></span></i></p>
+  </td>
+  <td width=320 valign=top style='width:319.5pt;border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  mso-border-bottom-alt:solid windowtext .5pt;mso-border-right-alt:solid windowtext 1.0pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:98.05pt'>
+  <p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;line-height:
+  normal'><i><span lang=EN-GB style='font-size:10.0pt;
+  color:black;mso-fareast-language:EN-GB'>This test is carried out for the
+  system's three Sample Formulations: 1) Adult TDF/3TC/EFV (300/300/600mg), 2)
+  Paediatric ABC/3TC (60/30mg), and 3) Paediatric EFV(200mg)</span></i><span
+  lang=EN-GB style='font-size:10.0pt;mso-ascii-font-family:
+  Calibri;mso-fareast-font-family:"Times New Roman";mso-hansi-font-family:Calibri;
+  mso-bidi-font-family:"Times New Roman";color:black;mso-fareast-language:EN-GB'><br>
+  <br>
+  Tests if the facility has input a negative number into any of four key data
+  fields (Opening Balance, ART Consumption, Closing Balance and Estimated New
+  ART Patients) where a positive number or zero should be<o:p></o:p></span></p>
+  </td>
+ </tr>
+ <tr style='mso-yfti-irow:9;height:319.0pt'>
+  <td width=140 valign=top style='width:140.25pt;border:solid windowtext 1.0pt;
+  border-top:none;mso-border-left-alt:solid windowtext 1.0pt;mso-border-bottom-alt:
+  solid windowtext .5pt;mso-border-right-alt:solid windowtext 1.0pt;background:
+  #B7DEE8;padding:0cm 5.4pt 0cm 5.4pt;height:319.0pt'>
+  <p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;line-height:
+  normal'><i><span lang=EN-GB style='font-size:10.0pt;
+  color:black;mso-fareast-language:EN-GB';>VOLUME TALLY: Consumption and patient
+  volumes within 30%?<o:p></o:p></span></i></p>
+  </td>
+  <td width=320 valign=top style='width:319.5pt;border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  mso-border-bottom-alt:solid windowtext .5pt;mso-border-right-alt:solid windowtext 1.0pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:319.0pt'>
+  <p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;line-height:
+  normal'><i><span lang=EN-GB style='font-size:10.0pt;
+  mso-fareast-language:EN-GB;color:black'>This test is carried out for the system's three
+  Sample Formulations: 1) Adult TDF/3TC/EFV (300/300/600mg), 2) Paediatric
+  ABC/3TC (60/30mg), and 3) Paediatric EFV(200mg)<br>
+  </span></i><span lang=EN-GB style='font-size:10.0pt;
+  mso-fareast-language:EN-GB;color:black'><br>
+  Tests if the facility has reported corresponding Consumption volumes and
+  Patient numbers that &quot;make sense&quot;, i.e. are within 30% of each
+  other. The specific datapoints compared are:<br>
+  <br>
+  1) For Sample Formulation 1,<b> Adult TDF/3TC/EFV</b>: Compares bimonthly
+  Consumption volumes of formulation <u>Tenofovir/Lamivudine/Efavirenz
+  (TDF/3TC/EFV) 300mg/300mg/600mg[Pack 30]</u> (converted into an estimated
+  Patients figure by dividing by 2.0) with Patient Numbers for regimens <u>TDF/3TC/EFV
+  (ADULT)</u> and <u>TDF/3TC/EFV (PMTCT)</u><br style='mso-special-character:
+  line-break'>
+  <![if !supportLineBreakNewLine]><br style='mso-special-character:line-break'>
+  <![endif]><o:p></o:p></span></p>
+  <p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;line-height:
+  normal'><span lang=EN-GB style='font-size:10.0pt;
+  mso-fareast-language:EN-GB;color:black'>2) For Sample Formulation 2, <b>Paediatric
+  ABC/3TC</b>: Compares bimonthly Consumption volumes of formulation <u>Abacavir/Lamivudine
+  (ABC/3TC) 60mg/30mg [Pack 60]</u> (converted into an estimated Patients
+  figure by dividing by 4.6) with Patient Numbers for regimens <u>ABC/3TC/EFV
+  (PAED)</u>, <u>ABC/3TC/NVP (PAED)</u> and <u>ABC/3TC/LPV/r (PAED)<br
+  style='mso-special-character:line-break'>
+  <![if !supportLineBreakNewLine]><br style='mso-special-character:line-break'>
+  <![endif]></u><o:p></o:p></span></p>
+  <p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;line-height:
+  normal'><span lang=EN-GB style='font-size:10.0pt;
+  mso-fareast-language:EN-GB;color:black'>3) For Sample Formulation 3, <b>Paediatric EFV</b>:
+  Compares bimonthly Consumption volumes of formulation <u>Efavirenz (EFV)
+  200mg [Pack 90]</u> (converted into an estimated Patients figure by dividing
+  by 1.0) with Patient Numbers for regimens <u>ABC/3TC/EFV (PAED)</u> and <u>AZT/3TC/EFV
+  (PAED)</u><o:p></o:p></span></p>
+  </td>
+ </tr>
+ <tr style='mso-yfti-irow:10;height:117.4pt'>
+  <td width=140 valign=top style='width:140.25pt;border:solid windowtext 1.0pt;
+  border-top:none;mso-border-left-alt:solid windowtext 1.0pt;mso-border-bottom-alt:
+  solid windowtext .5pt;mso-border-right-alt:solid windowtext 1.0pt;background:
+  #B7DEE8;padding:0cm 5.4pt 0cm 5.4pt;height:117.4pt'>
+  <p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;line-height:
+  normal'><i><span lang=EN-GB style='font-size:10.0pt;
+  color:black;mso-fareast-language:EN-GB'>NON-REPEATING: Order changes in consecutive
+  cycles?<o:p></o:p></span></i></p>
+  </td>
+  <td width=320 valign=top style='width:319.5pt;border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  mso-border-bottom-alt:solid windowtext .5pt;mso-border-right-alt:solid windowtext 1.0pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:117.4pt'>
+  <p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;line-height:
+  normal'><i><span lang=EN-GB style='font-size:10.0pt;
+  color:black;mso-fareast-language:EN-GB'>This test is carried out for the
+  system's three Sample Formulations: 1) Adult TDF/3TC/EFV (300/300/600mg), 2)
+  Paediatric ABC/3TC (60/30mg), and 3) Paediatric EFV(200mg)</span></i><span
+  lang=EN-GB style='font-size:10.0pt;mso-ascii-font-family:
+  Calibri;mso-fareast-font-family:"Times New Roman";mso-hansi-font-family:Calibri;
+  mso-bidi-font-family:"Times New Roman";color:black;mso-fareast-language:EN-GB'><br>
+  <br>
+  Tests if the facility has submitted the same order in consecutive cycles.
+  This is done by comparing certain key datapoints (Opening Balance, ART
+  Consumption, Closing Balance and Estimated New ART Patients) from a given
+  cycle with the same datapoints reported in the previous cycle<o:p></o:p></span></p>
+  </td>
+ </tr>
+ <tr style='mso-yfti-irow:11;height:94.45pt'>
+  <td width=140 valign=top style='width:140.25pt;border:solid windowtext 1.0pt;
+  border-top:none;mso-border-left-alt:solid windowtext 1.0pt;mso-border-bottom-alt:
+  solid windowtext .5pt;mso-border-right-alt:solid windowtext 1.0pt;background:
+  #B7DEE8;padding:0cm 5.4pt 0cm 5.4pt;height:94.45pt'>
+  <p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;line-height:
+  normal'><i><span lang=EN-GB style='font-size:10.0pt;
+  color:black;mso-fareast-language:EN-GB'>OPENING = CLOSING: Opening<span
+  style='mso-spacerun:yes'>&nbsp; </span>balance = Closing balance from
+  previous cycle?<o:p></o:p></span></i></p>
+  </td>
+  <td width=320 valign=top style='width:319.5pt;border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  mso-border-bottom-alt:solid windowtext .5pt;mso-border-right-alt:solid windowtext 1.0pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:94.45pt'>
+  <p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;line-height:
+  normal'><i><span lang=EN-GB style='font-size:10.0pt;
+  color:black;mso-fareast-language:EN-GB'>This test is carried out for the
+  system's three Sample Formulations: 1) Adult TDF/3TC/EFV (300/300/600mg), 2)
+  Paediatric ABC/3TC (60/30mg), and 3) Paediatric EFV(200mg)</span></i><span
+  lang=EN-GB style='font-size:10.0pt;mso-ascii-font-family:
+  Calibri;mso-fareast-font-family:"Times New Roman";mso-hansi-font-family:Calibri;
+  mso-bidi-font-family:"Times New Roman";color:black;mso-fareast-language:EN-GB'><br>
+  <br>
+  Tests if the &quot;Opening Balance&quot; reported by the facility in one
+  cycle is the same as the &quot;Closing Balance&quot; result of the previous
+  cycle<o:p></o:p></span></p>
+  </td>
+ </tr>
+ <tr style='mso-yfti-irow:12;height:242.5pt'>
+  <td width=140 valign=top style='width:140.25pt;border:solid windowtext 1.0pt;
+  border-top:none;mso-border-left-alt:solid windowtext 1.0pt;mso-border-bottom-alt:
+  solid windowtext .5pt;mso-border-right-alt:solid windowtext 1.0pt;background:
+  #B7DEE8;padding:0cm 5.4pt 0cm 5.4pt;height:242.5pt'>
+  <p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;line-height:
+  normal'><i><span lang=EN-GB style='font-size:10.0pt;
+  color:black;mso-fareast-language:EN-GB'>STABLE CONSUMPTION: Consumption
+  changes by less than 50% vs. previous cycle?<o:p></o:p></span></i></p>
+  </td>
+  <td width=320 valign=top style='width:319.5pt;border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  mso-border-bottom-alt:solid windowtext .5pt;mso-border-right-alt:solid windowtext 1.0pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:242.5pt'>
+  <p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;line-height:
+  normal'><i><span lang=EN-GB style='font-size:10.0pt;
+  color:black;mso-fareast-language:EN-GB'>This test is carried out for the
+  system's three Sample Formulations: 1) Adult TDF/3TC/EFV (300/300/600mg), 2)
+  Paediatric ABC/3TC (60/30mg), and 3) Paediatric EFV(200mg)</span></i><span
+  lang=EN-GB style='font-size:10.0pt;mso-ascii-font-family:
+  Calibri;mso-fareast-font-family:"Times New Roman";mso-hansi-font-family:Calibri;
+  mso-bidi-font-family:"Times New Roman";color:black;mso-fareast-language:EN-GB'><br>
+  <br>
+  Tests if the facility's total Consumption volume (i.e. ART Consumption +
+  PMTCT Consumption) in a given cycle is stable relative to that of the
+  previous cycle, with stability defined as a change of less than 50%. This
+  test is run for the system's three Sample Formulations but excludes
+  facilities that are considered &quot;low volume&quot;, according to the following
+  rules:<br>
+  <br>
+  1) For Sample Formulation 1, <b>Adult TDF/3TC/EFV:</b> Total consumption in
+  either cycle must be at least 20 packs<o:p></o:p></span></p>
+  <p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;line-height:
+  normal'><span lang=EN-GB style='font-size:10.0pt;
+  color:black;mso-fareast-language:EN-GB'><br>
+  2) For Sample Formulation 2, <b>Paediatric ABC/3TC: </b>Total consumption in
+  either cycle must be at least 10 packs<br style='mso-special-character:line-break'>
+  <![if !supportLineBreakNewLine]><br style='mso-special-character:line-break'>
+  <![endif]><o:p></o:p></span></p>
+  <p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;line-height:
+  normal'><span lang=EN-GB style='font-size:10.0pt;
+  color:black;mso-fareast-language:EN-GB'>3) For Sample Formulation 3, <b>Paediatric
+  EFV: </b>Total consumption in either cycle must be at least 10 packs<o:p></o:p></span></p>
+  </td>
+ </tr>
+ <tr style='mso-yfti-irow:13;height:121.45pt'>
+  <td width=140 valign=top style='width:140.25pt;border:solid windowtext 1.0pt;
+  border-top:none;mso-border-left-alt:solid windowtext 1.0pt;mso-border-bottom-alt:
+  solid windowtext .5pt;mso-border-right-alt:solid windowtext 1.0pt;background:
+  #B7DEE8;padding:0cm 5.4pt 0cm 5.4pt;height:121.45pt'>
+  <p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;line-height:
+  normal'><i><span lang=EN-GB style='font-size:10.0pt;
+  color:black;mso-fareast-language:EN-GB'>WAREHOUSE FULFILMENT: Volume
+  delivered = volume ordered in previous cycle?<o:p></o:p></span></i></p>
+  </td>
+  <td width=320 valign=top style='width:319.5pt;border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  mso-border-bottom-alt:solid windowtext .5pt;mso-border-right-alt:solid windowtext 1.0pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:121.45pt'>
+  <p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;line-height:
+  normal'><i><span lang=EN-GB style='font-size:10.0pt;
+  color:black;mso-fareast-language:EN-GB'>This test is carried out for the
+  system's three Sample Formulations: 1) Adult TDF/3TC/EFV (300/300/600mg), 2)
+  Paediatric ABC/3TC (60/30mg), and 3) Paediatric EFV(200mg)</span></i><span
+  lang=EN-GB style='font-size:10.0pt;mso-ascii-font-family:
+  Calibri;mso-fareast-font-family:"Times New Roman";mso-hansi-font-family:Calibri;
+  mso-bidi-font-family:"Times New Roman";color:black;mso-fareast-language:EN-GB'><br>
+  <br>
+  Tests if the &quot;Quantity Received&quot; reported by the facility in one
+  cycle is the same as the &quot;Packs Ordered&quot; result of the previous
+  cycle.<br>
+  This test can therefore reflect more than just the facility's ability to
+  input correct figures as per what has been delivered. It also tests warehouse
+  ability to correctly deliver what has been requested<o:p></o:p></span></p>
+  </td>
+ </tr>
+ <tr style='mso-yfti-irow:14;height:247.45pt'>
+  <td width=140 valign=top style='width:140.25pt;border:solid windowtext 1.0pt;
+  border-top:none;mso-border-left-alt:solid windowtext 1.0pt;mso-border-bottom-alt:
+  solid windowtext .5pt;mso-border-right-alt:solid windowtext 1.0pt;background:
+  #B7DEE8;padding:0cm 5.4pt 0cm 5.4pt;height:247.45pt'>
+  <p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;line-height:
+  normal'><i><span lang=EN-GB style='font-size:10.0pt;
+  color:black;mso-fareast-language:EN-GB'>STABLE PATIENTS: Patient volumes
+  change by less than 50% vs. previous cycle?<o:p></o:p></span></i></p>
+  </td>
+  <td width=320 valign=top style='width:319.5pt;border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  mso-border-bottom-alt:solid windowtext .5pt;mso-border-right-alt:solid windowtext 1.0pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:247.45pt'>
+  <p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;line-height:
+  normal'><i><span lang=EN-GB style='font-size:10.0pt;
+  color:black;mso-fareast-language:EN-GB'>This test is carried out for the
+  system's three Sample Formulations: 1) Adult TDF/3TC/EFV (300/300/600mg), 2)
+  Paediatric ABC/3TC (60/30mg), and 3) Paediatric EFV(200mg)</span></i><span
+  lang=EN-GB style='font-size:10.0pt;mso-ascii-font-family:
+  Calibri;mso-fareast-font-family:"Times New Roman";mso-hansi-font-family:Calibri;
+  mso-bidi-font-family:"Times New Roman";color:black;mso-fareast-language:EN-GB'><br>
+  <br>
+  Tests if the facility's total Patient number (i.e. Existing + New patients)
+  in a given cycle is stable relative to that of the previous cycle, with
+  stability defined as a change of less than 50%. This test is run for the
+  system's three Sample Formulations but excludes facilities that are
+  considered &quot;low volume&quot;, according to the following rules:<br>
+  <br>
+  1) For Sample Formulation 1, <b>Adult TDF/3TC/EFV:</b> Total patients in
+  either cycle <u>on regimen TDF/3TC/EFV</u> must be at least 10<o:p></o:p></span></p>
+  <p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;line-height:
+  normal'><span lang=EN-GB style='font-size:10.0pt;
+  color:black;mso-fareast-language:EN-GB'><br>
+  2) For Sample Formulation 2, <b>Paediatric ABC/3TC: </b>Total paediatric
+  patients in either cycle <u>on regimens ABC/3TC/EFV and ABC/3TC/NVP</u> must
+  be at least 5<o:p></o:p></span></p>
+  <p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;line-height:
+  normal'><span lang=EN-GB style='font-size:10.0pt;
+  color:black;mso-fareast-language:EN-GB'><br>
+  3) For Sample Formulation 3, <b>Efavirenz 200: </b>Total paediatric patients
+  in either cycle <u>on regimens ABC/3TC/EFV and AZT/3TC/EFV</u> must be at
+  least 5<o:p></o:p></span></p>
+  </td>
+ </tr>
+ <tr style='mso-yfti-irow:15;height:189.4pt'>
+  <td width=140 valign=top style='width:140.25pt;border:solid windowtext 1.0pt;
+  border-top:none;mso-border-left-alt:solid windowtext 1.0pt;mso-border-bottom-alt:
+  solid windowtext .5pt;mso-border-right-alt:solid windowtext 1.0pt;background:
+  #B7DEE8;padding:0cm 5.4pt 0cm 5.4pt;height:189.4pt'>
+  <p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;line-height:
+  normal'><i><span lang=EN-GB style='font-size:10.0pt;
+  color:black;mso-fareast-language:EN-GB'>NRTI and NNRTI/PI patient volumes
+  (ADULT - CURRENT): Differ by &lt;30%?<o:p></o:p></span></i></p>
+  </td>
+  <td width=320 valign=top style='width:319.5pt;border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  mso-border-bottom-alt:solid windowtext .5pt;mso-border-right-alt:solid windowtext 1.0pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:189.4pt'>
+  <p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;line-height:
+  normal'><span lang=EN-GB style='font-size:10.0pt;
+  color:black;mso-fareast-language:EN-GB'>Tests if the current patient numbers
+  implied by facility's reported <b><u>Adult NRTI</u></b> consumption volumes
+  are similar to those implied by the reported <b><u>Adult NNRTI/PI</u></b>
+  consumption volumes<br>
+  <br>
+  This is done by taking total consumption volumes (ART and PMTCT) for each of
+  the formulations below, converting to patient numbers (by dividing through by
+  2.0 for all formulations), summing the totals for both sets of formulations
+  (NRTI and NNRTI/PI) separately, and finally testing if the two resulting
+  figures are within 30% of each other.<br>
+  <br>
+  NRTI formulations: TDF/3TC 300/300mg, AZT/3TC 300/150mg, ABC/3TC 600/300mg<br>
+  NNRTI/PI formulations: NVP 200mg, EFV 600mg, ATV/r 300/100mg, LPV/r 200/50mg<o:p></o:p></span></p>
+  </td>
+ </tr>
+ <tr style='mso-yfti-irow:16;height:188.5pt'>
+  <td width=140 valign=top style='width:140.25pt;border:solid windowtext 1.0pt;
+  border-top:none;mso-border-left-alt:solid windowtext 1.0pt;mso-border-bottom-alt:
+  solid windowtext .5pt;mso-border-right-alt:solid windowtext 1.0pt;background:
+  #B7DEE8;padding:0cm 5.4pt 0cm 5.4pt;height:188.5pt'>
+  <p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;line-height:
+  normal'><i><span lang=EN-GB style='font-size:10.0pt;
+  color:black;mso-fareast-language:EN-GB'>NRTI and NNRTI/PI patient volumes
+  (PAED - CURRENT): Differ by &lt;30%?<o:p></o:p></span></i></p>
+  </td>
+  <td width=320 valign=top style='width:319.5pt;border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  mso-border-bottom-alt:solid windowtext .5pt;mso-border-right-alt:solid windowtext 1.0pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:188.5pt'>
+  <p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;line-height:
+  normal'><span lang=EN-GB style='font-size:10.0pt;
+  color:black;mso-fareast-language:EN-GB'>Tests if the current patient numbers
+  implied by facility's reported <b><u>Paediatric NRTI</u></b> consumption
+  volumes are similar to those implied by the reported <b><u>Paediatric
+  NNRTI/PI</u></b> consumption volumes<br>
+  <br>
+  This is done by taking total consumption volumes (ART and PMTCT) for each of
+  the formulations below, converting to patient numbers (by dividing through by
+  4.6 for all formulations apart from EFV 200mg which you divide through by
+  1.0), summing the totals for both sets of formulations (NRTI and NNRTI/PI)
+  separately, and finally testing if the two resulting figures are within 30%
+  of each other<br>
+  <br>
+  NRTI formulations: AZT/3TC 60/30mg, ABC/3TC 60/30mg<br>
+  NNRTI/PI formulations: NVP 50mg, EFV 200mg, LPV/r 100/25mg, LPV/r 80/20mg<o:p></o:p></span></p>
+  </td>
+ </tr>
+ <tr style='mso-yfti-irow:17;height:152.5pt'>
+  <td width=140 valign=top style='width:140.25pt;border:solid windowtext 1.0pt;
+  border-top:none;mso-border-left-alt:solid windowtext 1.0pt;mso-border-bottom-alt:
+  solid windowtext .5pt;mso-border-right-alt:solid windowtext 1.0pt;background:
+  #B7DEE8;padding:0cm 5.4pt 0cm 5.4pt;height:152.5pt'>
+  <p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;line-height:
+  normal'><i><span lang=EN-GB style='font-size:10.0pt;
+  color:black;mso-fareast-language:EN-GB'>NRTI and NNRTI/PI patient volumes
+  (ADULT - ESTIMATED NEW): Differ by &lt;30%?<o:p></o:p></span></i></p>
+  </td>
+  <td width=320 valign=top style='width:319.5pt;border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  mso-border-bottom-alt:solid windowtext .5pt;mso-border-right-alt:solid windowtext 1.0pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:152.5pt'>
+  <p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;line-height:
+  normal'><span lang=EN-GB style='font-size:10.0pt;
+  color:black;mso-fareast-language:EN-GB'>Tests if the facility's total
+  estimated new patients for <b><u>Adult NRTI</u></b> formulations is similar
+  to those for <b><u>Adult NNRTI/PI</u></b> formulations<br>
+  <br>
+  This is done by summing the estimated new patients (ART and pregnant women)
+  for both sets of formulations (NRTI and NNRTI/PI) separately, and then
+  testing if the two resulting figures are within 30% of each other<br>
+  <br>
+  NRTI formulations: TDF/3TC 300/300mg, AZT/3TC 300/150mg, ABC/3TC 600/300mg<br>
+  NNRTI/PI formulations: NVP 200mg, EFV 600mg, ATV/r 300/100mg, LPV/r 200/50mg<o:p></o:p></span></p>
+  </td>
+ </tr>
+ <tr style='mso-yfti-irow:18;mso-yfti-lastrow:yes;height:135.4pt'>
+  <td width=140 valign=top style='width:140.25pt;border:solid windowtext 1.0pt;
+  border-top:none;background:#B7DEE8;padding:0cm 5.4pt 0cm 5.4pt;height:135.4pt'>
+  <p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;line-height:
+  normal'><i><span lang=EN-GB style='font-size:10.0pt;
+  color:black;mso-fareast-language:EN-GB'>NRTI and NNRTI/PI patient volumes
+  (PAED - ESTIMATED NEW): Differ by &lt;30%?<o:p></o:p></span></i></p>
+  </td>
+  <td width=320 valign=top style='width:319.5pt;border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:135.4pt'>
+  <p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;line-height:
+  normal'><span lang=EN-GB style='font-size:10.0pt;
+  color:black;mso-fareast-language:EN-GB'>Tests if the facility's total
+  estimated new patients for <b><u>Paediatric NRTI</u></b> formulations is
+  similar to those for <b><u>Paediatric NNRTI/PI</u></b> formulations<br>
+  <br>
+  This is done by summing the estimated new ART patients for both sets of
+  formulations (NRTI and NNRTI/PI) separately, and then testing if the two
+  resulting figures are within 30% of each other<br>
+  <br>
+  NRTI formulations: AZT/3TC 60/30mg, ABC/3TC 60/30mg<br>
+  NNRTI/PI formulations: NVP 50mg, EFV 200mg, LPV/r 100/25mg, LPV/r 80/20mg<o:p></o:p></span></p>
+  </td>
+ </tr>
+</table>
+
+</div>
+{% endblock content %}

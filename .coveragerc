@@ -1,0 +1,21 @@
+[run]
+branch = True
+source =
+    dashboard
+    qdbauth
+    vaccines
+[report]
+exclude_lines =
+    pragma: no cover
+    def __repr__
+    if self\.debug
+    raise AssertionError
+    raise NotImplementedError
+    if 0:
+    if __name__ == .__main__.:
+omit =
+    *migrations*
+    *local_settings*
+    *wsgi*
+    *dashboard/management*
+ignore_errors = True

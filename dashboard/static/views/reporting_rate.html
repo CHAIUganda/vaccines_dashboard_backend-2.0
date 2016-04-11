@@ -1,0 +1,23 @@
+<div ng-controller="ReportingRateController">
+    <h4 class="text-center">VACCINES STOCK AT HAND</h4>
+    <div class="col-md-8">
+        <angular-chart options="options"></angular-chart>
+    </div>
+    <div class="col-md-4">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title"><span>District:</span>
+                <div class="dropdown ranking-dropdown">
+                    <a class="dropdown-toggle " data-toggle="dropdown"> {{worstPerforming}} <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+
+                        <li ng-repeat="level in rankingLevels"><a ng-click="selectWorst(level)">{{level}}</a></li>
+
+                    </ul>
+                </div>
+
+               </h3>
+            </div>
+        </div>
+    </div>
+</div>

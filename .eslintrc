@@ -1,0 +1,19 @@
+{
+    "ecmaFeatures": {
+        "blockBindings": true,
+        "forOf": true,
+        "jsx": true
+    },
+    "rules": {
+        "semi": 2,
+        "quotes": [2, "double"],
+        "max-depth": 2,
+        "max-len": [1, 160],
+        "max-params": 1,
+        "max-statements": 2, 
+        "no-bitwise": 1, 
+        "no-plusplus": 1,
+        "no-alert": 2,  
+        "complexity": 2, 
+    }
+}

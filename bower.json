@@ -1,0 +1,44 @@
+{
+  "name": "vaccines",
+  "homepage": "https://github.com/CHAIUganda/OrderQualityTool",
+  "description": "",
+  "main": "",
+  "moduleType": [],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "vendor",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "1.4.8",
+    "bootstrap": "3.3.5",
+    "bootswatch": "3.3.5",
+    "jquery": "1.9",
+    "angular-ui-router": "~0.2.15",
+    "angular-chart.js": "~0.8.5",
+    "lodash": "~3.10.1",
+    "angular-bootstrap": "~0.14.3",
+    "checklist-model": "~0.8.0",
+    "angular-ui-router-tabs": "~1.7.0",
+    "angular-mocks": "~1.4.8",
+    "angular-chart": "~0.3.2",
+    "ng-table": "~0.8.3",
+    "components-font-awesome": "~4.5.0",
+    "datatables": "~1.10.10",
+    "datatables-fixedcolumns": "~3.2.0",
+    "angular-sanitize": "~1.4.8",
+    "select2": "~4.0.1",
+    "jsrender": "~0.9.71",
+    "multiple-select": "~1.2.1",
+    "datatables-fixedheader": "~3.1.1"
+  },
+  "resolutions": {
+    "jquery": "1.9",
+    "angular": "1.4.8"
+  }
+}

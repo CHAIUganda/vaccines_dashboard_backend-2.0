@@ -1,0 +1,104 @@
+{% extends "layout.html" %}
+{% load staticfiles %}
+{% block content %}
+    <div class="container">
+        <div class="score_filters">
+            <div class="filter-title">
+                <h5>FILTERS</h5>
+            </div>
+            <div id="tags" class="tags">
+            </div>
+        </div>
+        <div class="score_filters facility_filters">
+            <select name="district" id="district_select" class="filter" multiple="multiple">
+                {% for district in districts %}
+                    <option value="{{ district.district }}">{{ district.district }}</option>
+                {% endfor %}
+            </select>
+            <select name="warehouse" id="warehouse_select" class="filter">
+                <option value="">ALL WAREHOUSES</option>
+                {% for warehouse in warehouses %}
+                    <option value="{{ warehouse.warehouse }}">{{ warehouse.warehouse }}</option>
+                {% endfor %}
+            </select>
+            <select name="ip" id="ip_select" class="filter">
+                <option value="">ALL IPS</option>
+                {% for ip in ips %}
+                    <option value="{{ ip.ip }}">{{ ip.ip }}</option>
+                {% endfor %}
+            </select>
+            <select name="cycle" id="cycle_select" class="filter">
+                {% for cycle in cycles %}
+                    <option value="{{ cycle.cycle }}">{{ cycle.cycle }}</option>
+                {% endfor %}
+            </select>
+            <select name="formulation" id="formulation_select" class="filter">
+                {% for formulation in formulations %}
+                    <option value="{{ formulation }}">{{ formulation }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="scores-table">
+            <table class="table table-striped table-bordered table-condensed" cellspacing="0" width="100%" id="score-tables">
+                <thead>
+                 <!-- <tr>-->
+                    <!--<th colspan="4"></th>-->
+                    <!--<th class="calc-score">0</th>-->
+                    <!--<th class="calc-score">8</th>-->
+                    <!--<th class="calc-score">9</th>-->
+                    <!--<th class="calc-score">9</th>-->
+                    <!--<th class="calc-score">9</th>-->
+                    <!--<th class="calc-score">9</th>-->
+                    <!--<th class="calc-score">9</th>-->
+                    <!--<th class="calc-score">9</th>-->
+                    <!--<th class="calc-score">9</th>-->
+                    <!--<th class="calc-score">9</th>-->
+                    <!--<th class="calc-score">9</th>-->
+                    <!--<th class="calc-score">9</th>-->
+                    <!--<th class="calc-score">9</th>-->
+                    <!--<th class="calc-score">9</th>-->
+                    <!--<th class="calc-score">9</th>-->
+                    <!--<th class="calc-score">9</th>-->
+                    <!--<th class="calc-score">9</th>-->
+                    <!--<th class="calc-score">9</th>-->
+                  <!--</tr>-->
+                <tr>
+                    <th>FACILITY</th>
+                    <th>DISTRICT</th>
+                    <th>WAREHOUSE</th>
+                    <th>IP</th>
+                    <th>REPORTING?</th>
+                    <th>WEB OR PAPER?</th>
+                    <th>GUIDELINE: Adult 1L</th>
+                    <th>GUIDELINE: Adult 2L</th>
+                    <th>GUIDELINE: Paed 1L</th>
+                    <th>NO BLANKS?</th>
+                    <th>MULTIPLE ORDERS?</th>
+                    <th>NO NEGATIVES?</th>
+                    <th>VOLUME TALLY?</th>
+                    <th>NON-REPEATING?</th>
+                    <th>OPENING = CLOSING?</th>
+                    <th>STABLE CONSUMPTION?</th>
+                    <th>STABLE PATIENT VOLUMES?</th>
+                    <th>WAREHOUSE FULFILMENT?</th>
+                    <th>NRTI vs. NNRTI/PI (PAED - NEW)</th>
+                    <th>NRTI vs. NNRTI/PI (PAED - CURRENT)</th>
+                    <th>NRTI vs. NNRTI/PI (ADULT - NEW)</th>
+                    <th>NRTI vs. NNRTI/PI (ADULT - CURRENT)</th>
+                </tr>
+                </thead>
+            </table>
+        </div>
+    </div>
+    <div id="score_detail" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+    </div>
+    {% verbatim %}
+    {% endverbatim %}
+{% endblock content %}
+{% block js %}
+    <script type="text/javascript" src='{% static "vendor/select2/dist/js/select2.full.min.js" %}'></script>
+    <script type="text/javascript" src='{% static "vendor/multiple-select/multiple-select.js" %}'></script>
+    <script type="text/javascript" src='{% static "vendor/jsrender/jsrender.min.js" %}'></script>
+    <script type="text/javascript" src='{% static "js/scores_table.js" %}'></script>
+
+{% endblock js %}

@@ -1,0 +1,30 @@
+{% extends "password_reset/base.html" %}
+{% load i18n %}
+{% load bootstrap3 %}
+
+{% block title %}{% trans "Password recovery" %}{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-6">
+        <h3>
+            Recover your password
+        </h3>
+    </div>
+
+</div>
+<div class="row">
+    <div class="col-md-4">
+        <form method="post" action="{{ url }}">
+            {% csrf_token %}
+            {% bootstrap_form form %}
+            {% buttons %}
+            <button type="submit" class="btn btn-primary">
+                Recover my password
+            </button>
+            {% endbuttons %}
+        </form>
+    </div>
+</div>
+
+{% endblock %}

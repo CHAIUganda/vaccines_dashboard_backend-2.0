@@ -1,0 +1,27 @@
+<div ng-controller="MainChecksController">
+    <h4 class="text-center">{{ selectedTest.desc | uppercase }}</h4>
+    <h5 class="text-center" ng-show="selectedTest.hasRegimen">{{ selectedRegimen.name | uppercase }}</h5>
+    <div class="col-md-3">
+        <h5>SELECT TEST</h5>
+        <select
+                ng-model="selectedTest"
+                class="form-control select-drop"
+                ng-options="test.desc for test in tests track by test.url">
+        </select>
+        <h5 ng-show="selectedTest.hasRegimen">Choose FORMULATION</h5>
+        <select
+                ng-show="selectedTest.hasRegimen"
+                ng-model="selectedRegimen"
+                class="form-control select-drop"
+                ng-options="regimen.name for regimen in regimens track by regimen.name">
+        </select>
+
+        <h5 ng-show="selectedTest.hasCycle">Choose Cycle</h5>
+        <select  ng-show="selectedTest.hasCycle" name="cycle" class="form-control select-drop" ng-model="selectedCycle"
+                ng-options="cycle for cycle in cycles">
+        </select>
+    </div>
+    <div class="col-md-9">
+        <div ng-include="selectedTest.template"></div>
+    </div>
+</div>

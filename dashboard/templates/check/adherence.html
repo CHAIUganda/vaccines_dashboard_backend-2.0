@@ -1,0 +1,56 @@
+{% extends "check/base.html" %}
+{% load table %}
+{% block content %}
+    <span class="score_detail_data_title col-md-12">{{ data.main_title }}</span>
+    <div class="row">
+      <div class="col-md-6"><h5>Estimated New Patients</h5></div>
+    </div>
+    <div class="row">
+        {% for table in data.tables %}
+        <div class="col-md-6 limit-table">
+            <table class="table table-striped table-bordered table-condensed">
+                <thead>
+                <tr>
+                    <th class="left">{{ table.name }}</th>
+                    {% for header in table.headers %}
+                        <th>{{ header }}</th>
+                    {% endfor %}
+                    <th>TOTAL</th>
+
+                </tr>
+                </thead>
+                <tbody>
+                {% for item in table.rows %}
+                    <tr>
+                        <td>{{ item.column }}</td>
+                        {% for header in table.headers %}
+                            <th>{{ item|lookup:header }}</th>
+                        {% endfor %}
+                        <th>{{ item.sum }}</th>
+                    </tr>
+                {% endfor %}
+                <tr>
+                    <th class="left">TOTAL</th>
+                    {% for header in table.headers %}
+                        <th>{{ table.totals|lookup:header }}</th>
+                    {% endfor %}
+                     <th>{{ table.totals.sum }}</th>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    {% endfor %}
+    </div>
+    
+
+    <div class="row">
+        <hr>
+        <div class="final-score col-md-2 col-md-offset-5">
+            <span class="-up">
+                 {{data.score|floatformat:-2 }} %
+            </span>
+            <span class="-down">{{data.result_title}}</span>
+        </div>
+    </div>
+
+{% endblock %}

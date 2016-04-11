@@ -1,0 +1,12 @@
+<div ng-controller="GuidelineAdherenceController">
+<h4 class="text-center">FACILITIES ADHERING TO NATIONAL GUIDELINE - {{guidelineType.name}} (%)</h4>
+    <div class="col-md-3">
+        <h5>Select National Guideline</h5>
+        <select class="form-control select-drop" ng-options="item as item.name for item in guidelineTypes track by item.code" ng-model="guidelineType"></select>
+    </div>
+    <div class="col-md-9">
+        <div class="page_graph">
+            <angular-chart options="options"></angular-chart>
+        </div>
+    </div>
+</div>

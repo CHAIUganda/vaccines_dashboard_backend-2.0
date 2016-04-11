@@ -1,0 +1,87 @@
+{% load staticfiles %}
+{% load menu %}{% generate_menu %}
+{% load bootstrap3 %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Vaccines Dashboard</title>
+    <link rel="stylesheet" href='{% static "css/app.css" %}'>
+    <link rel="stylesheet" href='{% static "js/ui-select/select.css" %}'>
+    <link rel="stylesheet" href='{% static "js/ui-select/selectize.css" %}'>
+    <link rel="stylesheet" href='{% static "js/ui-select/selectize.bootstrap3.css" %}'>
+    <link rel="stylesheet" href='{% static "css/datatables.css" %}'>
+    <link rel="stylesheet" href='{% static "vendor/angular-chart.js/dist/angular-chart.css" %}'>
+    <link rel="stylesheet" href='{% static "vendor/c3/c3.css"%}' />
+    <link rel="stylesheet" href='{% static "vendor/ng-table/dist/ng-table.css"%}' />
+    <link rel="stylesheet" href='{% static "vendor/datatables/media/css/dataTables.bootstrap.css"%}' />
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,400italic,600,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href='{% static "vendor/components-font-awesome/css/font-awesome.min.css"%}'>
+    <link rel="stylesheet" href='{% static "vendor/select2/dist/css/select2.min.css"%}'>
+    <link rel="stylesheet" href='{% static "vendor/multiple-select/multiple-select.css"%}'>
+</head>
+<body>
+
+<nav class="navbar navbar-inverse navbar-fixed-top with-flag">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/#">Vaccines Dashboard</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                {% with menu=menus.main %}{% include "bootstrap-navbar.html" %}{% endwith %}
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li><span style="font-size: 30px;vertical-align: middle;margin-right:25px;"></span></li>
+            </ul>
+            <ul class=" nav navbar-nav">
+                {% if user.is_authenticated %}
+                <li><a class="logout" href="{% url 'logout' %}">Logout</a></li>
+                {% else %}
+                <li><a class="login" href="{% url 'login' %}">Login</a></li>
+                {% endif %}
+            </ul>
+        </div><!--/.nav-collapse -->
+    </div>
+</nav>
+
+
+<div class="container">
+    {% bootstrap_messages %}
+    {% block content %}
+    {% endblock content %}
+</div>
+<script type="text/javascript" src='{% static "vendor/jquery/jquery.min.js" %}'></script>
+<script type="text/javascript" src='{% static "vendor/bootstrap/dist/js/bootstrap.min.js" %}'></script>
+<script type="text/javascript" src='{% static "vendor/datatables/media/js/jquery.dataTables.js" %}'></script>
+<script type="text/javascript" src='{% static "vendor/datatables/media/js/dataTables.bootstrap.min.js" %}'></script>
+<script type="text/javascript" src='{% static "vendor/datatables-fixedcolumns/js/dataTables.fixedColumns.js" %}'></script>
+<script type="text/javascript" src='{% static "vendor/datatables-fixedheader/js/dataTables.fixedHeader.js" %}'></script>
+<script type="text/javascript" src='{% static "vendor/angular/angular.min.js" %}'></script>
+<script type="text/javascript" src='{% static "vendor/angular-ui-router/release/angular-ui-router.min.js" %}'></script>
+<script type="text/javascript" src='{% static "vendor/angular-bootstrap/ui-bootstrap-tpls.min.js" %}'></script>
+<script type="text/javascript" src='{% static "vendor/Chart.js/Chart.min.js"%}'></script>
+<script type="text/javascript" src='{% static "vendor/angular-chart.js/dist/angular-chart.js"%}'></script>
+<script type="text/javascript" src='{% static "vendor/lodash/lodash.min.js"%}'></script>
+<script type="text/javascript" src='{% static "vendor/checklist-model/checklist-model.js"%}'></script>
+<script type="text/javascript" src='{% static "vendor/d3/d3.js"%}'></script>
+<script type="text/javascript" src='{% static "vendor/c3/c3.js"%}'></script>
+<script type="text/javascript" src='{% static "vendor/angular-chart/angular-chart.js"%}'></script>
+<script type="text/javascript" src='{% static "vendor/ng-table/dist/ng-table.js"%}'></script>
+<script type="text/javascript" src='{% static "js/app.js" %}'></script>
+<script type="text/javascript" src='{% static "js/services/report.service.js" %}'></script>
+<script type="text/javascript" src='{% static "js/controllers/home.controller.js" %}'></script>
+<script type="text/javascript" src='{% static "js/controllers/report.rate.controller.js" %}'></script>
+<script type="text/javascript" src='{% static "js/controllers/web.based.rate.controller.js" %}'></script>
+<script type="text/javascript" src='{% static "js/controllers/main.check.controller.js" %}'></script>
+<script type="text/javascript" src='{% static "js/controllers/guideline.adherence.controller.js" %}'></script>
+{% block js %}
+{% endblock js %}
+</body>
+</html>
