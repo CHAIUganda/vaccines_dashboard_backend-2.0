@@ -3,7 +3,7 @@ from django.core.urlresolvers import reverse
 from django_webtest import WebTest
 from mock import MagicMock, patch
 from dashboard.helpers import *
-from dashboard.models import Score
+from dashboard.models import Balance
 from dashboard.views.api import OrderFormFreeOfNegativeNumbersView, DifferentOrdersOverTimeView, ClosingBalanceView, \
     ConsumptionAndPatientsView, StableConsumptionView, WarehouseFulfilmentView, StablePatientVolumesView, \
     GuideLineAdherenceView, OrderFormFreeOfGapsView
@@ -34,11 +34,11 @@ class OrderFormFreeOfNegativesViewTestCase(WebTest, RegimenCheckViewCaseMixin):
         url = reverse(self.url_name)
         start = "Mar - Apr %s" % year
         end = "Nov - Dec %s" % year
-        Score.objects.create(**{self.test: {self.formulation: YES}, 'name': "F4", 'cycle': start})
-        Score.objects.create(**{self.test: {self.formulation: NO}, 'name': "F5", 'cycle': start})
-        Score.objects.create(**{self.test: {self.formulation: NO}, 'name': "F6", 'cycle': start})
-        Score.objects.create(**{self.test: {self.formulation: NOT_REPORTING}, 'name': "F7", 'cycle': start})
-        Score.objects.create(**{self.test: {self.formulation: NOT_REPORTING}, 'name': "F8", 'cycle': start})
+        Balance.objects.create(**{self.test: {self.formulation: YES}, 'name': "F4", 'cycle': start})
+        Balance.objects.create(**{self.test: {self.formulation: NO}, 'name': "F5", 'cycle': start})
+        Balance.objects.create(**{self.test: {self.formulation: NO}, 'name': "F6", 'cycle': start})
+        Balance.objects.create(**{self.test: {self.formulation: NOT_REPORTING}, 'name': "F7", 'cycle': start})
+        Balance.objects.create(**{self.test: {self.formulation: NOT_REPORTING}, 'name': "F8", 'cycle': start})
         response = self.app.get(self.get_url(end, start, url), user="testuser")
         self.assertEqual(200, response.status_code)
         json_content = response.content.decode('utf8')

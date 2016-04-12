@@ -7,9 +7,8 @@ from django.utils.translation import ugettext_lazy
 from django.utils.translation import ugettext_lazy as _
 
 from dashboard.data.free_form_report import FreeFormReport
-from dashboard.models import DashboardUser, Consumption, YearMonth, AdultPatientsRecord, PAEDPatientsRecord, \
-    Score, MultipleOrderFacility
-from dashboard.tasks import calculate_scores_for_checks_in_cycle
+from dashboard.models import DashboardUser, YearMonth, Balance
+from dashboard.tasks import calculate_totals_in_month
 
 
 class EmailUserAdmin(UserAdmin):
@@ -51,86 +50,31 @@ class MyModelAdmin(HierarchicalModelAdmin):
     hierarchy = True
 
 
-class ConsumptionAdmin(ModelAdmin):
-    list_display = (
-        'name',
-        'cycle',
-        'district',
-        'ip',
-        'warehouse',
-        'formulation',
-        'opening_balance',
-        'quantity_received',
-        'pmtct_consumption',
-        'art_consumption',
-        'loses_adjustments',
-        'closing_balance',
-        'months_of_stock_of_hand',
-        'quantity_required_for_current_patients',
-        'estimated_number_of_new_patients',
-        'estimated_number_of_new_pregnant_women'
-    )
-    search_fields = ('name', 'cycle', 'district', 'ip')
-    list_filter = ('cycle', 'formulation')
-
-
-class PatientAdmin(ModelAdmin):
-    search_fields = ('name', 'district')
-    list_filter = ('cycle', 'formulation', 'ip', 'warehouse')
-    list_display = ('name',
-                    'cycle',
-                    'district',
-                    'ip',
-                    'warehouse',
-                    'formulation',
-                    'existing',
-                    'new'
-                    )
-
 
 def run_tests(model_admin, request, queryset):
     data = queryset.all()
     for year_month in data:
         report = FreeFormReport(None, year_month.title).build_form_db(year_month)
-        calculate_scores_for_checks_in_cycle.delay(report)
+        calculate_totals_in_month.delay(report)
 
 
 run_tests.short_description = "Run quality tests for these cycles"
 
-class ScoreAdmin(ModelAdmin):
-    search_fields = ('name','district')
-    list_display = ('name',
-                    'cycle',
-                    'district',
-                    'ip',
-                    'warehouse',
-                    'default_pass_count',
-                    'default_fail_count',
-                    'f1_pass_count',
-                    'f1_fail_count',
-                    'nnrtiNewPaed',
-                    'stablePatientVolumes',
-                    'REPORTING',
-                    'consumptionAndPatients',
-                    'nnrtiCurrentPaed',
-                    'warehouseFulfilment',
-                    'differentOrdersOverTime',
-                    'closingBalanceMatchesOpeningBalance',
-                    'WEB_BASED',
-                    'OrderFormFreeOfGaps',
-                    'MULTIPLE_ORDERS',
-                    'nnrtiNewAdults',
-                    'orderFormFreeOfNegativeNumbers',
-                    'nnrtiCurrentAdults',
-                    'stableConsumption',
+class BalanceAdmin(ModelAdmin):
+    search_fields = ('district','month')
+    list_display = ('district',
+                    'month',
+                    'measles',
+                    'bcg',
+                    'hpv',
+                    'hepb',
+                    'tt',
+                    'topv',
+                    'yellowfever',
+                    'pcv',
+                    'penta',
                     )
-    list_filter = ('cycle',)
-
-    def cycle(self, obj):
-        return obj.facility_cycle.cycle
-
-    def facility(self, obj):
-        return obj.facility_cycle.facility
+    list_filter = ('month',)
 
 
 class CycleAdmin(ModelAdmin):
@@ -140,9 +84,5 @@ class CycleAdmin(ModelAdmin):
 admin_site = QdbSite()
 admin_site.register(Group, GroupAdmin)
 admin_site.register(DashboardUser, EmailUserAdmin)
-admin_site.register(Score, ScoreAdmin)
-admin_site.register(AdultPatientsRecord, PatientAdmin)
-admin_site.register(PAEDPatientsRecord, PatientAdmin)
-admin_site.register(Consumption, ConsumptionAdmin)
+admin_site.register(Balance, BalanceAdmin)
 admin_site.register(YearMonth, CycleAdmin)
-admin_site.register(MultipleOrderFacility)

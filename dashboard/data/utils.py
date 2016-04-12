@@ -6,8 +6,6 @@ import pydash
 
 from dashboard.helpers import NO, NOT_REPORTING, YES, NAME, EXISTING, NEW, FORMULATION
 
-TWO_CYCLE = "two_cycle"
-
 IS_INTERFACE = "is_interface"
 
 logger = logging.getLogger(__name__)

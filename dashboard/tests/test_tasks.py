@@ -4,8 +4,8 @@ from django.test import TestCase
 from mock import patch, call
 
 from dashboard.data.tests.test_data import FakeReport
-from dashboard.models import Score, Consumption, AdultPatientsRecord, PAEDPatientsRecord, YearMonth, MultipleOrderFacility
-from dashboard.tasks import persist_scores, persist_consumption, persist_adult_records, persist_paed_records, get_report_for_other_cycle, calculate_scores_for_checks_in_cycle, persist_multiple_order_records
+from dashboard.models import Balance, Consumption, AdultPatientsRecord, PAEDPatientsRecord, YearMonth, MultipleOrderFacility
+from dashboard.tasks import persist_totals, persist_consumption, persist_adult_records, persist_paed_records, get_report_for_other_cycle, calculate_totals_in_month, persist_multiple_order_records
 
 
 class TaskTestCase(TestCase):
@@ -33,11 +33,11 @@ class TaskTestCase(TestCase):
                     'REPORTING': {'DEFAULT': 'NO'},
                 }
             }]
-        self.assertEqual(Score.objects.count(), 0)
-        persist_scores(report)
-        persist_scores(report)
-        self.assertEqual(Score.objects.count(), 2)
-        first_score = Score.objects.all()[0]
+        self.assertEqual(Balance.objects.count(), 0)
+        persist_totals(report)
+        persist_totals(report)
+        self.assertEqual(Balance.objects.count(), 2)
+        first_score = Balance.objects.all()[0]
         self.assertEqual(first_score.default_pass_count, 1)
         self.assertEqual(first_score.default_fail_count, 1)
 
@@ -143,27 +143,7 @@ class TaskTestCase(TestCase):
         self.assertEqual(first_record.new, 20)
         self.assertEqual(first_record.existing, 12)
 
-    def test_get_report_for_other_cycle(self):
-        state = {'cs': [1, 2]}
-        YearMonth.objects.create(title="May - Jun 2015", state=state)
-        report = FakeReport()
-        report.cycle = 'Jul - Aug 2015'
-        other_report = get_report_for_other_cycle(report)
-        self.assertEqual(other_report.cs, [1, 2])
 
-    @patch('dashboard.tasks.run_checks')
-    @patch('dashboard.tasks.persist_scores')
-    @patch('dashboard.tasks.persist_consumption')
-    @patch('dashboard.tasks.persist_adult_records')
-    @patch('dashboard.tasks.persist_paed_records')
-    @patch('dashboard.tasks.persist_multiple_order_records')
-    def test_calculate_scores_for_checks_in_cycle(self, mock1, mock2, mock3, mock4, mock5, mock6):
-        report = FakeReport()
-        calculate_scores_for_checks_in_cycle(report)
-        exepected_call = call(report)
-        mock_methods = [mock1, mock2, mock3, mock4, mock5, mock6]
-        for m in mock_methods:
-            m.assert_has_calls([exepected_call])
 
     def test_should_record_facilities_with_multiple_orders(self):
         report = FakeReport()

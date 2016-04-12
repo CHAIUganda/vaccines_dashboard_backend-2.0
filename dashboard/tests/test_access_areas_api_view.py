@@ -1,7 +1,7 @@
 import json
 from django.core.urlresolvers import reverse
 from django_webtest import WebTest
-from dashboard.models import IIP, DISTRICT, WAREHOUSE, Score
+from dashboard.models import IIP, DISTRICT, WAREHOUSE, Balance
 
 
 class AccessAreasViewTestCase(WebTest):
@@ -14,7 +14,7 @@ class AccessAreasViewTestCase(WebTest):
         for case in cases:
             for v in case["values"]:
                 level = case["level"].lower()
-                score = Score(name=v)
+                score = Balance(name=v)
                 setattr(score, level, v)
                 score.save()
             url = "%s?level=%s" % (reverse('access-areas'), case['name'])

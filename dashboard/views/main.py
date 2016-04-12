@@ -8,7 +8,7 @@ from django.db.models import Count, Case, When
 from django.views.generic import TemplateView, FormView
 from dashboard.forms import FileUploadForm
 from dashboard.helpers import YES, F3, F2, F1
-from dashboard.models import Score
+from dashboard.models import Balance
 from dashboard.tasks import import_general_report
 
 
@@ -19,20 +19,45 @@ class HomeView(LoginRequiredMixin, TemplateView):
         context = super(HomeView, self).get_context_data(**kwargs)
         return context
 
-class AboutPageView(TemplateView):
+
+class AboutPageView(LoginRequiredMixin, TemplateView):
     template_name = "about.html"
+
+    def get_context_data(self, **kwargs):
+        context = super(HomeView, self).get_context_data(**kwargs)
+        return context
+
 
 class AboutTestPageView(TemplateView):
     template_name = "about_tests.html"
 
+    def get_context_data(self, **kwargs):
+        context = super(HomeView, self).get_context_data(**kwargs)
+        return context
+
+
 class AboutBackground(TemplateView):
     template_name = "about_background.html"
+
+    def get_context_data(self, **kwargs):
+        context = super(HomeView, self).get_context_data(**kwargs)
+        return context
+
 
 class AboutHowWorks(TemplateView):
     template_name = "about_works.html"
 
+    def get_context_data(self, **kwargs):
+        context = super(HomeView, self).get_context_data(**kwargs)
+        return context
+
 class AboutHowUsed(TemplateView):
     template_name = "about_used.html"
+
+    def get_context_data(self, **kwargs):
+        context = super(HomeView, self).get_context_data(**kwargs)
+        return context
+
 
 class DataImportView(LoginRequiredMixin, StaffuserRequiredMixin, FormView):
     template_name = "import.html"
@@ -41,11 +66,11 @@ class DataImportView(LoginRequiredMixin, StaffuserRequiredMixin, FormView):
 
     def form_valid(self, form):
         import_file = form.cleaned_data['import_file']
-        cycle = form.cleaned_data['cycle']
+        year_month = form.cleaned_data['year_month']
         path = default_storage.save('tmp/workspace.xlsx', ContentFile(import_file.read()))
         tmp_file = os.path.join(settings.MEDIA_ROOT, path)
-        import_general_report.delay(tmp_file, cycle)
-        messages.add_message(self.request, messages.INFO, 'Successfully started import for cycle %s' % (cycle))
+        import_general_report.delay(tmp_file, year_month)
+        messages.add_message(self.request, messages.INFO, 'Successfully started import for year_month %s' % (year_month))
         return super(DataImportView, self).form_valid(form)
 
 
@@ -62,33 +87,19 @@ class ReportsView(LoginRequiredMixin, TemplateView):
         qs_filter = {}
         if access_level and access_area:
             qs_filter[access_level.lower()] = access_area
-        qs = Score.objects.filter(**qs_filter)
-        ips = qs.values('ip').order_by('ip').distinct()
-        warehouses = qs.values('warehouse').order_by('warehouse').distinct()
+        qs = Balance.objects.filter(**qs_filter)
         districts = qs.values('district').order_by('district').distinct()
-        cycles = qs.values('cycle').distinct()
+        cycles = qs.values('year_month').distinct()
         context['districts'] = districts
-        context['ips'] = ips
-        context['warehouses'] = warehouses
-        context['cycles'] = cycles
-        context['formulations'] = [F1, F2, F3]
+        context['year_month'] = year_month
         return context
 
     def build_totals(self, context):
-        qs = Score.objects.all()
+        qs = Balance.objects.all()
         aggregates = qs.aggregate(
             count=Count('pk'),
-            REPORTING=Count(Case(When(REPORTING={DEFAULT: YES}, then=1))),
-            WEB_BASED=Count(Case(When(WEB_BASED={DEFAULT: YES}, then=1))),
-            MULTIPLE_ORDERS=Count(Case(When(MULTIPLE_ORDERS={DEFAULT: YES}, then=1))),
-            OrderFormFreeOfGaps=Count(Case(When(OrderFormFreeOfGaps={DEFAULT: YES}, then=1))),
-            guidelineAdherenceAdult1L=Count(Case(When(guidelineAdherenceAdult1L={DEFAULT: YES}, then=1))),
-            guidelineAdherenceAdult2L=Count(Case(When(guidelineAdherenceAdult2L={DEFAULT: YES}, then=1))),
-            guidelineAdherencePaed1L=Count(Case(When(guidelineAdherencePaed1L={DEFAULT: YES}, then=1))),
-            nnrtiNewPaed=Count(Case(When(nnrtiNewPaed={DEFAULT: YES}, then=1))),
-            nnrtiCurrentPaed=Count(Case(When(nnrtiCurrentPaed={DEFAULT: YES}, then=1))),
-            nnrtiNewAdults=Count(Case(When(nnrtiNewAdults={DEFAULT: YES}, then=1))),
-            nnrtiCurrentAdults=Count(Case(When(nnrtiCurrentAdults={DEFAULT: YES}, then=1))),
+            MEASLES=Count(Case(When(REPORTING={DEFAULT: YES}, then=1))),
+
         )
         totals = dict()
         for key, value in aggregates.items():

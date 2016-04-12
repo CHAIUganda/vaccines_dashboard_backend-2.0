@@ -6,7 +6,7 @@ from model_mommy import mommy
 
 from dashboard.data.nn import NNRTINEWPAEDCheck, NNRTICURRENTPAEDCheck, NNRTINewAdultsCheck, NNRTICURRENTADULTSCheck
 from dashboard.helpers import DEFAULT, YES, F1, F1_QUERY, DF1, DF2, F1_PATIENT_QUERY, PACKS_ORDERED, ESTIMATED_NUMBER_OF_NEW_PREGNANT_WOMEN, ESTIMATED_NUMBER_OF_NEW_ART_PATIENTS, QUANTITY_REQUIRED_FOR_CURRENT_PATIENTS, MONTHS_OF_STOCK_OF_HAND, CLOSING_BALANCE, LOSES_ADJUSTMENTS, ART_CONSUMPTION, PMTCT_CONSUMPTION, QUANTITY_RECEIVED, OPENING_BALANCE
-from dashboard.models import Score, Consumption, AdultPatientsRecord, PAEDPatientsRecord
+from dashboard.models import Balance, Consumption, AdultPatientsRecord, PAEDPatientsRecord
 
 
 def generate_values():
@@ -38,8 +38,8 @@ class ScoreDetailTestCase():
         ip = "I1"
         district = "D1"
         cycle = "Jan - Feb 2015"
-        score = Score.objects.create(name=name, warehouse=warehouse, ip=ip, district=district, REPORTING={DEFAULT: YES},
-                                     WEB_BASED={DEFAULT: YES}, cycle=cycle)
+        score = Balance.objects.create(name=name, warehouse=warehouse, ip=ip, district=district, REPORTING={DEFAULT: YES},
+                                       WEB_BASED={DEFAULT: YES}, cycle=cycle)
         for q in F1_PATIENT_QUERY:
             mommy.make(AdultPatientsRecord, name=name, warehouse=warehouse, ip=ip, district=district, cycle=cycle, formulation=q, new=random.randrange(0, 600), existing=random.randrange(0, 600))
             mommy.make(PAEDPatientsRecord, name=name, warehouse=warehouse, ip=ip, district=district, cycle=cycle, formulation=q, new=random.randrange(0, 600), existing=random.randrange(0, 600))
@@ -51,8 +51,8 @@ class ScoreDetailTestCase():
         self.assertEqual(response.status_code, 200)
 
     def test_correct_template_rendered(self):
-        score = Score.objects.create(name="F1", warehouse="W1", ip="I1", district="D1", REPORTING={DEFAULT: YES},
-                                     WEB_BASED={DEFAULT: YES}, cycle="Jan - Feb 2015")
+        score = Balance.objects.create(name="F1", warehouse="W1", ip="I1", district="D1", REPORTING={DEFAULT: YES},
+                                       WEB_BASED={DEFAULT: YES}, cycle="Jan - Feb 2015")
         url = reverse("scores-detail", kwargs={"id": score.id, "column": self.column}) + "?combination=" + F1
         response = self.app.get(url)
         self.assertEqual(response.status_code, 200)

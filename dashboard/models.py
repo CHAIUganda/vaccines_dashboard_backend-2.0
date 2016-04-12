@@ -47,105 +47,22 @@ class YearMonth(models.Model):
         return "%s" % (self.title)
 
 
-choices = ((YES, YES), (NO, NO), (NOT_REPORTING, NOT_REPORTING))
+choices = ((YES, YES), (NO, NO))
 
 
-class Score(models.Model):
-    name = models.CharField(max_length=256, db_index=True)
-    cycle = models.CharField(max_length=256, db_index=True)
+class Balance(models.Model):
     district = models.CharField(max_length=256, db_index=True)
-    ip = models.CharField(max_length=256, db_index=True)
-    warehouse = models.CharField(max_length=256, db_index=True)
-    REPORTING = JSONField()
-    WEB_BASED = JSONField()
-    MULTIPLE_ORDERS = JSONField()
-    OrderFormFreeOfGaps = JSONField()
-    guidelineAdherenceAdult1L = JSONField()
-    guidelineAdherenceAdult2L = JSONField()
-    guidelineAdherencePaed1L = JSONField()
-    nnrtiNewPaed = JSONField()
-    nnrtiCurrentPaed = JSONField()
-    nnrtiNewAdults = JSONField()
-    nnrtiCurrentAdults = JSONField()
-    stablePatientVolumes = JSONField()
-    consumptionAndPatients = JSONField()
-    warehouseFulfilment = JSONField()
-    differentOrdersOverTime = JSONField()
-    closingBalanceMatchesOpeningBalance = JSONField()
-    orderFormFreeOfNegativeNumbers = JSONField()
-    stableConsumption = JSONField()
-    default_fail_count = models.IntegerField(default=0)
-    default_pass_count = models.IntegerField(default=0)
-    f1_fail_count = models.IntegerField(default=0)
-    f1_pass_count = models.IntegerField(default=0)
-    f2_fail_count = models.IntegerField(default=0)
-    f2_pass_count = models.IntegerField(default=0)
-    f3_fail_count = models.IntegerField(default=0)
-    f3_pass_count = models.IntegerField(default=0)
-
+    month = models.ForeignKey(YearMonth, db_index=True)
+    measles = models.FloatField(default=0)
+    bcg = models.FloatField(default=0)
+    hpv = models.FloatField(default=0)
+    hepb = models.FloatField(default=0)
+    tt = models.FloatField(default=0)
+    topv = models.FloatField(default=0)
+    yellowfever = models.FloatField(default=0)
+    pcv = models.FloatField(default=0)
+    penta = models.FloatField(default=0)
 
     class Meta:
-        unique_together = ("name", "cycle", "district", "ip", "warehouse")
+        unique_together = ("district", "month")
 
-
-class Consumption(models.Model):
-    name = models.CharField(max_length=256, db_index=True)
-    cycle = models.CharField(max_length=256, db_index=True)
-    district = models.CharField(max_length=256, db_index=True)
-    ip = models.CharField(max_length=256, db_index=True)
-    warehouse = models.CharField(max_length=256, db_index=True)
-    opening_balance = models.FloatField(null=True, blank=True)
-    quantity_received = models.FloatField(null=True, blank=True)
-    pmtct_consumption = models.FloatField(null=True, blank=True)
-    art_consumption = models.FloatField(null=True, blank=True)
-    loses_adjustments = models.FloatField(null=True, blank=True)
-    closing_balance = models.FloatField(null=True, blank=True)
-    months_of_stock_of_hand = models.FloatField(null=True, blank=True)
-    quantity_required_for_current_patients = models.FloatField(null=True, blank=True)
-    estimated_number_of_new_patients = models.FloatField(null=True, blank=True)
-    estimated_number_of_new_pregnant_women = models.FloatField(null=True, blank=True)
-    packs_ordered = models.FloatField(null=True, blank=True)
-    notes = models.CharField(max_length=256, null=True, blank=True)
-    formulation = models.CharField(max_length=256, null=True, blank=True, db_index=True)
-
-    def __unicode__(self):
-        return "%s %s" % (self.cycle, self.formulation)
-
-
-class AdultPatientsRecord(models.Model):
-    name = models.CharField(max_length=256, db_index=True)
-    cycle = models.CharField(max_length=256, db_index=True)
-    district = models.CharField(max_length=256, db_index=True)
-    ip = models.CharField(max_length=256, db_index=True)
-    warehouse = models.CharField(max_length=256, db_index=True)
-    existing = models.FloatField(null=True, blank=True)
-    new = models.FloatField(null=True, blank=True)
-    formulation = models.CharField(max_length=256, null=True, blank=True)
-
-    def __unicode__(self):
-        return "%s %s" % (self.cycle, self.formulation)
-
-
-class PAEDPatientsRecord(models.Model):
-    name = models.CharField(max_length=256, db_index=True)
-    cycle = models.CharField(max_length=256, db_index=True)
-    district = models.CharField(max_length=256, db_index=True)
-    ip = models.CharField(max_length=256, db_index=True)
-    warehouse = models.CharField(max_length=256, db_index=True)
-    existing = models.FloatField(null=True, blank=True)
-    new = models.FloatField(null=True, blank=True)
-    formulation = models.CharField(max_length=256, null=True, blank=True)
-
-    def __unicode__(self):
-        return "%s %s" % (self.cycle, self.formulation)
-
-
-class MultipleOrderFacility(models.Model):
-    name = models.CharField(max_length=256, db_index=True)
-    cycle = models.CharField(max_length=256, db_index=True)
-    district = models.CharField(max_length=256, db_index=True)
-    ip = models.CharField(max_length=256, db_index=True)
-    warehouse = models.CharField(max_length=256, db_index=True)
-
-    def __unicode__(self):
-        return "%s %s" % (self.cycle, self.name)
