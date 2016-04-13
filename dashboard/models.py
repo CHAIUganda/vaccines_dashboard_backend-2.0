@@ -47,9 +47,6 @@ class YearMonth(models.Model):
         return "%s" % (self.title)
 
 
-choices = ((YES, YES), (NO, NO))
-
-
 class Balance(models.Model):
     district = models.CharField(max_length=256, db_index=True)
     month = models.ForeignKey(YearMonth, db_index=True)

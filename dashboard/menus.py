@@ -14,16 +14,16 @@ Menu.add_item("main", MenuItem("Coverage",
                                reverse("home"),
                                weight=10))
 
-# Menu.add_item("main", MenuItem("Stock Management",
-#                                reverse("reports"),
-#                                weight=10))
+Menu.add_item("main", MenuItem("Stock Management",
+                                reverse("stock_management"),
+                                weight=10))
 
 Menu.add_item("main", MenuItem("Fridge Coverage",
-                               reverse("about"),
+                               reverse("fridge_coverage"),
                                weight=10))
 
 Menu.add_item("main", MenuItem("Surveillance",
-                               reverse("about.tests"),
+                               reverse("surveillance"),
                                weight=10))
 
 Menu.add_item("main", MenuItem("Import Files",
