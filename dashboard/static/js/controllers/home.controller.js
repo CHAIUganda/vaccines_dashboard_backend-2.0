@@ -97,8 +97,8 @@ angular.module('dashboard').controller('HomeController', ['$scope', 'ReportServi
         var setupMetrics = function(guidelineType){
           ReportService.getMetrics(guidelineType).then(function(data) {
             $scope.webRate = data.webBased;
-            $scope.reportingRate = data.reporting;
-            $scope.adherenceRate = data.adherence;
+            $scope.coverage = data.reporting;
+            $scope.coverage = data.adherence;
           });
         };
 

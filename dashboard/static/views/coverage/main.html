@@ -17,28 +17,21 @@
     <div class="col-md-12">
      <h3>KEY METRICS</h3>
         <div class="quality_test" ui-sref-active="quality_test_active">
-            <a ui-sref="home.reportingRate">
+            <a ui-sref="home.coverage">
                 <span class="quality_test__metric"> 0</span>
-                <span class="quality_test__description">{{"Stock on hand" | uppercase}}</span>
+                <span class="quality_test__description">{{"Coverage" | uppercase}}</span>
             </a>
         </div>
         <div class="quality_test" ui-sref-active="quality_test_active">
-            <a ui-sref="home.webVsPaper">
-                <span class="quality_test__metric">{{webRate}} 0</span>
-                <span class="quality_test__description">{{"Amc" | uppercase}}</span>
+            <a ui-sref="home.dropoutrate">
+                <span class="quality_test__metric"> 0</span>
+                <span class="quality_test__description">{{"Dropout Rate" | uppercase}}</span>
             </a>
         </div>
         <div class="quality_test" ui-sref-active="quality_test_active">
-            <a ui-sref="home.guidlineAdherenceRate">
+            <a ui-sref="home.underimmunized">
                 <span class="quality_test__metric"> 0</span>
-                <span class="quality_test__description">{{"Months of stock left" | uppercase}}</span>
-            </a>
-        </div>
-
-        <div class="quality_test quality_test_add" ui-sref-active="quality_test_active">
-            <a ui-sref="home.addTests">
-                <span class="quality_test__metric glyphicon glyphicon-plus"></span>
-                <span class="quality_test__description">CLICK TO SHOW MORE STOCK</span>
+                <span class="quality_test__description">{{"Under-Immunized" | uppercase}}</span>
             </a>
         </div>
     </div>
