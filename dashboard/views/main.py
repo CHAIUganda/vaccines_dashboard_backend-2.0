@@ -20,6 +20,15 @@ class HomeView(LoginRequiredMixin, TemplateView):
         return context
 
 
+class StockView(TemplateView):
+    template_name = "stock.html"
+
+    def get_context_data(self, **kwargs):
+        context = super(StockView, self).get_context_data(**kwargs)
+        return context
+
+
+
 class AboutPageView(LoginRequiredMixin, TemplateView):
     template_name = "about.html"
 
@@ -35,13 +44,6 @@ class AboutTestPageView(TemplateView):
         context = super(HomeView, self).get_context_data(**kwargs)
         return context
 
-
-class AboutBackground(TemplateView):
-    template_name = "about_background.html"
-
-    def get_context_data(self, **kwargs):
-        context = super(HomeView, self).get_context_data(**kwargs)
-        return context
 
 
 class AboutHowWorks(TemplateView):

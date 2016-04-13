@@ -18,10 +18,6 @@ dashboard.config(["$stateProvider", "$urlRouterProvider",
                 url: "/underimmunized",
                 templateUrl: "/static/views/coverage/underimmunized.html"
             });
-            //.state("home.addTests", {
-            //    url: "/addTests",
-            //    templateUrl: "/static/views/coverage/addTests.html"
-            //});
     }
 ]);
 

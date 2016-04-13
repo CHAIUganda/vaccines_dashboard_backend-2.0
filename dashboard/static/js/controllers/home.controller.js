@@ -96,9 +96,9 @@ angular.module('dashboard').controller('HomeController', ['$scope', 'ReportServi
 
         var setupMetrics = function(guidelineType){
           ReportService.getMetrics(guidelineType).then(function(data) {
-            $scope.webRate = data.webBased;
-            $scope.coverage = data.reporting;
-            $scope.coverage = data.adherence;
+            $scope.underimmunized = data.underimmunized;
+            $scope.coverage = data.coverage;
+            $scope.dropoutrate = data.dropoutrate;
           });
         };
 
