@@ -8,38 +8,38 @@ angular.module('services').service('ReportService', ['$http',
         };
 
         var getMetrics = function(guideline_type) {
-            return $http.get('/api/test/metrics', {params:{adh: guideline_type}}).then(handleResponse);
+            return $http.get('/api/vaccine', {params:{adh: guideline_type}}).then(handleResponse);
         };
 
-        var getBestRankings = function(level, selectedCycle, formulation) {
-            return $http.get('/api/test/ranking/best', {
+        var getBestRankings = function(level, selectedMonth, vaccine) {
+            return $http.get('/api/vaccine', {
                 params: {
                     level: level,
-                    cycle: selectedCycle,
+                    cycle: selectedMonth,
                     vaccine: vaccine
 
                 }
             }).then(handleResponse);
         };
 
-        var getWorstRankings = function(level, selectedCycle, formulation) {
-            return $http.get('/api/test/ranking/worst', {
+        var getWorstRankings = function(level, selectedMonth, vaccine) {
+            return $http.get('/api/vaccine', {
                 params: {
                     level: level,
-                    cycle: selectedCycle,
+                    cycle: selectedMonth,
                     vaccine: vaccine
                 }
             }).then(handleResponse);
         };
 
         var getDataForTest = function(test, params) {
-            return $http.get('/api/test/' + test, {
+            return $http.get('/api/vaccine/' + test, {
                 params: params
             }).then(handleResponse);
         };
 
         var getScores = function(params) {
-            return $http.get('/api/scores/', {
+            return $http.get('/api/vaccine/', {
                 params: params
             }).then(handleResponse);
         };
@@ -49,7 +49,7 @@ angular.module('services').service('ReportService', ['$http',
         };
 
         var getRankingsAccess = function() {
-            return $http.get('/api/rankingsAccess/').then(handleResponse);
+            return $http.get('/api/vaccine/').then(handleResponse);
         };
 
         return {
