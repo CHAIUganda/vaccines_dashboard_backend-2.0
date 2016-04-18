@@ -32,79 +32,79 @@ angular.module('reports').controller('ReportsController', ['$scope', 'ReportServ
             name: "EFV200 (Paed)",
             value: "EFV200 (Paed)"
         }];
-        $scope.selectedFilter.formulation = $scope.formulations[0];
+        $scope.selectedFilter.vaccine = $scope.formulations[0];
         var tests = [{
             'test': 'REPORTING',
             'display': 'REPORTING',
-            'formulation': false
+            "vaccine": false
         }, {
             'test': 'WEB_BASED',
             'display': 'WEB/PAPER',
-            'formulation': false
+            "vaccine": false
         }, {
             'test': 'guidelineAdherenceAdult1L',
             'display': 'Adult 1L',
-            'formulation': false
+            "vaccine": false
         }, {
             'test': 'guidelineAdherenceAdult2L',
             'display': 'Adult 2L',
-            'formulation': false
+            "vaccine": false
         }, {
             'test': 'guidelineAdherencePaed1L',
             'display': 'Adult 2L',
-            'formulation': false
+            "vaccine": false
         }, {
             'test': 'OrderFormFreeOfGaps',
             'display': 'Blanks',
-            'formulation': false
+            "vaccine": false
         }, {
             'test': 'MULTIPLE_ORDERS',
             'display': '>1 Order',
-            'formulation': false
+            "vaccine": false
         }, {
             'test': 'orderFormFreeOfNegativeNumbers',
             'display': 'Negatives',
-            'formulation': true
+            "vaccine": true
         }, {
             'test': 'consumptionAndPatients',
             'display': 'Cons. & Patients',
-            'formulation': true
+            "vaccine": true
         }, {
             'test': 'differentOrdersOverTime',
             'display': 'Repeat Ord.',
-            'formulation': true
+            "vaccine": true
         }, {
             'test': 'closingBalanceMatchesOpeningBalance',
             'display': 'Open/ Close',
-            'formulation': true
+            "vaccine": true
         }, {
             'test': 'stableConsumption',
             'display': 'Cons. Stable',
-            'formulation': true
+            "vaccine": true
         }, {
             'test': 'warehouseFulfilment',
             'display': 'Fulfillment',
-            'formulation': true
+            "vaccine": true
         }, {
             'test': 'stablePatientVolumes',
             'display': 'Patient Stability',
-            'formulation': true
+            "vaccine": true
         }, {
             'test': 'nnrtiCurrentAdults',
             'display': 'Adult NRTI',
-            'formulation': false
+            "vaccine": false
         }, {
             'test': 'nnrtiCurrentPaed',
             'display': 'PAED NRTI',
-            'formulation': false
+            "vaccine": false
         }, {
             'test': 'nnrtiNewAdults',
             'display': 'N. Adult NRTI',
-            'formulation': false
+            "vaccine": false
         }, {
             'test': 'nnrtiNewPaed',
             'display': 'N. PAED NRTI',
-            'formulation': false
+            "vaccine": false
         }];
         $scope.tests = tests;
         var calculateTotal = function (name) {
@@ -116,9 +116,9 @@ angular.module('reports').controller('ReportsController', ['$scope', 'ReportServ
                         if ('DEFAULT' in hash) {
                             return hash['DEFAULT'];
                         }
-                        if ($scope.selectedFilter.formulation.name in hash) {
-                            var result = hash[$scope.selectedFilter.formulation.name];
-                            return hash[$scope.selectedFilter.formulation.name];
+                        if ($scope.selectedFilter.vaccine.name in hash) {
+                            var result = hash[$scope.selectedFilter.vaccine.name];
+                            return hash[$scope.selectedFilter.vaccine.name];
                         }
                     }
                 }
@@ -188,12 +188,12 @@ angular.module('reports').directive('score', function () {
     return {
         scope: {
             result: '=',
-            formulation: '='
+            vaccine: '='
         },
         controller: ['$scope', function ($scope) {
-            if ($scope.result && $scope.formulation) {
-                if ($scope.formulation in $scope.result) {
-                    $scope.toDisplay = $scope.result[$scope.formulation];
+            if ($scope.result && $scope.vaccine) {
+                if ($scope.vaccine in $scope.result) {
+                    $scope.toDisplay = $scope.result[$scope.vaccine];
                 } else if ('DEFAULT' in $scope.result) {
                     $scope.toDisplay = $scope.result['DEFAULT'];
                 }

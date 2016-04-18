@@ -33,7 +33,7 @@ $(document).ready(function() {
                 d.cycle = $("#cycle_select").val();
                 d.warehouse = $("#warehouse_select").val();
                 d.ip = $("#ip_select").val();
-                d.formulation = $("#formulation_select").val();
+                d.vaccine = $("#formulation_select").val();
                 var list_of_districts = $(
                     "#district_select").val();
                 if (list_of_districts) {

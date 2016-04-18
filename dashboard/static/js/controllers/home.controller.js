@@ -1,8 +1,8 @@
 angular.module('dashboard').controller('HomeController', ['$scope', 'ReportService', '$httpParamSerializer', 'NgTableParams',
     function($scope, ReportService, $httpParamSerializer, NgTableParams) {
-        $scope.formulation = "TDF/3TC/EFV";
+        $scope.vaccine = "MEASLES";
         $scope.displayCycle = function(cycle) {
-            return "CYCLE " + cycle.number + " '" + cycle.year;
+            return "MONTH " + cycle.number + " '" + cycle.year;
         };
 
         $scope.selectBest = function(name) {
@@ -54,7 +54,7 @@ angular.module('dashboard').controller('HomeController', ['$scope', 'ReportServi
         };
 
         var updateWorstList = function() {
-            ReportService.getWorstRankings($scope.worstPerforming, $scope.selectedCycle, $scope.formulation).then(function(data) {
+            ReportService.getWorstRankings($scope.worstPerforming, $scope.selectedCycle, $scope.vaccine).then(function(data) {
                 $scope.worstTableParams = new NgTableParams({
                     page: 1,
                     count: 10
@@ -67,7 +67,7 @@ angular.module('dashboard').controller('HomeController', ['$scope', 'ReportServi
         };
 
         var updateBestList = function() {
-            ReportService.getBestRankings($scope.bestPerforming, $scope.selectedCycle, $scope.formulation).then(function(data) {
+            ReportService.getBestRankings($scope.bestPerforming, $scope.selectedCycle, $scope.vaccine).then(function(data) {
                 $scope.bestTableParams = new NgTableParams({
                     page: 1,
                     count: 10

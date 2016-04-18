@@ -46,7 +46,7 @@ def export_results():
                 yes_condition = {DEFAULT: YES}
                 no_condition = {DEFAULT: NO}
                 not_reporting_condition = {(DEFAULT): NOT_REPORTING}
-                data = {"cycle": cycle, "test": test.get('test'), 'formulation': test.get('combination')}
+                data = {"cycle": cycle, "test": test.get('test'), 'vaccine': test.get('combination')}
                 for key, condition in {YES: yes_condition, NO: no_condition, NOT_REPORTING: not_reporting_condition}.items():
                     filter_key = "%s__icontains" % test.get('test')
                     filter_by = {filter_key: make_cond(condition)}
@@ -58,7 +58,7 @@ def export_results():
                     yes_condition = {combination: YES}
                     no_condition = {combination: NO}
                     not_reporting_condition = {combination: NOT_REPORTING}
-                    data = {"cycle": cycle, "test": test.get('test'), 'formulation': combination}
+                    data = {"cycle": cycle, "test": test.get('test'), 'vaccine': combination}
                     for key, condition in {YES: yes_condition, NO: no_condition, NOT_REPORTING: not_reporting_condition}.items():
                         filter_key = "%s__icontains" % test.get('test')
                         filter_by = {filter_key: make_cond(condition)}
@@ -67,7 +67,7 @@ def export_results():
                     results.append(data)
 
     with open('out.csv', 'wb') as f:  # Just use 'w' mode in 3.x
-        w = csv.DictWriter(f, ["test", "formulation", "cycle", "YES", "NO", "NOT_REPORTING"])
+        w = csv.DictWriter(f, ["test", "vaccine", "cycle", "YES", "NO", "NOT_REPORTING"])
         w.writeheader()
         for item in results:
             w.writerow(item)

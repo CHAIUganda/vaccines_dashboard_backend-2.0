@@ -16,7 +16,7 @@ angular.module('services').service('ReportService', ['$http',
                 params: {
                     level: level,
                     cycle: selectedCycle,
-                    formulation: formulation
+                    vaccine: vaccine
 
                 }
             }).then(handleResponse);
@@ -27,7 +27,7 @@ angular.module('services').service('ReportService', ['$http',
                 params: {
                     level: level,
                     cycle: selectedCycle,
-                    formulation: formulation
+                    vaccine: vaccine
                 }
             }).then(handleResponse);
         };

@@ -117,7 +117,7 @@ PDS = 'pds'
 LOCS = 'locs'
 
 IS_ADULT = "IS_ADULT"
-FORMULATION = 'formulation'
+FORMULATION = 'vaccine'
 LOCATION = "Facility Index"
 FIELDS = "fields"
 MODEL = 'model'
