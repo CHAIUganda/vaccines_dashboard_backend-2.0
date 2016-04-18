@@ -4,7 +4,7 @@ angular.module('services').service('ReportService', ['$http',
             return response.data;
         };
         var getCycles = function() {
-            return $http.get('/api/cycles').then(handleResponse);
+            return $http.get('/api/months').then(handleResponse);
         };
 
         var getMetrics = function(guideline_type) {

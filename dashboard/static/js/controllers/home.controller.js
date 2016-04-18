@@ -14,11 +14,11 @@ angular.module('dashboard').controller('HomeController', ['$scope', 'ReportServi
         };
         ReportService.getCycles().then(function(data) {
             $scope.cycles = data.values;
-            $scope.startCycle = $scope.cycles[6 - 1];
-            $scope.endCycle = $scope.selectedCycle = data.most_recent_cycle;
+            $scope.startMonth = $scope.cycles[6 - 1];
+            $scope.endMonth = $scope.selectedCycle = data.most_recent_cycle;
         });
 
-        $scope.$watch('startCycle', function(start) {
+        $scope.$watch('startMonth', function(start) {
             if (start) {
                 var pos = _.findIndex($scope.cycles, function(item) {
                     return item == start;

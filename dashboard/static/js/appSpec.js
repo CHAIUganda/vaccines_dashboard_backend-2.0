@@ -18,13 +18,13 @@ describe('ReportingRateController', function() {
         httpBackend.verifyNoOutstandingRequest();
     });
 
-    it('should fetch values when startCycle changes', function() {
+    it('should fetch values when startMonth changes', function() {
         var controller = createController();
         httpBackend.expect('GET', '/api/test/submittedOrder?start=Jan+Feb+2013')
             .respond({
                 "values": []
             });
-        scope.startCycle = "Jan Feb 2013";
+        scope.startMonth = "Jan Feb 2013";
         httpBackend.flush();
     });
 });

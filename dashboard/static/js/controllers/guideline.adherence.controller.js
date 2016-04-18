@@ -72,24 +72,24 @@ angular.module('dashboard').controller('GuidelineAdherenceController', ['$scope'
 
             });
         };
-        $scope.$watch('startCycle', function(start) {
+        $scope.$watch('startMonth', function(start) {
             if (start) {
-                update($scope.startCycle, $scope.endCycle);
+                update($scope.startMonth, $scope.endMonth);
             }
 
         }, true);
 
         $scope.$watch('guidelineType', function(guidelineType) {
             if (guidelineType) {
-                update($scope.startCycle, $scope.endCycle);
+                update($scope.startMonth, $scope.endMonth);
                 $rootScope.$broadcast('GUIDELINE_TYPE', guidelineType);
             }
 
         }, true);
 
-        $scope.$watch('endCycle', function(end) {
+        $scope.$watch('endMonth', function(end) {
             if (end) {
-                update($scope.startCycle, $scope.endCycle);
+                update($scope.startMonth, $scope.endMonth);
             }
 
         }, true);

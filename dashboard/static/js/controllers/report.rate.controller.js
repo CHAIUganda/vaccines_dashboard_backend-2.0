@@ -57,15 +57,15 @@ angular.module('dashboard').controller('ReportingRateController', ['$scope', 'Re
                 };
             });
         };
-        $scope.$watch('startCycle', function(start) {
+        $scope.$watch('startMonth', function(start) {
             if (start) {
-                update($scope.startCycle, $scope.endCycle);
+                update($scope.startMonth, $scope.endMonth);
             }
         }, true);
 
-        $scope.$watch('endCycle', function(end) {
+        $scope.$watch('endMonth', function(end) {
             if (end) {
-                update($scope.startCycle, $scope.endCycle);
+                update($scope.startMonth, $scope.endMonth);
             }
         }, true);
     }

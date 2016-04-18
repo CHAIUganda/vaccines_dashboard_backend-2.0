@@ -210,30 +210,30 @@ angular.module('dashboard').controller('LineChartController', ['$scope', 'Report
 
 
         };
-        $scope.$watch('startCycle', function(start) {
+        $scope.$watch('startMonth', function(start) {
             if (start && $scope.selectedTest) {
-                update($scope.startCycle, $scope.endCycle);
+                update($scope.startMonth, $scope.endMonth);
             }
 
         }, true);
 
-        $scope.$watch('endCycle', function(end) {
+        $scope.$watch('endMonth', function(end) {
             if (end && $scope.selectedTest) {
-                update($scope.startCycle, $scope.endCycle);
+                update($scope.startMonth, $scope.endMonth);
             }
 
         }, true);
 
         $scope.$watch('selectedTest', function(test) {
             if (test) {
-                update($scope.startCycle, $scope.endCycle);
+                update($scope.startMonth, $scope.endMonth);
             }
 
         }, true);
 
         $scope.$watch('selectedRegimen', function(regimen) {
             if (regimen) {
-                update($scope.startCycle, $scope.endCycle);
+                update($scope.startMonth, $scope.endMonth);
             }
 
         }, true);
