@@ -11,8 +11,8 @@ angular.module('services').service('ReportService', ['$http',
             return $http.get('/api/vaccine', {params:{adh: guideline_type}}).then(handleResponse);
         };
 
-        var getBestRankings = function(level, selectedMonth, vaccine) {
-            return $http.get('/api/vaccine', {
+        var getMonths = function(level, selectedMonth, vaccine) {
+            return $http.get('/api/months', {
                 params: {
                     level: level,
                     cycle: selectedMonth,
@@ -22,12 +22,13 @@ angular.module('services').service('ReportService', ['$http',
             }).then(handleResponse);
         };
 
-        var getWorstRankings = function(level, selectedMonth, vaccine) {
-            return $http.get('/api/vaccine', {
+        var getDistricts = function(level, selectedMonth, vaccine) {
+            return $http.get('/api/districts', {
                 params: {
                     level: level,
                     cycle: selectedMonth,
                     vaccine: vaccine
+
                 }
             }).then(handleResponse);
         };
@@ -53,10 +54,9 @@ angular.module('services').service('ReportService', ['$http',
         };
 
         return {
-            "getCycles": getCycles,
+            "getMonths": getMonths,
             "getMetrics": getMetrics,
-            "getBestRankings": getBestRankings,
-            "getWorstRankings": getWorstRankings,
+            "getDistricts": getDistricts,
             "getDataForTest": getDataForTest,
             "getScores": getScores,
             "getFilters": getFilters,

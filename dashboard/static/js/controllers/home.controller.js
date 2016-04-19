@@ -1,26 +1,24 @@
 angular.module('dashboard').controller('HomeController', ['$scope', 'ReportService', '$httpParamSerializer', 'NgTableParams',
     function($scope, ReportService, $httpParamSerializer, NgTableParams) {
         $scope.vaccine = "MEASLES";
-        $scope.displayCycle = function(cycle) {
-            return "MONTH " + cycle.number + " '" + cycle.year;
+        $scope.displayMonth = function(month) {
+            return "MONTH " + month.number + " '" + month.year;
         };
 
         $scope.selectBest = function(name) {
             $scope.bestPerforming = name;
         };
 
-        $scope.selectWorst = function(name) {
-            $scope.worstPerforming = name;
-        };
-        ReportService.getCycles().then(function(data) {
-            $scope.cycles = data.values;
-            $scope.startMonth = $scope.cycles[6 - 1];
-            $scope.endMonth = $scope.selectedCycle = data.most_recent_cycle;
+        ReportService.getMonths().then(function(data) {
+            $scope.months = data;
+            //$scope.months = data.values;
+            //$scope.startMonth = $scope.months[6 - 1];
+            //$scope.endMonth = $scope.selectedCycle = data.most_recent_cycle;
         });
 
         $scope.$watch('startMonth', function(start) {
             if (start) {
-                var pos = _.findIndex($scope.cycles, function(item) {
+                var pos = _.findIndex($scope.months, function(item) {
                     return item == start;
                 });
                 $scope.endCycles = $scope.cycles.slice(0, pos + 1);
@@ -44,30 +42,8 @@ angular.module('dashboard').controller('HomeController', ['$scope', 'ReportServi
             downloadURL(url, 'best.csv');
         };
 
-        $scope.downloadWorst = function() {
-            var query = $httpParamSerializer({
-                level: $scope.worstPerforming,
-                cycle: $scope.selectedCycle
-            });
-            var url = "/api/test/ranking/worst/csv?" + query;
-            downloadURL(url, 'worst.csv');
-        };
-
-        var updateWorstList = function() {
-            ReportService.getWorstRankings($scope.worstPerforming, $scope.selectedCycle, $scope.vaccine).then(function(data) {
-                $scope.worstTableParams = new NgTableParams({
-                    page: 1,
-                    count: 10
-                }, {
-                    filterDelay: 0,
-                    counts: [],
-                    data: data.values
-                });
-            });
-        };
-
-        var updateBestList = function() {
-            ReportService.getBestRankings($scope.bestPerforming, $scope.selectedCycle, $scope.vaccine).then(function(data) {
+        var updateDistrictList = function() {
+            ReportService.getDistricts($scope.bestPerforming, $scope.selectedCycle, $scope.vaccine).then(function(data) {
                 $scope.bestTableParams = new NgTableParams({
                     page: 1,
                     count: 10
@@ -79,19 +55,14 @@ angular.module('dashboard').controller('HomeController', ['$scope', 'ReportServi
             });
         };
 
-        $scope.$watch('selectedCycle', function(cycle) {
-            if (cycle) {
-                updateWorstList();
-                updateBestList();
+        $scope.$watch('selectedMonth', function(month) {
+            if (month) {
+                updateDistrictList();
             }
         });
 
         $scope.$watch('bestPerforming', function() {
-            updateBestList();
-        });
-
-        $scope.$watch('worstPerforming', function() {
-            updateWorstList();
+            updateDistrictList();
         });
 
         var setupMetrics = function(guidelineType){
@@ -107,9 +78,8 @@ angular.module('dashboard').controller('HomeController', ['$scope', 'ReportServi
         setupMetrics();
 
         ReportService.getRankingsAccess().then(function(data) {
-          $scope.rankingLevels = data.values;
-          $scope.bestPerforming = $scope.rankingLevels[0];
-          $scope.worstPerforming = $scope.rankingLevels[0];
+          //$scope.rankingLevels = data.values;
+          //$scope.bestPerforming = $scope.rankingLevels[0];
         });
     }
 ]);
