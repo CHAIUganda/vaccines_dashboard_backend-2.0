@@ -10,28 +10,34 @@
         <select name="month" class="form-control month-select" ng-model="endMonth" ng-options="month for month in endMonth">
         </select>
     </div>
-        
+
 </div>
 <div class="row">
 
     <div class="col-md-12">
      <h3>KEY METRICS</h3>
-        <div class="quality_test" ui-sref-active="quality_test_active">
-            <a ui-sref="home.coverage">
+        <div class="quality_test">
+            <a>
                 <span class="quality_test__metric"> 0</span>
-                <span class="quality_test__description">{{"Coverage" | uppercase}}</span>
+                <span class="quality_test__description">{{"Immunizing Facilities" | uppercase}}</span>
             </a>
         </div>
         <div class="quality_test" ui-sref-active="quality_test_active">
-            <a ui-sref="home.dropoutrate">
+            <a>
                 <span class="quality_test__metric"> 0</span>
-                <span class="quality_test__description">{{"Dropout Rate" | uppercase}}</span>
+                <span class="quality_test__description">{{"Fridge Coverage" | uppercase}}</span>
             </a>
         </div>
-        <div class="quality_test" ui-sref-active="quality_test_active">
-            <a ui-sref="home.underimmunized">
+        <div class="quality_test">
+            <a>
                 <span class="quality_test__metric"> 0</span>
                 <span class="quality_test__description">{{"Under-Immunized" | uppercase}}</span>
+            </a>
+        </div>
+        <div class="quality_test">
+            <a>
+                <span class="quality_test__metric"> 0</span>
+                <span class="quality_test__description">{{"Working Status" | uppercase}}</span>
             </a>
         </div>
     </div>
@@ -45,4 +51,3 @@
     </div>
 
 </div>
-

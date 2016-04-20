@@ -1,0 +1,49 @@
+<div class="row range_filter">
+    <div class="col-md-12">
+        <h3 for="">FILTERS</h3>
+        <select name="month" class="form-control month-select" ng-model="startMonth"
+            ng-options="month for month in months">
+        </select>
+    <div class="spacer">
+        <h5 class="text-center"> - </h5>
+    </div>
+        <select name="month" class="form-control month-select"
+                ng-model="endMonth" ng-options="month for month in endMonth">
+        </select>
+    </div>
+        
+</div>
+<div class="row">
+
+    <div class="col-md-12">
+     <h3>KEY METRICS</h3>
+        <div class="quality_test" ui-sref-active="quality_test_active">
+            <a ui-sref="coverage.home">
+                <span class="quality_test__metric"> 0</span>
+                <span class="quality_test__description">{{"Coverage" | uppercase}}</span>
+            </a>
+        </div>
+        <div class="quality_test" ui-sref-active="quality_test_active">
+            <a ui-sref="coverage.dropoutrate">
+                <span class="quality_test__metric"> 0</span>
+                <span class="quality_test__description">{{"Dropout Rate" | uppercase}}</span>
+            </a>
+        </div>
+        <div class="quality_test" ui-sref-active="quality_test_active">
+            <a ui-sref="coverage.underimmunized">
+                <span class="quality_test__metric"> 0</span>
+                <span class="quality_test__description">{{"Under-Immunized" | uppercase}}</span>
+            </a>
+        </div>
+    </div>
+
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="test-area clearfix">
+            <div ui-view></div>
+        </div>
+    </div>
+
+</div>
+
