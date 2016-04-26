@@ -3,12 +3,9 @@ angular.module('services').service('ReportService', ['$http',
         var handleResponse = function(response) {
             return response.data;
         };
+
         var getCycles = function() {
             return $http.get('/api/months').then(handleResponse);
-        };
-
-        var getMetrics = function(guideline_type) {
-            return $http.get('/api/vaccine', {params:{adh: guideline_type}}).then(handleResponse);
         };
 
         var getMonths = function(level, selectedMonth, vaccine) {
@@ -53,9 +50,13 @@ angular.module('services').service('ReportService', ['$http',
             return $http.get('/api/vaccine/').then(handleResponse);
         };
 
+        var getVaccines = function() {
+            return $http.get('/api/vaccines/').then(handleResponse);
+        }
+
         return {
             "getMonths": getMonths,
-            "getMetrics": getMetrics,
+            "getVaccines": getVaccines,
             "getDistricts": getDistricts,
             "getDataForTest": getDataForTest,
             "getScores": getScores,

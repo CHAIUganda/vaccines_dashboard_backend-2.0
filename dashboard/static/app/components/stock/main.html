@@ -1,19 +1,25 @@
 <div class="row range_filter">
     <div class="col-md-12">
         <h3 for="">FILTERS</h3>
-        <select name="month" class="form-control month-select" ng-model="startMonth"
-            ng-options="month for month in months">
+        <select name="name" class="form-control month-select" ng-model="startMonth"
+            ng-options="month as month.name for month in months">
         </select>
     <div class="spacer">
         <h5 class="text-center"> - </h5>
     </div>
-        <select name="month" class="form-control month-select" ng-model="endMonth" ng-options="month for month in endMonth">
+        <select name="month" class="form-control month-select" ng-model="endMonth"
+                ng-options="month as month.name for month in months">
+        </select>
+    </div>
+
+    </div>
+        <select name="vaccine" class="form-control month-select" ng-model="vaccine"
+                ng-options="vaccine as vaccine.name for vaccine in vaccines">
         </select>
     </div>
 
 </div>
 <div class="row">
-
     <div class="col-md-12">
      <h3>KEY METRICS</h3>
         <div class="quality_test" ui-sref-active="quality_test_active">
