@@ -17,35 +17,37 @@
     <div class="col-md-12">
      <h3>KEY METRICS</h3>
         <div class="quality_test">
-            <a>
+            <a ui-sref="stock.stockonhand">
                 <span class="quality_test__metric"> 0</span>
                 <span class="quality_test__description">{{"Stock At Hand" | uppercase}}</span>
             </a>
         </div>
         <div class="quality_test" ui-sref-active="quality_test_active">
-            <a>
+            <a ui-sref="stock.amc">
                 <span class="quality_test__metric"> 0</span>
                 <span class="quality_test__description">{{"AMC" | uppercase}}</span>
             </a>
         </div>
         <div class="quality_test">
-            <a>
+            <a ui-sref="stock.monthsleft">
                 <span class="quality_test__metric"> 0</span>
                 <span class="quality_test__description">{{"Months of Stock Left" | uppercase}}</span>
             </a>
         </div>
         <div class="quality_test">
-            <a>
+            <a ui-sref="stock.uptakerate">
                 <span class="quality_test__metric"> 0</span>
-                <span class="quality_test__description">{{"Stock Update Rate" | uppercase}}</span>
+                <span class="quality_test__description">{{"Stock Uptake Rate" | uppercase}}</span>
             </a>
         </div>
+        <!--
         <div class="quality_test">
-            <a>
+            <a ui-sref="stock.wastagerate">
                 <span class="quality_test__metric"> 0</span>
                 <span class="quality_test__description">{{"Wastage Rate" | uppercase}}</span>
             </a>
         </div>
+        -->
     </div>
 
 </div>

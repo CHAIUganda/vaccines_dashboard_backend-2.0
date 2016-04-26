@@ -21,7 +21,7 @@ class HomeView(LoginRequiredMixin, TemplateView):
 
 
 class StockView(TemplateView):
-    template_name = "stock.html"
+    template_name = "home.html"
 
     def get_context_data(self, **kwargs):
         context = super(StockView, self).get_context_data(**kwargs)
