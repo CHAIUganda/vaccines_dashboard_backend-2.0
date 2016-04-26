@@ -1,4 +1,4 @@
-angular.module('CoverageApp').
+angular.module('dashboard').
 controller('CoverageController', ['$scope', 'ReportService', '$httpParamSerializer', 'NgTableParams',
     function($scope, ReportService, $httpParamSerializer, NgTableParams) {
         $scope.vaccine = "MEASLES";
@@ -20,7 +20,7 @@ controller('CoverageController', ['$scope', 'ReportService', '$httpParamSerializ
     }
 ]);
 
-angular.module('CoverageApp')
+angular.module('dashboard')
     .controller('DropoutRateController', ['$scope', 'ReportService', '$rootScope',
     function($scope, ReportService, $rootScope)
     {
@@ -30,7 +30,7 @@ angular.module('CoverageApp')
 ]);
 
 
-angular.module('CoverageApp')
+angular.module('dashboard')
     .controller('UnderImmunizedController', ['$scope', 'ReportService', '$rootScope',
     function($scope, ReportService, $rootScope)
     {
