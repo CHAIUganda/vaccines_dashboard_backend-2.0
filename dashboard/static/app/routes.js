@@ -2,9 +2,9 @@ dashboard.config(["$stateProvider", "$urlRouterProvider", function($stateProvide
         $urlRouterProvider.otherwise("/coverage");
         $urlRouterProvider.when("", "/coverage");
         $stateProvider
-            .state("main", {
+            .state("coverage", {
                 url: "/coverage",
-                templateUrl: "static/app/components/coverage/coverage.html",
+                templateUrl: "static/app/components/coverage/main.html",
                 controller: "CoverageController"
             })
             .state("coverage.home", {
