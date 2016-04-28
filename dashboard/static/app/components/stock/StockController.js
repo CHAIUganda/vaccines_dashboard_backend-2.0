@@ -5,20 +5,21 @@ angular.module('dashboard')
 
         ReportService.getMonths().then(function(data) {
             $scope.months = data;
-            //$scope.months = data.values;
-            //$scope.startMonth = $scope.months[6 - 1];
-            //$scope.endMonth = $scope.selectedCycle = data.most_recent_cycle;
+            $scope.startMonth = $scope.months[0];
+            $scope.endMonth = $scope.months[0];
+
         });
 
         ReportService.getDistricts().then(function(data) {
             $scope.districts = data;
+            $scope.districts.unshift({"name": "All Districts"});
+            $scope.selectedDistrict = $scope.districts[0];
         });
 
         ReportService.getVaccines().then(function(data) {
             $scope.vaccines = data;
-            //$scope.months = data.values;
-            //$scope.startMonth = $scope.months[6 - 1];
-            //$scope.endMonth = $scope.selectedCycle = data.most_recent_cycle;
+            $scope.vaccines.unshift({"name": "All Vaccines"});
+            $scope.selectedVaccine = $scope.vaccines[0];
 
             $scope.options = {
                 chart: {
