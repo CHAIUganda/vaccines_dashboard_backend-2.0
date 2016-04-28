@@ -1,6 +1,18 @@
 <div ng-controller="StockController">
     <h4 class="text-center">STOCK ON HAND</h4>
-    <div class="page_graph">
-        <nvd3 options='options' data='data'></nvd3>
+    <div class="col-md-6">
+        <div class="page_graph">
+            <nvd3 options="options" data="data"></nvd3>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <table ng-table="tableParams" class="table" show-filter="true">
+            <tr ng-repeat="district in data">
+                <td title="'label'" filter="{ label: 'text'}" sortable="'label'">
+                    {{district.label}}</td>
+                <td title="'value'" filter="{ value: 'number'}" sortable="'value'">
+                    {{district.value}}</td>
+            </tr>
+        </table>
     </div>
 </div>

@@ -8,6 +8,7 @@ var dashboard = angular.module('dashboard',
     "checklist-model",
     "angularChart",
     "ngTable",
-    "services"
+    "services",
+    "nvd3"
   ]
 );
