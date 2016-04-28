@@ -10,6 +10,10 @@ angular.module('dashboard')
             //$scope.endMonth = $scope.selectedCycle = data.most_recent_cycle;
         });
 
+        ReportService.getDistricts().then(function(data) {
+            $scope.districts = data;
+        });
+
         ReportService.getVaccines().then(function(data) {
             $scope.vaccines = data;
             //$scope.months = data.values;

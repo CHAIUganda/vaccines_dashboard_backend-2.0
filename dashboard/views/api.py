@@ -23,7 +23,7 @@ class Months(APIView):
 
 class Districts(APIView):
     def get(self, request):
-        districts = [{'district': 'Abim'},{'district': 'Adjumani'}]
+        districts = [{'name': 'Abim'},{'name': 'Adjumani'}]
         return Response(districts)
 
 

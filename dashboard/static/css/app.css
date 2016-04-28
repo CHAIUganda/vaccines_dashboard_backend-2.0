@@ -6865,7 +6865,7 @@ a.label-qdb:hover {
 .select-drop {
   background: #FFF url("/static/images/car.png") no-repeat 98% 50%;
 }
-.cycle-select {
+.criteria-select {
   position: relative;
   min-height: 1px;
   padding-left: 15px;
@@ -6873,13 +6873,13 @@ a.label-qdb:hover {
   background: #FFF url("/static/images/car.png") no-repeat 98% 50%;
 }
 @media (min-width: 768px) {
-  .cycle-select {
+  .criteria-select {
     float: left;
     width: 25%;
   }
 }
 @media (min-width: 992px) {
-  .cycle-select {
+  .criteria-select {
     float: left;
     width: 16.66666667%;
   }

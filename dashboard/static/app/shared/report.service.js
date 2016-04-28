@@ -20,14 +20,7 @@ angular.module('services').service('ReportService', ['$http',
         };
 
         var getDistricts = function(level, selectedMonth, vaccine) {
-            return $http.get('/api/districts', {
-                params: {
-                    level: level,
-                    cycle: selectedMonth,
-                    vaccine: vaccine
-
-                }
-            }).then(handleResponse);
+            return $http.get('/api/districts').then(handleResponse);
         };
 
         var getDataForTest = function(test, params) {
