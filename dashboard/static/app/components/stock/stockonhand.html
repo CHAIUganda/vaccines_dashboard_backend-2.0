@@ -7,11 +7,9 @@
     </div>
     <div class="col-md-6">
         <table ng-table="tableParams" class="table" show-filter="true">
-            <tr ng-repeat="district in data">
-                <td title="'label'" filter="{ label: 'text'}" sortable="'label'">
-                    {{district.label}}</td>
-                <td title="'value'" filter="{ value: 'number'}" sortable="'value'">
-                    {{district.value}}</td>
+            <tr ng-repeat="district in $data">
+                <td title="'label'" filter="{ label: 'text'}" sortable="'label'">{{district.label}}</td>
+                <td title="'value'" filter="{ value: 'number'}" sortable="'value'">{{district.value}}</td>
             </tr>
         </table>
     </div>

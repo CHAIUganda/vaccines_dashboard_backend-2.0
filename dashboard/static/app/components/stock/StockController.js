@@ -1,6 +1,6 @@
 angular.module('dashboard')
-    .controller('StockController', ['$scope', 'ReportService', '$rootScope',
-    function($scope, ReportService, $rootScope)
+    .controller('StockController', ['$scope', 'ReportService', '$rootScope', 'NgTableParams',
+    function($scope, ReportService, $rootScope, NgTableParams)
     {
 
         ReportService.getMonths().then(function(data) {
@@ -57,7 +57,14 @@ angular.module('dashboard')
                 ]
             }];
 
-            //$scope.tableParams = new NgTableParams({}, { data: $scope.data[0].values});
+            $scope.tableParams = new NgTableParams({
+                    page: 1,
+                    count: 10
+                }, {
+                    filterDelay: 0,
+                    counts: [],
+                    data: $scope.data[0].values
+                });
 
         });
 
