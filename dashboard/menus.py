@@ -14,9 +14,9 @@ Menu.add_item("main", MenuItem("Coverage",
                                reverse("home"),
                                weight=10))
 
-Menu.add_item("main", MenuItem("Stock Management",
-                                reverse("stock_management"),
-                                weight=10))
+# Menu.add_item("main", MenuItem("Stock Management",
+#                                 reverse("stock_management"),
+#                                 weight=10))
 
 Menu.add_item("main", MenuItem("Fridge Coverage",
                                reverse("fridge_coverage"),

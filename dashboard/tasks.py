@@ -4,7 +4,6 @@ import pydash
 from celery import shared_task
 
 from dashboard.data.free_form_report import FreeFormReport
-from dashboard.helpers import get_prev_cycle
 from dashboard.models import Balance, YearMonth
 
 

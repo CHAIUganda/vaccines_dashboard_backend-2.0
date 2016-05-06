@@ -1,34 +1,34 @@
 dashboard.config(["$stateProvider", "$urlRouterProvider", function($stateProvider, $urlRouterProvider) {
-        $urlRouterProvider.otherwise("/home");
-        $urlRouterProvider.when("", "/stock");
+        $urlRouterProvider.otherwise("/");
+        $urlRouterProvider.when("", "coverage/coverage");
 
         $stateProvider
-            //.state("coverage", {
-            //    url: "/coverage",
-            //    templateUrl: "static/app/components/coverage/main.html",
-            //    controller: "CoverageController"
-            //})
-            //.state("coverage.home", {
-            //    url: "/coverage",
-            //    templateUrl: "static/app/components/coverage/coverage.html",
-            //    controller: "CoverageController"
-            //})
-            //.state("coverage.dropoutrate", {
-            //    url: "/dropoutrate",
-            //    templateUrl: "static/app/components/coverage/dropoutrate.html",
-            //    controller: "DropoutRateController"
-            //})
-            //.state("coverage.underimmunized", {
-            //    url: "/underimmunized",
-            //    templateUrl: "static/app/components/coverage/underimmunized.html",
-            //    controller: "UnderImmunizedController"
-            //})
+            .state("coverage", {
+                url: "/coverage",
+                templateUrl: "static/app/components/coverage/main.html",
+                controller: "CoverageController"
+            })
+            .state("coverage.home", {
+                url: "/coverage",
+                templateUrl: "static/app/components/coverage/coverage.html",
+                controller: "CoverageController"
+            })
+            .state("coverage.dropoutrate", {
+                url: "/dropoutrate",
+                templateUrl: "static/app/components/coverage/dropoutrate.html",
+                controller: "DropoutRateController"
+            })
+            .state("coverage.underimmunized", {
+                url: "/underimmunized",
+                templateUrl: "static/app/components/coverage/underimmunized.html",
+                controller: "UnderImmunizedController"
+            })
             .state("stock", {
                 url: "/stock",
-                templateUrl: "static/app/components/stock/main.html",
+                templateUrl: "static/app/components/stock/stock.html",
                 controller: "StockController"
             })
-            .state("stock.stockonhand", {
+            .state("stock.home", {
                 url: "/stockonhand",
                 templateUrl: "static/app/components/stock/stockonhand.html",
                 controller: "StockController"

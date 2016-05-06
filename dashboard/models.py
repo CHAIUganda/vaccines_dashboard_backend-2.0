@@ -6,8 +6,6 @@ from django.db.models import CharField
 from jsonfield import JSONField
 from picklefield import PickledObjectField
 
-from dashboard.helpers import NOT_REPORTING, YES, NO
-
 MOH_CENTRAL = "MOH CENTRAL"
 
 IIP = "IP"
@@ -26,7 +24,7 @@ class DashboardUser(AbstractEmailUser):
         choices=(
             (WAREHOUSE, WAREHOUSE),
             (DISTRICT, DISTRICT),
-            (IIP, IIP), (MOH_CENTRAL, MOH_CENTRAL)), max_length=50)
+            (IIP, IIP)), max_length=50)
     access_area = CharField(max_length=250, null=True, blank=True)
 
     def get_full_name(self):

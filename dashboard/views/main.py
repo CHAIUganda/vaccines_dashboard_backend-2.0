@@ -7,7 +7,6 @@ from django.core.files.storage import default_storage
 from django.db.models import Count, Case, When
 from django.views.generic import TemplateView, FormView
 from dashboard.forms import FileUploadForm
-from dashboard.helpers import YES, F3, F2, F1
 from dashboard.models import Balance
 from dashboard.tasks import import_general_report
 
@@ -21,44 +20,29 @@ class HomeView(LoginRequiredMixin, TemplateView):
 
 
 class StockView(TemplateView):
-    template_name = "home.html"
+    template_name = "stock.html"
 
     def get_context_data(self, **kwargs):
         context = super(StockView, self).get_context_data(**kwargs)
         return context
 
 
-
-class AboutPageView(LoginRequiredMixin, TemplateView):
-    template_name = "about.html"
-
-    def get_context_data(self, **kwargs):
-        context = super(HomeView, self).get_context_data(**kwargs)
-        return context
-
-
-class AboutTestPageView(TemplateView):
-    template_name = "about_tests.html"
+class FridgeView(LoginRequiredMixin, TemplateView):
+    template_name = "fridge.html"
 
     def get_context_data(self, **kwargs):
-        context = super(HomeView, self).get_context_data(**kwargs)
+        context = super(FridgeView, self).get_context_data(**kwargs)
         return context
 
 
 
-class AboutHowWorks(TemplateView):
-    template_name = "about_works.html"
+class SurveillanceView(TemplateView):
+    template_name = "surveillance.html"
 
     def get_context_data(self, **kwargs):
-        context = super(HomeView, self).get_context_data(**kwargs)
+        context = super(SurveillanceView, self).get_context_data(**kwargs)
         return context
 
-class AboutHowUsed(TemplateView):
-    template_name = "about_used.html"
-
-    def get_context_data(self, **kwargs):
-        context = super(HomeView, self).get_context_data(**kwargs)
-        return context
 
 
 class DataImportView(LoginRequiredMixin, StaffuserRequiredMixin, FormView):
