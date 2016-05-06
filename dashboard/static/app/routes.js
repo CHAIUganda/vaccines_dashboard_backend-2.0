@@ -28,7 +28,7 @@ dashboard.config(["$stateProvider", "$urlRouterProvider", function($stateProvide
                 templateUrl: "static/app/components/stock/stock.html",
                 controller: "StockController"
             })
-            .state("stock.home", {
+            .state("stock.stockonhand", {
                 url: "/stockonhand",
                 templateUrl: "static/app/components/stock/stockonhand.html",
                 controller: "StockController"

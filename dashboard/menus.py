@@ -15,7 +15,7 @@ Menu.add_item("main", MenuItem("Coverage",
                                weight=10))
 
 Menu.add_item("main", MenuItem("Stock Management",
-                               "#/stock",
+                               "#/stock/stockonhand",
                                weight=10))
 
 Menu.add_item("main", MenuItem("Fridge Coverage",
