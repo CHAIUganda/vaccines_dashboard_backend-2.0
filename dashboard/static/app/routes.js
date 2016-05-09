@@ -52,7 +52,45 @@ dashboard.config(["$stateProvider", "$urlRouterProvider", function($stateProvide
                 url: "/wastagerate",
                 templateUrl: "static/app/components/stock/wastagerate.html",
                 controller: "WastageRateController"
-            });
+            })
+
+            .state("fridge", {
+                url: "/fridge",
+                templateUrl: "static/app/components/fridge/fridge.html",
+                controller: "FridgeController"
+            })
+            .state("fridge.facilities", {
+                url: "/facilities",
+                templateUrl: "static/app/components/fridge/facilities.html",
+                controller: "FridgeController"
+            })
+            .state("fridge.coverage", {
+                url: "/coverage",
+                templateUrl: "static/app/components/fridge/coverage.html",
+                controller: "FridgeController"
+            })
+            .state("fridge.workingstatus", {
+                url: "/monthsleft",
+                templateUrl: "static/app/components/fridge/monthsstockleft.html",
+                controller: "FridgeController"
+            })
+            .state("fridge.capacity", {
+                url: "/capacity",
+                templateUrl: "static/app/components/fridge/capacity.html",
+                controller: "FridgeController"
+            })
+
+            .state("surveillance", {
+                url: "/surveillance",
+                templateUrl: "static/app/components/surveillance/surveillance.html",
+                controller: "SurveillanceController"
+            })
+            .state("surveillance.cases", {
+                url: "/cases",
+                templateUrl: "static/app/components/surveillance/cases.html",
+                controller: "SurveillanceController"
+            })
+        ;
     }
 ]);
 

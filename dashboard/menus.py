@@ -19,11 +19,11 @@ Menu.add_item("main", MenuItem("Stock Management",
                                weight=10))
 
 Menu.add_item("main", MenuItem("Fridge Coverage",
-                               "#/fridge",
+                               "#/fridge/facilities",
                                weight=10))
 
 Menu.add_item("main", MenuItem("Surveillance",
-                               "#/surveillance",
+                               "#/surveillance/cases",
                                weight=10))
 
 Menu.add_item("main", MenuItem("Import Files",
