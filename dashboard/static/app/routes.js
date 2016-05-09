@@ -23,6 +23,7 @@ dashboard.config(["$stateProvider", "$urlRouterProvider", function($stateProvide
                 templateUrl: "static/app/components/coverage/underimmunized.html",
                 controller: "UnderImmunizedController"
             })
+
             .state("stock", {
                 url: "/stock",
                 templateUrl: "static/app/components/stock/stock.html",
