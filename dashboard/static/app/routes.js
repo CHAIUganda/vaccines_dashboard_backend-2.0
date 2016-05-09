@@ -70,8 +70,8 @@ dashboard.config(["$stateProvider", "$urlRouterProvider", function($stateProvide
                 controller: "FridgeController"
             })
             .state("fridge.workingstatus", {
-                url: "/monthsleft",
-                templateUrl: "static/app/components/fridge/monthsstockleft.html",
+                url: "/workingstatus",
+                templateUrl: "static/app/components/fridge/workingstatus.html",
                 controller: "FridgeController"
             })
             .state("fridge.capacity", {
