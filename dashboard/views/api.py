@@ -1,6 +1,9 @@
 import csv
 import json
 from functools import cmp_to_key
+
+import calendar
+
 import pydash
 from arrow import now
 from braces.views import LoginRequiredMixin
@@ -10,6 +13,7 @@ from rest_framework import filters
 from rest_framework.generics import ListAPIView
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from datetime import date
 from django.db.models.expressions import F
 from dashboard.helpers import *
 from dashboard.models import Balance, YearMonth
@@ -17,37 +21,10 @@ from dashboard.models import Balance, YearMonth
 
 class Months(APIView):
     def get(self, request):
-        months = [{'name': 'Jan 2014', 'month': 1, 'year': 2014},
-                  {'name': 'Feb 2014', 'month': 2, 'year': 2014},
-                  {'name': 'Mar 2014', 'month': 3, 'year': 2014},
-                  {'name': 'Apr 2014', 'month': 4, 'year': 2014},
-                  {'name': 'May 2014', 'month': 5, 'year': 2014},
-                  {'name': 'Jun 2014', 'month': 6, 'year': 2014},
-                  {'name': 'Jul 2014', 'month': 7, 'year': 2014},
-                  {'name': 'Aug 2014', 'month': 8, 'year': 2014},
-                  {'name': 'Sep 2014', 'month': 9, 'year': 2014},
-                  {'name': 'Oct 2014', 'month': 10, 'year': 2014},
-                  {'name': 'Nov 2014', 'month': 11, 'year': 2014},
-                  {'name': 'Dec 2014', 'month': 12, 'year': 2014},
-
-                  {'name': 'Jan 2015', 'month': 1, 'year': 2015},
-                  {'name': 'Feb 2015', 'month': 2, 'year': 2015},
-                  {'name': 'Mar 2015', 'month': 3, 'year': 2015},
-                  {'name': 'Apr 2015', 'month': 4, 'year': 2015},
-                  {'name': 'May 2015', 'month': 5, 'year': 2015},
-                  {'name': 'Jun 2015', 'month': 6, 'year': 2015},
-                  {'name': 'Jul 2015', 'month': 7, 'year': 2015},
-                  {'name': 'Aug 2015', 'month': 8, 'year': 2015},
-                  {'name': 'Sep 2015', 'month': 9, 'year': 2015},
-                  {'name': 'Oct 2015', 'month': 10, 'year': 2015},
-                  {'name': 'Nov 2015', 'month': 11, 'year': 2015},
-                  {'name': 'Dec 2015', 'month': 12, 'year': 2015},
-
-                  {'name': 'Jan 2016', 'month': 1, 'year': 2016},
-                  {'name': 'Feb 2016', 'month': 2, 'year': 2016},
-                  {'name': 'Mar 2016', 'month': 3, 'year': 2016},
-                  {'name': 'Apr 2016', 'month': 4, 'year': 2016},
-                  {'name': 'May 2016', 'month': 5, 'year': 2016}]
+        months =[]
+        for y in range(2014, date.today().year + 1):
+            for m in range(1, 12):
+               months.append({'name': '%s %d' % (calendar.month_abbr[m], y), 'month': m, 'year': y})
         return Response(months)
 
 
