@@ -6,7 +6,7 @@ from django.core.urlresolvers import reverse
 from django.forms import ModelForm, CharField, Select
 from django.http import HttpResponseRedirect
 from django.views.generic import ListView, FormView
-from dashboard.models import Balance
+from dashboard.models import Stock
 
 
 class UserListView(LoginRequiredMixin, SuperuserRequiredMixin, ListView):
@@ -32,7 +32,7 @@ class EditUserForm(ModelForm):
         super(EditUserForm, self).__init__(*args, **kwargs)
         level = self.instance.access_level.lower()
         if level in ["district", "ip", "warehouse", "name"]:
-            choices = Balance.objects.values_list(level, flat=True).distinct()
+            choices = Stock.objects.values_list(level, flat=True).distinct()
             self.fields["access_area"].widget.choices = [(ch, ch) for ch in choices]
 
 

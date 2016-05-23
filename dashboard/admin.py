@@ -6,8 +6,8 @@ from django.contrib.auth.models import Group
 from django.utils.translation import ugettext_lazy
 from django.utils.translation import ugettext_lazy as _
 
-from dashboard.data.free_form_report import FreeFormReport
-from dashboard.models import DashboardUser, YearMonth, Balance
+from dashboard.data.stock_report import StockReport
+from dashboard.models import DashboardUser, YearMonth, Stock
 from dashboard.tasks import calculate_totals_in_month
 
 
@@ -39,42 +39,27 @@ class EmailUserAdmin(UserAdmin):
 
 
 class QdbSite(AdminSite):
-    site_title = ugettext_lazy('Order Quality admin')
+    site_title = ugettext_lazy('Vaccines admin')
 
-    site_header = ugettext_lazy('Order Quality administration')
+    site_header = ugettext_lazy('Vaccines administration')
 
-    index_title = ugettext_lazy('Order Quality administration')
-
-
-class MyModelAdmin(HierarchicalModelAdmin):
-    hierarchy = True
-
+    index_title = ugettext_lazy('Vaccines administration')
 
 
 def run_tests(model_admin, request, queryset):
     data = queryset.all()
     for year_month in data:
-        report = FreeFormReport(None, year_month.title).build_form_db(year_month)
+        report = StockReport(None, year_month.title).build_form_db(year_month)
         calculate_totals_in_month.delay(report)
 
 
 run_tests.short_description = "Run quality tests for these cycles"
 
-class BalanceAdmin(ModelAdmin):
-    search_fields = ('district','month')
-    list_display = ('district',
-                    'month',
-                    'measles',
-                    'bcg',
-                    'hpv',
-                    'hepb',
-                    'tt',
-                    'topv',
-                    'yellowfever',
-                    'pcv',
-                    'penta',
-                    )
-    list_filter = ('month',)
+
+class StockAdmin(ModelAdmin):
+    search_fields = ('district','month', "year", "month", "vaccine")
+    list_display = ('district', 'year', 'month', 'vaccine',)
+    list_filter = ('district', 'year', 'month', 'vaccine',)
 
 
 class CycleAdmin(ModelAdmin):
@@ -84,5 +69,5 @@ class CycleAdmin(ModelAdmin):
 admin_site = QdbSite()
 admin_site.register(Group, GroupAdmin)
 admin_site.register(DashboardUser, EmailUserAdmin)
-admin_site.register(Balance, BalanceAdmin)
+admin_site.register(Stock, StockAdmin)
 admin_site.register(YearMonth, CycleAdmin)

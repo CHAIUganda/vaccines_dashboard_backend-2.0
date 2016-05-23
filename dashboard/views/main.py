@@ -7,8 +7,8 @@ from django.core.files.storage import default_storage
 from django.db.models import Count, Case, When
 from django.views.generic import TemplateView, FormView
 from dashboard.forms import FileUploadForm
-from dashboard.models import Balance
-from dashboard.tasks import import_general_report
+from dashboard.models import Stock
+from dashboard.tasks import import_stock_report
 
 
 class HomeView(LoginRequiredMixin, TemplateView):
@@ -52,10 +52,11 @@ class DataImportView(LoginRequiredMixin, StaffuserRequiredMixin, FormView):
 
     def form_valid(self, form):
         import_file = form.cleaned_data['import_file']
-        year_month = form.cleaned_data['year_month']
+        year = form.cleaned_data['year']
+        month = form.cleaned_data['month']
         path = default_storage.save('tmp/workspace.xlsx', ContentFile(import_file.read()))
         tmp_file = os.path.join(settings.MEDIA_ROOT, path)
-        import_general_report.delay(tmp_file, year_month)
+        import_stock_report.delay(tmp_file, year, month)
         messages.add_message(self.request, messages.INFO, 'Successfully started import for year_month %s' % (year_month))
         return super(DataImportView, self).form_valid(form)
 
@@ -73,7 +74,7 @@ class ReportsView(LoginRequiredMixin, TemplateView):
         qs_filter = {}
         if access_level and access_area:
             qs_filter[access_level.lower()] = access_area
-        qs = Balance.objects.filter(**qs_filter)
+        qs = Stock.objects.filter(**qs_filter)
         districts = qs.values('district').order_by('district').distinct()
         cycles = qs.values('year_month').distinct()
         context['districts'] = districts
@@ -81,7 +82,7 @@ class ReportsView(LoginRequiredMixin, TemplateView):
         return context
 
     def build_totals(self, context):
-        qs = Balance.objects.all()
+        qs = Stock.objects.all()
         aggregates = qs.aggregate(
             count=Count('pk'),
             MEASLES=Count(Case(When(REPORTING={DEFAULT: YES}, then=1))),

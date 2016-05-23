@@ -44,20 +44,33 @@ class YearMonth(models.Model):
     def __unicode__(self):
         return "%s" % (self.title)
 
+MONTHS = (
+        (1, 'Jan'),
+        (2, 'Feb'),
+        (3, 'Mar'),
+        (4, 'Apr'),
+        (5, 'May'),
+        (6, 'Jun'),
+        (7, 'Jul'),
+        (8, 'Aug'),
+        (9, 'Sep'),
+        (10, 'Oct'),
+        (11, 'Nov'),
+        (12, 'Dec'),
+    )
 
-class Balance(models.Model):
+class Stock(models.Model):
     district = models.CharField(max_length=256, db_index=True)
-    month = models.ForeignKey(YearMonth, db_index=True)
-    measles = models.FloatField(default=0)
-    bcg = models.FloatField(default=0)
-    hpv = models.FloatField(default=0)
-    hepb = models.FloatField(default=0)
-    tt = models.FloatField(default=0)
-    topv = models.FloatField(default=0)
-    yellowfever = models.FloatField(default=0)
-    pcv = models.FloatField(default=0)
-    penta = models.FloatField(default=0)
+    year = models.IntegerField(default=2014)
+    month = models.IntegerField(choices=MONTHS, default=1)
+    vaccine = models.CharField(max_length=256, db_index=True)
+    at_hand = models.FloatField(default=0)
+    consumed = models.FloatField(default=0)
+    received = models.FloatField(default=0)
 
     class Meta:
-        unique_together = ("district", "month")
+        unique_together = ("district", "year", "month", "vaccine")
+
+    def __unicode__(self):
+        return "%s %d %d %s" % (self.district, self.year, self.month, self.vaccine)
 

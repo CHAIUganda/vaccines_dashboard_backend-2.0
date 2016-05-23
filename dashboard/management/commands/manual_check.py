@@ -5,7 +5,7 @@ import djclick as click
 from termcolor import colored
 
 from dashboard.helpers import *
-from dashboard.models import Balance
+from dashboard.models import Stock
 
 
 def make_cond(cond):
@@ -50,7 +50,7 @@ def export_results():
                 for key, condition in {YES: yes_condition, NO: no_condition, NOT_REPORTING: not_reporting_condition}.items():
                     filter_key = "%s__icontains" % test.get('test')
                     filter_by = {filter_key: make_cond(condition)}
-                    count = Balance.objects.filter(cycle=cycle, **filter_by).count()
+                    count = Stock.objects.filter(cycle=cycle, **filter_by).count()
                     data[key] = count
                 results.append(data)
             else:
@@ -62,7 +62,7 @@ def export_results():
                     for key, condition in {YES: yes_condition, NO: no_condition, NOT_REPORTING: not_reporting_condition}.items():
                         filter_key = "%s__icontains" % test.get('test')
                         filter_by = {filter_key: make_cond(condition)}
-                        count = Balance.objects.filter(cycle=cycle, **filter_by).count()
+                        count = Stock.objects.filter(cycle=cycle, **filter_by).count()
                         data[key] = count
                     results.append(data)
 
@@ -102,7 +102,7 @@ def perform_checks():
             test_description = "%s %s" % (check['test'], key)
             filter_key = "%s__icontains" % check.get('test')
             filter_by = {filter_key: make_cond(condition)}
-            count = Balance.objects.filter(cycle=check['cycle'], **filter_by).count()
+            count = Stock.objects.filter(cycle=check['cycle'], **filter_by).count()
             expected = check[key]
             actual = count
             if expected == actual:

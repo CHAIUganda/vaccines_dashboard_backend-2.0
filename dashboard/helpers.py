@@ -1,5 +1,9 @@
 import arrow
+import calendar
+
 from arrow import Arrow, now
+
+from datetime import date
 
 
 class CustomArrow(Arrow):
@@ -38,6 +42,29 @@ def generate_choices():
 def to_date(text):
     month = text.split('-')[1].strip()
     return arrow.get(month, 'MMM YYYY')
+
+
+def generate_months():
+    months =[]
+    for y in range(2014, date.today().year + 1):
+        for m in range(1, 12):
+           months.append({'name': '%s %d' % (calendar.month_abbr[m], y), 'month': m, 'year': y})
+    return months
+
+
+
+def generate_year_labels():
+    return map(lambda x: (x, "%s"%x), range(2014, date.today().year + 1))
+
+
+
+def generate_months_labels():
+    return map(lambda x: (x, calendar.month_abbr[x]), range(1, 13))
+
+
+# def generate_months_labels():
+#     return map(lambda x: x["name"], generate_months())
+
 
 
 DISTRICT = 'District'

@@ -3,7 +3,7 @@ import os
 from django.core.exceptions import ValidationError
 from django.forms import Form, FileField, ChoiceField
 
-from dashboard.helpers import generate_choices
+from dashboard.helpers import *
 
 
 def validate_file_extension(value):
@@ -15,4 +15,5 @@ def validate_file_extension(value):
 
 class FileUploadForm(Form):
     import_file = FileField(validators=[validate_file_extension])
-    year_month = ChoiceField(choices=generate_choices())
+    year = ChoiceField(choices=generate_year_labels())
+    month = ChoiceField(choices=generate_months_labels())

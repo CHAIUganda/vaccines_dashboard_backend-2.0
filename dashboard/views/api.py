@@ -14,17 +14,15 @@ from rest_framework.generics import ListAPIView
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from datetime import date
+import django_filters
 from django.db.models.expressions import F
 from dashboard.helpers import *
-from dashboard.models import Balance, YearMonth
+from dashboard.models import Stock, YearMonth
 
 
 class Months(APIView):
     def get(self, request):
-        months =[]
-        for y in range(2014, date.today().year + 1):
-            for m in range(1, 12):
-               months.append({'name': '%s %d' % (calendar.month_abbr[m], y), 'month': m, 'year': y})
+        months = generate_months()
         return Response(months)
 
 
@@ -178,8 +176,19 @@ class CoverageRate(APIView):
         return Response(data)
 
 
+# class StockFilter(filters.FilterSet):
+#     district = django_filters.CharFilter(name="district", lookup_type='gte')
+#     months = django_filters.RangeFilter(name="months", lookup_type='lte')
+#     class Meta:
+#         model = Stock
+#         fields = ['category', 'in_stock', 'min_price', 'max_price']
+
 class StockOnHandTotal(APIView):
     def get(self, request):
+        # startmonth = self.request.query_params.get('startmonth', None)
+        # if district is not None:
+        #     queryset = queryset.filter(purchaser__username=username)
+
         data = "[{'month':'Jan 2015', 'units': 137000, 'vaccine':'MEASLES'}," \
                "{'month':'Feb 2015', 'units': 140010, 'vaccine':'MEASLES'}," \
                "{'month':'Mar 2015', 'units': 140010, 'vaccine':'MEASLES'}," \

@@ -1,12 +1,12 @@
 import json
 from rest_framework import serializers
 from rest_framework.serializers import ModelSerializer
-from dashboard.models import Balance, YearMonth
+from dashboard.models import Stock, YearMonth
 
 
 class FacilityScoreSerializer(ModelSerializer):
     class Meta:
-        model = Balance
+        model = Stock
 
 
 class JSONSerializerField(serializers.Field):

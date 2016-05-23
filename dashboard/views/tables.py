@@ -4,11 +4,11 @@ from django.views.generic import View
 from django_datatables_view.base_datatable_view import BaseDatatableView
 
 from dashboard.helpers import *
-from dashboard.models import Balance
+from dashboard.models import Stock
 
 
 class ScoresTableView(BaseDatatableView):
-    model = Balance
+    model = Stock
     columns = [
         DISTRICT,
         STOCK_ON_HAND,
