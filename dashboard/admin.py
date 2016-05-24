@@ -8,7 +8,7 @@ from django.utils.translation import ugettext_lazy as _
 
 from dashboard.data.stock_report import StockReport
 from dashboard.models import DashboardUser, YearMonth, Stock
-from dashboard.tasks import calculate_totals_in_month
+# from dashboard.tasks import calculate_totals_in_month
 
 
 class EmailUserAdmin(UserAdmin):

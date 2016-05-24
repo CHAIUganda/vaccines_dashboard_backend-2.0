@@ -10,8 +10,11 @@ MOH_CENTRAL = "MOH CENTRAL"
 
 IIP = "IP"
 
+YEAR = "Year"
+MONTH = "Month"
 DISTRICT = "District"
-
+VACCINE = "Vaccine"
+AT_HAND = "At Hand"
 WAREHOUSE = "Warehouse"
 
 logger = logging.getLogger(__name__)

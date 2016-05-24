@@ -56,8 +56,9 @@ class DataImportView(LoginRequiredMixin, StaffuserRequiredMixin, FormView):
         month = form.cleaned_data['month']
         path = default_storage.save('tmp/workspace.xlsx', ContentFile(import_file.read()))
         tmp_file = os.path.join(settings.MEDIA_ROOT, path)
-        import_stock_report.delay(tmp_file, year, month)
-        messages.add_message(self.request, messages.INFO, 'Successfully started import for year_month %s' % (year_month))
+        #import_stock_report.delay(tmp_file, year, month)
+        import_stock_report(tmp_file, year, month)
+        messages.add_message(self.request, messages.INFO, 'Successfully started import for %s %s' % (year, month))
         return super(DataImportView, self).form_valid(form)
 
 
@@ -78,14 +79,14 @@ class ReportsView(LoginRequiredMixin, TemplateView):
         districts = qs.values('district').order_by('district').distinct()
         cycles = qs.values('year_month').distinct()
         context['districts'] = districts
-        context['year_month'] = year_month
+        #context['year'] = year
         return context
 
     def build_totals(self, context):
         qs = Stock.objects.all()
         aggregates = qs.aggregate(
             count=Count('pk'),
-            MEASLES=Count(Case(When(REPORTING={DEFAULT: YES}, then=1))),
+            #MEASLES=Count(Case(When(REPORTING={DEFAULT: YES}, then=1))),
 
         )
         totals = dict()
