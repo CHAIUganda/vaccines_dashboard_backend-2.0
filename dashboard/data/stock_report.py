@@ -23,41 +23,36 @@ class StockReport():
         self.year = year
         self.month = month
         self.vaccines = ["MEASLES", "BCG", "HPV", "HEPB", "TT", "TOPV", "YELLOW FEVER", "PCV", "PENTA"]
-        self.name_cache = dict()
-        self.stock = []
+
 
     def load(self):
         self.workbook = self.get_workbook()
-        self.stock = self.load_stock()
+        self.import_stock()
         return self
 
     def get_workbook(self):
         return load_workbook(self.path, read_only=True, use_iterators=True)
 
-    def load_stock(self):
+    def import_stock(self):
         #Todo: use proper name
         location_sheet = self.workbook.get_sheet_by_name("JAN 2014")
-        stock_data = []
-        for row in location_sheet.iter_rows('B%s:J%s' % (location_sheet.min_row + 2, location_sheet.max_row)):
+        for row in location_sheet.iter_rows('B%s:K%s' % (location_sheet.min_row + 2, location_sheet.max_row)):
             if row[0].value:
-                stock = dict()
-                stock[YEAR] = self.year
-                stock[MONTH] = self.month
-                stock[DISTRICT] = row[0].value
                 for vaccine in self.vaccines:
-                    stock[VACCINE] = vaccine
                     col = self.vaccines.index(vaccine) + 1
+                    data = row[9].value
                     value = row[col].value
                     if value:
-                        stock[AT_HAND] = value
-                        stock_data.append(stock)
-        return stock_data
-
-
-    def save(self):
-        stock, created = Stock.objects.get_or_create("JAN 2014")
-        stock.save()
-        return stock
+                        stock, created = Stock.objects.get_or_create(
+                            district=row[0].value,
+                            year=self.year,
+                            month=self.month,
+                            vaccine=vaccine,
+                            at_hand=value)
+                    elif Stock.objects.filter(district=row[0].value,
+                                              year=self.year, month=self.month, vaccine=vaccine).exists():
+                        Stock.objects.filter(district=row[0].value,
+                                             year=self.year, month=self.month, vaccine=vaccine).delete()
 
 
     def get_value(self, row, i):

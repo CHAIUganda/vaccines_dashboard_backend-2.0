@@ -24,6 +24,6 @@ from dashboard.models import *
 def import_stock_report(path, year, month):
     report = StockReport(path, year, month)
     report = report.load()
-    report.save()
+    report.import_stock()
     os.remove(path)
     #calculate_totals_in_month(report)
