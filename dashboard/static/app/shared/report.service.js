@@ -35,8 +35,15 @@ angular.module('services').service('ReportService', ['$http',
             }).then(handleResponse);
         };
 
-        var getFilters = function(test) {
-            return $http.get('/api/filters/').then(handleResponse);
+        var getDistrictTotals = function(startMonth, endMonth, district, vaccine) {
+            return $http.get('/api/stock', {
+                params: {
+                    startMonth:startMonth,
+                    endMonth:endMonth,
+                    district:district,
+                    vaccine:vaccine
+                }
+            }).then(handleResponse);
         };
 
         var getRankingsAccess = function() {
@@ -53,7 +60,7 @@ angular.module('services').service('ReportService', ['$http',
             "getDistricts": getDistricts,
             "getDataForTest": getDataForTest,
             "getScores": getScores,
-            "getFilters": getFilters,
+            "getDistrictTotals": getDistrictTotals,
             "getRankingsAccess": getRankingsAccess,
         };
     }

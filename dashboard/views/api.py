@@ -1,7 +1,7 @@
 import csv
 import json
 import json
-from django.core.serializers.json import DjangoJSONEncoder
+from django.core.serializers.json import DjangoJSONEncoder, Serializer
 from functools import cmp_to_key
 import calendar
 from django.core import serializers
@@ -13,14 +13,23 @@ from django.http import HttpResponse
 from rest_framework import filters
 from rest_framework.generics import ListAPIView
 from rest_framework.response import Response
+from rest_framework.status import HTTP_400_BAD_REQUEST
 from rest_framework.views import APIView
 from datetime import date
 import django_filters
 from django.db.models.expressions import F
 from dashboard.helpers import *
-from dashboard.models import Stock, YearMonth
+from dashboard.models import *
 from dashboard.views.filters import StockFilter
 
+
+class ApiParams(Serializer):
+    startyear = models.IntegerField(blank=True, default=None)
+    startmonth = models.IntegerField(blank=True, default=None)
+    endyear = models.IntegerField(blank=True, default=None)
+    endmonth = models.IntegerField(blank=True, default=None)
+    district = models.CharField(blank=True, default=None)
+    vaccine = models.CharField(blank=True, default=None)
 
 class Months(APIView):
     def get(self, request):
@@ -189,10 +198,26 @@ class StockOnHandTotal(APIView):
 
 class StockApi(APIView):
     def get(self, request):
-        summary = Stock.objects.filter(year__in=[2014]) \
+        district = request.query_params.get('district', None)
+        vaccine = request.query_params.get('vaccine', None)
+
+        date_criteria = ["%d-%d-%d" % (2014, 1, 1), "%d-%d-%d" % (2014, 2, LAST_MONTH_DAY[2-1])]
+        args = {'firstdate__range':["%d-%d-%d" % (2014, 1, 1), "%d-%d-%d" % (2014, 2, LAST_MONTH_DAY[2-1])]}
+        if district:
+            args.update({'district': district})
+
+        if vaccine:
+            args.update({'vaccine': vaccine})
+
+        summary = Stock.objects.filter(**args) \
             .values('district') \
             .annotate(stockathand=Sum('at_hand')) \
-            .order_by('district').values('district', 'stockathand')
+            .order_by('district')\
+            .values('district', 'stockathand')
 
-        data = serializers.deserialize('json', list(summary))
-        return Response(data)
+        return Response(summary)
+
+
+
+
+

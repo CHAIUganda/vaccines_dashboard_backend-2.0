@@ -36,7 +36,7 @@ class StockReport():
 
     def import_stock(self):
         #Todo: use proper name
-        location_sheet = self.workbook.get_sheet_by_name("JAN 2014")
+        location_sheet = self.workbook.get_sheet_by_name("FEB 2014")
         for row in location_sheet.iter_rows('B%s:K%s' % (location_sheet.min_row + 2, location_sheet.max_row)):
             if row[0].value:
                 for vaccine in self.vaccines:
