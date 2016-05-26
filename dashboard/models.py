@@ -62,11 +62,16 @@ MONTHS = (
         (12, 'Dec'),
     )
 
+LAST_MONTH_DAY = [31, 28, 30, 31, 30, 31, 30, 31, 30, 31, 30, 31]
+
+
 class Stock(models.Model):
     district = models.CharField(max_length=256, db_index=True)
     year = models.IntegerField(default=2014)
     month = models.IntegerField(choices=MONTHS, default=1)
     vaccine = models.CharField(max_length=256, db_index=True)
+    firstdate = models.DateField(auto_now=False)
+    lastdate = models.DateField(auto_now=False)
     at_hand = models.FloatField(default=0)
     consumed = models.FloatField(default=0)
     received = models.FloatField(default=0)

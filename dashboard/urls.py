@@ -19,5 +19,5 @@ urlpatterns = [
     url(r'^api/coverage/district', dashboard.views.api.CoverageRate.as_view(), name='coverage_rate'),
 
     url(r'^api/stockathand/total', dashboard.views.api.StockOnHandTotal.as_view(), name='stock_at_hand_total'),
-    url(r'^api/stockathand/district', dashboard.views.api.StockOnHand.as_view(), name='stock_at_hand')
+    url(r'^api/stock', dashboard.views.api.StockApi.as_view(), name='stock_at_hand')
 ]

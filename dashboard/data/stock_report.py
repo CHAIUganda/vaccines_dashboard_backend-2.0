@@ -1,6 +1,7 @@
 import logging
 from collections import defaultdict
 
+import datetime
 from openpyxl import load_workbook
 
 from dashboard.helpers import *
@@ -47,6 +48,8 @@ class StockReport():
                             district=row[0].value,
                             year=self.year,
                             month=self.month,
+                            firstdate=datetime.datetime(int(self.year), int(self.month), 1),
+                            lastdate=datetime.datetime(int(self.year), int(self.month), LAST_MONTH_DAY[int(self.month) - 1]),
                             vaccine=vaccine,
                             at_hand=value)
                     elif Stock.objects.filter(district=row[0].value,
