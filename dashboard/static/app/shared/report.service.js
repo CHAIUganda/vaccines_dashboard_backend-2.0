@@ -4,19 +4,8 @@ angular.module('services').service('ReportService', ['$http',
             return response.data;
         };
 
-        var getCycles = function() {
+        var getMonths = function() {
             return $http.get('/api/months').then(handleResponse);
-        };
-
-        var getMonths = function(level, selectedMonth, vaccine) {
-            return $http.get('/api/months', {
-                params: {
-                    level: level,
-                    cycle: selectedMonth,
-                    vaccine: vaccine
-
-                }
-            }).then(handleResponse);
         };
 
         var getDistricts = function(level, selectedMonth, vaccine) {
@@ -29,11 +18,6 @@ angular.module('services').service('ReportService', ['$http',
             }).then(handleResponse);
         };
 
-        var getScores = function(params) {
-            return $http.get('/api/vaccine/', {
-                params: params
-            }).then(handleResponse);
-        };
 
         var getDistrictTotals = function(startMonth, endMonth, district, vaccine) {
             return $http.get('/api/stock', {
@@ -46,9 +30,6 @@ angular.module('services').service('ReportService', ['$http',
             }).then(handleResponse);
         };
 
-        var getRankingsAccess = function() {
-            return $http.get('/api/vaccine/').then(handleResponse);
-        };
 
         var getVaccines = function() {
             return $http.get('/api/vaccines/').then(handleResponse);
@@ -59,9 +40,7 @@ angular.module('services').service('ReportService', ['$http',
             "getVaccines": getVaccines,
             "getDistricts": getDistricts,
             "getDataForTest": getDataForTest,
-            "getScores": getScores,
             "getDistrictTotals": getDistrictTotals,
-            "getRankingsAccess": getRankingsAccess,
         };
     }
 ])
