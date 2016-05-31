@@ -1,35 +1,33 @@
 angular.module('dashboard')
-    .controller('StockController', ['$scope', 'ReportService', '$rootScope', 'NgTableParams',
-    function($scope, ReportService, $rootScope, NgTableParams)
+    .controller('StockController', ['$scope', 'ReportService', '$rootScope', 'NgTableParams', 'FilterService',
+    function($scope, ReportService, $rootScope, NgTableParams, FilterService)
     {
-
-        ReportService.getMonths().then(function(data) {
+        FilterService.getMonths().then(function(data) {
             $scope.months = data;
             $scope.startMonth = $scope.months[0];
             $scope.endMonth = $scope.months[0];
 
         });
 
-        ReportService.getDistricts().then(function(data) {
+        FilterService.getDistricts().then(function(data) {
             $scope.districts = data;
             $scope.districts.unshift({"name": ""});
             $scope.selectedDistrict = $scope.districts[0];
         });
 
-        ReportService.getVaccines().then(function(data) {
+        FilterService.getVaccines().then(function(data) {
             $scope.vaccines = data;
             $scope.vaccines.unshift({"name": ""});
             $scope.selectedVaccine = $scope.vaccines[0];
         });
 
         var updateData = function() {
-            var startMonth = $scope.startMonth ? $scope.startMonth.name : "";
-            var endMonth = $scope.endMonth ? $scope.endMonth.name : "";
+            var startMonth = $scope.startMonth ? $scope.startMonth.name : "Jan 2014";
+            var endMonth = $scope.endMonth ? $scope.endMonth.name : "Jan 2014";
             var district = $scope.selectedDistrict ? $scope.selectedDistrict.name : "";
             var vaccine = $scope.selectedVaccine ? $scope.selectedVaccine.name : "";
 
             ReportService.getDistrictTotals(startMonth, endMonth, district, vaccine).then(function(data) {
-
                 $scope.data = angular.copy(data);
 
                 $scope.tableParams = new NgTableParams({
@@ -89,31 +87,21 @@ angular.module('dashboard')
                         }
                 };
 
+
             });
         }
 
 
+
         $scope.$watch('endMonth', function() {
             updateData();
-            $scope.$apply();
         }, true);
 
         $scope.$watchGroup(['endMonth', 'selectedVaccine', 'selectedDistrict'], function(data){
             if(data[0] && data[1] && data[2]){
               updateData();
-                $scope.$apply();
             }
         });
-
-
-        $scope.startMonth = "";
-        $scope.endMonth = "";
-        $scope.vaccine = "";
-
-        $scope.getOverallTotal = function(){
-            return 0;
-        }
-
 
 
     }

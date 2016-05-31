@@ -1,28 +1,18 @@
 angular.module('dashboard').
-controller('CoverageController', ['$scope', 'ReportService', '$httpParamSerializer', 'NgTableParams',
-    function($scope, ReportService, $httpParamSerializer, NgTableParams) {
+controller('CoverageController', ['$scope', 'ReportService', '$httpParamSerializer', 'NgTableParams', 'FilterService',
+    function($scope, ReportService, $httpParamSerializer, NgTableParams, FilterService) {
         $scope.vaccine = "MEASLES";
         $scope.displayMonth = function(month) {
             return "MONTH " + month.number + " '" + month.year;
         };
 
-        $scope.selectBest = function(name) {
-            $scope.bestPerforming = name;
-        };
-
-        ReportService.getMonths().then(function(data) {
-            $scope.months = data;
-            //$scope.months = data.values;
-            //$scope.startMonth = $scope.months[6 - 1];
-            //$scope.endMonth = $scope.selectedCycle = data.most_recent_cycle;
-        });
 
     }
 ]);
 
 angular.module('dashboard')
-    .controller('DropoutRateController', ['$scope', 'ReportService', '$rootScope',
-    function($scope, ReportService, $rootScope)
+    .controller('DropoutRateController', ['$scope', 'ReportService', '$rootScope', 'FilterService',
+    function($scope, ReportService, $rootScope, FilterService)
     {
     }
 
@@ -31,8 +21,8 @@ angular.module('dashboard')
 
 
 angular.module('dashboard')
-    .controller('UnderImmunizedController', ['$scope', 'ReportService', '$rootScope',
-    function($scope, ReportService, $rootScope)
+    .controller('UnderImmunizedController', ['$scope', 'ReportService', '$rootScope', 'FilterService',
+    function($scope, ReportService, $rootScope, FilterService)
     {
     }
 
