@@ -3,7 +3,7 @@
 
     <div class="col-md-8">
         <div class="page_graph">
-            <nvd3 options="options" data="graph" config="{refreshDataOnly: true}"></nvd3>
+            <nvd3 options="options" data="graph"></nvd3>
         </div>
     </div>
     <div class="col-md-4">
@@ -20,9 +20,9 @@
        </div>
 
         <table ng-table="tableParams" class="table" show-filter="false">
-            <tr ng-repeat="item in data | filter:searchText">
+            <tr ng-repeat="item in $data | filter:searchText">
                 <td title="'District'" sortable="'district'">{{item.district}}</td>
-                <td title="'Units'" sortable="'value'">{{item.stockathand}}</td>
+                <td title="'Units'" sortable="'value'">{{item.stockathand }}</td>
             </tr>
         </table>
     </div>

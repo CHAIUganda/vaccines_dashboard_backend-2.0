@@ -70,3 +70,5 @@ def generate_months_labels():
 
 DISTRICT = 'District'
 STOCK_ON_HAND = "Stock On Hand"
+
+

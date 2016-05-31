@@ -156,43 +156,43 @@ class Districts(APIView):
 
 class Vaccines(APIView):
     def get(self, request):
-        vaccines = [{'name': 'MEASLES'}, \
-                    {'name': 'BCG'}, \
-                    {'name': 'HPV'}, \
-                    {'name': 'HEPB'}, \
-                    {'name': 'TT'}, \
-                    {'name': 'TOPV'}, \
-                    {'name': 'YELLOW FEVER'}, \
-                    {'name': 'PCV'}, \
+        vaccines = [{'name': 'MEASLES'},
+                    {'name': 'BCG'},
+                    {'name': 'HPV'},
+                    {'name': 'HEPB'},
+                    {'name': 'TT'},
+                    {'name': 'TOPV'},
+                    {'name': 'YELLOW FEVER'},
+                    {'name': 'PCV'},
                     {'name': 'PENTA'}]
         return Response(vaccines)
 
 
 class CoverageRateTotal(APIView):
     def get(self, request):
-        data = "[{'month':'Jan 2015', 'units': 17000, 'vaccine':'MEASLES'}," \
-               "{'month':'Feb 2015', 'units': 10010, 'vaccine':'MEASLES'}," \
-               "{'month':'Mar 2015', 'units': 10010, 'vaccine':'MEASLES'}," \
-               "{'month':'Feb 2015', 'units': 10010, 'vaccine':'MEASLES'}]"
+        data = [{'month':'Jan 2015', 'units': 17000, 'vaccine':'MEASLES'},
+               {'month':'Feb 2015', 'units': 10010, 'vaccine':'MEASLES'},
+               {'month':'Mar 2015', 'units': 10010, 'vaccine':'MEASLES'},
+               {'month':'Feb 2015', 'units': 10010, 'vaccine':'MEASLES'}]
         return Response(data)
 
 
 class CoverageRate(APIView):
     def get(self, request):
         district = request.GET.get('district', None)
-        data = "[{'month':'Jan 2015', 'units': 17000, 'vaccine':'MEASLES'}," \
-               "{'month':'Feb 2015', 'units': 10010, 'vaccine':'MEASLES'}," \
-               "{'month':'Mar 2015', 'units': 10010, 'vaccine':'MEASLES'}," \
-               "{'month':'Feb 2015', 'units': 10010, 'vaccine':'MEASLES'}]"
+        data = [{'month':'Jan 2015', 'units': 17000, 'vaccine':'MEASLES'},
+               {'month':'Feb 2015', 'units': 10010, 'vaccine':'MEASLES'},
+               {'month':'Mar 2015', 'units': 10010, 'vaccine':'MEASLES'},
+               {'month':'Feb 2015', 'units': 10010, 'vaccine':'MEASLES'}]
         return Response(data)
 
 
 class StockOnHandTotal(APIView):
     def get(self, request):
-        data = "[{'month':'Jan 2015', 'units': 137000, 'vaccine':'MEASLES'}," \
-               "{'month':'Feb 2015', 'units': 140010, 'vaccine':'MEASLES'}," \
-               "{'month':'Mar 2015', 'units': 140010, 'vaccine':'MEASLES'}," \
-               "{'month':'Feb 2015', 'units': 140010, 'vaccine':'MEASLES'}]"
+        data = [{'month':'Jan 2015', 'units': 137000, 'vaccine':'MEASLES'},
+               {'month':'Feb 2015', 'units': 140010, 'vaccine':'MEASLES'},
+               {'month':'Mar 2015', 'units': 140010, 'vaccine':'MEASLES'},
+               {'month':'Feb 2015', 'units': 140010, 'vaccine':'MEASLES'}]
         return Response(data)
 
 
@@ -201,8 +201,11 @@ class StockApi(APIView):
         district = request.query_params.get('district', None)
         vaccine = request.query_params.get('vaccine', None)
 
-        date_criteria = ["%d-%d-%d" % (2014, 1, 1), "%d-%d-%d" % (2014, 2, LAST_MONTH_DAY[2-1])]
-        args = {'firstdate__range':["%d-%d-%d" % (2014, 1, 1), "%d-%d-%d" % (2014, 2, LAST_MONTH_DAY[2-1])]}
+        startMonth, startYear = request.query_params.get('startMonth', None).split(' ')
+        endMonth, endYear= request.query_params.get('endMonth', None).split(' ')
+
+        date_range = ["%s-%s-%s" % (startYear, MONTH_TO_NUM[startMonth], 1), "%s-%s-%s" % (endYear, MONTH_TO_NUM[endMonth], LAST_MONTH_DAY[MONTH_TO_NUM[endMonth]])]
+        args = {'firstdate__range':date_range}
         if district:
             args.update({'district': district})
 
