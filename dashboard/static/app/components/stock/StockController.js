@@ -30,14 +30,19 @@ angular.module('dashboard')
             ReportService.getDistrictTotals(startMonth, endMonth, district, vaccine).then(function(data) {
                 $scope.data = angular.copy(data);
 
-                $scope.tableParams = new NgTableParams({
+                //$scope.tableParams.count = 1;
+                //$scope.tableParams.count = 15;
+                //$scope.tableParams.total($scope.data.length);
+
+                $scope['tableParams'] = new NgTableParams({
                     page: 1,
                     count: 15
                 }, {
                     filterDelay: 0,
                     counts: [],
-                    data: $scope.data
+                    data: $scope.data,
                 });
+
 
                 // calculate totals
                 var total = 0;

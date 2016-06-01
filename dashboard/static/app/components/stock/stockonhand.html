@@ -22,7 +22,7 @@
         <table ng-table="tableParams" class="table" show-filter="false">
             <tr ng-repeat="item in $data | filter:searchText">
                 <td title="'District'" sortable="'district'">{{item.district}}</td>
-                <td title="'Units'" sortable="'value'">{{item.stockathand }}</td>
+                <td title="'Units'" sortable="'value'">{{ item.stockathand | number:0}}</td>
             </tr>
         </table>
     </div>

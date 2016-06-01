@@ -26,6 +26,10 @@ Menu.add_item("main", MenuItem("Surveillance",
                                "#/surveillance/cases",
                                weight=10))
 
+Menu.add_item("main", MenuItem("CVS",
+                               "#",
+                               weight=10))
+
 Menu.add_item("main", MenuItem("Import Files",
                                reverse("import"),
                                check=user_is_admin,
