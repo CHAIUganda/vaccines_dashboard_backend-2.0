@@ -1,34 +1,29 @@
 angular.module('dashboard')
-    .controller('StockController', ['$scope', 'ReportService', '$rootScope', 'FilterService',
-    function($scope, ReportService, $rootScope,
-             //NgTableParams,
-             FilterService)
+    .controller('StockController', ['$scope', 'ReportService', '$rootScope', 'NgTableParams', 'FilterService',
+    function($scope, ReportService, $rootScope, NgTableParams, FilterService)
     {
+        var vm = this;
+        //vm.startMonth = vm.startMonth ? vm.startMonth.name : "Jan 2014";
+        //vm.endMonth = vm.endMonth ? vm.endMonth.name : "Jan 2014";
 
+        vm.getStockTotals = function(startMonth, endMonth, district, vaccine) {
+            vm.startMonth ? vm.startMonth : "Jan 2014";
+            vm.endMonth = vm.endMonth ? vm.endMonth : "Jan 2014";
+            vm.district = vm.selectedDistrict ? vm.selectedDistrict.name : "";
+            vm.vaccine = vm.selectedVaccine ? vm.selectedVaccine.name : "";
 
+            ReportService.getStockTotals(startMonth, endMonth, district, vaccine)
+                .then(function(data) {
 
-        var updateData = function() {
-            var startMonth = $scope.startMonth ? $scope.startMonth.name : "Jan 2014";
-            var endMonth = $scope.endMonth ? $scope.endMonth.name : "Jan 2014";
-            var district = $scope.selectedDistrict ? $scope.selectedDistrict.name : "";
-            var vaccine = $scope.selectedVaccine ? $scope.selectedVaccine.name : "";
-
-            ReportService.getDistrictTotals(startMonth, endMonth, district, vaccine).then(function(data) {
-
-                $scope.data = angular.copy(data);
-
-                //$scope.tableParams.count = 1;
-                //$scope.tableParams.count = 15;
-                //$scope.tableParams.total($scope.data.length);
-
-                //$scope['tableParams'] = new NgTableParams({
-                //    page: 1,
-                //    count: 15
-                //}, {
-                //    filterDelay: 0,
-                //    counts: [],
-                //    data: $scope.data,
-                //});
+                vm.data = angular.copy(data);
+                vm.tableParams = new NgTableParams({
+                    page: 1,
+                    count: 15
+                }, {
+                    filterDelay: 0,
+                    counts: [],
+                    data: $scope.data,
+                });
 
 
                 // calculate totals
@@ -37,7 +32,7 @@ angular.module('dashboard')
                     var units = data[i].stockathand;
                     total += units;
                 }
-                $scope.totalstockathand = total;
+                vm.totalstockathand = total;
 
                 // construct graph data
                 //var graphdata = [];
@@ -52,7 +47,7 @@ angular.module('dashboard')
                 //$scope.graph = graphdata;
 
                 // update graph
-                $scope.options = {
+                vm.options = {
                         chart: {
                             type: 'multiBarChart',
                             height: 600,
@@ -83,15 +78,10 @@ angular.module('dashboard')
             });
         }
 
-
-
-        $scope.$watch('endMonth', function() {
-            updateData();
-        }, true);
-
-        $scope.$watchGroup(['endMonth', 'selectedVaccine', 'selectedDistrict'], function(data){
-            if(data[0] && data[1] && data[2]){
-              updateData();
+        $scope.$on('refresh', function(e, startMonth, endMonth, district, vaccine) {
+            if(startMonth.name)
+            {
+                vm.getStockTotals(startMonth.name, endMonth.name, district.name, vaccine.name);
             }
         });
 
