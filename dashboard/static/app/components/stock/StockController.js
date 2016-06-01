@@ -3,8 +3,6 @@ angular.module('dashboard')
     function($scope, ReportService, $rootScope, NgTableParams, FilterService)
     {
         var vm = this;
-        //vm.startMonth = vm.startMonth ? vm.startMonth.name : "Jan 2014";
-        //vm.endMonth = vm.endMonth ? vm.endMonth.name : "Jan 2014";
 
         vm.getStockTotals = function(startMonth, endMonth, district, vaccine) {
             vm.startMonth ? vm.startMonth : "Jan 2014";
@@ -22,29 +20,30 @@ angular.module('dashboard')
                 }, {
                     filterDelay: 0,
                     counts: [],
-                    data: $scope.data,
+                    data: vm.data,
                 });
 
 
                 // calculate totals
                 var total = 0;
-                for(var i = 0; i < data.length; i++){
-                    var units = data[i].stockathand;
+                for(var i = 0; i < vm.data.length; i++){
+                    var units = vm.data[i].stockathand;
                     total += units;
                 }
                 vm.totalstockathand = total;
 
+
                 // construct graph data
-                //var graphdata = [];
-                //for (var i = 0; i < 8; i++) {
-                //    graphdata.push({
-                //        key: data[i].district,
-                //        values: [
-                //            [ data[i].district , data[i].stockathand ]
-                //        ]
-                //    });
-                //}
-                //$scope.graph = graphdata;
+                var graphdata = [];
+                for (var i = 0; i < 8; i++) {
+                    graphdata.push({
+                        key: vm.data[i].district,
+                        values: [
+                            [ vm.data[i].district , vm.data[i].stockathand ]
+                        ]
+                    });
+                }
+                vm.graph = graphdata;
 
                 // update graph
                 vm.options = {
