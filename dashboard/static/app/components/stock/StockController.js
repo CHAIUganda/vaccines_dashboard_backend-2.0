@@ -1,25 +1,11 @@
 angular.module('dashboard')
-    .controller('StockController', ['$scope', 'ReportService', '$rootScope', 'NgTableParams', 'FilterService',
-    function($scope, ReportService, $rootScope, NgTableParams, FilterService)
+    .controller('StockController', ['$scope', 'ReportService', '$rootScope', 'FilterService',
+    function($scope, ReportService, $rootScope,
+             //NgTableParams,
+             FilterService)
     {
-        FilterService.getMonths().then(function(data) {
-            $scope.months = data;
-            $scope.startMonth = $scope.months[0];
-            $scope.endMonth = $scope.months[0];
 
-        });
 
-        FilterService.getDistricts().then(function(data) {
-            $scope.districts = data;
-            $scope.districts.unshift({"name": ""});
-            $scope.selectedDistrict = $scope.districts[0];
-        });
-
-        FilterService.getVaccines().then(function(data) {
-            $scope.vaccines = data;
-            $scope.vaccines.unshift({"name": ""});
-            $scope.selectedVaccine = $scope.vaccines[0];
-        });
 
         var updateData = function() {
             var startMonth = $scope.startMonth ? $scope.startMonth.name : "Jan 2014";
@@ -28,20 +14,21 @@ angular.module('dashboard')
             var vaccine = $scope.selectedVaccine ? $scope.selectedVaccine.name : "";
 
             ReportService.getDistrictTotals(startMonth, endMonth, district, vaccine).then(function(data) {
+
                 $scope.data = angular.copy(data);
 
                 //$scope.tableParams.count = 1;
                 //$scope.tableParams.count = 15;
                 //$scope.tableParams.total($scope.data.length);
 
-                $scope['tableParams'] = new NgTableParams({
-                    page: 1,
-                    count: 15
-                }, {
-                    filterDelay: 0,
-                    counts: [],
-                    data: $scope.data,
-                });
+                //$scope['tableParams'] = new NgTableParams({
+                //    page: 1,
+                //    count: 15
+                //}, {
+                //    filterDelay: 0,
+                //    counts: [],
+                //    data: $scope.data,
+                //});
 
 
                 // calculate totals
@@ -53,16 +40,16 @@ angular.module('dashboard')
                 $scope.totalstockathand = total;
 
                 // construct graph data
-                var graphdata = [];
-                for (var i = 0; i < 8; i++) {
-                    graphdata.push({
-                        key: data[i].district,
-                        values: [
-                            [ data[i].district , data[i].stockathand ]
-                        ]
-                    });
-                }
-                $scope.graph = graphdata;
+                //var graphdata = [];
+                //for (var i = 0; i < 8; i++) {
+                //    graphdata.push({
+                //        key: data[i].district,
+                //        values: [
+                //            [ data[i].district , data[i].stockathand ]
+                //        ]
+                //    });
+                //}
+                //$scope.graph = graphdata;
 
                 // update graph
                 $scope.options = {
@@ -115,8 +102,8 @@ angular.module('dashboard')
 
 
 angular.module('dashboard')
-    .controller('AmcController', ['$scope', 'ReportService', '$rootScope', 'NgTableParams',
-    function($scope, ReportService, $rootScope, NgTableParams)
+    .controller('AmcController', ['$scope', 'ReportService', '$rootScope',
+    function($scope, ReportService, $rootScope)
     {
 
         ReportService.getMonths().then(function(data) {
@@ -203,14 +190,14 @@ angular.module('dashboard')
                 }
             ];
 
-            $scope.tableParams = new NgTableParams({
-                    page: 1,
-                    count: 10
-                }, {
-                    filterDelay: 0,
-                    counts: [],
-                    data: $scope.data[0].values
-                });
+            //$scope.tableParams = new NgTableParams({
+            //        page: 1,
+            //        count: 10
+            //    }, {
+            //        filterDelay: 0,
+            //        counts: [],
+            //        data: $scope.data[0].values
+            //    });
 
         });
 

@@ -1,4 +1,4 @@
-<div ng-controller="StockController">
+<div ng-controller="StockController as vm">
     <h4 class="text-center">STOCK ON HAND</h4>
 
     <div class="col-md-8">
@@ -19,8 +19,12 @@
             </div>
        </div>
 
-        <table ng-table="tableParams" class="table" show-filter="false">
-            <tr ng-repeat="item in $data | filter:searchText">
+
+
+
+
+        <table datatable="ng" class="table" show-filter="false">
+            <tr ng-repeat="item in vm.data | filter:searchText">
                 <td title="'District'" sortable="'district'">{{item.district}}</td>
                 <td title="'Units'" sortable="'value'">{{ item.stockathand | number:0}}</td>
             </tr>

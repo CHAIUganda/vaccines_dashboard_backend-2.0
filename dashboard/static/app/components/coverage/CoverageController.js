@@ -1,6 +1,6 @@
 angular.module('dashboard').
-controller('CoverageController', ['$scope', 'ReportService', '$httpParamSerializer', 'NgTableParams', 'FilterService',
-    function($scope, ReportService, $httpParamSerializer, NgTableParams, FilterService) {
+controller('CoverageController', ['$scope', 'ReportService', '$httpParamSerializer', 'FilterService',
+    function($scope, ReportService, $httpParamSerializer, FilterService) {
         $scope.vaccine = "MEASLES";
         $scope.displayMonth = function(month) {
             return "MONTH " + month.number + " '" + month.year;
