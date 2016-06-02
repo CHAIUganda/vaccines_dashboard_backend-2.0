@@ -2,6 +2,7 @@ angular.module('dashboard')
     .controller('MainController', ['$scope', 'FilterService', '$rootScope',
     function($scope, FilterService, $rootScope)
     {
+        $scope.root = {};
         var shell = this;
         shell.startMonth = shell.startMonth ? shell.startMonth.name : "Jan 2014";
         shell.endMonth = shell.endMonth ? shell.endMonth.name : "Jan 2014";

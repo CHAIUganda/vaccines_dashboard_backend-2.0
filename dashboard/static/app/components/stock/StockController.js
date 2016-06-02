@@ -3,6 +3,8 @@ angular.module('dashboard')
     function($scope, ReportService, $rootScope, NgTableParams, FilterService)
     {
         var vm = this;
+        var shellScope = $scope.$parent;
+        shellScope.child = $scope;
 
         vm.getStockTotals = function(startMonth, endMonth, district, vaccine) {
             vm.startMonth ? vm.startMonth : "Jan 2014";
@@ -30,7 +32,7 @@ angular.module('dashboard')
                     var units = vm.data[i].stockathand;
                     total += units;
                 }
-                vm.totalstockathand = total;
+                shellScope.child.totalstockathand = total;
 
 
                 // construct graph data

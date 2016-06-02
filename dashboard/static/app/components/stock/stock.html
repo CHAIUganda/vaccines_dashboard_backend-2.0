@@ -1,7 +1,5 @@
 <div ng-controller="MainController as shell">
 
-    {{ $scope }}
-
     <div class="row range_filter">
 
         <div class="filter-title col-md-12">
@@ -35,12 +33,13 @@
 
 
 
+
     <div class="row">
         <div class="col-md-12">
          <h3>KEY METRICS</h3>
             <div class="quality_test" ui-sref-active="quality_test_active">
                 <a ui-sref="stock.stockonhand">
-                    <span class="quality_test__metric"> {{ shell.totalstockathand | number:0 }} </span>
+                    <span class="quality_test__metric"> {{ child.totalstockathand | number:0 }} </span>
                     <span class="quality_test__description">{{"Stock At Hand" | uppercase}}</span>
                 </a>
             </div>

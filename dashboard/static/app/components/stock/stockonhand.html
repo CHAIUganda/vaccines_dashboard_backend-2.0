@@ -25,8 +25,8 @@
 
         <table ng-table="vm.tableParams" class="table" show-filter="false">
             <tr ng-repeat="row in vm.data | filter:searchText">
-                <td title="'District'" sortable="'district'">{{row.district}}</td>
-                <td title="'Units'" sortable="'value'">{{row.stockathand}}</td>
+                <td title="'District'" sortable="'row.district'">{{row.district}}</td>
+                <td title="'Units'" sortable="'row.stockathand'">{{row.stockathand}}</td>
             </tr>
         </table>
     </div>
