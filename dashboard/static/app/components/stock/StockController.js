@@ -32,7 +32,8 @@ angular.module('dashboard')
                     var units = vm.data[i].stockathand;
                     total += units;
                 }
-                shellScope.child.totalstockathand = total;
+
+                shellScope.child.stockathand = total;
 
 
                 // construct graph data

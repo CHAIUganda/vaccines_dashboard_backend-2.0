@@ -9,7 +9,7 @@ angular.module('dashboard')
         shell.selectedVaccine = "";
         shell.selectedDistrict = "";
 
-        shell.totalstockathand = 0;
+        shell.stockathand = 0;
 
         FilterService.getMonths().then(function(data) {
             shell.months = data;

@@ -26,7 +26,7 @@
         <table ng-table="vm.tableParams" class="table table-condensed table-striped" show-filter="false">
             <tr ng-repeat="row in $data | filter:searchText">
                 <td title="'District'" >{{row.district}}</td>
-                <td title="'Units'" >{{row.stockathand}}</td>
+                <td title="'Units'" >{{row.stockathand | number:0}}</td>
             </tr>
         </table>
     </div>
