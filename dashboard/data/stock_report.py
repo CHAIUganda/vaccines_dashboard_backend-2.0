@@ -28,30 +28,53 @@ class StockReport():
 
     def load(self):
         self.workbook = self.get_workbook()
-        self.import_stock()
         return self
 
     def get_workbook(self):
         return load_workbook(self.path, read_only=True, use_iterators=True)
 
-    def import_stock(self):
+    def import_balances(self):
         #Todo: use proper name
         location_sheet = self.workbook.get_sheet_by_name("FEB 2014")
         for row in location_sheet.iter_rows('B%s:K%s' % (location_sheet.min_row + 2, location_sheet.max_row)):
             if row[0].value:
                 for vaccine in self.vaccines:
                     col = self.vaccines.index(vaccine) + 1
-                    data = row[9].value
+                    #data = row[9].value
                     value = row[col].value
                     if value:
-                        stock, created = Stock.objects.get_or_create(
+                        stock, created = Stock.objects.update_or_create(
                             district=row[0].value,
                             year=self.year,
                             month=self.month,
-                            firstdate=datetime.datetime(int(self.year), int(self.month), 1),
-                            lastdate=datetime.datetime(int(self.year), int(self.month), LAST_MONTH_DAY[int(self.month) - 1]),
                             vaccine=vaccine,
-                            at_hand=value)
+                            defaults={'firstdate':datetime.datetime(int(self.year), int(self.month), 1),
+                                'lastdate':datetime.datetime(int(self.year), int(self.month), LAST_MONTH_DAY[int(self.month) + 1]),
+                                'ordered':value},
+                        )
+                    elif Stock.objects.filter(district=row[0].value,
+                                              year=self.year, month=self.month, vaccine=vaccine).exists():
+                        Stock.objects.filter(district=row[0].value,
+                                             year=self.year, month=self.month, vaccine=vaccine).delete()
+
+    def import_orders(self):
+        #Todo: use proper name
+        location_sheet = self.workbook.get_sheet_by_name("FEB 2014")
+        for row in location_sheet.iter_rows('B%s:AC%s' % (location_sheet.min_row + 2, location_sheet.max_row)):
+            if row[0].value:
+                for vaccine in self.vaccines:
+                    col = self.vaccines.index(vaccine) + 18
+                    value = row[col].value
+                    if value:
+                        stock, created = Stock.objects.update_or_create(
+                            district=row[0].value,
+                            year=self.year,
+                            month=self.month,
+                            vaccine=vaccine,
+                            defaults={'firstdate':datetime.datetime(int(self.year), int(self.month), 1),
+                                'lastdate':datetime.datetime(int(self.year), int(self.month), LAST_MONTH_DAY[int(self.month) + 1]),
+                                'ordered':value},
+                        )
                     elif Stock.objects.filter(district=row[0].value,
                                               year=self.year, month=self.month, vaccine=vaccine).exists():
                         Stock.objects.filter(district=row[0].value,

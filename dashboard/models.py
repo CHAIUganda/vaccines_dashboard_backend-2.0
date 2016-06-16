@@ -103,6 +103,7 @@ class Stock(models.Model):
     at_hand = models.FloatField(default=0)
     consumed = models.FloatField(default=0)
     received = models.FloatField(default=0)
+    ordered = models.FloatField(default=0)
 
     class Meta:
         unique_together = ("district", "year", "month", "vaccine")
