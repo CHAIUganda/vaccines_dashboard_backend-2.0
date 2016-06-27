@@ -18,11 +18,12 @@ def get_real_facility_name(facility_name, district_name):
         return facility_name
 
 
-class StockReport():
+class StockReport:
     def __init__(self, path, year, month):
         self.path = path
         self.year = year
         self.month = month
+        self.month_name = MONTHS[self.month].upper()
         self.vaccines = ["MEASLES", "BCG", "HPV", "HEPB", "TT", "TOPV", "YELLOW FEVER", "PCV", "PENTA"]
 
 
@@ -35,7 +36,8 @@ class StockReport():
 
     def import_balances(self):
         #Todo: use proper name
-        location_sheet = self.workbook.get_sheet_by_name("FEB 2014")
+        print("MONTH: %s YEAR: %" % (self.month_name,self.year))
+        location_sheet = self.workbook.get_sheet_by_name("%s %s" % (self.month_name, self.year))
         for row in location_sheet.iter_rows('B%s:K%s' % (location_sheet.min_row + 2, location_sheet.max_row)):
             if row[0].value:
                 for vaccine in self.vaccines:
@@ -59,7 +61,7 @@ class StockReport():
 
     def import_orders(self):
         #Todo: use proper name
-        location_sheet = self.workbook.get_sheet_by_name("FEB 2014")
+        location_sheet = self.workbook.get_sheet_by_name("%s %s" % (MONTHS[self.month].upper(), self.year))
         for row in location_sheet.iter_rows('B%s:AC%s' % (location_sheet.min_row + 2, location_sheet.max_row)):
             if row[0].value:
                 for vaccine in self.vaccines:

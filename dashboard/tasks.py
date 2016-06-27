@@ -26,5 +26,4 @@ def import_stock_report(path, year, month):
     report = report.load()
     report.import_balances()
     report.import_orders()
-    os.remove(path)
-    #calculate_totals_in_month(report)
+
