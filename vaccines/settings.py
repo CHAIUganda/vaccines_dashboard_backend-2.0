@@ -61,8 +61,12 @@ WSGI_APPLICATION = 'vaccines.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'vaccines.db'),
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'vaccines_db',
+        'USER': 'postgres',
+        'PASSWORD': 'admin',
+        'HOST': 'localhost',
+        'PORT': '5432',
     }
 }
 
@@ -98,6 +102,7 @@ REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 100
 }
+
 SITE_ID = 1
 
 LOGGING = {
