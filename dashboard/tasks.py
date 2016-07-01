@@ -3,6 +3,7 @@ import os
 import pydash
 from celery import shared_task
 
+import vaccines
 from dashboard.data.stock_report import StockReport
 from dashboard.models import *
 

@@ -63,6 +63,22 @@ MONTHS = (
     )
 
 
+MONTHS_TO_STR = {
+        1: 'Jan',
+        2: 'Feb',
+        3: 'Mar',
+        4: 'Apr',
+        5: 'May',
+        6: 'Jun',
+        7: 'Jul',
+        8: 'Aug',
+        9: 'Sep',
+        10: 'Oct',
+        11: 'Nov',
+        12: 'Dec',
+}
+
+
 LAST_MONTH_DAY = {
     1: 31,
     2: 28,
@@ -106,8 +122,8 @@ class Stock(models.Model):
     ordered = models.FloatField(default=0)
 
     class Meta:
-        unique_together = ("district", "year", "month", "vaccine")
+        unique_together = ("district","vaccine", "year", "month", )
 
     def __unicode__(self):
-        return "%s %d %d %s" % (self.district, self.year, self.month, self.vaccine)
+        return "%s %d %d %s" % (self.district, self.vaccine, self.year, self.month )
 

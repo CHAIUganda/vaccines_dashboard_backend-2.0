@@ -23,7 +23,8 @@ class StockReport:
         self.path = path
         self.year = year
         self.month = month
-        self.month_name = MONTHS[self.month].upper()
+        self.month_name = MONTHS_TO_STR[int(self.month)]
+        self.month_name = self.month_name.upper()
         self.vaccines = ["MEASLES", "BCG", "HPV", "HEPB", "TT", "TOPV", "YELLOW FEVER", "PCV", "PENTA"]
 
 
@@ -36,32 +37,31 @@ class StockReport:
 
     def import_balances(self):
         #Todo: use proper name
-        print("MONTH: %s YEAR: %" % (self.month_name,self.year))
-        location_sheet = self.workbook.get_sheet_by_name("%s %s" % (self.month_name, self.year))
+        worksheet_name = "%s %s" % (self.month_name, self.year)
+        location_sheet = self.workbook.get_sheet_by_name(worksheet_name)
         for row in location_sheet.iter_rows('B%s:K%s' % (location_sheet.min_row + 2, location_sheet.max_row)):
             if row[0].value:
                 for vaccine in self.vaccines:
-                    col = self.vaccines.index(vaccine) + 1
+                    col = self.vaccines.index(vaccine)+ 1
                     #data = row[9].value
                     value = row[col].value
                     if value:
                         stock, created = Stock.objects.update_or_create(
                             district=row[0].value,
+                            vaccine=vaccine,
                             year=self.year,
                             month=self.month,
-                            vaccine=vaccine,
-                            defaults={'firstdate':datetime.datetime(int(self.year), int(self.month), 1),
-                                'lastdate':datetime.datetime(int(self.year), int(self.month), LAST_MONTH_DAY[int(self.month) + 1]),
-                                'ordered':value},
+                            at_hand=value,
+                            defaults= {'firstdate':datetime.datetime(int(self.year), int(self.month),1),
+                                'lastdate':datetime.datetime(int(self.year), int(self.month), LAST_MONTH_DAY[int(self.month) + 1])},
                         )
-                    elif Stock.objects.filter(district=row[0].value,
-                                              year=self.year, month=self.month, vaccine=vaccine).exists():
-                        Stock.objects.filter(district=row[0].value,
-                                             year=self.year, month=self.month, vaccine=vaccine).delete()
+
+
 
     def import_orders(self):
         #Todo: use proper name
-        location_sheet = self.workbook.get_sheet_by_name("%s %s" % (MONTHS[self.month].upper(), self.year))
+        worksheet_name = "%s %s" % (self.month_name, self.year)
+        location_sheet = self.workbook.get_sheet_by_name(worksheet_name)
         for row in location_sheet.iter_rows('B%s:AC%s' % (location_sheet.min_row + 2, location_sheet.max_row)):
             if row[0].value:
                 for vaccine in self.vaccines:
@@ -70,17 +70,14 @@ class StockReport:
                     if value:
                         stock, created = Stock.objects.update_or_create(
                             district=row[0].value,
+                            vaccine=vaccine,
                             year=self.year,
                             month=self.month,
-                            vaccine=vaccine,
                             defaults={'firstdate':datetime.datetime(int(self.year), int(self.month), 1),
                                 'lastdate':datetime.datetime(int(self.year), int(self.month), LAST_MONTH_DAY[int(self.month) + 1]),
                                 'ordered':value},
                         )
-                    elif Stock.objects.filter(district=row[0].value,
-                                              year=self.year, month=self.month, vaccine=vaccine).exists():
-                        Stock.objects.filter(district=row[0].value,
-                                             year=self.year, month=self.month, vaccine=vaccine).delete()
+
 
 
     def get_value(self, row, i):
@@ -89,6 +86,3 @@ class StockReport:
             value = real_value
             if value != "-" and value != '':
                 return real_value
-
-
-
