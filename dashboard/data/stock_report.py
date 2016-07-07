@@ -43,8 +43,15 @@ class StockReport:
             if row[0].value:
                 for vaccine in self.vaccines:
                     col = self.vaccines.index(vaccine)+ 1
-                    #data = row[9].value
-                    value = row[col].value
+
+                    if row[col].value:
+                        if isFloat(row[col].value):
+                            value = row[col].value
+                        else:
+                            value = float(row[col].value)
+                    else:
+                        value = 0
+
                     if value:
                         stock, created = Stock.objects.update_or_create(
                             district=row[0].value,
@@ -53,7 +60,7 @@ class StockReport:
                             month=self.month,
                             at_hand=value,
                             defaults= {'firstdate':datetime.datetime(int(self.year), int(self.month),1),
-                                'lastdate':datetime.datetime(int(self.year), int(self.month), LAST_MONTH_DAY[int(self.month) + 1])},
+                                'lastdate':datetime.datetime(int(self.year), int(self.month), LAST_MONTH_DAY[int(self.month)])},
                         )
 
 
@@ -66,7 +73,15 @@ class StockReport:
             if row[0].value:
                 for vaccine in self.vaccines:
                     col = self.vaccines.index(vaccine) + 18
-                    value = row[col].value
+
+                    if row[col].value:
+                        if isFloat(row[col].value):
+                            value = row[col].value
+                        else:
+                            value = float(row[col].value)
+                    else:
+                        value = 0
+
                     if value:
                         stock, created = Stock.objects.update_or_create(
                             district=row[0].value,
@@ -74,7 +89,7 @@ class StockReport:
                             year=self.year,
                             month=self.month,
                             defaults={'firstdate':datetime.datetime(int(self.year), int(self.month), 1),
-                                'lastdate':datetime.datetime(int(self.year), int(self.month), LAST_MONTH_DAY[int(self.month) + 1]),
+                                'lastdate':datetime.datetime(int(self.year), int(self.month), LAST_MONTH_DAY[int(self.month)]),
                                 'ordered':value},
                         )
 

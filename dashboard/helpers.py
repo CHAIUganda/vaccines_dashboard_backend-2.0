@@ -58,6 +58,15 @@ def generate_year_labels():
 
 
 
+def isFloat(value):
+    try:
+        float(value)
+        return True
+    except:
+        return False;
+
+
+
 def generate_months_labels():
     return map(lambda x: (x, calendar.month_abbr[x]), range(1, 13))
 
