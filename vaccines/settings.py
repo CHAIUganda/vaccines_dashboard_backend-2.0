@@ -103,6 +103,9 @@ REST_FRAMEWORK = {
     'PAGE_SIZE': 100
 }
 
+
+
+
 SITE_ID = 1
 
 LOGGING = {
