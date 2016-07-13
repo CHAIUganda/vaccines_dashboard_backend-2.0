@@ -103,6 +103,9 @@ REST_FRAMEWORK = {
     'PAGE_SIZE': 100
 }
 
+DHIS2_USER = 'qppu2'
+DHIS2_PASS = 'DoctorTeam31'
+DHIS2_ADDRESS = 'http://hmis2.health.go.ug'
 
 SITE_ID = 1
 
