@@ -1,9 +1,3 @@
-http://hmis2.health.go.ug/hmis2/api/dataValueSets.json?dataSet=tZvfVXqVIHy&orgUnit=akV6429SUqu&period=201501&dataElement=Lw4CdWq0wUO&children=true
-
-MOH OrgUnit=akV6429SUqu
-HMIS 105.2.11 = tZvfVXqVIHy
-
-
 http://hmis2.health.go.ug/hmis2/api/resources
 
 http://hmis2.health.go.ug/hmis2/api/dataElements?pageSize=3000
