@@ -109,34 +109,6 @@ DHIS2_ADDRESS = 'http://hmis2.health.go.ug'
 
 SITE_ID = 1
 
-LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': False,
-    'filters': {
-        'require_debug_false': {
-            '()': 'django.utils.log.RequireDebugFalse'
-        }
-    },
-    'handlers': {
-        'console': {
-            'level': 'DEBUG',
-            'class': 'logging.StreamHandler'
-        },
-    },
-    'loggers': {
-        'django.request': {
-            'handlers': ['console'],
-            'level': 'ERROR',
-            'propagate': True,
-        },
-        'django_datatables_view.base_datatable_view': {
-            'handlers': ['console'],
-            'level': 'INFO'
-        },
-
-    }
-}
-
 try:
     from local_settings import *
 except ImportError:

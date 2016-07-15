@@ -20,3 +20,11 @@ python manage.py dumpdata --indent 2 > .\dashboard\fixtures\initial_data.json
 ./manage.py loaddata .\dashboard\fixtures\district.json
 ./manage.py loaddata .\dashboard\fixtures\subcounty.json
 ./manage.py loaddata .\dashboard\fixtures\facility.json
+
+
+//Check Elements
+description: "HMIS FORM 105: HEALTH UNIT OUTPATIENT MONTHLY REPORT",
+python manage.py dhis2_find_data_elements tZvfVXqVIHy
+
+//file dataelements
+python manage.py dhis2_download_data_elements tZvfVXqVIHy
