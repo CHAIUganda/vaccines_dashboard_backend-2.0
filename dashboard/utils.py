@@ -6,7 +6,7 @@ from vaccines.settings import DHIS2_USER, DHIS2_PASS, DHIS2_ADDRESS, BASE_DIR
 
 def get_data_set_file_path(data_set_identifier, period):
     # return "D:\vaccines\data_set_%s_%s.json" % (data_set.identifier, period)
-    return "%s/vaccines/downloads/data_set_%s_%s.json" % (BASE_DIR, data_set_identifier, period)
+    return "%s\\downloads\\data_set_%s_%s.json" % (BASE_DIR, data_set_identifier, period)
 
 
 def dhis2_request(resource):

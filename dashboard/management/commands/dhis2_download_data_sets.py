@@ -1,6 +1,6 @@
 from django.core.management import BaseCommand
 
-from dhisdash import utils
+from dashboard import utils
 from dashboard.common.data_set_downloader import DataSetDownloader
 
 from dashboard.models import DataSet
@@ -13,6 +13,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         period = options['period'][0]
+        print "Period: %s" % (period,)
         root_org_unit = 'akV6429SUqu'
 
         data_sets = DataSet.objects.all()

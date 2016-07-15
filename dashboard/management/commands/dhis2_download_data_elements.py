@@ -20,7 +20,7 @@ class Command(BaseCommand):
             print "Saving... %s. %s %s" % (index+1, result['id'], result['name'])
 			
             data_element = DataElement()
-            data_element.identifier = result['name']
+            data_element.identifier = result['id']
             data_element.data_set_identifier = data_set_id
             data_element.name = result['name']
             data_element.save()
