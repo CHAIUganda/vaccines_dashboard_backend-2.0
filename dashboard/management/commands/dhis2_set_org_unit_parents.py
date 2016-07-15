@@ -33,7 +33,7 @@ class Command(BaseCommand):
                     except ObjectDoesNotExist:
                         pass
 
-        elif unit == 'sub_county':
+        elif unit == 'subcounty':
             districts = District.objects.all()
             total_districts = len(districts)
 

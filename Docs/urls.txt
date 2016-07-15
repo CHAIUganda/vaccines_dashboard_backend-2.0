@@ -1,0 +1,16 @@
+http://hmis2.health.go.ug/hmis2/api/dataValueSets.json?dataSet=tZvfVXqVIHy&orgUnit=akV6429SUqu&period=201501&dataElement=Lw4CdWq0wUO&children=true
+http://hmis2.health.go.ug/hmis2/api/dataValueSets.json?dataSet=tZvfVXqVIHy&orgUnit=akV6429SUqu&period=201501&children=true
+
+http://hmis2.health.go.ug/hmis2/api/categoryOptionCombos.json?pagdeSize=820
+http://hmis2.health.go.ug/hmis2/api/resources
+http://hmis2.health.go.ug/hmis2/api/organisationUnits.json?pageSize=7626
+
+
+description: "HMIS FORM 105: HEALTH UNIT OUTPATIENT MONTHLY REPORT",
+http://hmis2.health.go.ug/hmis2/api/dataSets/tZvfVXqVIHy.json
+
+http://hmis2.health.go.ug/hmis2/dhis-web-reporting/showDataSetReportForm.action
+
+
+http://hmis2.health.go.ug/hmis2/api/dataSets.json?pageSize=2105
+http://hmis2.health.go.ug/hmis2/api/dataElements.json?pageSize=2105
