@@ -9,9 +9,14 @@ python manage.py dhis2_set_org_unit_parents district
 python manage.py dhis2_set_org_unit_parents subcounty
 
 python manage.py dumpdata dashboard.region --indent 2 > .\dashboard\fixtures\region.json
-
 python manage.py dumpdata dashboard.district --indent 2 > .\dashboard\fixtures\district.json
-
 python manage.py dumpdata dashboard.subcounty --indent 2 > .\dashboard\fixtures\subcounty.json
-
 python manage.py dumpdata dashboard.facility --indent 2 > .\dashboard\fixtures\facility.json
+python manage.py dumpdata --indent 2 > .\dashboard\fixtures\initial_data.json
+
+----To load use
+
+./manage.py loaddata .\dashboard\fixtures\region.json
+./manage.py loaddata .\dashboard\fixtures\district.json
+./manage.py loaddata .\dashboard\fixtures\subcounty.json
+./manage.py loaddata .\dashboard\fixtures\facility.json
