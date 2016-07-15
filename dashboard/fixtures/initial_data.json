@@ -68602,6 +68602,366 @@
   }
 },
 {
+  "model": "dashboard.dataset",
+  "pk": 1,
+  "fields": {
+    "identifier": "tZvfVXqVIHy",
+    "name": "HMIS FORM 105: HEALTH UNIT OUTPATIENT MONTHLY REPORT",
+    "period_type": "monthly"
+  }
+},
+{
+  "model": "dashboard.dataelement",
+  "pk": 1,
+  "fields": {
+    "identifier": "105-2.10 HPV2-Dose 2",
+    "name": "105-2.10 HPV2-Dose 2",
+    "data_set_identifier": "tZvfVXqVIHy"
+  }
+},
+{
+  "model": "dashboard.dataelement",
+  "pk": 2,
+  "fields": {
+    "identifier": "105-2.8 Dewormed 1st Dose in the Year",
+    "name": "105-2.8 Dewormed 1st Dose in the Year",
+    "data_set_identifier": "tZvfVXqVIHy"
+  }
+},
+{
+  "model": "dashboard.dataelement",
+  "pk": 3,
+  "fields": {
+    "identifier": "105-2.11 Rotavirus 1",
+    "name": "105-2.11 Rotavirus 1",
+    "data_set_identifier": "tZvfVXqVIHy"
+  }
+},
+{
+  "model": "dashboard.dataelement",
+  "pk": 4,
+  "fields": {
+    "identifier": "105-2.11 DPT-HepB+Hib doses wasted",
+    "name": "105-2.11 DPT-HepB+Hib doses wasted",
+    "data_set_identifier": "tZvfVXqVIHy"
+  }
+},
+{
+  "model": "dashboard.dataelement",
+  "pk": 5,
+  "fields": {
+    "identifier": "105-2.12 Number of health workers Immunized Doses 2",
+    "name": "105-2.12 Number of health workers Immunized Doses 2",
+    "data_set_identifier": "tZvfVXqVIHy"
+  }
+},
+{
+  "model": "dashboard.dataelement",
+  "pk": 6,
+  "fields": {
+    "identifier": "105-2.8 Vit A Suplement 2nd Dose in theYear",
+    "name": "105-2.8 Vit A Suplement 2nd Dose in theYear",
+    "data_set_identifier": "tZvfVXqVIHy"
+  }
+},
+{
+  "model": "dashboard.dataelement",
+  "pk": 7,
+  "fields": {
+    "identifier": "105-2.11 Polio 0",
+    "name": "105-2.11 Polio 0",
+    "data_set_identifier": "tZvfVXqVIHy"
+  }
+},
+{
+  "model": "dashboard.dataelement",
+  "pk": 8,
+  "fields": {
+    "identifier": "105-2.11 Rotavirus 3",
+    "name": "105-2.11 Rotavirus 3",
+    "data_set_identifier": "tZvfVXqVIHy"
+  }
+},
+{
+  "model": "dashboard.dataelement",
+  "pk": 9,
+  "fields": {
+    "identifier": "105-2.8 Vit A Suplement 1st Dose in Year",
+    "name": "105-2.8 Vit A Suplement 1st Dose in Year",
+    "data_set_identifier": "tZvfVXqVIHy"
+  }
+},
+{
+  "model": "dashboard.dataelement",
+  "pk": 10,
+  "fields": {
+    "identifier": "105-2.11 PCV 1",
+    "name": "105-2.11 PCV 1",
+    "data_set_identifier": "tZvfVXqVIHy"
+  }
+},
+{
+  "model": "dashboard.dataelement",
+  "pk": 11,
+  "fields": {
+    "identifier": "105-2.12 Number of health workers Immunized Doses 3",
+    "name": "105-2.12 Number of health workers Immunized Doses 3",
+    "data_set_identifier": "tZvfVXqVIHy"
+  }
+},
+{
+  "model": "dashboard.dataelement",
+  "pk": 12,
+  "fields": {
+    "identifier": "105-2.11 DPT-HepB+Hib 3",
+    "name": "105-2.11 DPT-HepB+Hib 3",
+    "data_set_identifier": "tZvfVXqVIHy"
+  }
+},
+{
+  "model": "dashboard.dataelement",
+  "pk": 13,
+  "fields": {
+    "identifier": "105-2.11 PCV 2",
+    "name": "105-2.11 PCV 2",
+    "data_set_identifier": "tZvfVXqVIHy"
+  }
+},
+{
+  "model": "dashboard.dataelement",
+  "pk": 14,
+  "fields": {
+    "identifier": "105-2.12 Number of health workers note Immunized",
+    "name": "105-2.12 Number of health workers note Immunized",
+    "data_set_identifier": "tZvfVXqVIHy"
+  }
+},
+{
+  "model": "dashboard.dataelement",
+  "pk": 15,
+  "fields": {
+    "identifier": "105-2.12 Number of health workers Immunized Doses(D3+Done before)",
+    "name": "105-2.12 Number of health workers Immunized Doses(D3+Done before)",
+    "data_set_identifier": "tZvfVXqVIHy"
+  }
+},
+{
+  "model": "dashboard.dataelement",
+  "pk": 16,
+  "fields": {
+    "identifier": "105-2.8 Deworming 2nd dose in schools in the year",
+    "name": "105-2.8 Deworming 2nd dose in schools in the year",
+    "data_set_identifier": "tZvfVXqVIHy"
+  }
+},
+{
+  "model": "dashboard.dataelement",
+  "pk": 17,
+  "fields": {
+    "identifier": "105-2.10 HPV1-Dose 1",
+    "name": "105-2.10 HPV1-Dose 1",
+    "data_set_identifier": "tZvfVXqVIHy"
+  }
+},
+{
+  "model": "dashboard.dataelement",
+  "pk": 18,
+  "fields": {
+    "identifier": "105-2.11 Protection At Birth (PAB)",
+    "name": "105-2.11 Protection At Birth (PAB)",
+    "data_set_identifier": "tZvfVXqVIHy"
+  }
+},
+{
+  "model": "dashboard.dataelement",
+  "pk": 19,
+  "fields": {
+    "identifier": "105-2.9 Tetanus Immunization Dose 3",
+    "name": "105-2.9 Tetanus Immunization Dose 3",
+    "data_set_identifier": "tZvfVXqVIHy"
+  }
+},
+{
+  "model": "dashboard.dataelement",
+  "pk": 20,
+  "fields": {
+    "identifier": "105-2.9 Tetanus Immunization Dose 2",
+    "name": "105-2.9 Tetanus Immunization Dose 2",
+    "data_set_identifier": "tZvfVXqVIHy"
+  }
+},
+{
+  "model": "dashboard.dataelement",
+  "pk": 21,
+  "fields": {
+    "identifier": "105-2.11 Measles",
+    "name": "105-2.11 Measles",
+    "data_set_identifier": "tZvfVXqVIHy"
+  }
+},
+{
+  "model": "dashboard.dataelement",
+  "pk": 22,
+  "fields": {
+    "identifier": "105-2.12 Number of health workers Immunized Doses 1",
+    "name": "105-2.12 Number of health workers Immunized Doses 1",
+    "data_set_identifier": "tZvfVXqVIHy"
+  }
+},
+{
+  "model": "dashboard.dataelement",
+  "pk": 23,
+  "fields": {
+    "identifier": "105-2.9 Tetanus Immunization Dose 5",
+    "name": "105-2.9 Tetanus Immunization Dose 5",
+    "data_set_identifier": "tZvfVXqVIHy"
+  }
+},
+{
+  "model": "dashboard.dataelement",
+  "pk": 24,
+  "fields": {
+    "identifier": "105-2.11 Polio 2",
+    "name": "105-2.11 Polio 2",
+    "data_set_identifier": "tZvfVXqVIHy"
+  }
+},
+{
+  "model": "dashboard.dataelement",
+  "pk": 25,
+  "fields": {
+    "identifier": "105-2.11 PCV 3",
+    "name": "105-2.11 PCV 3",
+    "data_set_identifier": "tZvfVXqVIHy"
+  }
+},
+{
+  "model": "dashboard.dataelement",
+  "pk": 26,
+  "fields": {
+    "identifier": "105-2.11 Polio 1",
+    "name": "105-2.11 Polio 1",
+    "data_set_identifier": "tZvfVXqVIHy"
+  }
+},
+{
+  "model": "dashboard.dataelement",
+  "pk": 27,
+  "fields": {
+    "identifier": "105-2.11 Polio 3",
+    "name": "105-2.11 Polio 3",
+    "data_set_identifier": "tZvfVXqVIHy"
+  }
+},
+{
+  "model": "dashboard.dataelement",
+  "pk": 28,
+  "fields": {
+    "identifier": "105-2.11 Rotavirus 2",
+    "name": "105-2.11 Rotavirus 2",
+    "data_set_identifier": "tZvfVXqVIHy"
+  }
+},
+{
+  "model": "dashboard.dataelement",
+  "pk": 29,
+  "fields": {
+    "identifier": "105-2.10 HPV3-Dose 3",
+    "name": "105-2.10 HPV3-Dose 3",
+    "data_set_identifier": "tZvfVXqVIHy"
+  }
+},
+{
+  "model": "dashboard.dataelement",
+  "pk": 30,
+  "fields": {
+    "identifier": "105-2.11 IPV",
+    "name": "105-2.11 IPV",
+    "data_set_identifier": "tZvfVXqVIHy"
+  }
+},
+{
+  "model": "dashboard.dataelement",
+  "pk": 31,
+  "fields": {
+    "identifier": "105-2.11 Fully immunized by 1 year",
+    "name": "105-2.11 Fully immunized by 1 year",
+    "data_set_identifier": "tZvfVXqVIHy"
+  }
+},
+{
+  "model": "dashboard.dataelement",
+  "pk": 32,
+  "fields": {
+    "identifier": "105-2.11 DPT-HepB+Hib 1",
+    "name": "105-2.11 DPT-HepB+Hib 1",
+    "data_set_identifier": "tZvfVXqVIHy"
+  }
+},
+{
+  "model": "dashboard.dataelement",
+  "pk": 33,
+  "fields": {
+    "identifier": "105-2.8 Dewormed 1st dose in schools in the year",
+    "name": "105-2.8 Dewormed 1st dose in schools in the year",
+    "data_set_identifier": "tZvfVXqVIHy"
+  }
+},
+{
+  "model": "dashboard.dataelement",
+  "pk": 34,
+  "fields": {
+    "identifier": "105-2.9 Tetanus Immunization Dose 4",
+    "name": "105-2.9 Tetanus Immunization Dose 4",
+    "data_set_identifier": "tZvfVXqVIHy"
+  }
+},
+{
+  "model": "dashboard.dataelement",
+  "pk": 35,
+  "fields": {
+    "identifier": "105-2.9 Tetanus Immunization Dose 1",
+    "name": "105-2.9 Tetanus Immunization Dose 1",
+    "data_set_identifier": "tZvfVXqVIHy"
+  }
+},
+{
+  "model": "dashboard.dataelement",
+  "pk": 36,
+  "fields": {
+    "identifier": "105-2.11 BCG",
+    "name": "105-2.11 BCG",
+    "data_set_identifier": "tZvfVXqVIHy"
+  }
+},
+{
+  "model": "dashboard.dataelement",
+  "pk": 37,
+  "fields": {
+    "identifier": "105-2.11 DPT-HepB+Hib 2",
+    "name": "105-2.11 DPT-HepB+Hib 2",
+    "data_set_identifier": "tZvfVXqVIHy"
+  }
+},
+{
+  "model": "dashboard.dataelement",
+  "pk": 38,
+  "fields": {
+    "identifier": "105-2.8 Dewormed 2nd Dose in the Year",
+    "name": "105-2.8 Dewormed 2nd Dose in the Year",
+    "data_set_identifier": "tZvfVXqVIHy"
+  }
+},
+{
+  "model": "dashboard.dataelement",
+  "pk": 39,
+  "fields": {
+    "identifier": "105-2.12 Number of health workers in a Unit",
+    "name": "105-2.12 Number of health workers in a Unit",
+    "data_set_identifier": "tZvfVXqVIHy"
+  }
+},
+{
   "model": "sites.site",
   "pk": 1,
   "fields": {
@@ -69083,6 +69443,19 @@
     "access_area": null,
     "groups": [],
     "user_permissions": []
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 1,
+  "fields": {
+    "action_time": "2016-07-15T12:56:49.577Z",
+    "user": 1,
+    "content_type": 14,
+    "object_id": "1",
+    "object_repr": "HMIS FORM 105: HEALTH UNIT OUTPATIENT MONTHLY REPORT",
+    "action_flag": 1,
+    "change_message": "Added."
   }
 }
 ]
