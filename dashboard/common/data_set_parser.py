@@ -1,7 +1,7 @@
 import json
 from django.db import IntegrityError
-from vaccines import utils
-from vaccines.models import DataElement, DataValue, Facility #CategoryOptionCombo
+from dashboard import utils
+from dashboard.models import DataElement, DataValue, Facility #CategoryOptionCombo
 
 
 class DataSetParser(object):
@@ -31,6 +31,7 @@ class DataSetParser(object):
             return True
 
     def save_data_value(self, data_value):
+        print "Data Element %s %s" %(data_value['dataElement'], data_value['value'])
         data_element = DataElement.objects.get(identifier=data_value['dataElement'])
         #category_option = CategoryOptionCombo.objects.get(identifier=data_value['categoryOptionCombo'])
         facility = Facility.objects.get(identifier=data_value['orgUnit'])
@@ -45,7 +46,7 @@ class DataSetParser(object):
             dv.region = region
             dv.data_element = data_element
             #dv.category_option_combo = category_option
-            dv.age_group = dv.category_option_combo.age_group
+            #dv.age_group = dv.category_option_combo.age_group
             dv.period = int(self.period)
             dv.original_period = data_value['period']
             dv.value = data_value['value']
