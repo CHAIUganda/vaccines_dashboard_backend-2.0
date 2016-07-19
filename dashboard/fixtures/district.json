@@ -5,6 +5,7 @@
   "fields": {
     "identifier": "zNgVoDVPYgD",
     "name": "Nwoya District",
+    "display_name": "",
     "region": 1
   }
 },
@@ -14,6 +15,7 @@
   "fields": {
     "identifier": "Gwk4wkLz7EW",
     "name": "Gulu District",
+    "display_name": "",
     "region": 1
   }
 },
@@ -23,6 +25,7 @@
   "fields": {
     "identifier": "NREoMszwQZW",
     "name": "Abim District",
+    "display_name": "",
     "region": 1
   }
 },
@@ -32,6 +35,7 @@
   "fields": {
     "identifier": "iqsaGItA68C",
     "name": "Koboko District",
+    "display_name": "",
     "region": 1
   }
 },
@@ -41,6 +45,7 @@
   "fields": {
     "identifier": "ztIyIYAzFKp",
     "name": "Agago District",
+    "display_name": "",
     "region": 1
   }
 },
@@ -50,6 +55,7 @@
   "fields": {
     "identifier": "eOJUW6OGpc7",
     "name": "Kaabong District",
+    "display_name": "",
     "region": 1
   }
 },
@@ -59,6 +65,7 @@
   "fields": {
     "identifier": "EDhGji3EteB",
     "name": "Napak District",
+    "display_name": "",
     "region": 1
   }
 },
@@ -68,6 +75,7 @@
   "fields": {
     "identifier": "W0kQBddyGyh",
     "name": "Moyo District",
+    "display_name": "",
     "region": 1
   }
 },
@@ -77,6 +85,7 @@
   "fields": {
     "identifier": "p7EEgDEX3jT",
     "name": "Alebtong District",
+    "display_name": "",
     "region": 1
   }
 },
@@ -86,6 +95,7 @@
   "fields": {
     "identifier": "Y4LV8xqkv6J",
     "name": "Kole District",
+    "display_name": "",
     "region": 1
   }
 },
@@ -95,6 +105,7 @@
   "fields": {
     "identifier": "aBrjuZk0W31",
     "name": "Pader District",
+    "display_name": "",
     "region": 1
   }
 },
@@ -104,6 +115,7 @@
   "fields": {
     "identifier": "xpIFdCMhVHG",
     "name": "Oyam District",
+    "display_name": "",
     "region": 1
   }
 },
@@ -113,6 +125,7 @@
   "fields": {
     "identifier": "Lj8t70RYnEt",
     "name": "Lira District",
+    "display_name": "",
     "region": 1
   }
 },
@@ -122,6 +135,7 @@
   "fields": {
     "identifier": "C0RSe3EWBqU",
     "name": "Amuru District",
+    "display_name": "",
     "region": 1
   }
 },
@@ -131,6 +145,7 @@
   "fields": {
     "identifier": "VuHCApXcMTm",
     "name": "Nakapiripirit District",
+    "display_name": "",
     "region": 1
   }
 },
@@ -140,6 +155,7 @@
   "fields": {
     "identifier": "wMQ25dybdgH",
     "name": "Dokolo District",
+    "display_name": "",
     "region": 1
   }
 },
@@ -149,6 +165,7 @@
   "fields": {
     "identifier": "pnTVIF5v27r",
     "name": "Kitgum District",
+    "display_name": "",
     "region": 1
   }
 },
@@ -158,6 +175,7 @@
   "fields": {
     "identifier": "JyZJhGXKeEq",
     "name": "Apac District",
+    "display_name": "",
     "region": 1
   }
 },
@@ -167,6 +185,7 @@
   "fields": {
     "identifier": "Xjc0LDFa5gW",
     "name": "Nebbi District",
+    "display_name": "",
     "region": 1
   }
 },
@@ -176,6 +195,7 @@
   "fields": {
     "identifier": "A9kRCvmn6Co",
     "name": "Moroto District",
+    "display_name": "",
     "region": 1
   }
 },
@@ -185,6 +205,7 @@
   "fields": {
     "identifier": "W1JM2Qdhcv3",
     "name": "Yumbe District",
+    "display_name": "",
     "region": 1
   }
 },
@@ -194,6 +215,7 @@
   "fields": {
     "identifier": "WyR8Eetj7Uw",
     "name": "Maracha District",
+    "display_name": "",
     "region": 1
   }
 },
@@ -203,6 +225,7 @@
   "fields": {
     "identifier": "a8RHFdF4DXL",
     "name": "Amudat District",
+    "display_name": "",
     "region": 1
   }
 },
@@ -212,6 +235,7 @@
   "fields": {
     "identifier": "xy0M4HhjXtD",
     "name": "Lamwo District",
+    "display_name": "",
     "region": 1
   }
 },
@@ -221,6 +245,7 @@
   "fields": {
     "identifier": "aPZzL4CyBTg",
     "name": "Kotido District",
+    "display_name": "",
     "region": 1
   }
 },
@@ -230,6 +255,7 @@
   "fields": {
     "identifier": "ZuQHWOaFQVM",
     "name": "Amolatar District",
+    "display_name": "",
     "region": 1
   }
 },
@@ -239,6 +265,7 @@
   "fields": {
     "identifier": "WcB3kLlgRTb",
     "name": "Arua District",
+    "display_name": "",
     "region": 1
   }
 },
@@ -248,6 +275,7 @@
   "fields": {
     "identifier": "A4aGXEfdb8P",
     "name": "Zombo District",
+    "display_name": "",
     "region": 1
   }
 },
@@ -257,6 +285,7 @@
   "fields": {
     "identifier": "aXjub1BYn1y",
     "name": "Otuke District",
+    "display_name": "",
     "region": 1
   }
 },
@@ -266,6 +295,7 @@
   "fields": {
     "identifier": "QYiQ2KqgCxj",
     "name": "Adjumani District",
+    "display_name": "",
     "region": 1
   }
 },
@@ -275,6 +305,7 @@
   "fields": {
     "identifier": "QoRZB7xc3j9",
     "name": "Kaberamaido District",
+    "display_name": "",
     "region": 2
   }
 },
@@ -284,6 +315,7 @@
   "fields": {
     "identifier": "lkuO79O6mRx",
     "name": "Busia District",
+    "display_name": "",
     "region": 2
   }
 },
@@ -293,6 +325,7 @@
   "fields": {
     "identifier": "MtpE3CH6vq3",
     "name": "Butaleja District",
+    "display_name": "",
     "region": 2
   }
 },
@@ -302,6 +335,7 @@
   "fields": {
     "identifier": "KhT80mlwJ3Y",
     "name": "Tororo District",
+    "display_name": "",
     "region": 2
   }
 },
@@ -311,6 +345,7 @@
   "fields": {
     "identifier": "saT18HClZoz",
     "name": "Kumi District",
+    "display_name": "",
     "region": 2
   }
 },
@@ -320,6 +355,7 @@
   "fields": {
     "identifier": "aginheWSLef",
     "name": "Kapchorwa District",
+    "display_name": "",
     "region": 2
   }
 },
@@ -329,6 +365,7 @@
   "fields": {
     "identifier": "wJ2a6YKDFZW",
     "name": "Sironko District",
+    "display_name": "",
     "region": 2
   }
 },
@@ -338,6 +375,7 @@
   "fields": {
     "identifier": "kb7iUQISRlx",
     "name": "Budaka District",
+    "display_name": "",
     "region": 2
   }
 },
@@ -347,6 +385,7 @@
   "fields": {
     "identifier": "aj4hsYK3dVm",
     "name": "Ngora District",
+    "display_name": "",
     "region": 2
   }
 },
@@ -356,6 +395,7 @@
   "fields": {
     "identifier": "mv4gKtY0qW8",
     "name": "Mayuge District",
+    "display_name": "",
     "region": 2
   }
 },
@@ -365,6 +405,7 @@
   "fields": {
     "identifier": "AhwgeZQYj16",
     "name": "Bududa District",
+    "display_name": "",
     "region": 2
   }
 },
@@ -374,6 +415,7 @@
   "fields": {
     "identifier": "auLatLbcOxf",
     "name": "Bulambuli District",
+    "display_name": "",
     "region": 2
   }
 },
@@ -383,6 +425,7 @@
   "fields": {
     "identifier": "TM6ccNxawqy",
     "name": "Amuria District",
+    "display_name": "",
     "region": 2
   }
 },
@@ -392,6 +435,7 @@
   "fields": {
     "identifier": "Ut0ysYGEipO",
     "name": "Namayingo District",
+    "display_name": "",
     "region": 2
   }
 },
@@ -401,6 +445,7 @@
   "fields": {
     "identifier": "tdZbtg9sZkO",
     "name": "Bukedea District",
+    "display_name": "",
     "region": 2
   }
 },
@@ -410,6 +455,7 @@
   "fields": {
     "identifier": "kJCEJnXLgnh",
     "name": "Kaliro District",
+    "display_name": "",
     "region": 2
   }
 },
@@ -419,6 +465,7 @@
   "fields": {
     "identifier": "oNxpMjveyZt",
     "name": "Iganga District",
+    "display_name": "",
     "region": 2
   }
 },
@@ -428,6 +475,7 @@
   "fields": {
     "identifier": "esIUe2tQAtL",
     "name": "Namutumba District",
+    "display_name": "",
     "region": 2
   }
 },
@@ -437,6 +485,7 @@
   "fields": {
     "identifier": "JIZDvNlIhXS",
     "name": "Manafwa District",
+    "display_name": "",
     "region": 2
   }
 },
@@ -446,6 +495,7 @@
   "fields": {
     "identifier": "Oyxwe3iDqpR",
     "name": "Kibuku District",
+    "display_name": "",
     "region": 2
   }
 },
@@ -455,6 +505,7 @@
   "fields": {
     "identifier": "WiVj4bEhX4P",
     "name": "Pallisa District",
+    "display_name": "",
     "region": 2
   }
 },
@@ -464,6 +515,7 @@
   "fields": {
     "identifier": "oyygQ2STBST",
     "name": "Kamuli District",
+    "display_name": "",
     "region": 2
   }
 },
@@ -473,6 +525,7 @@
   "fields": {
     "identifier": "F3ccON3OCsL",
     "name": "Buyende District",
+    "display_name": "",
     "region": 2
   }
 },
@@ -482,6 +535,7 @@
   "fields": {
     "identifier": "gUaoj8Geuao",
     "name": "Bugiri District",
+    "display_name": "",
     "region": 2
   }
 },
@@ -491,6 +545,7 @@
   "fields": {
     "identifier": "cSrCFjPKqcG",
     "name": "Katakwi District",
+    "display_name": "",
     "region": 2
   }
 },
@@ -500,6 +555,7 @@
   "fields": {
     "identifier": "srmGjHrpVE5",
     "name": "Soroti District",
+    "display_name": "",
     "region": 2
   }
 },
@@ -509,6 +565,7 @@
   "fields": {
     "identifier": "yuo5ielNL7W",
     "name": "Mbale District",
+    "display_name": "",
     "region": 2
   }
 },
@@ -518,6 +575,7 @@
   "fields": {
     "identifier": "hn1AlYtF1Pu",
     "name": "Luuka District",
+    "display_name": "",
     "region": 2
   }
 },
@@ -527,6 +585,7 @@
   "fields": {
     "identifier": "zJfpujxC1kD",
     "name": "Serere District",
+    "display_name": "",
     "region": 2
   }
 },
@@ -536,6 +595,7 @@
   "fields": {
     "identifier": "aJR2ZxSH7g4",
     "name": "Jinja District",
+    "display_name": "",
     "region": 2
   }
 },
@@ -545,6 +605,7 @@
   "fields": {
     "identifier": "h1O9AvNR4jS",
     "name": "Kween District",
+    "display_name": "",
     "region": 2
   }
 },
@@ -554,6 +615,7 @@
   "fields": {
     "identifier": "e8m9ZYMRoeR",
     "name": "Bukwo District",
+    "display_name": "",
     "region": 2
   }
 },
@@ -563,6 +625,7 @@
   "fields": {
     "identifier": "aIahLLmtvgT",
     "name": "Wakiso District",
+    "display_name": "",
     "region": 3
   }
 },
@@ -572,6 +635,7 @@
   "fields": {
     "identifier": "ykxQEnZGXkj",
     "name": "Kayunga District",
+    "display_name": "",
     "region": 3
   }
 },
@@ -581,6 +645,7 @@
   "fields": {
     "identifier": "Ame30QOwuX6",
     "name": "Bukomansimbi District",
+    "display_name": "",
     "region": 3
   }
 },
@@ -590,6 +655,7 @@
   "fields": {
     "identifier": "Q7PaNIbyZII",
     "name": "Mityana District",
+    "display_name": "",
     "region": 3
   }
 },
@@ -599,6 +665,7 @@
   "fields": {
     "identifier": "aZLZPPjqft0",
     "name": "Buvuma District",
+    "display_name": "",
     "region": 3
   }
 },
@@ -608,6 +675,7 @@
   "fields": {
     "identifier": "aqpd0Y9eXZ2",
     "name": "Lwengo District",
+    "display_name": "",
     "region": 3
   }
 },
@@ -617,6 +685,7 @@
   "fields": {
     "identifier": "tr9XWtYsL5P",
     "name": "Luwero District",
+    "display_name": "",
     "region": 3
   }
 },
@@ -626,6 +695,7 @@
   "fields": {
     "identifier": "bIONCoCnt3Q",
     "name": "Masaka District",
+    "display_name": "",
     "region": 3
   }
 },
@@ -635,6 +705,7 @@
   "fields": {
     "identifier": "IVuiLJYABw6",
     "name": "Kyankwanzi District",
+    "display_name": "",
     "region": 3
   }
 },
@@ -644,6 +715,7 @@
   "fields": {
     "identifier": "ahyi8Uq4vaj",
     "name": "Kalungu District",
+    "display_name": "",
     "region": 3
   }
 },
@@ -653,6 +725,7 @@
   "fields": {
     "identifier": "aPRNSGUR3vk",
     "name": "Lyantonde District",
+    "display_name": "",
     "region": 3
   }
 },
@@ -662,6 +735,7 @@
   "fields": {
     "identifier": "JrHILmtK0OU",
     "name": "Kalangala District",
+    "display_name": "",
     "region": 3
   }
 },
@@ -671,6 +745,7 @@
   "fields": {
     "identifier": "aXmBzv61LbM",
     "name": "Kampala District",
+    "display_name": "",
     "region": 3
   }
 },
@@ -680,6 +755,7 @@
   "fields": {
     "identifier": "j7AQsnEYmvi",
     "name": "Sembabule District",
+    "display_name": "",
     "region": 3
   }
 },
@@ -689,6 +765,7 @@
   "fields": {
     "identifier": "aSbgVKaeCP0",
     "name": "Nakaseke District",
+    "display_name": "",
     "region": 3
   }
 },
@@ -698,6 +775,7 @@
   "fields": {
     "identifier": "P8iz90eiIrW",
     "name": "Rakai District",
+    "display_name": "",
     "region": 3
   }
 },
@@ -707,6 +785,7 @@
   "fields": {
     "identifier": "a3LMKP8z8Xj",
     "name": "Butambala District",
+    "display_name": "",
     "region": 3
   }
 },
@@ -716,6 +795,7 @@
   "fields": {
     "identifier": "YMMexeHFUay",
     "name": "Mpigi District",
+    "display_name": "",
     "region": 3
   }
 },
@@ -725,6 +805,7 @@
   "fields": {
     "identifier": "lQj3yMM1lI7",
     "name": "Gomba District",
+    "display_name": "",
     "region": 3
   }
 },
@@ -734,6 +815,7 @@
   "fields": {
     "identifier": "a0DfYpC2Rwl",
     "name": "Mukono District",
+    "display_name": "",
     "region": 3
   }
 },
@@ -743,6 +825,7 @@
   "fields": {
     "identifier": "lzWuB6bCQeV",
     "name": "Mubende District",
+    "display_name": "",
     "region": 3
   }
 },
@@ -752,6 +835,7 @@
   "fields": {
     "identifier": "aUcYGQCK9ub",
     "name": "Nakasongola District",
+    "display_name": "",
     "region": 3
   }
 },
@@ -761,6 +845,7 @@
   "fields": {
     "identifier": "GLHh0BXys9w",
     "name": "Kiboga District",
+    "display_name": "",
     "region": 3
   }
 },
@@ -770,6 +855,7 @@
   "fields": {
     "identifier": "x75Yh65MaUa",
     "name": "Buikwe District",
+    "display_name": "",
     "region": 3
   }
 },
@@ -779,6 +865,7 @@
   "fields": {
     "identifier": "PJFtfCyp6Rb",
     "name": "Hoima District",
+    "display_name": "",
     "region": 4
   }
 },
@@ -788,6 +875,7 @@
   "fields": {
     "identifier": "sWoNWQZ9qrD",
     "name": "Buhweju District",
+    "display_name": "",
     "region": 4
   }
 },
@@ -797,6 +885,7 @@
   "fields": {
     "identifier": "tM3DsJxMaMX",
     "name": "Kibaale District",
+    "display_name": "",
     "region": 4
   }
 },
@@ -806,6 +895,7 @@
   "fields": {
     "identifier": "B0G9cqixld8",
     "name": "Kiryandongo District",
+    "display_name": "",
     "region": 4
   }
 },
@@ -815,6 +905,7 @@
   "fields": {
     "identifier": "xAJgEKKAeRA",
     "name": "Sheema District",
+    "display_name": "",
     "region": 4
   }
 },
@@ -824,6 +915,7 @@
   "fields": {
     "identifier": "zBIpPzKYFLp",
     "name": "Kabale District",
+    "display_name": "",
     "region": 4
   }
 },
@@ -833,6 +925,7 @@
   "fields": {
     "identifier": "xr8EMirOASp",
     "name": "Masindi District",
+    "display_name": "",
     "region": 4
   }
 },
@@ -842,6 +935,7 @@
   "fields": {
     "identifier": "qf9xWZu7Dq8",
     "name": "Kiruhura District",
+    "display_name": "",
     "region": 4
   }
 },
@@ -851,6 +945,7 @@
   "fields": {
     "identifier": "auswb7JO9wY",
     "name": "Mbarara District",
+    "display_name": "",
     "region": 4
   }
 },
@@ -860,6 +955,7 @@
   "fields": {
     "identifier": "fS71jg1WYPk",
     "name": "Rubirizi District",
+    "display_name": "",
     "region": 4
   }
 },
@@ -869,6 +965,7 @@
   "fields": {
     "identifier": "z8D9ER36EKN",
     "name": "Ntoroko District",
+    "display_name": "",
     "region": 4
   }
 },
@@ -878,6 +975,7 @@
   "fields": {
     "identifier": "aa8xVDzSpte",
     "name": "Kasese District",
+    "display_name": "",
     "region": 4
   }
 },
@@ -887,6 +985,7 @@
   "fields": {
     "identifier": "aphcy5JTnd6",
     "name": "Kanungu District",
+    "display_name": "",
     "region": 4
   }
 },
@@ -896,6 +995,7 @@
   "fields": {
     "identifier": "m77oR1YJESj",
     "name": "Kabarole District",
+    "display_name": "",
     "region": 4
   }
 },
@@ -905,6 +1005,7 @@
   "fields": {
     "identifier": "r8WLxW9JwsS",
     "name": "Ibanda District",
+    "display_name": "",
     "region": 4
   }
 },
@@ -914,6 +1015,7 @@
   "fields": {
     "identifier": "a9tQqo1rSj7",
     "name": "Kyegegwa District",
+    "display_name": "",
     "region": 4
   }
 },
@@ -923,6 +1025,7 @@
   "fields": {
     "identifier": "It5UGwdHAPF",
     "name": "Bushenyi District",
+    "display_name": "",
     "region": 4
   }
 },
@@ -932,6 +1035,7 @@
   "fields": {
     "identifier": "tugqr4dY6wq",
     "name": "Rukungiri District",
+    "display_name": "",
     "region": 4
   }
 },
@@ -941,6 +1045,7 @@
   "fields": {
     "identifier": "g8M1cWRJZV6",
     "name": "Bundibugyo District",
+    "display_name": "",
     "region": 4
   }
 },
@@ -950,6 +1055,7 @@
   "fields": {
     "identifier": "UaR7OHycj8c",
     "name": "Isingiro District",
+    "display_name": "",
     "region": 4
   }
 },
@@ -959,6 +1065,7 @@
   "fields": {
     "identifier": "CQTmrrriwOq",
     "name": "Buliisa District",
+    "display_name": "",
     "region": 4
   }
 },
@@ -968,6 +1075,7 @@
   "fields": {
     "identifier": "aPhSZRinfbg",
     "name": "Kisoro District",
+    "display_name": "",
     "region": 4
   }
 },
@@ -977,6 +1085,7 @@
   "fields": {
     "identifier": "O9MoQcpZ4uA",
     "name": "Kyenjojo District",
+    "display_name": "",
     "region": 4
   }
 },
@@ -986,6 +1095,7 @@
   "fields": {
     "identifier": "FLygHiUd2UW",
     "name": "Mitooma District",
+    "display_name": "",
     "region": 4
   }
 },
@@ -995,6 +1105,7 @@
   "fields": {
     "identifier": "uCVQXAdKqL9",
     "name": "Kamwenge District",
+    "display_name": "",
     "region": 4
   }
 },
@@ -1004,6 +1115,7 @@
   "fields": {
     "identifier": "hAoe9dhZh9V",
     "name": "Ntungamo District",
+    "display_name": "",
     "region": 4
   }
 }

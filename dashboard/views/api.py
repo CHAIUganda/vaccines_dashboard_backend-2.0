@@ -213,10 +213,10 @@ class StockApi(APIView):
             args.update({'vaccine': vaccine})
 
         summary = Stock.objects.filter(**args) \
-            .values('district') \
+            .values('district__name') \
             .annotate(stockathand=Sum('at_hand')) \
-            .order_by('district')\
-            .values('district', 'stockathand')
+            .order_by('district__name')\
+            .values('district__name', 'stockathand')
 
         return Response(summary)
 

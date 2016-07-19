@@ -29,6 +29,7 @@ class Command(BaseCommand):
                     try:
                         child_district = District.objects.get(identifier=child['id'])
                         child_district.region = region
+                        child_district.display_name = child['name']
                         child_district.save()
                     except ObjectDoesNotExist:
                         pass

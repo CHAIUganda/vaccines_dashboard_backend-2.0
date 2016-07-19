@@ -162,6 +162,7 @@ class Stock(models.Model):
     def __unicode__(self):
         return "%s %d %d %s" % (self.district, self.vaccine, self.year, self.month )
 
+
 class DataSyncTrackerStatus(object):
     UNKNOWN = 0
     INIT_DOWNLOAD = 1

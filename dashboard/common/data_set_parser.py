@@ -1,7 +1,7 @@
 import json
 from django.db import IntegrityError
 from dashboard import utils
-from dashboard.models import DataElement, DataValue, Facility #CategoryOptionCombo
+from dashboard.models import DataElement, DataValue, Facility, District, Region  #CategoryOptionCombo
 
 
 class DataSetParser(object):
@@ -18,6 +18,8 @@ class DataSetParser(object):
 
     def parse(self):
         data_values = self.get_data_values()
+        print "Loading data..."
+        
         for value in data_values:
             try:
                 if not self.is_valid_data_element(value['dataElement']):
@@ -25,18 +27,29 @@ class DataSetParser(object):
                 self.save_data_value(value)
             except Exception, e:
                 print e.message
+        print "Done."
 
     def is_valid_data_element(self, data_element):
         if data_element in self.valid_data_elements:
             return True
 
     def save_data_value(self, data_value):
-        print "Data Element %s %s" %(data_value['dataElement'], data_value['value'])
         data_element = DataElement.objects.get(identifier=data_value['dataElement'])
-        #category_option = CategoryOptionCombo.objects.get(identifier=data_value['categoryOptionCombo'])
-        facility = Facility.objects.get(identifier=data_value['orgUnit'])
-        district = facility.sub_county.district
-        region = district.region
+        facility = Facility.objects.filter(identifier=data_value['orgUnit']).first()
+        print "sub county:%s" % (facility.sub_county,)
+
+        if facility:
+            district = facility.sub_county.district
+            region = district.region
+        else:
+            district_item = District.objects.filter(identifier=data_value['orgUnit']).first()
+            if district_item:
+                district = district_item
+                region = district_item.region
+            else:
+                sub_county = District.objects.filter(identifier=data_value['orgUnit']).first()
+                district = sub_county.district
+                region = sub_county.region
 
         try:
             dv = DataValue()
@@ -45,8 +58,6 @@ class DataSetParser(object):
             dv.district = district
             dv.region = region
             dv.data_element = data_element
-            #dv.category_option_combo = category_option
-            #dv.age_group = dv.category_option_combo.age_group
             dv.period = int(self.period)
             dv.original_period = data_value['period']
             dv.value = data_value['value']
@@ -54,6 +65,5 @@ class DataSetParser(object):
         except IntegrityError, e:
             dv = DataValue.objects.get(facility=facility, data_element=data_element,
                                        period=self.period)
-			#category_option_combo=category_option, Todo: add something
             dv.value = data_value['value']
             dv.save()

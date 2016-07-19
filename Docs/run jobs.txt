@@ -1,12 +1,12 @@
-python manage.py dhis2_download_org_units region
-python manage.py dhis2_download_org_units district
-python manage.py dhis2_download_org_units subcounty
+python manage.py dhis2_00_download_org_units region
+python manage.py dhis2_00_download_org_units district
+python manage.py dhis2_00_download_org_units subcounty
 
-python manage.py dhis2_download_facilities
+python manage.py dhis2_01_download_facilities
 
-python manage.py dhis2_set_org_unit_parents region
-python manage.py dhis2_set_org_unit_parents district
-python manage.py dhis2_set_org_unit_parents subcounty
+python manage.py dhis2_02_set_org_unit_parents region
+python manage.py dhis2_02_set_org_unit_parents district
+python manage.py dhis2_02_set_org_unit_parents subcounty
 
 python manage.py dumpdata dashboard.region --indent 2 > .\dashboard\fixtures\region.json
 python manage.py dumpdata dashboard.district --indent 2 > .\dashboard\fixtures\district.json
@@ -24,15 +24,15 @@ python manage.py dumpdata --indent 2 > .\dashboard\fixtures\initial_data.json
 
 //Check Elements
 description: "HMIS FORM 105: HEALTH UNIT OUTPATIENT MONTHLY REPORT",
-python manage.py dhis2_find_data_elements tZvfVXqVIHy
+python manage.py dhis2_03_find_data_elements tZvfVXqVIHy
 
 //file dataelements
-python manage.py dhis2_download_data_elements tZvfVXqVIHy
+python manage.py dhis2_04_download_data_elements tZvfVXqVIHy
 
 
 // Download monthly data
-python manage.py dhis2_download_data_sets "201512"
+python manage.py dhis2_05_download_data_sets "201512"
 
 
 // Download monthly data
-python manage.py dhis2_parse_data_sets "201512"
+python manage.py dhis2_06_parse_data_sets "201512"
