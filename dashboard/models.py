@@ -59,25 +59,6 @@ MONTHS = (
     )
 
 
-class Stock(models.Model):
-    district = models.CharField(max_length=256, db_index=True)
-    year = models.IntegerField(default=2014)
-    month = models.IntegerField(choices=MONTHS, default=1)
-    vaccine = models.CharField(max_length=256, db_index=True)
-    firstdate = models.DateField(auto_now=False)
-    lastdate = models.DateField(auto_now=False)
-    at_hand = models.FloatField(default=0)
-    consumed = models.FloatField(default=0)
-    received = models.FloatField(default=0)
-    ordered = models.FloatField(default=0)
-
-    class Meta:
-        unique_together = ("district","vaccine", "year", "month", )
-
-    def __unicode__(self):
-        return "%s %d %d %s" % (self.district, self.vaccine, self.year, self.month )
-
-
 class Region(models.Model):
     identifier = models.CharField(max_length=255, unique=True)
     name = models.CharField(max_length=255)
@@ -89,10 +70,11 @@ class Region(models.Model):
 class District(models.Model):
     identifier = models.CharField(max_length=255, unique=True)
     name = models.CharField(max_length=255)
+    display_name = models.CharField(max_length=255)
     region = models.ForeignKey(Region, on_delete=models.SET_NULL, null=True, blank=True)
 
     def __str__(self):
-        return self.name
+         return self.name
 
 
 class SubCounty(models.Model):
@@ -161,6 +143,24 @@ class DataValue(models.Model):
     original_period = models.CharField(max_length=20)
     value = models.IntegerField()
 
+
+class Stock(models.Model):
+    district = models.ForeignKey(District, on_delete=models.SET_NULL, null=True, blank=True)
+    year = models.IntegerField(default=2014)
+    month = models.IntegerField(choices=MONTHS, default=1)
+    vaccine = models.CharField(max_length=256, db_index=True)
+    firstdate = models.DateField(auto_now=False)
+    lastdate = models.DateField(auto_now=False)
+    at_hand = models.FloatField(default=0)
+    consumed = models.FloatField(default=0)
+    received = models.FloatField(default=0)
+    ordered = models.FloatField(default=0)
+
+    class Meta:
+        unique_together = ("district","vaccine", "year", "month", )
+
+    def __unicode__(self):
+        return "%s %d %d %s" % (self.district, self.vaccine, self.year, self.month )
 
 class DataSyncTrackerStatus(object):
     UNKNOWN = 0

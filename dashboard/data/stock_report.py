@@ -1,7 +1,7 @@
 import logging
 from collections import defaultdict
 
-import datetime
+from datetime import datetime, timedelta, date
 from openpyxl import load_workbook
 
 from dashboard.helpers import *
@@ -52,15 +52,18 @@ class StockReport:
                     else:
                         value = 0
 
+                    district = District.objects.filter(name__contains=row[0].value).first()
+
                     if value:
                         stock, created = Stock.objects.update_or_create(
-                            district=row[0].value,
+                            district=district,
                             vaccine=vaccine,
                             year=self.year,
                             month=self.month,
                             at_hand=value,
-                            defaults= {'firstdate':datetime.datetime(int(self.year), int(self.month),1),
-                                'lastdate':datetime.datetime(int(self.year), int(self.month), LAST_MONTH_DAY[int(self.month)])},
+                            defaults= {'firstdate':date(int(self.year), int(self.month), 1),
+                                        'lastdate':date(int(self.year), int(self.month), LAST_MONTH_DAY[int(self.month)])
+                                       },
                         )
 
 
@@ -82,14 +85,16 @@ class StockReport:
                     else:
                         value = 0
 
+                    district = District.objects.filter(name__contains=row[0].value).first()
+
                     if value:
                         stock, created = Stock.objects.update_or_create(
-                            district=row[0].value,
+                            district=district,
                             vaccine=vaccine,
                             year=self.year,
                             month=self.month,
-                            defaults={'firstdate':datetime.datetime(int(self.year), int(self.month), 1),
-                                'lastdate':datetime.datetime(int(self.year), int(self.month), LAST_MONTH_DAY[int(self.month)]),
+                            defaults={'firstdate':date(int(self.year), int(self.month), 1),
+                                'lastdate':date(int(self.year), int(self.month), LAST_MONTH_DAY[int(self.month)]),
                                 'ordered':value},
                         )
 
