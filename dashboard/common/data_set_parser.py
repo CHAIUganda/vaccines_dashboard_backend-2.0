@@ -19,7 +19,7 @@ class DataSetParser(object):
     def parse(self):
         data_values = self.get_data_values()
         print "Loading data..."
-        
+
         for value in data_values:
             try:
                 if not self.is_valid_data_element(value['dataElement']):
