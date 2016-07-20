@@ -18,7 +18,7 @@ class DataSetParser(object):
 
     def parse(self):
         data_values = self.get_data_values()
-        print "Loading data..."
+        print "Started..."
 
         for value in data_values:
             try:
@@ -34,13 +34,16 @@ class DataSetParser(object):
             return True
 
     def save_data_value(self, data_value):
+        if data_value['value'] == 0:
+            pass
+
         data_element = DataElement.objects.get(identifier=data_value['dataElement'])
         facility = Facility.objects.filter(identifier=data_value['orgUnit']).first()
-        print "sub county:%s" % (facility.sub_county,)
 
         if facility:
             district = facility.sub_county.district
             region = district.region
+
         else:
             district_item = District.objects.filter(identifier=data_value['orgUnit']).first()
             if district_item:
@@ -50,6 +53,8 @@ class DataSetParser(object):
                 sub_county = District.objects.filter(identifier=data_value['orgUnit']).first()
                 district = sub_county.district
                 region = sub_county.region
+
+        print "Sub County:%s in (%s) value: %s" % (facility.sub_county, district, data_value['value'])
 
         try:
             dv = DataValue()
@@ -63,6 +68,7 @@ class DataSetParser(object):
             dv.value = data_value['value']
             dv.save()
         except IntegrityError, e:
+            print "| Updating..."
             dv = DataValue.objects.get(facility=facility, data_element=data_element,
                                        period=self.period)
             dv.value = data_value['value']

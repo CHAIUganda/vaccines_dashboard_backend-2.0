@@ -10,7 +10,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         period = options['period'][0]
-        print "Period: %s" % (period,)
+        print "Loading period: %s" % (period,)
 
         data_sets = DataSet.objects.all()
         for data_set in data_sets:
