@@ -7,8 +7,8 @@ angular.module('dashboard')
         shellScope.child = $scope;
 
         vm.getStockTotals = function(startMonth, endMonth, district, vaccine) {
-            vm.startMonth ? vm.startMonth : "Jan 2014";
-            vm.endMonth = vm.endMonth ? vm.endMonth : "Jan 2014";
+            vm.startMonth ? vm.startMonth : "Dec 2015";
+            vm.endMonth = vm.endMonth ? vm.endMonth : "Dec 2015";
             vm.district = vm.selectedDistrict ? vm.selectedDistrict.name : "";
             vm.vaccine = vm.selectedVaccine ? vm.selectedVaccine.name : "";
 
@@ -40,9 +40,9 @@ angular.module('dashboard')
                 var graphdata = [];
                 for (var i = 0; i < 8; i++) {
                     graphdata.push({
-                        key: vm.data[i].district,
+                        key: vm.data[i].district__name,
                         values: [
-                            [ vm.data[i].district , vm.data[i].stockathand ]
+                            [ vm.data[i].district__name , vm.data[i].stockathand ]
                         ]
                     });
                 }
