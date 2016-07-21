@@ -11,7 +11,7 @@ from dashboard.models import Stock
 from dashboard.tasks import import_stock_report
 
 
-class HomeView(LoginRequiredMixin, TemplateView):
+class HomeView(TemplateView):
     template_name = "home.html"
 
     def get_context_data(self, **kwargs):
@@ -27,7 +27,7 @@ class StockView(TemplateView):
         return context
 
 
-class FridgeView(LoginRequiredMixin, TemplateView):
+class FridgeView(TemplateView):
     template_name = "fridge.html"
 
     def get_context_data(self, **kwargs):
