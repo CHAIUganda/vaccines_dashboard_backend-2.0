@@ -117,13 +117,16 @@ class Vaccine(models.Model):
     name = models.CharField(max_length=255)
     index = models.IntegerField(default=0)
 
+    def __str__(self):
+        return self.name
+
 
 class VaccineCategory(models.Model):
     data_element = models.ForeignKey(DataElement)
     vaccine = models.ForeignKey(Vaccine)
 
     def __str__(self):
-        return self.name
+        return self.vaccine.name
 
 
 class DataSetParserStatus(object):

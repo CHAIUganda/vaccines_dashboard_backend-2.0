@@ -1,9 +1,7 @@
 import logging
 from collections import defaultdict
-
 from datetime import datetime, timedelta, date
 from openpyxl import load_workbook
-
 from dashboard.helpers import *
 from dashboard.models import *
 
@@ -26,7 +24,7 @@ class StockReport:
         self.month_name = MONTHS_TO_STR[int(self.month)]
         self.month_name = self.month_name.upper()
         self.vaccines = ["MEASLES", "BCG", "HPV", "HEPB", "TT", "TOPV", "YELLOW FEVER", "PCV", "PENTA"]
-
+        self.period = int(year + month)
 
     def load(self):
         self.workbook = self.get_workbook()
@@ -36,13 +34,16 @@ class StockReport:
         return load_workbook(self.path, read_only=True, use_iterators=True)
 
     def import_balances(self):
-        #Todo: use proper name
+        # Todo: use proper name
         worksheet_name = "%s %s" % (self.month_name, self.year)
         location_sheet = self.workbook.get_sheet_by_name(worksheet_name)
+        current_period = self.period
+
         for row in location_sheet.iter_rows('B%s:K%s' % (location_sheet.min_row + 2, location_sheet.max_row)):
             if row[0].value:
                 for vaccine in self.vaccines:
-                    col = self.vaccines.index(vaccine)+ 1
+                    col = self.vaccines.index(vaccine) + 1
+                    xls_row_number = row[0].row
 
                     if row[col].value:
                         if isFloat(row[col].value):
@@ -52,32 +53,31 @@ class StockReport:
                     else:
                         value = 0
 
-                    district = District.objects.filter(name__contains=row[0].value).first()
+                    district_object = District.objects.filter(name__contains=row[0].value).first()
+                    vaccine_object = Vaccine.objects.filter(name=vaccine).first()
 
                     if value:
                         stock, created = Stock.objects.update_or_create(
-                            district=district,
-                            vaccine=vaccine,
+                            district=district_object,
+                            vaccine=vaccine_object,
                             year=self.year,
                             month=self.month,
                             at_hand=value,
-                            defaults= {'firstdate':date(int(self.year), int(self.month), 1),
-                                        'lastdate':date(int(self.year), int(self.month), LAST_MONTH_DAY[int(self.month)]),
-                                        'period': int(str(self.year)+str(self.month))
-                                       },
+                            period=self.period,
+                            defaults={'firstdate': date(int(self.year), int(self.month), 1),
+                                      'lastdate': date(int(self.year), int(self.month), LAST_MONTH_DAY[int(self.month)])
+                                      }
                         )
 
-
-
     def import_orders(self):
-        #Todo: use proper name
+        # Todo: use proper name
         worksheet_name = "%s %s" % (self.month_name, self.year)
         location_sheet = self.workbook.get_sheet_by_name(worksheet_name)
         for row in location_sheet.iter_rows('B%s:AC%s' % (location_sheet.min_row + 2, location_sheet.max_row)):
             if row[0].value:
                 for vaccine in self.vaccines:
                     col = self.vaccines.index(vaccine) + 18
-                    #row_number = row[0].
+                    xls_row_number = row[0].row
 
                     if row[col].value:
                         if isFloat(row[col].value):
@@ -87,21 +87,21 @@ class StockReport:
                     else:
                         value = 0
 
-                    district = District.objects.filter(name__contains=row[0].value).first()
+                    district_object = District.objects.filter(name__contains=row[0].value).first()
+                    vaccine_object = Vaccine.objects.filter(name=vaccine).first()
 
                     if value:
                         stock, created = Stock.objects.update_or_create(
-                            district=district,
-                            vaccine=vaccine,
+                            district=district_object,
+                            vaccine=vaccine_object,
                             year=self.year,
                             month=self.month,
-                            defaults={'firstdate':date(int(self.year), int(self.month), 1),
-                                'lastdate':date(int(self.year), int(self.month), LAST_MONTH_DAY[int(self.month)]),
-                                'period': int(str(self.year)+str(self.month)),
-                                'ordered':value},
+                            period=self.period,
+                            defaults={'firstdate': date(int(self.year), int(self.month), 1),
+                                      'lastdate': date(int(self.year), int(self.month),
+                                                       LAST_MONTH_DAY[int(self.month)]),
+                                      'ordered': value},
                         )
-
-
 
     def get_value(self, row, i):
         if i <= len(row):
