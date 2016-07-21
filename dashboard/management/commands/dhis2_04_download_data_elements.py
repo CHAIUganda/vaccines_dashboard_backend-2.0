@@ -1,6 +1,5 @@
 from django.core.management import BaseCommand
-
-from dashboard.models import DataElement
+from dashboard.models import DataElement, VaccineCategory, Vaccine
 from dashboard.utils import dhis2_request
 
 
@@ -17,10 +16,22 @@ class Command(BaseCommand):
         for index, de in enumerate(result['dataElements']):
             result = dhis2_request('dataElements/%s.json' % de['id'])
 
-            print "Saving... %s. %s %s" % (index+1, result['id'], result['name'])
-			
+            print "Saving... %s. %s %s" % (index + 1, result['id'], result['name'])
+
             data_element = DataElement()
             data_element.identifier = result['id']
             data_element.data_set_identifier = data_set_id
             data_element.name = result['name']
             data_element.save()
+
+            vaccine = Vaccine.objects.filter(name=result['name']).first()
+            if not vaccine:
+                vaccine = Vaccine()
+                vaccine.name = result['name']
+                vaccine.save()
+
+            # first assume 1:1 relationship. Manual setting will be necessary through the admin page
+            vaccine_category = VaccineCategory()
+            vaccine_category.vaccine = vaccine
+            vaccine_category.data_element = data_element
+            vaccine_category.save()

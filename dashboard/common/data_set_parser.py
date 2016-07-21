@@ -55,6 +55,8 @@ class DataSetParser(object):
                 region = sub_county.region
 
         print "Sub County:%s in (%s) value: %s" % (facility.sub_county, district, data_value['value'])
+        year = int(data_value['period'][0:4])
+        month = int(data_value['period'][4:])
 
         try:
             dv = DataValue()
@@ -64,6 +66,8 @@ class DataSetParser(object):
             dv.region = region
             dv.data_element = data_element
             dv.period = int(self.period)
+            dv.year = year
+            dv.month = month
             dv.original_period = data_value['period']
             dv.value = data_value['value']
             dv.save()

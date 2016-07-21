@@ -51,13 +51,6 @@ class StockAdmin(admin.ModelAdmin):
     list_filter = ('district', 'year', 'month', 'vaccine',)
 
 
-# class CategoryOptionComboAdmin(admin.ModelAdmin):
-#     list_display = ('name', 'data_element', 'get_age_group', 'identifier')
-#
-#     # def get_age_group(self, obj):
-#     #     return get_age_group(obj)
-
-
 class DataElementAdmin(admin.ModelAdmin):
     list_display = ('name', 'identifier')
 
@@ -78,11 +71,20 @@ class FacilityAdmin(admin.ModelAdmin):
     list_display = ('name', 'sub_county')
 
 
+class VaccineAdmin(admin.ModelAdmin):
+    list_display = ('name', 'index')
+
+
+class VaccineCategoryAdmin(admin.ModelAdmin):
+    list_display = ('vaccine', 'data_element')
+    search_fields = ('vaccine', 'data_element')
+
+
 class DataValueAdmin(admin.ModelAdmin):
     list_display = (
-        'get_facility', 'district', 'region', 'data_element', 'value', 'period', 'category_option_combo')
-    search_fields = ('data_element__identifier', 'district__name', 'facility__name')
-    list_filter = ('data_element__name', 'period', 'category_option_combo__identifier')
+        'get_facility', 'district', 'region', 'data_element', 'value', 'period', 'vaccine_category')
+    search_fields = ('data_element__identifier', 'district__name', 'facility__name', 'vaccine_category')
+    list_filter = ('data_element__name', 'period', 'vaccine_category')
 
     def get_facility(self, obj):
         return obj.facility.name
@@ -112,10 +114,11 @@ admin_site.register(DashboardUser, EmailUserAdmin)
 admin_site.register(Stock, StockAdmin)
 admin_site.register(DataSet, DataSetAdmin)
 admin_site.register(DataElement, DataElementAdmin)
-# admin_site.register(CategoryOptionCombo, CategoryOptionComboAdmin)
 admin_site.register(Region)
 admin_site.register(District, DistrictAdmin)
 admin_site.register(SubCounty, SubCountyAdmin)
+admin_site.register(Vaccine, VaccineAdmin)
+admin_site.register(VaccineCategory, VaccineCategoryAdmin)
 admin_site.register(Facility, FacilityAdmin)
 admin_site.register(DataValue, DataValueAdmin)
 admin_site.register(DataSyncTracker, DataSyncTrackerAdmin)

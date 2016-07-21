@@ -113,11 +113,14 @@ class DataElement(models.Model):
         return self.name
 
 
-class CategoryOptionCombo(models.Model):
-    data_element = models.ForeignKey(DataElement)
-    identifier = models.CharField(max_length=255, unique=True)
+class Vaccine(models.Model):
     name = models.CharField(max_length=255)
-    age_group = models.IntegerField(default=0)
+    index = models.IntegerField(default=0)
+
+
+class VaccineCategory(models.Model):
+    data_element = models.ForeignKey(DataElement)
+    vaccine = models.ForeignKey(Vaccine)
 
     def __str__(self):
         return self.name
@@ -131,14 +134,16 @@ class DataSetParserStatus(object):
 
 class DataValue(models.Model):
     class Meta:
-        unique_together = (('facility', 'original_period', 'data_element', 'category_option_combo'),)
+        unique_together = (('facility', 'original_period', 'data_element', 'vaccine_category'),)
 
     data_set = models.ForeignKey(DataSet, on_delete=models.SET_NULL, null=True, blank=True)
     region = models.ForeignKey(Region, on_delete=models.SET_NULL, null=True, blank=True)
     district = models.ForeignKey(District, on_delete=models.SET_NULL, null=True, blank=True)
     facility = models.ForeignKey(Facility, on_delete=models.SET_NULL, null=True, blank=True)
     data_element = models.ForeignKey(DataElement, on_delete=models.SET_NULL, null=True, blank=True)
-    category_option_combo = models.ForeignKey(CategoryOptionCombo, on_delete=models.SET_NULL, null=True, blank=True)
+    vaccine_category = models.ForeignKey(VaccineCategory, on_delete=models.SET_NULL, null=True, blank=True)
+    year = models.IntegerField(default=2016)
+    month = models.IntegerField(choices=MONTHS, default=1)
     period = models.IntegerField()
     original_period = models.CharField(max_length=20)
     value = models.IntegerField()
@@ -148,7 +153,8 @@ class Stock(models.Model):
     district = models.ForeignKey(District, on_delete=models.SET_NULL, null=True, blank=True)
     year = models.IntegerField(default=2014)
     month = models.IntegerField(choices=MONTHS, default=1)
-    vaccine = models.CharField(max_length=256, db_index=True)
+    period = models.IntegerField()
+    vaccine = models.ForeignKey(Vaccine, on_delete=models.SET_NULL, null=True, blank=True)
     firstdate = models.DateField(auto_now=False)
     lastdate = models.DateField(auto_now=False)
     at_hand = models.FloatField(default=0)
@@ -157,7 +163,7 @@ class Stock(models.Model):
     ordered = models.FloatField(default=0)
 
     class Meta:
-        unique_together = ("district","vaccine", "year", "month", )
+        unique_together = ("district", "vaccine", "year", "month", )
 
     def __unicode__(self):
         return "%s %d %d %s" % (self.district, self.vaccine, self.year, self.month )

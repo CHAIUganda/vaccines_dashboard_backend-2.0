@@ -62,7 +62,8 @@ class StockReport:
                             month=self.month,
                             at_hand=value,
                             defaults= {'firstdate':date(int(self.year), int(self.month), 1),
-                                        'lastdate':date(int(self.year), int(self.month), LAST_MONTH_DAY[int(self.month)])
+                                        'lastdate':date(int(self.year), int(self.month), LAST_MONTH_DAY[int(self.month)]),
+                                        'period': int(str(self.year)+str(self.month))
                                        },
                         )
 
@@ -76,6 +77,7 @@ class StockReport:
             if row[0].value:
                 for vaccine in self.vaccines:
                     col = self.vaccines.index(vaccine) + 18
+                    #row_number = row[0].
 
                     if row[col].value:
                         if isFloat(row[col].value):
@@ -95,6 +97,7 @@ class StockReport:
                             month=self.month,
                             defaults={'firstdate':date(int(self.year), int(self.month), 1),
                                 'lastdate':date(int(self.year), int(self.month), LAST_MONTH_DAY[int(self.month)]),
+                                'period': int(str(self.year)+str(self.month)),
                                 'ordered':value},
                         )
 
