@@ -76,8 +76,9 @@ class VaccineAdmin(admin.ModelAdmin):
 
 
 class VaccineCategoryAdmin(admin.ModelAdmin):
-    list_display = ('vaccine', 'data_element',)
-    search_fields = ('vaccine', 'data_element',)
+    list_display = ('vaccine', 'data_element')
+    search_fields = ('vaccine', 'data_element', 'vaccine__index')
+    list_filter = ('vaccine', 'vaccine__index')
 
 
 class DataValueAdmin(admin.ModelAdmin):

@@ -1,0 +1,314 @@
+[
+{
+  "model": "dashboard.vaccinecategory",
+  "pk": 1,
+  "fields": {
+    "data_element": 1,
+    "vaccine": 17
+  }
+},
+{
+  "model": "dashboard.vaccinecategory",
+  "pk": 2,
+  "fields": {
+    "data_element": 2,
+    "vaccine": 2
+  }
+},
+{
+  "model": "dashboard.vaccinecategory",
+  "pk": 3,
+  "fields": {
+    "data_element": 3,
+    "vaccine": 3
+  }
+},
+{
+  "model": "dashboard.vaccinecategory",
+  "pk": 4,
+  "fields": {
+    "data_element": 4,
+    "vaccine": 37
+  }
+},
+{
+  "model": "dashboard.vaccinecategory",
+  "pk": 5,
+  "fields": {
+    "data_element": 5,
+    "vaccine": 5
+  }
+},
+{
+  "model": "dashboard.vaccinecategory",
+  "pk": 6,
+  "fields": {
+    "data_element": 6,
+    "vaccine": 6
+  }
+},
+{
+  "model": "dashboard.vaccinecategory",
+  "pk": 7,
+  "fields": {
+    "data_element": 7,
+    "vaccine": 27
+  }
+},
+{
+  "model": "dashboard.vaccinecategory",
+  "pk": 8,
+  "fields": {
+    "data_element": 8,
+    "vaccine": 8
+  }
+},
+{
+  "model": "dashboard.vaccinecategory",
+  "pk": 9,
+  "fields": {
+    "data_element": 9,
+    "vaccine": 9
+  }
+},
+{
+  "model": "dashboard.vaccinecategory",
+  "pk": 10,
+  "fields": {
+    "data_element": 10,
+    "vaccine": 13
+  }
+},
+{
+  "model": "dashboard.vaccinecategory",
+  "pk": 11,
+  "fields": {
+    "data_element": 11,
+    "vaccine": 11
+  }
+},
+{
+  "model": "dashboard.vaccinecategory",
+  "pk": 12,
+  "fields": {
+    "data_element": 12,
+    "vaccine": 37
+  }
+},
+{
+  "model": "dashboard.vaccinecategory",
+  "pk": 13,
+  "fields": {
+    "data_element": 13,
+    "vaccine": 13
+  }
+},
+{
+  "model": "dashboard.vaccinecategory",
+  "pk": 14,
+  "fields": {
+    "data_element": 14,
+    "vaccine": 14
+  }
+},
+{
+  "model": "dashboard.vaccinecategory",
+  "pk": 15,
+  "fields": {
+    "data_element": 15,
+    "vaccine": 15
+  }
+},
+{
+  "model": "dashboard.vaccinecategory",
+  "pk": 16,
+  "fields": {
+    "data_element": 16,
+    "vaccine": 16
+  }
+},
+{
+  "model": "dashboard.vaccinecategory",
+  "pk": 17,
+  "fields": {
+    "data_element": 17,
+    "vaccine": 17
+  }
+},
+{
+  "model": "dashboard.vaccinecategory",
+  "pk": 18,
+  "fields": {
+    "data_element": 18,
+    "vaccine": 18
+  }
+},
+{
+  "model": "dashboard.vaccinecategory",
+  "pk": 19,
+  "fields": {
+    "data_element": 19,
+    "vaccine": 23
+  }
+},
+{
+  "model": "dashboard.vaccinecategory",
+  "pk": 20,
+  "fields": {
+    "data_element": 20,
+    "vaccine": 23
+  }
+},
+{
+  "model": "dashboard.vaccinecategory",
+  "pk": 21,
+  "fields": {
+    "data_element": 21,
+    "vaccine": 21
+  }
+},
+{
+  "model": "dashboard.vaccinecategory",
+  "pk": 22,
+  "fields": {
+    "data_element": 22,
+    "vaccine": 22
+  }
+},
+{
+  "model": "dashboard.vaccinecategory",
+  "pk": 23,
+  "fields": {
+    "data_element": 23,
+    "vaccine": 23
+  }
+},
+{
+  "model": "dashboard.vaccinecategory",
+  "pk": 24,
+  "fields": {
+    "data_element": 24,
+    "vaccine": 27
+  }
+},
+{
+  "model": "dashboard.vaccinecategory",
+  "pk": 25,
+  "fields": {
+    "data_element": 25,
+    "vaccine": 13
+  }
+},
+{
+  "model": "dashboard.vaccinecategory",
+  "pk": 26,
+  "fields": {
+    "data_element": 26,
+    "vaccine": 27
+  }
+},
+{
+  "model": "dashboard.vaccinecategory",
+  "pk": 27,
+  "fields": {
+    "data_element": 27,
+    "vaccine": 27
+  }
+},
+{
+  "model": "dashboard.vaccinecategory",
+  "pk": 28,
+  "fields": {
+    "data_element": 28,
+    "vaccine": 28
+  }
+},
+{
+  "model": "dashboard.vaccinecategory",
+  "pk": 29,
+  "fields": {
+    "data_element": 29,
+    "vaccine": 17
+  }
+},
+{
+  "model": "dashboard.vaccinecategory",
+  "pk": 30,
+  "fields": {
+    "data_element": 30,
+    "vaccine": 30
+  }
+},
+{
+  "model": "dashboard.vaccinecategory",
+  "pk": 31,
+  "fields": {
+    "data_element": 31,
+    "vaccine": 31
+  }
+},
+{
+  "model": "dashboard.vaccinecategory",
+  "pk": 32,
+  "fields": {
+    "data_element": 32,
+    "vaccine": 37
+  }
+},
+{
+  "model": "dashboard.vaccinecategory",
+  "pk": 33,
+  "fields": {
+    "data_element": 33,
+    "vaccine": 33
+  }
+},
+{
+  "model": "dashboard.vaccinecategory",
+  "pk": 34,
+  "fields": {
+    "data_element": 34,
+    "vaccine": 23
+  }
+},
+{
+  "model": "dashboard.vaccinecategory",
+  "pk": 35,
+  "fields": {
+    "data_element": 35,
+    "vaccine": 23
+  }
+},
+{
+  "model": "dashboard.vaccinecategory",
+  "pk": 36,
+  "fields": {
+    "data_element": 36,
+    "vaccine": 36
+  }
+},
+{
+  "model": "dashboard.vaccinecategory",
+  "pk": 37,
+  "fields": {
+    "data_element": 37,
+    "vaccine": 37
+  }
+},
+{
+  "model": "dashboard.vaccinecategory",
+  "pk": 38,
+  "fields": {
+    "data_element": 38,
+    "vaccine": 38
+  }
+},
+{
+  "model": "dashboard.vaccinecategory",
+  "pk": 39,
+  "fields": {
+    "data_element": 39,
+    "vaccine": 39
+  }
+}
+]

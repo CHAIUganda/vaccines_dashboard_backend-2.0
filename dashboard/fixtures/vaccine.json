@@ -1,0 +1,330 @@
+[
+{
+  "model": "dashboard.vaccine",
+  "pk": 1,
+  "fields": {
+    "name": "105-2.10 HPV2-Dose 2",
+    "index": -1
+  }
+},
+{
+  "model": "dashboard.vaccine",
+  "pk": 2,
+  "fields": {
+    "name": "105-2.8 Dewormed 1st Dose in the Year",
+    "index": -1
+  }
+},
+{
+  "model": "dashboard.vaccine",
+  "pk": 3,
+  "fields": {
+    "name": "105-2.11 Rotavirus 1",
+    "index": -1
+  }
+},
+{
+  "model": "dashboard.vaccine",
+  "pk": 4,
+  "fields": {
+    "name": "105-2.11 DPT-HepB+Hib doses wasted",
+    "index": -1
+  }
+},
+{
+  "model": "dashboard.vaccine",
+  "pk": 5,
+  "fields": {
+    "name": "105-2.12 Number of health workers Immunized Doses 2",
+    "index": -1
+  }
+},
+{
+  "model": "dashboard.vaccine",
+  "pk": 6,
+  "fields": {
+    "name": "105-2.8 Vit A Suplement 2nd Dose in theYear",
+    "index": -1
+  }
+},
+{
+  "model": "dashboard.vaccine",
+  "pk": 7,
+  "fields": {
+    "name": "105-2.11 Polio 0",
+    "index": -1
+  }
+},
+{
+  "model": "dashboard.vaccine",
+  "pk": 8,
+  "fields": {
+    "name": "105-2.11 Rotavirus 3",
+    "index": -1
+  }
+},
+{
+  "model": "dashboard.vaccine",
+  "pk": 9,
+  "fields": {
+    "name": "105-2.8 Vit A Suplement 1st Dose in Year",
+    "index": -1
+  }
+},
+{
+  "model": "dashboard.vaccine",
+  "pk": 10,
+  "fields": {
+    "name": "105-2.11 PCV 1",
+    "index": -1
+  }
+},
+{
+  "model": "dashboard.vaccine",
+  "pk": 11,
+  "fields": {
+    "name": "105-2.12 Number of health workers Immunized Doses 3",
+    "index": -1
+  }
+},
+{
+  "model": "dashboard.vaccine",
+  "pk": 12,
+  "fields": {
+    "name": "105-2.11 DPT-HepB+Hib 3",
+    "index": -1
+  }
+},
+{
+  "model": "dashboard.vaccine",
+  "pk": 13,
+  "fields": {
+    "name": "PCV",
+    "index": 8
+  }
+},
+{
+  "model": "dashboard.vaccine",
+  "pk": 14,
+  "fields": {
+    "name": "105-2.12 Number of health workers note Immunized",
+    "index": -1
+  }
+},
+{
+  "model": "dashboard.vaccine",
+  "pk": 15,
+  "fields": {
+    "name": "105-2.12 Number of health workers Immunized Doses(D3+Done before)",
+    "index": -1
+  }
+},
+{
+  "model": "dashboard.vaccine",
+  "pk": 16,
+  "fields": {
+    "name": "105-2.8 Deworming 2nd dose in schools in the year",
+    "index": -1
+  }
+},
+{
+  "model": "dashboard.vaccine",
+  "pk": 17,
+  "fields": {
+    "name": "HPV",
+    "index": 3
+  }
+},
+{
+  "model": "dashboard.vaccine",
+  "pk": 18,
+  "fields": {
+    "name": "105-2.11 Protection At Birth (PAB)",
+    "index": -1
+  }
+},
+{
+  "model": "dashboard.vaccine",
+  "pk": 19,
+  "fields": {
+    "name": "105-2.9 Tetanus Immunization Dose 3",
+    "index": -1
+  }
+},
+{
+  "model": "dashboard.vaccine",
+  "pk": 20,
+  "fields": {
+    "name": "105-2.9 Tetanus Immunization Dose 2",
+    "index": -1
+  }
+},
+{
+  "model": "dashboard.vaccine",
+  "pk": 21,
+  "fields": {
+    "name": "MEASLES",
+    "index": 1
+  }
+},
+{
+  "model": "dashboard.vaccine",
+  "pk": 22,
+  "fields": {
+    "name": "105-2.12 Number of health workers Immunized Doses 1",
+    "index": -1
+  }
+},
+{
+  "model": "dashboard.vaccine",
+  "pk": 23,
+  "fields": {
+    "name": "TT",
+    "index": 5
+  }
+},
+{
+  "model": "dashboard.vaccine",
+  "pk": 24,
+  "fields": {
+    "name": "105-2.11 Polio 2",
+    "index": -1
+  }
+},
+{
+  "model": "dashboard.vaccine",
+  "pk": 25,
+  "fields": {
+    "name": "105-2.11 PCV 3",
+    "index": -1
+  }
+},
+{
+  "model": "dashboard.vaccine",
+  "pk": 26,
+  "fields": {
+    "name": "105-2.11 Polio 1",
+    "index": -1
+  }
+},
+{
+  "model": "dashboard.vaccine",
+  "pk": 27,
+  "fields": {
+    "name": "TOPV",
+    "index": 6
+  }
+},
+{
+  "model": "dashboard.vaccine",
+  "pk": 28,
+  "fields": {
+    "name": "105-2.11 Rotavirus 2",
+    "index": -1
+  }
+},
+{
+  "model": "dashboard.vaccine",
+  "pk": 29,
+  "fields": {
+    "name": "105-2.10 HPV3-Dose 3",
+    "index": -1
+  }
+},
+{
+  "model": "dashboard.vaccine",
+  "pk": 30,
+  "fields": {
+    "name": "105-2.11 IPV",
+    "index": -1
+  }
+},
+{
+  "model": "dashboard.vaccine",
+  "pk": 31,
+  "fields": {
+    "name": "105-2.11 Fully immunized by 1 year",
+    "index": -1
+  }
+},
+{
+  "model": "dashboard.vaccine",
+  "pk": 32,
+  "fields": {
+    "name": "105-2.11 DPT-HepB+Hib 1",
+    "index": -1
+  }
+},
+{
+  "model": "dashboard.vaccine",
+  "pk": 33,
+  "fields": {
+    "name": "105-2.8 Dewormed 1st dose in schools in the year",
+    "index": -1
+  }
+},
+{
+  "model": "dashboard.vaccine",
+  "pk": 34,
+  "fields": {
+    "name": "105-2.9 Tetanus Immunization Dose 4",
+    "index": -1
+  }
+},
+{
+  "model": "dashboard.vaccine",
+  "pk": 35,
+  "fields": {
+    "name": "105-2.9 Tetanus Immunization Dose 1",
+    "index": -1
+  }
+},
+{
+  "model": "dashboard.vaccine",
+  "pk": 36,
+  "fields": {
+    "name": "BCG",
+    "index": 2
+  }
+},
+{
+  "model": "dashboard.vaccine",
+  "pk": 37,
+  "fields": {
+    "name": "PENTA",
+    "index": 9
+  }
+},
+{
+  "model": "dashboard.vaccine",
+  "pk": 38,
+  "fields": {
+    "name": "105-2.8 Dewormed 2nd Dose in the Year",
+    "index": -1
+  }
+},
+{
+  "model": "dashboard.vaccine",
+  "pk": 39,
+  "fields": {
+    "name": "105-2.12 Number of health workers in a Unit",
+    "index": -1
+  }
+},
+{
+  "model": "dashboard.vaccine",
+  "pk": 40,
+  "fields": {
+    "name": "HEPB",
+    "index": 4
+  }
+},
+{
+  "model": "dashboard.vaccine",
+  "pk": 41,
+  "fields": {
+    "name": "YELLOW FEVER",
+    "index": 7
+  }
+}
+]
