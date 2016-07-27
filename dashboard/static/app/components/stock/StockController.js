@@ -7,7 +7,7 @@ angular.module('dashboard')
         shellScope.child = $scope;
 
         vm.getStockTotals = function(startMonth, endMonth, district, vaccine) {
-            vm.startMonth ? vm.startMonth : "Dec 2015";
+            vm.startMonth ? vm.startMonth : "Nov 2015";
             vm.endMonth = vm.endMonth ? vm.endMonth : "Dec 2015";
             vm.district = vm.selectedDistrict ? vm.selectedDistrict.name : "";
             vm.vaccine = vm.selectedVaccine ? vm.selectedVaccine.name : "";
@@ -38,7 +38,7 @@ angular.module('dashboard')
 
                 // construct graph data
                 var graphdata = [];
-                for (var i = 0; i < 8; i++) {
+                for (var i = 0; i < 5   ; i++) {
                     graphdata.push({
                         key: vm.data[i].district__name,
                         values: [
@@ -57,7 +57,8 @@ angular.module('dashboard')
                                 enable: true,
                                 text: 'VACCINE STOCK ON HAND'
                             },
-                            showLegend: false,
+                            showLegend: true,
+
                             showControls: false,
                             margin : {
                                 top: 20,
@@ -65,6 +66,8 @@ angular.module('dashboard')
                                 bottom: 45,
                                 left: 45
                             },
+                            groupSpacing: 0,
+                            rotateLabels: -45,
                             staggerLabels: true,
                             x: function(d){ return d[0]; },
                             y: function(d){ return d[1]; },

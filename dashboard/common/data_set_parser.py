@@ -1,7 +1,7 @@
 import json
 from django.db import IntegrityError
 from dashboard import utils
-from dashboard.models import DataElement, DataValue, Facility, District, Region  #CategoryOptionCombo
+from dashboard.models import DataElement, DataValue, Facility, District, Region, VaccineCategory  #CategoryOptionCombo
 
 
 class DataSetParser(object):
@@ -57,6 +57,7 @@ class DataSetParser(object):
         print "Sub County:%s in (%s) value: %s" % (facility.sub_county, district, data_value['value'])
         year = int(data_value['period'][0:4])
         month = int(data_value['period'][4:])
+        vaccine_category = VaccineCategory.objects.get(data_element_id=data_element.id)
 
         try:
             dv = DataValue()
@@ -65,6 +66,7 @@ class DataSetParser(object):
             dv.district = district
             dv.region = region
             dv.data_element = data_element
+            dv.vaccine_category = vaccine_category
             dv.period = int(self.period)
             dv.year = year
             dv.month = month
@@ -73,7 +75,9 @@ class DataSetParser(object):
             dv.save()
         except IntegrityError, e:
             print "| Updating..."
-            dv = DataValue.objects.get(facility=facility, data_element=data_element,
+            dv = DataValue.objects.get(facility=facility,
+                                       data_element=data_element,
+                                       vaccine_category=vaccine_category,
                                        period=self.period)
             dv.value = data_value['value']
             dv.save()

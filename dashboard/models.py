@@ -137,7 +137,7 @@ class DataSetParserStatus(object):
 
 class DataValue(models.Model):
     class Meta:
-        unique_together = (('facility', 'original_period', 'data_element', 'vaccine_category'),)
+              unique_together = (('facility', 'original_period', 'data_element', 'vaccine_category'),)
 
     data_set = models.ForeignKey(DataSet, on_delete=models.SET_NULL, null=True, blank=True)
     region = models.ForeignKey(Region, on_delete=models.SET_NULL, null=True, blank=True)
@@ -152,6 +152,21 @@ class DataValue(models.Model):
     value = models.IntegerField()
 
 
+class StockRequirement(models.Model):
+    district = models.ForeignKey(District, on_delete=models.SET_NULL, null=True, blank=True)
+    year = models.IntegerField(default=2014)
+    vaccine = models.ForeignKey(Vaccine, on_delete=models.SET_NULL, null=True, blank=True)
+    minimum = models.IntegerField(default=0)
+    maximum = models.IntegerField(default=0)
+
+    class Meta:
+        unique_together = ("district", "vaccine", "year")
+
+    def __unicode__(self):
+        return "%s %d %d" % (self.district, self.vaccine, self.year )
+
+
+
 class Stock(models.Model):
     district = models.ForeignKey(District, on_delete=models.SET_NULL, null=True, blank=True)
     year = models.IntegerField(default=2014)
@@ -161,9 +176,8 @@ class Stock(models.Model):
     firstdate = models.DateField(auto_now=False)
     lastdate = models.DateField(auto_now=False)
     at_hand = models.FloatField(default=0)
-    consumed = models.FloatField(default=0)
-    received = models.FloatField(default=0)
-    ordered = models.FloatField(default=0)
+    received = models.FloatField(default=0) #imported
+    ordered = models.FloatField(default=0)  #
 
     class Meta:
         unique_together = ("district", "vaccine", "year", "month", )
