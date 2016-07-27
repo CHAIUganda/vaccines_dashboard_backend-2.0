@@ -39,132 +39,13 @@ class Months(APIView):
 
 class Districts(APIView):
     def get(self, request):
-        districts = [{'name': 'Abim'},
-                     {'name': 'Adjumani'},
-                     {'name': 'Agago'},
-                     {'name': 'Alebtong'},
-                     {'name': 'Amolatar'},
-                     {'name': 'Amudat'},
-                     {'name': 'Amuria'},
-                     {'name': 'Amuru'},
-                     {'name': 'Apac'},
-                     {'name': 'Arua'},
-                     {'name': 'Budaka'},
-                     {'name': 'Bududa'},
-                     {'name': 'Bugiri'},
-                     {'name': 'Buhweju'},
-                     {'name': 'Buikwe'},
-                     {'name': 'Bukedea'},
-                     {'name': 'Bukomansimbi'},
-                     {'name': 'Bukwo'},
-                     {'name': 'Bulambuli'},
-                     {'name': 'Buliisa'},
-                     {'name': 'Bundibugyo'},
-                     {'name': 'Bushenyi'},
-                     {'name': 'Busia'},
-                     {'name': 'Butaleja'},
-                     {'name': 'Butambala'},
-                     {'name': 'Buvuma'},
-                     {'name': 'Buyende'},
-                     {'name': 'Dokolo'},
-                     {'name': 'Gomba'},
-                     {'name': 'Gulu'},
-                     {'name': 'Hoima'},
-                     {'name': 'Ibanda'},
-                     {'name': 'Iganga'},
-                     {'name': 'Isingiro'},
-                     {'name': 'Jinja'},
-                     {'name': 'Kaabong'},
-                     {'name': 'Kabale'},
-                     {'name': 'Kabarole'},
-                     {'name': 'Kaberamaido'},
-                     {'name': 'Kalangala'},
-                     {'name': 'Kaliro'},
-                     {'name': 'Kalungu'},
-                     {'name': 'Kampala'},
-                     {'name': 'Kamuli'},
-                     {'name': 'Kamwenge'},
-                     {'name': 'Kanungu'},
-                     {'name': 'Kapchorwa'},
-                     {'name': 'Kasese'},
-                     {'name': 'Katakwi'},
-                     {'name': 'Kayunga'},
-                     {'name': 'Kibaale'},
-                     {'name': 'Kiboga'},
-                     {'name': 'Kibuku'},
-                     {'name': 'Kiruhura'},
-                     {'name': 'Kiryandongo'},
-                     {'name': 'Kisoro'},
-                     {'name': 'Kitgum'},
-                     {'name': 'Koboko'},
-                     {'name': 'Kole'},
-                     {'name': 'Kotido'},
-                     {'name': 'Kumi'},
-                     {'name': 'Kween'},
-                     {'name': 'Kyankwanzi'},
-                     {'name': 'Kyegegwa'},
-                     {'name': 'Kyenjojo'},
-                     {'name': 'Lamwo'},
-                     {'name': 'Lira'},
-                     {'name': 'Luuka'},
-                     {'name': 'Luwero'},
-                     {'name': 'Lwengo'},
-                     {'name': 'Lyantonde'},
-                     {'name': 'Manafwa'},
-                     {'name': 'Maracha'},
-                     {'name': 'Masaka'},
-                     {'name': 'Masindi'},
-                     {'name': 'Mayuge'},
-                     {'name': 'Mbale'},
-                     {'name': 'Mbarara'},
-                     {'name': 'Mitooma'},
-                     {'name': 'Mityana'},
-                     {'name': 'Moroto'},
-                     {'name': 'Moyo'},
-                     {'name': 'Mpigi'},
-                     {'name': 'Mubende'},
-                     {'name': 'Mukono'},
-                     {'name': 'Nakapiripirit'},
-                     {'name': 'Nakaseke'},
-                     {'name': 'Nakasongola'},
-                     {'name': 'Namayingo'},
-                     {'name': 'Namutumba'},
-                     {'name': 'Napak'},
-                     {'name': 'Nebbi'},
-                     {'name': 'Ngora'},
-                     {'name': 'Ntoroko'},
-                     {'name': 'Ntungamo'},
-                     {'name': 'Nwoya'},
-                     {'name': 'Otuke'},
-                     {'name': 'Oyam'},
-                     {'name': 'Pader'},
-                     {'name': 'Pallisa'},
-                     {'name': 'Rakai'},
-                     {'name': 'Rubirizi'},
-                     {'name': 'Rukungiri'},
-                     {'name': 'Sembabule'},
-                     {'name': 'Serere'},
-                     {'name': 'Sheema'},
-                     {'name': 'Sironko'},
-                     {'name': 'Soroti'},
-                     {'name': 'Tororo'},
-                     {'name': 'Wakiso'},
-                     {'name': 'Yumbe'},
-                     {'name': 'Zombo'}]
+        districts = District.objects.all().values('name')
         return Response(districts)
 
 
 class Vaccines(APIView):
     def get(self, request):
-        vaccines = [{'name': 'MEASLES'},
-                    {'name': 'BCG'},
-                    {'name': 'HPV'},
-                    {'name': 'HEPB'},
-                    {'name': 'TT'},
-                    {'name': 'TOPV'},
-                    {'name': 'YELLOW FEVER'},
-                    {'name': 'PCV'},
-                    {'name': 'PENTA'}]
+        vaccines = Vaccine.objects.filter(index__gt=0).values('name')
         return Response(vaccines)
 
 
@@ -201,16 +82,16 @@ class StockApi(APIView):
         district = request.query_params.get('district', None)
         vaccine = request.query_params.get('vaccine', None)
 
-        startMonth, startYear = request.query_params.get('startMonth', None).split(' ')
-        endMonth, endYear= request.query_params.get('endMonth', None).split(' ')
+        startMonth, startYear = request.query_params.get('startMonth', 'Nov 2014').split(' ')
+        endMonth, endYear= request.query_params.get('endMonth', 'Jan 2016').split(' ')
 
         date_range = ["%s-%s-%s" % (startYear, MONTH_TO_NUM[startMonth], 1), "%s-%s-%s" % (endYear, MONTH_TO_NUM[endMonth], LAST_MONTH_DAY[MONTH_TO_NUM[endMonth]])]
         args = {'firstdate__range':date_range}
         if district:
-            args.update({'district': district})
+            args.update({'district__name': district})
 
         if vaccine:
-            args.update({'vaccine': vaccine})
+            args.update({'vaccine__name': vaccine})
 
         summary = Stock.objects.filter(**args) \
             .values('district__name') \
@@ -221,6 +102,28 @@ class StockApi(APIView):
         return Response(summary)
 
 
+class StockByMonthApi(APIView):
+    def get(self, request):
+        district = request.query_params.get('district', None)
+        vaccine = request.query_params.get('vaccine', None)
 
+        startMonth, startYear = request.query_params.get('startMonth', 'Nov 2014').split(' ')
+        endMonth, endYear= request.query_params.get('endMonth', 'Jan 2016').split(' ')
+
+        date_range = ["%s-%s-%s" % (startYear, MONTH_TO_NUM[startMonth], 1), "%s-%s-%s" % (endYear, MONTH_TO_NUM[endMonth], LAST_MONTH_DAY[MONTH_TO_NUM[endMonth]])]
+        args = {'firstdate__range':date_range}
+        if district:
+            args.update({'district__name': district})
+
+        if vaccine:
+            args.update({'vaccine__name': vaccine})
+
+        summary = Stock.objects.filter(**args) \
+            .values('period') \
+            .annotate(stockathand=Sum('at_hand')) \
+            .order_by('period')\
+            .values('period', 'stockathand')
+
+        return Response(summary)
 
 

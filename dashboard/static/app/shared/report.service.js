@@ -23,6 +23,17 @@ angular.module('services').service('ReportService', ['$http',
             }).then(handleResponse);
         };
 
+        var getStockByMonth = function(startMonth, endMonth, district, vaccine) {
+            return $http.get('/api/stockbymonth', {
+                params: {
+                    startMonth: startMonth,
+                    endMonth: endMonth,
+                    district: district,
+                    vaccine: vaccine
+                }
+            }).then(handleResponse);
+        };
+
         var getVaccines = function() {
             return $http.get('/api/vaccines/').then(handleResponse);
         }
@@ -32,6 +43,7 @@ angular.module('services').service('ReportService', ['$http',
             "getVaccines": getVaccines,
             "getDistricts": getDistricts,
             "getStockTotals": getStockTotals,
+            "getStockByMonth": getStockByMonth
         };
     }
 ])

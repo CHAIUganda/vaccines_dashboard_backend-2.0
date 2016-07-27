@@ -25,7 +25,6 @@ angular.module('dashboard')
                     data: vm.data,
                 });
 
-
                 // calculate totals
                 var total = 0;
                 for(var i = 0; i < vm.data.length; i++){
@@ -34,19 +33,11 @@ angular.module('dashboard')
                 }
 
                 shellScope.child.stockathand = total;
+            });
 
 
-                // construct graph data
-                var graphdata = [];
-                for (var i = 0; i < 5   ; i++) {
-                    graphdata.push({
-                        key: vm.data[i].district__name,
-                        values: [
-                            [ vm.data[i].district__name , vm.data[i].stockathand ]
-                        ]
-                    });
-                }
-                vm.graph = graphdata;
+            ReportService.getStockByMonth(startMonth, endMonth, district, vaccine)
+                .then(function(data) {
 
                 // update graph
                 vm.options = {
@@ -79,8 +70,22 @@ angular.module('dashboard')
                         }
                 };
 
+                // construct graph data
+                var graphdata = [];
+                if(data.length > 0) {
+                    for (var i = 0; i < 5   ; i++) {
+                        graphdata.push({
+                            key: data[i].period,
+                            values: [
+                                [data[i].period, data[i].stockathand]
+                            ]
+                        });
+                    };
+                };
 
+                vm.graph = graphdata;
             });
+
         }
 
         $scope.$on('refresh', function(e, startMonth, endMonth, district, vaccine) {
