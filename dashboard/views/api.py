@@ -8,7 +8,7 @@ from django.core import serializers
 import pydash
 from arrow import now
 from braces.views import LoginRequiredMixin
-from django.db.models import Count, Sum
+from django.db.models import Count, Sum, Avg
 from django.http import HttpResponse
 from rest_framework import filters
 from rest_framework.generics import ListAPIView
@@ -123,6 +123,30 @@ class StockByMonthApi(APIView):
             .annotate(stockathand=Sum('at_hand')) \
             .order_by('period')\
             .values('period', 'stockathand')
+
+        return Response(summary)
+
+class AmcApi(APIView):
+    def get(self, request):
+        district = request.query_params.get('district', None)
+        vaccine = request.query_params.get('vaccine', None)
+
+        startMonth, startYear = request.query_params.get('startMonth', 'Nov 2014').split(' ')
+        endMonth, endYear= request.query_params.get('endMonth', 'Jan 2016').split(' ')
+
+        date_range = ["%s-%s-%s" % (startYear, MONTH_TO_NUM[startMonth], 1), "%s-%s-%s" % (endYear, MONTH_TO_NUM[endMonth], LAST_MONTH_DAY[MONTH_TO_NUM[endMonth]])]
+        args = {}
+        if district:
+            args.update({'district__name': district})
+
+        if vaccine:
+            args.update({'vaccine__name': vaccine})
+
+        summary = DataValue.objects.filter(**args) \
+                    .values( 'vaccine_category__vaccine__name') \
+                    .annotate(consumption=Avg('value')) \
+                    .order_by('vaccine_category__vaccine__name')\
+                    .values('vaccine_category__vaccine__name', 'consumption')
 
         return Response(summary)
 

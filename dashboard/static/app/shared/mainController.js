@@ -5,7 +5,7 @@ angular.module('dashboard')
         $scope.root = {};
         var shell = this;
         shell.startMonth = shell.startMonth ? shell.startMonth.name : "Jan 2014";
-        shell.endMonth = shell.endMonth ? shell.endMonth.name : "Jan 2014";
+        shell.endMonth = shell.endMonth ? shell.endMonth.name : "Jan 2016";
         shell.selectedVaccine = "";
         shell.selectedDistrict = "";
 
@@ -33,7 +33,7 @@ angular.module('dashboard')
         $scope.$watch('shell.endMonth', function() {
             if (shell.endMonth) {
                 $rootScope.$broadcast('refresh', shell.startMonth, shell.endMonth, shell.selectedDistrict, shell.selectedVaccine);
-                console.log(shell.selectedVaccine);
+                /*console.log(shell.selectedVaccine);*/
             }
         }, true);
 
