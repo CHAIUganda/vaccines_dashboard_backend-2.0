@@ -67,16 +67,6 @@ class CoverageRate(APIView):
                {'month':'Feb 2015', 'units': 10010, 'vaccine':'MEASLES'}]
         return Response(data)
 
-
-class StockOnHandTotal(APIView):
-    def get(self, request):
-        data = [{'month':'Jan 2015', 'units': 137000, 'vaccine':'MEASLES'},
-               {'month':'Feb 2015', 'units': 140010, 'vaccine':'MEASLES'},
-               {'month':'Mar 2015', 'units': 140010, 'vaccine':'MEASLES'},
-               {'month':'Feb 2015', 'units': 140010, 'vaccine':'MEASLES'}]
-        return Response(data)
-
-
 class StockApi(APIView):
     def get(self, request):
         district = request.query_params.get('district', None)
@@ -94,10 +84,9 @@ class StockApi(APIView):
             args.update({'vaccine__name': vaccine})
 
         summary = Stock.objects.filter(**args) \
-            .values('district__name') \
+            .values('period') \
             .annotate(stockathand=Sum('at_hand')) \
-            .order_by('district__name')\
-            .values('district__name', 'stockathand')
+            .values('district__name', 'stockathand', 'period')
 
         return Response(summary)
 
@@ -121,7 +110,7 @@ class StockByMonthApi(APIView):
         summary = Stock.objects.filter(**args) \
             .values('period') \
             .annotate(stockathand=Sum('at_hand')) \
-            .order_by('period')\
+            .order_by('vaccine_name')\
             .values('period', 'stockathand')
 
         return Response(summary)

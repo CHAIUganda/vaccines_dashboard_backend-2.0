@@ -1,0 +1,24 @@
+<?php
+//echo "Hello World! Welcome to php programming in Windows";
+//$mysqli = mysqli_connect('localhost', 'root', 'brian1010', 'dashboard_stock');
+//echo $mysqli;
+/*
+$res = $mysqli->query($link, "select id from dashboard_stock");
+//var_dump($res);
+while($row = mysqli_fetch_array($res)){
+	extract($row);
+	$c = rand(2,5)*37;
+	$mysqli->query($link,"update dashboard_stock set consumed = $c where id = $id");
+}*/
+
+$conn = pg_connect("host=localhost port=5432 dbname=vaccines_db user=postgres password=brian1010")
+		or die('Could not connect: ' . pg_last_error());
+		
+$res = pg_query("select id from dashboard_stock");
+
+while($row = pg_fetch_array($res, null, PGSQL_ASSOC)){
+	extract($row);
+	$c = rand(2,5)*37;
+	pg_query("update dashboard_stock set consumed = $c where id = $id");
+}
+?>

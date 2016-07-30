@@ -38,11 +38,11 @@ angular.module('dashboard')
 
                 // construct graph data
                 var graphdata = [];
-                for (var i = 0; i < 5   ; i++) {
+                for (var i = 0; i < 8   ; i++) {
                     graphdata.push({
                         key: vm.data[i].district__name,
                         values: [
-                            [ vm.data[i].district__name , vm.data[i].stockathand ]
+                            [ vm.data[i].period, vm.data[i].stockathand]
                         ]
                     });
                 }
