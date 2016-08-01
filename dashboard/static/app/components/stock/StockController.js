@@ -38,9 +38,9 @@ angular.module('dashboard')
 
                 // construct graph data
                 var graphdata = [];
-                for (var i = 0; i < 8   ; i++) {
+                for (var i = 0; i < 2   ; i++) {
                     graphdata.push({
-                        key: vm.data[i].district__name,
+                        key: vm.data[i].period,
                         values: [
                             [ vm.data[i].period, vm.data[i].stockathand]
                         ]
@@ -51,8 +51,9 @@ angular.module('dashboard')
                 // update graph
                 vm.options = {
                         chart: {
-                            type: 'multiBarChart',
+                            type: 'discreteBarChart',
                             height: 600,
+
                             title: {
                                 enable: true,
                                 text: 'VACCINE STOCK ON HAND'
@@ -64,7 +65,7 @@ angular.module('dashboard')
                                 top: 20,
                                 right: 20,
                                 bottom: 45,
-                                left: 45
+                                left: 65
                             },
                             groupSpacing: 0,
                             rotateLabels: -45,
@@ -73,7 +74,7 @@ angular.module('dashboard')
                             y: function(d){ return d[1]; },
                             showValues: true,
                             valueFormat: function(d){
-                                return d3.format(',.4f')(d);
+                                return d3.format(',.1f')(d);
                             },
                             transitionDuration: 500,
                         }
