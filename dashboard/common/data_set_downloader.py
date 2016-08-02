@@ -26,4 +26,4 @@ class DataSetDownloader(object):
     def get_period_list(self):
         year = int(str(self.period)[0:4])
         month = int(str(self.period)[4:])
-        return '%s%s' % (year, month)
+        return '%s%02d' % (year, month)

@@ -46,15 +46,15 @@ def to_date(text):
 
 def generate_months():
     months =[]
-    for y in range(2014, date.today().year + 1):
-        for m in range(1, 13):
+    for y in range(2015, date.today().year + 1):
+        for m in range(11, 13):
            months.append({'name': '%s %d' % (calendar.month_abbr[m], y), 'month': m, 'year': y})
     return months
 
 
 
 def generate_year_labels():
-    return map(lambda x: (x, "%s"%x), range(2014, date.today().year + 1))
+    return map(lambda x: (x, "%s"%x), range(2015, date.today().year + 1))
 
 
 

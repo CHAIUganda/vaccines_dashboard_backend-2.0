@@ -13,6 +13,7 @@ class DataSetParser(object):
 
     def get_data_values(self):
         data_set_file_name = utils.get_data_set_file_path(self.data_set.identifier, self.period)
+       # print data_set_file_name
         data_set_contents = json.load(open(data_set_file_name, "r"))
         return data_set_contents['dataValues']
 
