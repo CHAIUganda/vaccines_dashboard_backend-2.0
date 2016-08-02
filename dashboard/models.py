@@ -154,7 +154,7 @@ class DataValue(models.Model):
 
 class StockRequirement(models.Model):
     district = models.ForeignKey(District, on_delete=models.SET_NULL, null=True, blank=True)
-    year = models.IntegerField(default=2014)
+    year = models.IntegerField(default=2015)
     vaccine = models.ForeignKey(Vaccine, on_delete=models.SET_NULL, null=True, blank=True)
     minimum = models.IntegerField(default=0)
     maximum = models.IntegerField(default=0)
@@ -169,7 +169,7 @@ class StockRequirement(models.Model):
 
 class Stock(models.Model):
     district = models.ForeignKey(District, on_delete=models.SET_NULL, null=True, blank=True)
-    year = models.IntegerField(default=2014)
+    year = models.IntegerField(default=2015)
     month = models.IntegerField(choices=MONTHS, default=1)
     period = models.IntegerField()
     vaccine = models.ForeignKey(Vaccine, on_delete=models.SET_NULL, null=True, blank=True)

@@ -1,6 +1,6 @@
 dashboard.config(["$stateProvider", "$urlRouterProvider", function($stateProvider, $urlRouterProvider) {
         $urlRouterProvider.otherwise("/");
-        $urlRouterProvider.when("", "coverage/coverage");
+        $urlRouterProvider.when("", "stock/stockonhand");
 
         $stateProvider
             .state("coverage", {

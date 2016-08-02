@@ -4,8 +4,8 @@ angular.module('dashboard')
     {
         $scope.root = {};
         var shell = this;
-        shell.startMonth = shell.startMonth ? shell.startMonth.name : "Jan 2014";
-        shell.endMonth = shell.endMonth ? shell.endMonth.name : "Jan 2016";
+        shell.startMonth = shell.startMonth ? shell.startMonth.name : "Nov 2015";
+        shell.endMonth = shell.endMonth ? shell.endMonth.name : "Dec 2015";
         shell.selectedVaccine = "";
         shell.selectedDistrict = "";
 
