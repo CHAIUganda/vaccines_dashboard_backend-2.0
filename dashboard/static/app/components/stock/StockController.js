@@ -1,10 +1,14 @@
 angular.module('dashboard')
-    .controller('StockController', ['$scope', 'ReportService', '$rootScope', 'NgTableParams', 'FilterService',
-    function($scope, ReportService, $rootScope, NgTableParams, FilterService)
+    .controller('StockController', ['$scope', 'ReportService', '$rootScope', 'NgTableParams', 'FilterService', 'MonthService',
+    function($scope, ReportService, $rootScope, NgTableParams, FilterService, MonthService)
     {
         var vm = this;
         var shellScope = $scope.$parent;
         shellScope.child = $scope;
+
+        vm.getMonthName = function(month){
+            return MonthService.getMonthName(month);
+        };
 
         vm.getStockTotals = function(startMonth, endMonth, district, vaccine) {
             vm.startMonth ? vm.startMonth : "Nov 2015";
@@ -34,19 +38,6 @@ angular.module('dashboard')
                 }
 
                 shellScope.child.stockathand = total;
-                var months = {};
-                months['1'] = "Jan";
-                months['2'] = "Feb";
-                months['3'] = "Mar";
-                months['4'] = "Apr";
-                months['5'] = "May";
-                months['6'] = "Jun";
-                months['7'] = "Jul";
-                months['8'] = "Aug";
-                months['9'] = "Sep";
-                months['10'] = "Oct";
-                months['11'] = "Nov";
-                months['12'] = "Dec";
 
                 // construct graph data
                 var graphdata = [];
@@ -58,10 +49,11 @@ angular.module('dashboard')
                     graphdata.push({
                         key: vm.data[i].period,
                         values: [
-                            [ months[month], vm.data[i].stockathand]
+                            [ vm.getMonthName(month), vm.data[i].stockathand]
                         ]
                     });
                 }
+                vm.graph = null;
                 vm.graph = graphdata;
 
                 // update graph

@@ -87,7 +87,7 @@ class StockApi(APIView):
             .values('district__name') \
             .annotate(stockathand=Sum('at_hand'))\
             .order_by('district__name', 'period') \
-            .values('district__name', 'stockathand', 'period')
+            .values('district__name', 'stockathand', 'month', 'period')
 
         return Response(summary)
 
