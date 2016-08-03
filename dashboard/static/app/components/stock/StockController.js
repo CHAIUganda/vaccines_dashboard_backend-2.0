@@ -34,15 +34,31 @@ angular.module('dashboard')
                 }
 
                 shellScope.child.stockathand = total;
-
+                var months = {};
+                months['1'] = "Jan";
+                months['2'] = "Feb";
+                months['3'] = "Mar";
+                months['4'] = "Apr";
+                months['5'] = "May";
+                months['6'] = "Jun";
+                months['7'] = "Jul";
+                months['8'] = "Aug";
+                months['9'] = "Sep";
+                months['10'] = "Oct";
+                months['11'] = "Nov";
+                months['12'] = "Dec";
 
                 // construct graph data
                 var graphdata = [];
-                for (var i = 0; i < 2   ; i++) {
+                for (var i = 0; i < 3   ; i++) {
+                    if(vm.data.length == 0)
+                        break;
+
+                    var month = vm.data[i].period.toString().substr(4, 2)
                     graphdata.push({
                         key: vm.data[i].period,
                         values: [
-                            [ vm.data[i].period, vm.data[i].stockathand]
+                            [ months[month], vm.data[i].stockathand]
                         ]
                     });
                 }
@@ -51,7 +67,7 @@ angular.module('dashboard')
                 // update graph
                 vm.options = {
                         chart: {
-                            type: 'discreteBarChart',
+                            type: 'multiBarChart',
                             height: 600,
 
                             title: {
