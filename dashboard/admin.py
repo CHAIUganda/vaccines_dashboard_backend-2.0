@@ -87,7 +87,6 @@ class VaccineCategoryAdmin(admin.ModelAdmin):
     list_filter = ('vaccine', 'vaccine__index')
 
 
-
 class DataSyncTrackerAdmin(admin.ModelAdmin):
     list_display = ('period', 'last_downloaded', 'last_parsed', 'get_status')
 

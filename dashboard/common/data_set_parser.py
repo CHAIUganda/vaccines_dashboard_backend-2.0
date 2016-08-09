@@ -57,28 +57,30 @@ class DataSetParser(object):
                 district = sub_county.district
                 region = sub_county.region
 
-        print "Sub County:%s in (%s) value: %s" % (facility.sub_county, district, data_value['value'])
-        year = int(data_value['period'][0:4])
-        month = int(data_value['period'][4:])
-
         #Get vaccine category
         vaccine_category = VaccineCategory.objects.filter(data_element_id=data_element.id, vaccine__index__gt=0).first()
-        stock_requirement = StockRequirement.objects.filter(
-                                            district__name__contains=district_item.name,
-                                            vaccine__name=vaccine_category.vaccine.name,
-                                            year=year,
-                                        ).first()
-        try:
-            if stock_requirement:
-                stock, created = Stock.objects.update_or_create(
-                                    stock_requirement = stock_requirement,
-                                    month=month,
-                                    period=int(self.period),
-                                    defaults={'firstdate': date(year, month, 1),
-                                              'lastdate': date(year, month, LAST_MONTH_DAY[month]),
-                                              'data_element': data_element,
-                                              'consumed': data_value['value']},
-                                )
-                stock_requirement.save()
-        except IntegrityError, e:
-            print "| Failing..."
+        if vaccine_category:
+            print "Sub County:%s in (%s) value: %s vaccine: %s" % \
+                  (facility.sub_county, district, data_value['value'], vaccine_category.vaccine)
+            year = int(data_value['period'][0:4])
+            month = int(data_value['period'][4:])
+
+            stock_requirement = StockRequirement.objects.filter(
+                                                district__name__contains=district.name,
+                                                vaccine__name=vaccine_category.vaccine.name,
+                                                year=year,
+                                            ).first()
+            try:
+                if stock_requirement:
+                    stock, created = Stock.objects.update_or_create(
+                                        stock_requirement = stock_requirement,
+                                        month=month,
+                                        period=int(self.period),
+                                        defaults={'firstdate': date(year, month, 1),
+                                                  'lastdate': date(year, month, LAST_MONTH_DAY[month]),
+                                                  'data_element': data_element,
+                                                  'consumed': data_value['value']},
+                                    )
+                    stock_requirement.save()
+            except IntegrityError, e:
+                print "| Failing..."

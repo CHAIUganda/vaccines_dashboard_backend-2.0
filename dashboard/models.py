@@ -146,7 +146,7 @@ class StockRequirement(models.Model):
         unique_together = ("district", "vaccine", "year")
 
     def __unicode__(self):
-        return "%s %s %s" % (self.district__name, self.vaccine__name, self.year)
+        return "%s %s %s" % (self.district, self.vaccine, self.year)
 
 
 class Stock(models.Model):
@@ -165,7 +165,8 @@ class Stock(models.Model):
         unique_together = ("stock_requirement", "month",)
 
     def __unicode__(self):
-        return "%s %d %d %s" % (self.stock_requirement.district, self.stock_requirement.vaccine, self.stock_requirement.year, self.month)
+        return "%s %d %d %s %d %d" % (self.stock_requirement.district, self.stock_requirement.vaccine,
+                                self.stock_requirement.year, self.month, self.max_variance, self.max_variance)
 
 
 class DataSyncTrackerStatus(object):

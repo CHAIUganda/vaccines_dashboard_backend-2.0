@@ -79,16 +79,16 @@ class StockApi(APIView):
         date_range = ["%s-%s-%s" % (startYear, MONTH_TO_NUM[startMonth], 1), "%s-%s-%s" % (endYear, MONTH_TO_NUM[endMonth], LAST_MONTH_DAY[MONTH_TO_NUM[endMonth]])]
         args = {'firstdate__range':date_range}
         if district:
-            args.update({'district__name': district})
+            args.update({'stock_requirement__district__name': district})
 
         if vaccine:
-            args.update({'vaccine__name': vaccine})
+            args.update({'stock_requirement__vaccine__name': vaccine})
 
         summary = Stock.objects.filter(**args) \
             .values('stock_requirement__district__name') \
-            .annotate(stockathand=Sum('at_hand'))\
-            .order_by('stock_requirement__district__name', 'period') \
-            .values('stock_requirement__district__name', 'stockathand', 'month', 'period')
+            .annotate(district_name=F('stock_requirement__district__name'), consumed=Sum('consumed'))\
+            .order_by('stock_requirement__district__name',) \
+            .values('district_name', 'consumed', 'stock_requirement__minimum', 'stock_requirement__maximum')
 
         return Response(summary)
 

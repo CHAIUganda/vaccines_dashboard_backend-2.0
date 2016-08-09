@@ -12,7 +12,7 @@ angular.module('dashboard')
 
         vm.getStockTotals = function(startMonth, endMonth, district, vaccine) {
             vm.startMonth ? vm.startMonth : "Nov 2015";
-            vm.endMonth = vm.endMonth ? vm.endMonth : "Dec 2015";
+            vm.endMonth = vm.endMonth ? vm.endMonth : "Dec 2016";
             vm.district = vm.selectedDistrict ? vm.selectedDistrict.name : "";
             vm.vaccine = vm.selectedVaccine ? vm.selectedVaccine.name : "";
 
@@ -33,11 +33,11 @@ angular.module('dashboard')
                 // calculate totals
                 var total = 0;
                 for(var i = 0; i < vm.data.length; i++){
-                    var units = vm.data[i].stockathand;
+                    var units = vm.data[i].consumed;
                     total += units;
                 }
 
-                shellScope.child.stockathand = total;
+                shellScope.child.consumed = total;
 
                 // construct graph data
                 var graphdata = [];
@@ -49,7 +49,7 @@ angular.module('dashboard')
                     graphdata.push({
                         key: vm.data[i].period,
                         values: [
-                            [ vm.getMonthName(month), vm.data[i].stockathand]
+                            [ vm.getMonthName(month), vm.data[i].consumed]
                         ]
                     });
                 }
