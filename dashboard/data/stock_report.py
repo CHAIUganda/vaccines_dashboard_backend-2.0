@@ -53,21 +53,23 @@ class StockReport:
                     else:
                         value = 0
 
-                    district_object = District.objects.filter(name__contains=row[0].value).first()
-                    vaccine_object = Vaccine.objects.filter(name=vaccine).first()
+                    stock_requirement = StockRequirement.objects.filter(
+                                            district__name__contains=row[0].value,
+                                            vaccine__name=vaccine,
+                                            year=int(self.year),
+                                        ).first()
 
-                    if value:
-                        stock, created = Stock.objects.update_or_create(
-                            district=district_object,
-                            vaccine=vaccine_object,
-                            year=self.year,
-                            month=self.month,
-                            at_hand=value,
-                            period=self.period,
-                            defaults={'firstdate': date(int(self.year), int(self.month), 1),
-                                      'lastdate': date(int(self.year), int(self.month), LAST_MONTH_DAY[int(self.month)])
-                                      }
-                        )
+                    if stock_requirement:
+                        if value:
+                            stock, created = Stock.objects.update_or_create(
+                                stock_requirement = stock_requirement,
+                                month=self.month,
+                                at_hand=value,
+                                period=self.period,
+                                defaults={'firstdate': date(int(self.year), int(self.month), 1),
+                                          'lastdate': date(int(self.year), int(self.month), LAST_MONTH_DAY[int(self.month)])
+                                          }
+                            )
 
     def import_orders(self):
         # Todo: use proper name
@@ -87,21 +89,24 @@ class StockReport:
                     else:
                         value = 0
 
-                    district_object = District.objects.filter(name__contains=row[0].value).first()
-                    vaccine_object = Vaccine.objects.filter(name=vaccine).first()
+                    stock_requirement = StockRequirement.objects.filter(
+                                            district__name__contains=row[0].value,
+                                            vaccine__name=vaccine,
+                                            year=int(self.year),
+                                        ).first()
 
-                    if value:
-                        stock, created = Stock.objects.update_or_create(
-                            district=district_object,
-                            vaccine=vaccine_object,
-                            year=self.year,
-                            month=self.month,
-                            period=self.period,
-                            defaults={'firstdate': date(int(self.year), int(self.month), 1),
-                                      'lastdate': date(int(self.year), int(self.month),
-                                                       LAST_MONTH_DAY[int(self.month)]),
-                                      'ordered': value},
-                        )
+                    if stock_requirement:
+                        if value:
+                            stock, created = Stock.objects.update_or_create(
+                                stock_requirement = stock_requirement,
+                                year=self.year,
+                                month=self.month,
+                                period=self.period,
+                                defaults={'firstdate': date(int(self.year), int(self.month), 1),
+                                          'lastdate': date(int(self.year), int(self.month),
+                                                           LAST_MONTH_DAY[int(self.month)]),
+                                          'ordered': value},
+                            )
 
     def get_value(self, row, i):
         if i <= len(row):

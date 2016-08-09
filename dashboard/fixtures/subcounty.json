@@ -1956,8 +1956,8 @@
   "model": "dashboard.subcounty",
   "pk": 218,
   "fields": {
-    "identifier": "lJWSXSCBtli",
-    "name": "Looro Subcounty",
+    "identifier": "WCE4lL4rT73",
+    "name": "Karita Subcounty",
     "district": 23
   }
 },
@@ -1965,8 +1965,8 @@
   "model": "dashboard.subcounty",
   "pk": 219,
   "fields": {
-    "identifier": "UC5oDg6aLRl",
-    "name": "Amudat Town Council",
+    "identifier": "lJWSXSCBtli",
+    "name": "Looro Subcounty",
     "district": 23
   }
 },
@@ -1974,8 +1974,8 @@
   "model": "dashboard.subcounty",
   "pk": 220,
   "fields": {
-    "identifier": "WCE4lL4rT73",
-    "name": "Karita Subcounty",
+    "identifier": "UC5oDg6aLRl",
+    "name": "Amudat Town Council",
     "district": 23
   }
 },
@@ -1992,15 +1992,6 @@
   "model": "dashboard.subcounty",
   "pk": 222,
   "fields": {
-    "identifier": "pTX9sgiNkqB",
-    "name": "Agoro Subcounty",
-    "district": 24
-  }
-},
-{
-  "model": "dashboard.subcounty",
-  "pk": 223,
-  "fields": {
     "identifier": "dXbVDDOMeOX",
     "name": "Madi Opei Subcounty",
     "district": 24
@@ -2008,7 +1999,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 224,
+  "pk": 223,
   "fields": {
     "identifier": "YxleBIY0wms",
     "name": "Palabek Ogili Subcounty",
@@ -2017,25 +2008,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 225,
-  "fields": {
-    "identifier": "a1HgVn8Q288",
-    "name": "Palabek Gem Subcounty",
-    "district": 24
-  }
-},
-{
-  "model": "dashboard.subcounty",
-  "pk": 226,
-  "fields": {
-    "identifier": "aQuFXdkixjd",
-    "name": "Paloga Subcounty",
-    "district": 24
-  }
-},
-{
-  "model": "dashboard.subcounty",
-  "pk": 227,
+  "pk": 224,
   "fields": {
     "identifier": "lHy3V8wTvjA",
     "name": "Padibe Town Council",
@@ -2044,7 +2017,43 @@
 },
 {
   "model": "dashboard.subcounty",
+  "pk": 225,
+  "fields": {
+    "identifier": "q5gtDb5elfP",
+    "name": "Lokung Subcounty",
+    "district": 24
+  }
+},
+{
+  "model": "dashboard.subcounty",
+  "pk": 226,
+  "fields": {
+    "identifier": "pTX9sgiNkqB",
+    "name": "Agoro Subcounty",
+    "district": 24
+  }
+},
+{
+  "model": "dashboard.subcounty",
+  "pk": 227,
+  "fields": {
+    "identifier": "a1HgVn8Q288",
+    "name": "Palabek Gem Subcounty",
+    "district": 24
+  }
+},
+{
+  "model": "dashboard.subcounty",
   "pk": 228,
+  "fields": {
+    "identifier": "aQuFXdkixjd",
+    "name": "Paloga Subcounty",
+    "district": 24
+  }
+},
+{
+  "model": "dashboard.subcounty",
+  "pk": 229,
   "fields": {
     "identifier": "HMzXFZXwkDG",
     "name": "Padibe West Subcounty",
@@ -2053,7 +2062,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 229,
+  "pk": 230,
   "fields": {
     "identifier": "KhXTdz48N9o",
     "name": "Palabek Kal Subcounty",
@@ -2062,19 +2071,10 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 230,
+  "pk": 231,
   "fields": {
     "identifier": "b24YFQUhFfF",
     "name": "Padibe East Subcounty",
-    "district": 24
-  }
-},
-{
-  "model": "dashboard.subcounty",
-  "pk": 231,
-  "fields": {
-    "identifier": "q5gtDb5elfP",
-    "name": "Lokung Subcounty",
     "district": 24
   }
 },
@@ -3765,6 +3765,15 @@
   "model": "dashboard.subcounty",
   "pk": 419,
   "fields": {
+    "identifier": "YL7WGm3qhJM",
+    "name": "Mukura Subcounty",
+    "district": 39
+  }
+},
+{
+  "model": "dashboard.subcounty",
+  "pk": 420,
+  "fields": {
     "identifier": "GLh6NlOfYQP",
     "name": "Kapir Subcounty",
     "district": 39
@@ -3772,7 +3781,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 420,
+  "pk": 421,
   "fields": {
     "identifier": "uodLpKe7cyL",
     "name": "Kobuin Subcounty",
@@ -3781,19 +3790,10 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 421,
+  "pk": 422,
   "fields": {
     "identifier": "pv2sbE1glyI",
     "name": "Ngora Subcounty",
-    "district": 39
-  }
-},
-{
-  "model": "dashboard.subcounty",
-  "pk": 422,
-  "fields": {
-    "identifier": "YL7WGm3qhJM",
-    "name": "Mukura Subcounty",
     "district": 39
   }
 },
@@ -4062,24 +4062,6 @@
   "model": "dashboard.subcounty",
   "pk": 452,
   "fields": {
-    "identifier": "ZeGDEUnjafd",
-    "name": " Kamu Town Council",
-    "district": 42
-  }
-},
-{
-  "model": "dashboard.subcounty",
-  "pk": 453,
-  "fields": {
-    "identifier": "aKZcxeiqnDC",
-    "name": "Bumasobo Subcounty",
-    "district": 42
-  }
-},
-{
-  "model": "dashboard.subcounty",
-  "pk": 454,
-  "fields": {
     "identifier": "lcOZwwI0DzD",
     "name": "Lusha Subcounty",
     "district": 42
@@ -4087,7 +4069,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 455,
+  "pk": 453,
   "fields": {
     "identifier": "tXDsfp50KIl",
     "name": "Bunambutye Subcounty",
@@ -4096,16 +4078,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 456,
-  "fields": {
-    "identifier": "audl05CJPvD",
-    "name": "Simu Subcounty",
-    "district": 42
-  }
-},
-{
-  "model": "dashboard.subcounty",
-  "pk": 457,
+  "pk": 454,
   "fields": {
     "identifier": "Bh0U2ITJVc7",
     "name": "Bulaago Subcounty",
@@ -4114,7 +4087,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 458,
+  "pk": 455,
   "fields": {
     "identifier": "U3F1jMS8CYd",
     "name": "Sisiyi Subcounty",
@@ -4123,25 +4096,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 459,
-  "fields": {
-    "identifier": "fBjBTSTJHf6",
-    "name": "Bwikhonge Subcounty",
-    "district": 42
-  }
-},
-{
-  "model": "dashboard.subcounty",
-  "pk": 460,
-  "fields": {
-    "identifier": "Tk6cI0YZc9n",
-    "name": "Kamu Subcounty",
-    "district": 42
-  }
-},
-{
-  "model": "dashboard.subcounty",
-  "pk": 461,
+  "pk": 456,
   "fields": {
     "identifier": "KG8j3CvkRd9",
     "name": "Bulambuli Town Council",
@@ -4150,7 +4105,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 462,
+  "pk": 457,
   "fields": {
     "identifier": "zUlsz5QOq4e",
     "name": "Nabongo Subcounty",
@@ -4159,16 +4114,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 463,
-  "fields": {
-    "identifier": "hUz7cK7sja3",
-    "name": "Bumugibole Subcounty",
-    "district": 42
-  }
-},
-{
-  "model": "dashboard.subcounty",
-  "pk": 464,
+  "pk": 458,
   "fields": {
     "identifier": "D6Mz2uFmKrb",
     "name": "Buginyanya Subcounty",
@@ -4177,7 +4123,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 465,
+  "pk": 459,
   "fields": {
     "identifier": "pYQZOdSlZAz",
     "name": "Muyembe Subcounty",
@@ -4186,7 +4132,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 466,
+  "pk": 460,
   "fields": {
     "identifier": "ZMvUDFx9XnN",
     "name": "Bulegeni Town Council",
@@ -4195,7 +4141,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 467,
+  "pk": 461,
   "fields": {
     "identifier": "a1bvHu4FRCq",
     "name": "Masiira Subcounty",
@@ -4204,25 +4150,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 468,
-  "fields": {
-    "identifier": "qFIN6OqYHyT",
-    "name": "Namisuni Subcounty",
-    "district": 42
-  }
-},
-{
-  "model": "dashboard.subcounty",
-  "pk": 469,
-  "fields": {
-    "identifier": "NgEEuq6uZfV",
-    "name": "Bulegeni Subcounty",
-    "district": 42
-  }
-},
-{
-  "model": "dashboard.subcounty",
-  "pk": 470,
+  "pk": 462,
   "fields": {
     "identifier": "QxHGHhger7q",
     "name": "Bukhalu Subcounty",
@@ -4231,10 +4159,82 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 471,
+  "pk": 463,
   "fields": {
     "identifier": "Wr3gyeZ6KUr",
     "name": "Buluganya Subcounty",
+    "district": 42
+  }
+},
+{
+  "model": "dashboard.subcounty",
+  "pk": 464,
+  "fields": {
+    "identifier": "ZeGDEUnjafd",
+    "name": " Kamu Town Council",
+    "district": 42
+  }
+},
+{
+  "model": "dashboard.subcounty",
+  "pk": 465,
+  "fields": {
+    "identifier": "aKZcxeiqnDC",
+    "name": "Bumasobo Subcounty",
+    "district": 42
+  }
+},
+{
+  "model": "dashboard.subcounty",
+  "pk": 466,
+  "fields": {
+    "identifier": "audl05CJPvD",
+    "name": "Simu Subcounty",
+    "district": 42
+  }
+},
+{
+  "model": "dashboard.subcounty",
+  "pk": 467,
+  "fields": {
+    "identifier": "fBjBTSTJHf6",
+    "name": "Bwikhonge Subcounty",
+    "district": 42
+  }
+},
+{
+  "model": "dashboard.subcounty",
+  "pk": 468,
+  "fields": {
+    "identifier": "Tk6cI0YZc9n",
+    "name": "Kamu Subcounty",
+    "district": 42
+  }
+},
+{
+  "model": "dashboard.subcounty",
+  "pk": 469,
+  "fields": {
+    "identifier": "hUz7cK7sja3",
+    "name": "Bumugibole Subcounty",
+    "district": 42
+  }
+},
+{
+  "model": "dashboard.subcounty",
+  "pk": 470,
+  "fields": {
+    "identifier": "qFIN6OqYHyT",
+    "name": "Namisuni Subcounty",
+    "district": 42
+  }
+},
+{
+  "model": "dashboard.subcounty",
+  "pk": 471,
+  "fields": {
+    "identifier": "NgEEuq6uZfV",
+    "name": "Bulegeni Subcounty",
     "district": 42
   }
 },
@@ -4737,15 +4737,6 @@
   "model": "dashboard.subcounty",
   "pk": 527,
   "fields": {
-    "identifier": "gAQjtVVeV0w",
-    "name": "Bupoto Subcounty",
-    "district": 49
-  }
-},
-{
-  "model": "dashboard.subcounty",
-  "pk": 528,
-  "fields": {
     "identifier": "HrVQp6KrVX9",
     "name": "Busukuya Sub County",
     "district": 49
@@ -4753,7 +4744,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 529,
+  "pk": 528,
   "fields": {
     "identifier": "nBKJ3cpl4T0",
     "name": "Bumwoni Subcounty",
@@ -4762,52 +4753,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 530,
-  "fields": {
-    "identifier": "H4tQzkRKUNV",
-    "name": "Namabya Subcounty",
-    "district": 49
-  }
-},
-{
-  "model": "dashboard.subcounty",
-  "pk": 531,
-  "fields": {
-    "identifier": "Nwdvs8JuEbv",
-    "name": "Bukahabusi Subcounty",
-    "district": 49
-  }
-},
-{
-  "model": "dashboard.subcounty",
-  "pk": 532,
-  "fields": {
-    "identifier": "KA3m8Skxyrd",
-    "name": "Bubutu Subcounty",
-    "district": 49
-  }
-},
-{
-  "model": "dashboard.subcounty",
-  "pk": 533,
-  "fields": {
-    "identifier": "tTpyWAITi30",
-    "name": "Magale Subcounty",
-    "district": 49
-  }
-},
-{
-  "model": "dashboard.subcounty",
-  "pk": 534,
-  "fields": {
-    "identifier": "Uo7haVIuBGR",
-    "name": "Bukokho Subcounty",
-    "district": 49
-  }
-},
-{
-  "model": "dashboard.subcounty",
-  "pk": 535,
+  "pk": 529,
   "fields": {
     "identifier": "aG0jMQyfUTx",
     "name": "Butiru Subcounty",
@@ -4816,7 +4762,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 536,
+  "pk": 530,
   "fields": {
     "identifier": "aNvDakWiwMs",
     "name": "Tsekululu Subcounty",
@@ -4825,34 +4771,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 537,
-  "fields": {
-    "identifier": "FJMPE6W5Eh5",
-    "name": "Kaato Subcounty",
-    "district": 49
-  }
-},
-{
-  "model": "dashboard.subcounty",
-  "pk": 538,
-  "fields": {
-    "identifier": "Xsx22uXtlpC",
-    "name": "Buwabwala Sub County",
-    "district": 49
-  }
-},
-{
-  "model": "dashboard.subcounty",
-  "pk": 539,
-  "fields": {
-    "identifier": "tSaD45BABGh",
-    "name": "Buwagogo Subcounty",
-    "district": 49
-  }
-},
-{
-  "model": "dashboard.subcounty",
-  "pk": 540,
+  "pk": 531,
   "fields": {
     "identifier": "yjo1AMiB3pU",
     "name": "Bugobero Subcounty",
@@ -4861,7 +4780,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 541,
+  "pk": 532,
   "fields": {
     "identifier": "hriseTUfks9",
     "name": "Mukoto Subcounty",
@@ -4870,16 +4789,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 542,
-  "fields": {
-    "identifier": "ccykDrWXKhD",
-    "name": "Manafwa Subcounty",
-    "district": 49
-  }
-},
-{
-  "model": "dashboard.subcounty",
-  "pk": 543,
+  "pk": 533,
   "fields": {
     "identifier": "aEOan17QsoW",
     "name": "Bumbo Subcounty",
@@ -4888,10 +4798,100 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 544,
+  "pk": 534,
   "fields": {
     "identifier": "fISqLilkoLm",
     "name": "Sisuni Subcounty",
+    "district": 49
+  }
+},
+{
+  "model": "dashboard.subcounty",
+  "pk": 535,
+  "fields": {
+    "identifier": "gAQjtVVeV0w",
+    "name": "Bupoto Subcounty",
+    "district": 49
+  }
+},
+{
+  "model": "dashboard.subcounty",
+  "pk": 536,
+  "fields": {
+    "identifier": "H4tQzkRKUNV",
+    "name": "Namabya Subcounty",
+    "district": 49
+  }
+},
+{
+  "model": "dashboard.subcounty",
+  "pk": 537,
+  "fields": {
+    "identifier": "Nwdvs8JuEbv",
+    "name": "Bukahabusi Subcounty",
+    "district": 49
+  }
+},
+{
+  "model": "dashboard.subcounty",
+  "pk": 538,
+  "fields": {
+    "identifier": "KA3m8Skxyrd",
+    "name": "Bubutu Subcounty",
+    "district": 49
+  }
+},
+{
+  "model": "dashboard.subcounty",
+  "pk": 539,
+  "fields": {
+    "identifier": "tTpyWAITi30",
+    "name": "Magale Subcounty",
+    "district": 49
+  }
+},
+{
+  "model": "dashboard.subcounty",
+  "pk": 540,
+  "fields": {
+    "identifier": "Uo7haVIuBGR",
+    "name": "Bukokho Subcounty",
+    "district": 49
+  }
+},
+{
+  "model": "dashboard.subcounty",
+  "pk": 541,
+  "fields": {
+    "identifier": "FJMPE6W5Eh5",
+    "name": "Kaato Subcounty",
+    "district": 49
+  }
+},
+{
+  "model": "dashboard.subcounty",
+  "pk": 542,
+  "fields": {
+    "identifier": "Xsx22uXtlpC",
+    "name": "Buwabwala Sub County",
+    "district": 49
+  }
+},
+{
+  "model": "dashboard.subcounty",
+  "pk": 543,
+  "fields": {
+    "identifier": "tSaD45BABGh",
+    "name": "Buwagogo Subcounty",
+    "district": 49
+  }
+},
+{
+  "model": "dashboard.subcounty",
+  "pk": 544,
+  "fields": {
+    "identifier": "ccykDrWXKhD",
+    "name": "Manafwa Subcounty",
     "district": 49
   }
 },
@@ -4926,24 +4926,6 @@
   "model": "dashboard.subcounty",
   "pk": 548,
   "fields": {
-    "identifier": "dY1Tvx0RPRi",
-    "name": "Kirika Subcounty",
-    "district": 50
-  }
-},
-{
-  "model": "dashboard.subcounty",
-  "pk": 549,
-  "fields": {
-    "identifier": "rIngfXPkVV0",
-    "name": "Kasasira Subcounty",
-    "district": 50
-  }
-},
-{
-  "model": "dashboard.subcounty",
-  "pk": 550,
-  "fields": {
     "identifier": "OMrkzFQQ1qN",
     "name": "Bulangira Subcounty",
     "district": 50
@@ -4951,25 +4933,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 551,
-  "fields": {
-    "identifier": "htalJQhw2VH",
-    "name": "Kabweri Subcounty",
-    "district": 50
-  }
-},
-{
-  "model": "dashboard.subcounty",
-  "pk": 552,
-  "fields": {
-    "identifier": "irk9vMITnjG",
-    "name": "Kadama Subcounty",
-    "district": 50
-  }
-},
-{
-  "model": "dashboard.subcounty",
-  "pk": 553,
+  "pk": 549,
   "fields": {
     "identifier": "ugewbq4RtKN",
     "name": "Tirinyi Subcounty",
@@ -4978,7 +4942,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 554,
+  "pk": 550,
   "fields": {
     "identifier": "WlD8pvSBDdI",
     "name": "Kibuku Towncouncil",
@@ -4987,7 +4951,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 555,
+  "pk": 551,
   "fields": {
     "identifier": "a1ZQxyqQh2P",
     "name": "Kagumu Subcounty",
@@ -4996,79 +4960,43 @@
 },
 {
   "model": "dashboard.subcounty",
+  "pk": 552,
+  "fields": {
+    "identifier": "dY1Tvx0RPRi",
+    "name": "Kirika Subcounty",
+    "district": 50
+  }
+},
+{
+  "model": "dashboard.subcounty",
+  "pk": 553,
+  "fields": {
+    "identifier": "rIngfXPkVV0",
+    "name": "Kasasira Subcounty",
+    "district": 50
+  }
+},
+{
+  "model": "dashboard.subcounty",
+  "pk": 554,
+  "fields": {
+    "identifier": "htalJQhw2VH",
+    "name": "Kabweri Subcounty",
+    "district": 50
+  }
+},
+{
+  "model": "dashboard.subcounty",
+  "pk": 555,
+  "fields": {
+    "identifier": "irk9vMITnjG",
+    "name": "Kadama Subcounty",
+    "district": 50
+  }
+},
+{
+  "model": "dashboard.subcounty",
   "pk": 556,
-  "fields": {
-    "identifier": "NcuAdU0UfGD",
-    "name": "Kakoro Subcounty",
-    "district": 51
-  }
-},
-{
-  "model": "dashboard.subcounty",
-  "pk": 557,
-  "fields": {
-    "identifier": "cdnlhhlkqJ1",
-    "name": "Agule Subcounty",
-    "district": 51
-  }
-},
-{
-  "model": "dashboard.subcounty",
-  "pk": 558,
-  "fields": {
-    "identifier": "axeaTpoaevL",
-    "name": "Pallisa Subcounty",
-    "district": 51
-  }
-},
-{
-  "model": "dashboard.subcounty",
-  "pk": 559,
-  "fields": {
-    "identifier": "lYqNWu82K6e",
-    "name": "Kasodo Subcounty",
-    "district": 51
-  }
-},
-{
-  "model": "dashboard.subcounty",
-  "pk": 560,
-  "fields": {
-    "identifier": "uVmqHTweoDr",
-    "name": "Kameke Subcounty",
-    "district": 51
-  }
-},
-{
-  "model": "dashboard.subcounty",
-  "pk": 561,
-  "fields": {
-    "identifier": "cLas0iVZsnw",
-    "name": "Kamuge Subcounty",
-    "district": 51
-  }
-},
-{
-  "model": "dashboard.subcounty",
-  "pk": 562,
-  "fields": {
-    "identifier": "igvemwDsp2j",
-    "name": "Opwateta Subcounty",
-    "district": 51
-  }
-},
-{
-  "model": "dashboard.subcounty",
-  "pk": 563,
-  "fields": {
-    "identifier": "HoW0caoiLjf",
-    "name": "Petete Subcounty",
-    "district": 51
-  }
-},
-{
-  "model": "dashboard.subcounty",
-  "pk": 564,
   "fields": {
     "identifier": "RXmpTec0meY",
     "name": "Akisim Subcounty",
@@ -5077,16 +5005,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 565,
-  "fields": {
-    "identifier": "kVC2XemQfB6",
-    "name": "Pallisa Town council",
-    "district": 51
-  }
-},
-{
-  "model": "dashboard.subcounty",
-  "pk": 566,
+  "pk": 557,
   "fields": {
     "identifier": "jFNWWovsSyW",
     "name": "Kanginima Subcounty",
@@ -5095,7 +5014,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 567,
+  "pk": 558,
   "fields": {
     "identifier": "SjjQnm5MK1W",
     "name": "Puti-Puti Subcounty",
@@ -5104,7 +5023,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 568,
+  "pk": 559,
   "fields": {
     "identifier": "Vko6vxEEGTL",
     "name": "Kabwangasi Subcounty",
@@ -5113,7 +5032,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 569,
+  "pk": 560,
   "fields": {
     "identifier": "WS9RVsVKaPl",
     "name": "Apopong Subcounty",
@@ -5122,7 +5041,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 570,
+  "pk": 561,
   "fields": {
     "identifier": "e4XWNDjKUXH",
     "name": "Gogonyo Subcounty",
@@ -5131,7 +5050,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 571,
+  "pk": 562,
   "fields": {
     "identifier": "BBqkdNv0rk1",
     "name": "Olok Subcounty",
@@ -5140,7 +5059,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 572,
+  "pk": 563,
   "fields": {
     "identifier": "X7IxKzXFuG2",
     "name": "Butebo Subcounty",
@@ -5149,10 +5068,91 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 573,
+  "pk": 564,
   "fields": {
     "identifier": "xIKybEz7PTY",
     "name": "Chelekura Subcounty",
+    "district": 51
+  }
+},
+{
+  "model": "dashboard.subcounty",
+  "pk": 565,
+  "fields": {
+    "identifier": "NcuAdU0UfGD",
+    "name": "Kakoro Subcounty",
+    "district": 51
+  }
+},
+{
+  "model": "dashboard.subcounty",
+  "pk": 566,
+  "fields": {
+    "identifier": "cdnlhhlkqJ1",
+    "name": "Agule Subcounty",
+    "district": 51
+  }
+},
+{
+  "model": "dashboard.subcounty",
+  "pk": 567,
+  "fields": {
+    "identifier": "axeaTpoaevL",
+    "name": "Pallisa Subcounty",
+    "district": 51
+  }
+},
+{
+  "model": "dashboard.subcounty",
+  "pk": 568,
+  "fields": {
+    "identifier": "lYqNWu82K6e",
+    "name": "Kasodo Subcounty",
+    "district": 51
+  }
+},
+{
+  "model": "dashboard.subcounty",
+  "pk": 569,
+  "fields": {
+    "identifier": "uVmqHTweoDr",
+    "name": "Kameke Subcounty",
+    "district": 51
+  }
+},
+{
+  "model": "dashboard.subcounty",
+  "pk": 570,
+  "fields": {
+    "identifier": "cLas0iVZsnw",
+    "name": "Kamuge Subcounty",
+    "district": 51
+  }
+},
+{
+  "model": "dashboard.subcounty",
+  "pk": 571,
+  "fields": {
+    "identifier": "igvemwDsp2j",
+    "name": "Opwateta Subcounty",
+    "district": 51
+  }
+},
+{
+  "model": "dashboard.subcounty",
+  "pk": 572,
+  "fields": {
+    "identifier": "HoW0caoiLjf",
+    "name": "Petete Subcounty",
+    "district": 51
+  }
+},
+{
+  "model": "dashboard.subcounty",
+  "pk": 573,
+  "fields": {
+    "identifier": "kVC2XemQfB6",
+    "name": "Pallisa Town council",
     "district": 51
   }
 },
@@ -5340,15 +5340,6 @@
   "model": "dashboard.subcounty",
   "pk": 594,
   "fields": {
-    "identifier": "uNP90Zfk2Lg",
-    "name": "Bulidha Subcounty",
-    "district": 54
-  }
-},
-{
-  "model": "dashboard.subcounty",
-  "pk": 595,
-  "fields": {
     "identifier": "aI77OsoVVCX",
     "name": "Budhaya Subcounty",
     "district": 54
@@ -5356,7 +5347,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 596,
+  "pk": 595,
   "fields": {
     "identifier": "v34OKRUDNcU",
     "name": "Bulesa Subcounty",
@@ -5365,16 +5356,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 597,
-  "fields": {
-    "identifier": "eVDEotZAl6S",
-    "name": "Bugiri Town council",
-    "district": 54
-  }
-},
-{
-  "model": "dashboard.subcounty",
-  "pk": 598,
+  "pk": 596,
   "fields": {
     "identifier": "aWV1RUl4uWC",
     "name": "Nankoma Subcounty",
@@ -5383,7 +5365,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 599,
+  "pk": 597,
   "fields": {
     "identifier": "gmakqYElPUi",
     "name": "Iwemba Subcounty",
@@ -5392,7 +5374,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 600,
+  "pk": 598,
   "fields": {
     "identifier": "t3epAUsT575",
     "name": "Buwunga Subcounty",
@@ -5401,16 +5383,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 601,
-  "fields": {
-    "identifier": "cdUu7uCoOhY",
-    "name": "Kapyanga Subcounty",
-    "district": 54
-  }
-},
-{
-  "model": "dashboard.subcounty",
-  "pk": 602,
+  "pk": 599,
   "fields": {
     "identifier": "B3slkfrgMRU",
     "name": "Nabukalu Subcounty",
@@ -5419,16 +5392,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 603,
-  "fields": {
-    "identifier": "WwbY46nZ6GJ",
-    "name": "Muterere Subcounty",
-    "district": 54
-  }
-},
-{
-  "model": "dashboard.subcounty",
-  "pk": 604,
+  "pk": 600,
   "fields": {
     "identifier": "XmUndBGqpt6",
     "name": "Buluguyi Subcounty",
@@ -5437,16 +5401,43 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 605,
+  "pk": 601,
   "fields": {
-    "identifier": "vJLeTItF2kD",
-    "name": "Toroma Subcounty",
-    "district": 55
+    "identifier": "uNP90Zfk2Lg",
+    "name": "Bulidha Subcounty",
+    "district": 54
   }
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 606,
+  "pk": 602,
+  "fields": {
+    "identifier": "eVDEotZAl6S",
+    "name": "Bugiri Town council",
+    "district": 54
+  }
+},
+{
+  "model": "dashboard.subcounty",
+  "pk": 603,
+  "fields": {
+    "identifier": "cdUu7uCoOhY",
+    "name": "Kapyanga Subcounty",
+    "district": 54
+  }
+},
+{
+  "model": "dashboard.subcounty",
+  "pk": 604,
+  "fields": {
+    "identifier": "WwbY46nZ6GJ",
+    "name": "Muterere Subcounty",
+    "district": 54
+  }
+},
+{
+  "model": "dashboard.subcounty",
+  "pk": 605,
   "fields": {
     "identifier": "y1iun1mJXWa",
     "name": "Usuk Subcounty",
@@ -5455,7 +5446,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 607,
+  "pk": 606,
   "fields": {
     "identifier": "ciYirJoS2bT",
     "name": "Kapujan Subcounty",
@@ -5464,7 +5455,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 608,
+  "pk": 607,
   "fields": {
     "identifier": "VnaniHNwR1S",
     "name": "Magoro Subcounty",
@@ -5473,7 +5464,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 609,
+  "pk": 608,
   "fields": {
     "identifier": "Y4NFDi1A36x",
     "name": "Katakwi Subcounty",
@@ -5482,7 +5473,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 610,
+  "pk": 609,
   "fields": {
     "identifier": "bZBIK5nSjJS",
     "name": "Ongongoja Subcounty",
@@ -5491,7 +5482,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 611,
+  "pk": 610,
   "fields": {
     "identifier": "LmtC4nnHnZr",
     "name": "Ngariam Subcounty",
@@ -5500,10 +5491,19 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 612,
+  "pk": 611,
   "fields": {
     "identifier": "Y5n22tapmhs",
     "name": "Omodoi Subcounty",
+    "district": 55
+  }
+},
+{
+  "model": "dashboard.subcounty",
+  "pk": 612,
+  "fields": {
+    "identifier": "vJLeTItF2kD",
+    "name": "Toroma Subcounty",
     "district": 55
   }
 },
@@ -5592,15 +5592,6 @@
   "model": "dashboard.subcounty",
   "pk": 622,
   "fields": {
-    "identifier": "fwJDrgKD2HB",
-    "name": "Kamuda Subcounty",
-    "district": 56
-  }
-},
-{
-  "model": "dashboard.subcounty",
-  "pk": 623,
-  "fields": {
     "identifier": "BynI1aokvo2",
     "name": "Katine Subcounty",
     "district": 56
@@ -5608,10 +5599,19 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 624,
+  "pk": 623,
   "fields": {
     "identifier": "xnqsEM3TxbR",
     "name": "Soroti Northern Division",
+    "district": 56
+  }
+},
+{
+  "model": "dashboard.subcounty",
+  "pk": 624,
+  "fields": {
+    "identifier": "fwJDrgKD2HB",
+    "name": "Kamuda Subcounty",
     "district": 56
   }
 },
@@ -5628,24 +5628,6 @@
   "model": "dashboard.subcounty",
   "pk": 626,
   "fields": {
-    "identifier": "HT5sk9MS3Br",
-    "name": "Luwasso Subcounty",
-    "district": 57
-  }
-},
-{
-  "model": "dashboard.subcounty",
-  "pk": 627,
-  "fields": {
-    "identifier": "n5qiWcR51id",
-    "name": "Namanyonyi Subcounty",
-    "district": 57
-  }
-},
-{
-  "model": "dashboard.subcounty",
-  "pk": 628,
-  "fields": {
     "identifier": "q0BqaYeLsKz",
     "name": "Industrial Division",
     "district": 57
@@ -5653,16 +5635,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 629,
-  "fields": {
-    "identifier": "VTWueywhLKE",
-    "name": "Nyondo Subcounty",
-    "district": 57
-  }
-},
-{
-  "model": "dashboard.subcounty",
-  "pk": 630,
+  "pk": 627,
   "fields": {
     "identifier": "D6VouTb2XCU",
     "name": "Bungokho Subcounty",
@@ -5671,25 +5644,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 631,
-  "fields": {
-    "identifier": "a0zpHapVjFR",
-    "name": "Busano Subcounty",
-    "district": 57
-  }
-},
-{
-  "model": "dashboard.subcounty",
-  "pk": 632,
-  "fields": {
-    "identifier": "KIukjQefWsY",
-    "name": "Wanale Subcounty",
-    "district": 57
-  }
-},
-{
-  "model": "dashboard.subcounty",
-  "pk": 633,
+  "pk": 628,
   "fields": {
     "identifier": "rLXKKzktTVy",
     "name": "Bungokho-Mutoto Subcounty",
@@ -5698,7 +5653,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 634,
+  "pk": 629,
   "fields": {
     "identifier": "yG3R0J1qk4S",
     "name": "Nakaloke Town Council",
@@ -5707,7 +5662,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 635,
+  "pk": 630,
   "fields": {
     "identifier": "immOGNT21Gt",
     "name": "Bufumbo Subcounty",
@@ -5716,43 +5671,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 636,
-  "fields": {
-    "identifier": "D6FXIrPgDTu",
-    "name": "Lukonge Subcounty",
-    "district": 57
-  }
-},
-{
-  "model": "dashboard.subcounty",
-  "pk": 637,
-  "fields": {
-    "identifier": "OltIU5j6TaY",
-    "name": "Mbale Northern Division",
-    "district": 57
-  }
-},
-{
-  "model": "dashboard.subcounty",
-  "pk": 638,
-  "fields": {
-    "identifier": "Qk9HZ65zQnB",
-    "name": "Busiu Subcounty",
-    "district": 57
-  }
-},
-{
-  "model": "dashboard.subcounty",
-  "pk": 639,
-  "fields": {
-    "identifier": "SazalLP46YD",
-    "name": "Nakaloke Subcounty",
-    "district": 57
-  }
-},
-{
-  "model": "dashboard.subcounty",
-  "pk": 640,
+  "pk": 631,
   "fields": {
     "identifier": "qiewZJ2PhvP",
     "name": "Bukiende Subcounty",
@@ -5761,7 +5680,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 641,
+  "pk": 632,
   "fields": {
     "identifier": "sZkAxsA924V",
     "name": "Busoba Subcounty",
@@ -5770,7 +5689,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 642,
+  "pk": 633,
   "fields": {
     "identifier": "xfJuqAwolQi",
     "name": "Wanale Division",
@@ -5779,25 +5698,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 643,
-  "fields": {
-    "identifier": "DyPcdfPhNdS",
-    "name": "Bumasikye Subcounty",
-    "district": 57
-  }
-},
-{
-  "model": "dashboard.subcounty",
-  "pk": 644,
-  "fields": {
-    "identifier": "WxQQCkhFNzQ",
-    "name": "Bukasakya Subcounty",
-    "district": 57
-  }
-},
-{
-  "model": "dashboard.subcounty",
-  "pk": 645,
+  "pk": 634,
   "fields": {
     "identifier": "pRs8qxqjCaa",
     "name": "Budwale Subcounty",
@@ -5806,10 +5707,109 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 646,
+  "pk": 635,
   "fields": {
     "identifier": "hO6qi1vSbQa",
     "name": "Bubyangu Subcounty",
+    "district": 57
+  }
+},
+{
+  "model": "dashboard.subcounty",
+  "pk": 636,
+  "fields": {
+    "identifier": "HT5sk9MS3Br",
+    "name": "Luwasso Subcounty",
+    "district": 57
+  }
+},
+{
+  "model": "dashboard.subcounty",
+  "pk": 637,
+  "fields": {
+    "identifier": "n5qiWcR51id",
+    "name": "Namanyonyi Subcounty",
+    "district": 57
+  }
+},
+{
+  "model": "dashboard.subcounty",
+  "pk": 638,
+  "fields": {
+    "identifier": "VTWueywhLKE",
+    "name": "Nyondo Subcounty",
+    "district": 57
+  }
+},
+{
+  "model": "dashboard.subcounty",
+  "pk": 639,
+  "fields": {
+    "identifier": "a0zpHapVjFR",
+    "name": "Busano Subcounty",
+    "district": 57
+  }
+},
+{
+  "model": "dashboard.subcounty",
+  "pk": 640,
+  "fields": {
+    "identifier": "KIukjQefWsY",
+    "name": "Wanale Subcounty",
+    "district": 57
+  }
+},
+{
+  "model": "dashboard.subcounty",
+  "pk": 641,
+  "fields": {
+    "identifier": "D6FXIrPgDTu",
+    "name": "Lukonge Subcounty",
+    "district": 57
+  }
+},
+{
+  "model": "dashboard.subcounty",
+  "pk": 642,
+  "fields": {
+    "identifier": "OltIU5j6TaY",
+    "name": "Mbale Northern Division",
+    "district": 57
+  }
+},
+{
+  "model": "dashboard.subcounty",
+  "pk": 643,
+  "fields": {
+    "identifier": "Qk9HZ65zQnB",
+    "name": "Busiu Subcounty",
+    "district": 57
+  }
+},
+{
+  "model": "dashboard.subcounty",
+  "pk": 644,
+  "fields": {
+    "identifier": "SazalLP46YD",
+    "name": "Nakaloke Subcounty",
+    "district": 57
+  }
+},
+{
+  "model": "dashboard.subcounty",
+  "pk": 645,
+  "fields": {
+    "identifier": "DyPcdfPhNdS",
+    "name": "Bumasikye Subcounty",
+    "district": 57
+  }
+},
+{
+  "model": "dashboard.subcounty",
+  "pk": 646,
+  "fields": {
+    "identifier": "WxQQCkhFNzQ",
+    "name": "Bukasakya Subcounty",
     "district": 57
   }
 },
@@ -5961,15 +5961,6 @@
   "model": "dashboard.subcounty",
   "pk": 663,
   "fields": {
-    "identifier": "a1BUAxYwQ1t",
-    "name": "Busedde Subcounty",
-    "district": 60
-  }
-},
-{
-  "model": "dashboard.subcounty",
-  "pk": 664,
-  "fields": {
     "identifier": "amHAOOSM5kw",
     "name": "Mafubira Subcounty",
     "district": 60
@@ -5977,7 +5968,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 665,
+  "pk": 664,
   "fields": {
     "identifier": "dIryCQvB5SO",
     "name": "Jinja Central Division ",
@@ -5986,16 +5977,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 666,
-  "fields": {
-    "identifier": "fyRAZd94Iko",
-    "name": "Buwenge Subcounty",
-    "district": 60
-  }
-},
-{
-  "model": "dashboard.subcounty",
-  "pk": 667,
+  "pk": 665,
   "fields": {
     "identifier": "a8JmSlpZNZp",
     "name": "JMC West HSD",
@@ -6004,43 +5986,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 668,
-  "fields": {
-    "identifier": "a92Lyf8Vnrg",
-    "name": "Butagaya Subcounty",
-    "district": 60
-  }
-},
-{
-  "model": "dashboard.subcounty",
-  "pk": 669,
-  "fields": {
-    "identifier": "bRDYyY5ifEh",
-    "name": "Budondo Subcounty",
-    "district": 60
-  }
-},
-{
-  "model": "dashboard.subcounty",
-  "pk": 670,
-  "fields": {
-    "identifier": "rMpx9X7T5lY",
-    "name": "Buyengo Subcounty",
-    "district": 60
-  }
-},
-{
-  "model": "dashboard.subcounty",
-  "pk": 671,
-  "fields": {
-    "identifier": "vhabQS0hUcP",
-    "name": "Buwenge Town Council",
-    "district": 60
-  }
-},
-{
-  "model": "dashboard.subcounty",
-  "pk": 672,
+  "pk": 666,
   "fields": {
     "identifier": "aQdwdYyr6GL",
     "name": "JMC East",
@@ -6049,7 +5995,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 673,
+  "pk": 667,
   "fields": {
     "identifier": "ktVICQZY6Va",
     "name": "Bugembe Town Council",
@@ -6058,7 +6004,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 674,
+  "pk": 668,
   "fields": {
     "identifier": "bzwQwNeos4x",
     "name": "Kakira Town Council",
@@ -6067,16 +6013,61 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 675,
+  "pk": 669,
   "fields": {
-    "identifier": "hY5HcMQt93G",
-    "name": "Kwosir Subcounty",
-    "district": 61
+    "identifier": "a1BUAxYwQ1t",
+    "name": "Busedde Subcounty",
+    "district": 60
   }
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 676,
+  "pk": 670,
+  "fields": {
+    "identifier": "fyRAZd94Iko",
+    "name": "Buwenge Subcounty",
+    "district": 60
+  }
+},
+{
+  "model": "dashboard.subcounty",
+  "pk": 671,
+  "fields": {
+    "identifier": "a92Lyf8Vnrg",
+    "name": "Butagaya Subcounty",
+    "district": 60
+  }
+},
+{
+  "model": "dashboard.subcounty",
+  "pk": 672,
+  "fields": {
+    "identifier": "bRDYyY5ifEh",
+    "name": "Budondo Subcounty",
+    "district": 60
+  }
+},
+{
+  "model": "dashboard.subcounty",
+  "pk": 673,
+  "fields": {
+    "identifier": "rMpx9X7T5lY",
+    "name": "Buyengo Subcounty",
+    "district": 60
+  }
+},
+{
+  "model": "dashboard.subcounty",
+  "pk": 674,
+  "fields": {
+    "identifier": "vhabQS0hUcP",
+    "name": "Buwenge Town Council",
+    "district": 60
+  }
+},
+{
+  "model": "dashboard.subcounty",
+  "pk": 675,
   "fields": {
     "identifier": "lN73pdksWUB",
     "name": "Benet Subcounty",
@@ -6085,25 +6076,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 677,
-  "fields": {
-    "identifier": "AH9Soa1y2qd",
-    "name": "Kwanyiny Subcounty",
-    "district": 61
-  }
-},
-{
-  "model": "dashboard.subcounty",
-  "pk": 678,
-  "fields": {
-    "identifier": "CoRoHHdK9FC",
-    "name": "Moyok Subcounty",
-    "district": 61
-  }
-},
-{
-  "model": "dashboard.subcounty",
-  "pk": 679,
+  "pk": 676,
   "fields": {
     "identifier": "OtcX4cHu6sF",
     "name": "Kaptoyoy Subcounty",
@@ -6112,7 +6085,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 680,
+  "pk": 677,
   "fields": {
     "identifier": "wnc7108bfUe",
     "name": "Kitawoi Subcounty",
@@ -6121,7 +6094,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 681,
+  "pk": 678,
   "fields": {
     "identifier": "djMgaXn0i9x",
     "name": "Kaproron Subcounty",
@@ -6130,16 +6103,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 682,
-  "fields": {
-    "identifier": "wJ1jKBQsVHw",
-    "name": "Binyiny Subcounty",
-    "district": 61
-  }
-},
-{
-  "model": "dashboard.subcounty",
-  "pk": 683,
+  "pk": 679,
   "fields": {
     "identifier": "HTZhrdw748h",
     "name": "Kaptum Subcounty",
@@ -6148,7 +6112,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 684,
+  "pk": 680,
   "fields": {
     "identifier": "VSxYEJhhOT4",
     "name": "Ngenge Subcounty",
@@ -6157,16 +6121,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 685,
-  "fields": {
-    "identifier": "XD1KW6zzsZW",
-    "name": "Binyiny Town Council",
-    "district": 61
-  }
-},
-{
-  "model": "dashboard.subcounty",
-  "pk": 686,
+  "pk": 681,
   "fields": {
     "identifier": "zeYJmjH1keH",
     "name": "Kiriki Subcounty",
@@ -6175,16 +6130,52 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 687,
+  "pk": 682,
   "fields": {
-    "identifier": "FngcsacEaM4",
-    "name": "Suam Subcounty",
-    "district": 62
+    "identifier": "hY5HcMQt93G",
+    "name": "Kwosir Subcounty",
+    "district": 61
   }
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 688,
+  "pk": 683,
+  "fields": {
+    "identifier": "AH9Soa1y2qd",
+    "name": "Kwanyiny Subcounty",
+    "district": 61
+  }
+},
+{
+  "model": "dashboard.subcounty",
+  "pk": 684,
+  "fields": {
+    "identifier": "CoRoHHdK9FC",
+    "name": "Moyok Subcounty",
+    "district": 61
+  }
+},
+{
+  "model": "dashboard.subcounty",
+  "pk": 685,
+  "fields": {
+    "identifier": "wJ1jKBQsVHw",
+    "name": "Binyiny Subcounty",
+    "district": 61
+  }
+},
+{
+  "model": "dashboard.subcounty",
+  "pk": 686,
+  "fields": {
+    "identifier": "XD1KW6zzsZW",
+    "name": "Binyiny Town Council",
+    "district": 61
+  }
+},
+{
+  "model": "dashboard.subcounty",
+  "pk": 687,
   "fields": {
     "identifier": "XB8o8p7f97z",
     "name": "Senendet Subcounty",
@@ -6193,7 +6184,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 689,
+  "pk": 688,
   "fields": {
     "identifier": "Pud49eGxz7F",
     "name": "Bukwo Town Council",
@@ -6202,7 +6193,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 690,
+  "pk": 689,
   "fields": {
     "identifier": "aaes1np8v4h",
     "name": "Chepkwasta Subcounty",
@@ -6211,16 +6202,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 691,
-  "fields": {
-    "identifier": "dzxOS342VoL",
-    "name": "Kortek Subcounty",
-    "district": 62
-  }
-},
-{
-  "model": "dashboard.subcounty",
-  "pk": 692,
+  "pk": 690,
   "fields": {
     "identifier": "aztJaVUNQQd",
     "name": "Kamet Subcounty",
@@ -6229,16 +6211,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 693,
-  "fields": {
-    "identifier": "Gxs5KLq9tWr",
-    "name": "Riwo Subcounty",
-    "district": 62
-  }
-},
-{
-  "model": "dashboard.subcounty",
-  "pk": 694,
+  "pk": 691,
   "fields": {
     "identifier": "aeovDDRuWXz",
     "name": "Bukwo Subcounty",
@@ -6247,16 +6220,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 695,
-  "fields": {
-    "identifier": "XH5QSihkOp9",
-    "name": "Kabei Subcounty",
-    "district": 62
-  }
-},
-{
-  "model": "dashboard.subcounty",
-  "pk": 696,
+  "pk": 692,
   "fields": {
     "identifier": "WWilgFGBjBC",
     "name": "Tulel Subcounty",
@@ -6265,7 +6229,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 697,
+  "pk": 693,
   "fields": {
     "identifier": "Nes6fdESisv",
     "name": "Kaptererwo Subcounty",
@@ -6274,10 +6238,46 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 698,
+  "pk": 694,
   "fields": {
     "identifier": "Z0G5mSsk4VZ",
     "name": "Chesower Subcounty",
+    "district": 62
+  }
+},
+{
+  "model": "dashboard.subcounty",
+  "pk": 695,
+  "fields": {
+    "identifier": "FngcsacEaM4",
+    "name": "Suam Subcounty",
+    "district": 62
+  }
+},
+{
+  "model": "dashboard.subcounty",
+  "pk": 696,
+  "fields": {
+    "identifier": "dzxOS342VoL",
+    "name": "Kortek Subcounty",
+    "district": 62
+  }
+},
+{
+  "model": "dashboard.subcounty",
+  "pk": 697,
+  "fields": {
+    "identifier": "Gxs5KLq9tWr",
+    "name": "Riwo Subcounty",
+    "district": 62
+  }
+},
+{
+  "model": "dashboard.subcounty",
+  "pk": 698,
+  "fields": {
+    "identifier": "XH5QSihkOp9",
+    "name": "Kabei Subcounty",
     "district": 62
   }
 },
@@ -6618,15 +6618,6 @@
   "model": "dashboard.subcounty",
   "pk": 736,
   "fields": {
-    "identifier": "HjoAahqy6Yw",
-    "name": "Mityana Town Council",
-    "district": 66
-  }
-},
-{
-  "model": "dashboard.subcounty",
-  "pk": 737,
-  "fields": {
     "identifier": "aPq34NY4UoQ",
     "name": "Kakindu Subcounty",
     "district": 66
@@ -6634,7 +6625,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 738,
+  "pk": 737,
   "fields": {
     "identifier": "ataZYLjOJXV",
     "name": "Busimbi Subcounty",
@@ -6643,7 +6634,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 739,
+  "pk": 738,
   "fields": {
     "identifier": "kw9oIuVNzcJ",
     "name": "Ssekanyonyi Subcounty",
@@ -6652,25 +6643,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 740,
-  "fields": {
-    "identifier": "O2pu4FaMeOX",
-    "name": "Butayunja Subcounty",
-    "district": 66
-  }
-},
-{
-  "model": "dashboard.subcounty",
-  "pk": 741,
-  "fields": {
-    "identifier": "oPGBU8lsM7Z",
-    "name": "Kikandwa Subcounty",
-    "district": 66
-  }
-},
-{
-  "model": "dashboard.subcounty",
-  "pk": 742,
+  "pk": 739,
   "fields": {
     "identifier": "sW1lqVgbz6k",
     "name": "Malangala Subcounty",
@@ -6679,16 +6652,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 743,
-  "fields": {
-    "identifier": "P5yisXF3Zpg",
-    "name": "Kalangaalo Subcounty",
-    "district": 66
-  }
-},
-{
-  "model": "dashboard.subcounty",
-  "pk": 744,
+  "pk": 740,
   "fields": {
     "identifier": "DJpSMaBi8QN",
     "name": "Namungo Sub County",
@@ -6697,7 +6661,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 745,
+  "pk": 741,
   "fields": {
     "identifier": "grLyhuvPVbL",
     "name": "Maanyi Subcounty",
@@ -6706,10 +6670,46 @@
 },
 {
   "model": "dashboard.subcounty",
+  "pk": 742,
+  "fields": {
+    "identifier": "da7lLykmZrk",
+    "name": "Bbanda Sub County",
+    "district": 66
+  }
+},
+{
+  "model": "dashboard.subcounty",
+  "pk": 743,
+  "fields": {
+    "identifier": "HjoAahqy6Yw",
+    "name": "Mityana Town Council",
+    "district": 66
+  }
+},
+{
+  "model": "dashboard.subcounty",
+  "pk": 744,
+  "fields": {
+    "identifier": "O2pu4FaMeOX",
+    "name": "Butayunja Subcounty",
+    "district": 66
+  }
+},
+{
+  "model": "dashboard.subcounty",
+  "pk": 745,
+  "fields": {
+    "identifier": "oPGBU8lsM7Z",
+    "name": "Kikandwa Subcounty",
+    "district": 66
+  }
+},
+{
+  "model": "dashboard.subcounty",
   "pk": 746,
   "fields": {
-    "identifier": "tkgsqoGYcYi",
-    "name": "Bulera Subcounty",
+    "identifier": "P5yisXF3Zpg",
+    "name": "Kalangaalo Subcounty",
     "district": 66
   }
 },
@@ -6717,8 +6717,8 @@
   "model": "dashboard.subcounty",
   "pk": 747,
   "fields": {
-    "identifier": "da7lLykmZrk",
-    "name": "Bbanda Sub County",
+    "identifier": "tkgsqoGYcYi",
+    "name": "Bulera Subcounty",
     "district": 66
   }
 },
@@ -6744,8 +6744,8 @@
   "model": "dashboard.subcounty",
   "pk": 750,
   "fields": {
-    "identifier": "D3NU99wFJ8q",
-    "name": "Busamuzi Subcounty",
+    "identifier": "Tk7ofkvg3K9",
+    "name": "Nairambi Subcounty",
     "district": 67
   }
 },
@@ -6753,8 +6753,8 @@
   "model": "dashboard.subcounty",
   "pk": 751,
   "fields": {
-    "identifier": "N5HS3jdULUy",
-    "name": "Buvuma Town Council",
+    "identifier": "D3NU99wFJ8q",
+    "name": "Busamuzi Subcounty",
     "district": 67
   }
 },
@@ -6762,8 +6762,8 @@
   "model": "dashboard.subcounty",
   "pk": 752,
   "fields": {
-    "identifier": "Tk7ofkvg3K9",
-    "name": "Nairambi Subcounty",
+    "identifier": "N5HS3jdULUy",
+    "name": "Buvuma Town Council",
     "district": 67
   }
 },
@@ -7032,42 +7032,6 @@
   "model": "dashboard.subcounty",
   "pk": 782,
   "fields": {
-    "identifier": "aPcTrAQZUXQ",
-    "name": "Ntwetwe Town Council",
-    "district": 71
-  }
-},
-{
-  "model": "dashboard.subcounty",
-  "pk": 783,
-  "fields": {
-    "identifier": "yOGnbMFrKQh",
-    "name": "Bananywa Subcounty",
-    "district": 71
-  }
-},
-{
-  "model": "dashboard.subcounty",
-  "pk": 784,
-  "fields": {
-    "identifier": "aBvWL2yX3ZA",
-    "name": "Gayaza Subcounty",
-    "district": 71
-  }
-},
-{
-  "model": "dashboard.subcounty",
-  "pk": 785,
-  "fields": {
-    "identifier": "beCHk64vc24",
-    "name": "Butemba Town Council",
-    "district": 71
-  }
-},
-{
-  "model": "dashboard.subcounty",
-  "pk": 786,
-  "fields": {
     "identifier": "akmhIvDeUc3",
     "name": "Mulagi Subcounty",
     "district": 71
@@ -7075,25 +7039,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 787,
-  "fields": {
-    "identifier": "q6pj00ArvMt",
-    "name": "Nkandwa Subcounty",
-    "district": 71
-  }
-},
-{
-  "model": "dashboard.subcounty",
-  "pk": 788,
-  "fields": {
-    "identifier": "XI6wsL7BBbu",
-    "name": "Ntwetwe  Kitabona Subcounty",
-    "district": 71
-  }
-},
-{
-  "model": "dashboard.subcounty",
-  "pk": 789,
+  "pk": 783,
   "fields": {
     "identifier": "wysZBhhaSaS",
     "name": "Wattuba Subcounty",
@@ -7102,7 +7048,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 790,
+  "pk": 784,
   "fields": {
     "identifier": "Mg6A6eQOMWJ",
     "name": "Nsambya Subcounty",
@@ -7111,10 +7057,64 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 791,
+  "pk": 785,
   "fields": {
     "identifier": "aXfUiVQAoT5",
     "name": "Kyankwanzi Subcounty",
+    "district": 71
+  }
+},
+{
+  "model": "dashboard.subcounty",
+  "pk": 786,
+  "fields": {
+    "identifier": "aPcTrAQZUXQ",
+    "name": "Ntwetwe Town Council",
+    "district": 71
+  }
+},
+{
+  "model": "dashboard.subcounty",
+  "pk": 787,
+  "fields": {
+    "identifier": "yOGnbMFrKQh",
+    "name": "Bananywa Subcounty",
+    "district": 71
+  }
+},
+{
+  "model": "dashboard.subcounty",
+  "pk": 788,
+  "fields": {
+    "identifier": "aBvWL2yX3ZA",
+    "name": "Gayaza Subcounty",
+    "district": 71
+  }
+},
+{
+  "model": "dashboard.subcounty",
+  "pk": 789,
+  "fields": {
+    "identifier": "beCHk64vc24",
+    "name": "Butemba Town Council",
+    "district": 71
+  }
+},
+{
+  "model": "dashboard.subcounty",
+  "pk": 790,
+  "fields": {
+    "identifier": "q6pj00ArvMt",
+    "name": "Nkandwa Subcounty",
+    "district": 71
+  }
+},
+{
+  "model": "dashboard.subcounty",
+  "pk": 791,
+  "fields": {
+    "identifier": "XI6wsL7BBbu",
+    "name": "Ntwetwe  Kitabona Subcounty",
     "district": 71
   }
 },
@@ -7518,24 +7518,6 @@
   "model": "dashboard.subcounty",
   "pk": 836,
   "fields": {
-    "identifier": "c4Vsie8YEMT",
-    "name": "Lwanda Subcounty",
-    "district": 78
-  }
-},
-{
-  "model": "dashboard.subcounty",
-  "pk": 837,
-  "fields": {
-    "identifier": "kdIm0faI4Qw",
-    "name": "Byakabanda Subcounty",
-    "district": 78
-  }
-},
-{
-  "model": "dashboard.subcounty",
-  "pk": 838,
-  "fields": {
     "identifier": "gGgZlfg3sLM",
     "name": "Rakai Subcounty",
     "district": 78
@@ -7543,25 +7525,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 839,
-  "fields": {
-    "identifier": "xmBzxlSRY4r",
-    "name": "Nabigasa Subcounty",
-    "district": 78
-  }
-},
-{
-  "model": "dashboard.subcounty",
-  "pk": 840,
-  "fields": {
-    "identifier": "zNyf0buOkOl",
-    "name": "Kifamba Subcounty",
-    "district": 78
-  }
-},
-{
-  "model": "dashboard.subcounty",
-  "pk": 841,
+  "pk": 837,
   "fields": {
     "identifier": "aSNralWoVvR",
     "name": "Rakai Kabira Subcounty",
@@ -7570,52 +7534,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 842,
-  "fields": {
-    "identifier": "TokOnAvsPI6",
-    "name": "Kalisizo Subcounty",
-    "district": 78
-  }
-},
-{
-  "model": "dashboard.subcounty",
-  "pk": 843,
-  "fields": {
-    "identifier": "YqM3WN8CBFs",
-    "name": "Kyalulangira Subcounty",
-    "district": 78
-  }
-},
-{
-  "model": "dashboard.subcounty",
-  "pk": 844,
-  "fields": {
-    "identifier": "BgokGwMnuMg",
-    "name": "Kalisizo Rural Subcounty",
-    "district": 78
-  }
-},
-{
-  "model": "dashboard.subcounty",
-  "pk": 845,
-  "fields": {
-    "identifier": "l01FDO0PtI0",
-    "name": "Kyotera Subcounty",
-    "district": 78
-  }
-},
-{
-  "model": "dashboard.subcounty",
-  "pk": 846,
-  "fields": {
-    "identifier": "a0WerFS0RsJ",
-    "name": "Kyebe Subcounty",
-    "district": 78
-  }
-},
-{
-  "model": "dashboard.subcounty",
-  "pk": 847,
+  "pk": 838,
   "fields": {
     "identifier": "pUzjkVgv6Fi",
     "name": "Kirumba Subcounty",
@@ -7624,7 +7543,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 848,
+  "pk": 839,
   "fields": {
     "identifier": "afxMkooK3iZ",
     "name": "Kiziba Subcounty",
@@ -7633,7 +7552,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 849,
+  "pk": 840,
   "fields": {
     "identifier": "Ff8IGt4L1bx",
     "name": "Kacheera Subcounty",
@@ -7642,7 +7561,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 850,
+  "pk": 841,
   "fields": {
     "identifier": "Pw1S7C7oSlb",
     "name": "Kasaali Subcounty",
@@ -7651,7 +7570,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 851,
+  "pk": 842,
   "fields": {
     "identifier": "prpCrjA0faa",
     "name": "Kibanda Subcounty",
@@ -7660,25 +7579,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 852,
-  "fields": {
-    "identifier": "DZQIcj2NrHv",
-    "name": "Lwamaggwa Subcounty",
-    "district": 78
-  }
-},
-{
-  "model": "dashboard.subcounty",
-  "pk": 853,
-  "fields": {
-    "identifier": "QKcOOobdPtO",
-    "name": "Kagamba Subcounty",
-    "district": 78
-  }
-},
-{
-  "model": "dashboard.subcounty",
-  "pk": 854,
+  "pk": 843,
   "fields": {
     "identifier": "xcbWr7R7FDK",
     "name": "Lwankoni Subcounty",
@@ -7687,7 +7588,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 855,
+  "pk": 844,
   "fields": {
     "identifier": "a3Kzeo29ZKb",
     "name": "Kasasa Subcounty",
@@ -7696,7 +7597,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 856,
+  "pk": 845,
   "fields": {
     "identifier": "AyfxIwQbwaa",
     "name": "Kakuuto Subcounty",
@@ -7705,10 +7606,109 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 857,
+  "pk": 846,
   "fields": {
     "identifier": "DRAypYcgokr",
     "name": "Ddwaniro Subcounty",
+    "district": 78
+  }
+},
+{
+  "model": "dashboard.subcounty",
+  "pk": 847,
+  "fields": {
+    "identifier": "c4Vsie8YEMT",
+    "name": "Lwanda Subcounty",
+    "district": 78
+  }
+},
+{
+  "model": "dashboard.subcounty",
+  "pk": 848,
+  "fields": {
+    "identifier": "kdIm0faI4Qw",
+    "name": "Byakabanda Subcounty",
+    "district": 78
+  }
+},
+{
+  "model": "dashboard.subcounty",
+  "pk": 849,
+  "fields": {
+    "identifier": "xmBzxlSRY4r",
+    "name": "Nabigasa Subcounty",
+    "district": 78
+  }
+},
+{
+  "model": "dashboard.subcounty",
+  "pk": 850,
+  "fields": {
+    "identifier": "zNyf0buOkOl",
+    "name": "Kifamba Subcounty",
+    "district": 78
+  }
+},
+{
+  "model": "dashboard.subcounty",
+  "pk": 851,
+  "fields": {
+    "identifier": "TokOnAvsPI6",
+    "name": "Kalisizo Subcounty",
+    "district": 78
+  }
+},
+{
+  "model": "dashboard.subcounty",
+  "pk": 852,
+  "fields": {
+    "identifier": "YqM3WN8CBFs",
+    "name": "Kyalulangira Subcounty",
+    "district": 78
+  }
+},
+{
+  "model": "dashboard.subcounty",
+  "pk": 853,
+  "fields": {
+    "identifier": "BgokGwMnuMg",
+    "name": "Kalisizo Rural Subcounty",
+    "district": 78
+  }
+},
+{
+  "model": "dashboard.subcounty",
+  "pk": 854,
+  "fields": {
+    "identifier": "l01FDO0PtI0",
+    "name": "Kyotera Subcounty",
+    "district": 78
+  }
+},
+{
+  "model": "dashboard.subcounty",
+  "pk": 855,
+  "fields": {
+    "identifier": "a0WerFS0RsJ",
+    "name": "Kyebe Subcounty",
+    "district": 78
+  }
+},
+{
+  "model": "dashboard.subcounty",
+  "pk": 856,
+  "fields": {
+    "identifier": "DZQIcj2NrHv",
+    "name": "Lwamaggwa Subcounty",
+    "district": 78
+  }
+},
+{
+  "model": "dashboard.subcounty",
+  "pk": 857,
+  "fields": {
+    "identifier": "QKcOOobdPtO",
+    "name": "Kagamba Subcounty",
     "district": 78
   }
 },
@@ -7995,33 +7995,6 @@
   "model": "dashboard.subcounty",
   "pk": 889,
   "fields": {
-    "identifier": "pBCTMJRY7HR",
-    "name": "Kiyuni Subcounty",
-    "district": 83
-  }
-},
-{
-  "model": "dashboard.subcounty",
-  "pk": 890,
-  "fields": {
-    "identifier": "x2N6BwYSFr8",
-    "name": "Myanzi Subcounty",
-    "district": 83
-  }
-},
-{
-  "model": "dashboard.subcounty",
-  "pk": 891,
-  "fields": {
-    "identifier": "a8I8dB8Oztl",
-    "name": "Madudu Subcounty",
-    "district": 83
-  }
-},
-{
-  "model": "dashboard.subcounty",
-  "pk": 892,
-  "fields": {
     "identifier": "gozR97R4Khm",
     "name": "Mubende Town Council",
     "district": 83
@@ -8029,7 +8002,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 893,
+  "pk": 890,
   "fields": {
     "identifier": "azuXegJHaV5",
     "name": "Kalwana Subcounty",
@@ -8038,25 +8011,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 894,
-  "fields": {
-    "identifier": "wwh3Av3jOqm",
-    "name": "Kiganda Subcounty",
-    "district": 83
-  }
-},
-{
-  "model": "dashboard.subcounty",
-  "pk": 895,
-  "fields": {
-    "identifier": "a6kSPA6WRKJ",
-    "name": "Kassanda Subcounty",
-    "district": 83
-  }
-},
-{
-  "model": "dashboard.subcounty",
-  "pk": 896,
+  "pk": 891,
   "fields": {
     "identifier": "amnWLIZ44DS",
     "name": "Kitenga Subcounty",
@@ -8065,16 +8020,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 897,
-  "fields": {
-    "identifier": "aaCfJhBmGNy",
-    "name": "Bagezza Subcounty",
-    "district": 83
-  }
-},
-{
-  "model": "dashboard.subcounty",
-  "pk": 898,
+  "pk": 892,
   "fields": {
     "identifier": "yWYw37S44Ku",
     "name": "Bukuya Subcounty",
@@ -8083,25 +8029,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 899,
-  "fields": {
-    "identifier": "VTkMLMzzqao",
-    "name": "Kitumbi Subcounty",
-    "district": 83
-  }
-},
-{
-  "model": "dashboard.subcounty",
-  "pk": 900,
-  "fields": {
-    "identifier": "aT9SzVJj0bl",
-    "name": "Butoloogo Subcounty",
-    "district": 83
-  }
-},
-{
-  "model": "dashboard.subcounty",
-  "pk": 901,
+  "pk": 893,
   "fields": {
     "identifier": "oj3kh1K3c92",
     "name": "Mubende-Kasambya Subcounty",
@@ -8110,16 +8038,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 902,
-  "fields": {
-    "identifier": "zEkQ9IMTejV",
-    "name": "Makokoto SubCounty",
-    "district": 83
-  }
-},
-{
-  "model": "dashboard.subcounty",
-  "pk": 903,
+  "pk": 894,
   "fields": {
     "identifier": "qSt7JthiH9h",
     "name": "Kigando Subcounty",
@@ -8128,7 +8047,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 904,
+  "pk": 895,
   "fields": {
     "identifier": "DKdF7P7ky4F",
     "name": "Manyogaseka SubCounty",
@@ -8137,7 +8056,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 905,
+  "pk": 896,
   "fields": {
     "identifier": "omOX1GefJV8",
     "name": "Nalutuntu SubCounty",
@@ -8146,7 +8065,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 906,
+  "pk": 897,
   "fields": {
     "identifier": "aNQKIokHNo6",
     "name": "Nabingoola Subcounty",
@@ -8155,10 +8074,91 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 907,
+  "pk": 898,
   "fields": {
     "identifier": "atQIWPlJi3f",
     "name": "Kibalinga SubCounty",
+    "district": 83
+  }
+},
+{
+  "model": "dashboard.subcounty",
+  "pk": 899,
+  "fields": {
+    "identifier": "pBCTMJRY7HR",
+    "name": "Kiyuni Subcounty",
+    "district": 83
+  }
+},
+{
+  "model": "dashboard.subcounty",
+  "pk": 900,
+  "fields": {
+    "identifier": "x2N6BwYSFr8",
+    "name": "Myanzi Subcounty",
+    "district": 83
+  }
+},
+{
+  "model": "dashboard.subcounty",
+  "pk": 901,
+  "fields": {
+    "identifier": "a8I8dB8Oztl",
+    "name": "Madudu Subcounty",
+    "district": 83
+  }
+},
+{
+  "model": "dashboard.subcounty",
+  "pk": 902,
+  "fields": {
+    "identifier": "wwh3Av3jOqm",
+    "name": "Kiganda Subcounty",
+    "district": 83
+  }
+},
+{
+  "model": "dashboard.subcounty",
+  "pk": 903,
+  "fields": {
+    "identifier": "a6kSPA6WRKJ",
+    "name": "Kassanda Subcounty",
+    "district": 83
+  }
+},
+{
+  "model": "dashboard.subcounty",
+  "pk": 904,
+  "fields": {
+    "identifier": "aaCfJhBmGNy",
+    "name": "Bagezza Subcounty",
+    "district": 83
+  }
+},
+{
+  "model": "dashboard.subcounty",
+  "pk": 905,
+  "fields": {
+    "identifier": "VTkMLMzzqao",
+    "name": "Kitumbi Subcounty",
+    "district": 83
+  }
+},
+{
+  "model": "dashboard.subcounty",
+  "pk": 906,
+  "fields": {
+    "identifier": "aT9SzVJj0bl",
+    "name": "Butoloogo Subcounty",
+    "district": 83
+  }
+},
+{
+  "model": "dashboard.subcounty",
+  "pk": 907,
+  "fields": {
+    "identifier": "zEkQ9IMTejV",
+    "name": "Makokoto SubCounty",
     "district": 83
   }
 },
@@ -9012,6 +9012,24 @@
   "model": "dashboard.subcounty",
   "pk": 1002,
   "fields": {
+    "identifier": "PhCq4x6L2o1",
+    "name": "Bugongi Town Council",
+    "district": 91
+  }
+},
+{
+  "model": "dashboard.subcounty",
+  "pk": 1003,
+  "fields": {
+    "identifier": "DPDFR2NSNL4",
+    "name": "Shuuku Subcounty",
+    "district": 91
+  }
+},
+{
+  "model": "dashboard.subcounty",
+  "pk": 1004,
+  "fields": {
     "identifier": "Rwjn2kDDgwf",
     "name": "Kagango Subcounty",
     "district": 91
@@ -9019,7 +9037,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1003,
+  "pk": 1005,
   "fields": {
     "identifier": "ulnzx5SZRLA",
     "name": "Masheruka Subcounty",
@@ -9028,7 +9046,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1004,
+  "pk": 1006,
   "fields": {
     "identifier": "avyPYZAMQV9",
     "name": "Bugongi Subcounty",
@@ -9037,7 +9055,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1005,
+  "pk": 1007,
   "fields": {
     "identifier": "eNfm0rdOENJ",
     "name": "Kabwohe Itendero Subcounty",
@@ -9046,7 +9064,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1006,
+  "pk": 1008,
   "fields": {
     "identifier": "Ol8iEPOeRAB",
     "name": "Kasaana Subcounty",
@@ -9055,16 +9073,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1007,
-  "fields": {
-    "identifier": "PhCq4x6L2o1",
-    "name": "Bugongi Town Council",
-    "district": 91
-  }
-},
-{
-  "model": "dashboard.subcounty",
-  "pk": 1008,
+  "pk": 1009,
   "fields": {
     "identifier": "hvOhryiEkBg",
     "name": "Kibingo Town Council",
@@ -9073,7 +9082,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1009,
+  "pk": 1010,
   "fields": {
     "identifier": "lgwkTLjh0z8",
     "name": "Kigarama Subcounty",
@@ -9082,19 +9091,10 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1010,
+  "pk": 1011,
   "fields": {
     "identifier": "eeX08t63esL",
     "name": "Kyangyenyi Subcounty",
-    "district": 91
-  }
-},
-{
-  "model": "dashboard.subcounty",
-  "pk": 1011,
-  "fields": {
-    "identifier": "DPDFR2NSNL4",
-    "name": "Shuuku Subcounty",
     "district": 91
   }
 },
@@ -9111,6 +9111,15 @@
   "model": "dashboard.subcounty",
   "pk": 1013,
   "fields": {
+    "identifier": "Wm03jpHnt0N",
+    "name": "Muhanga Town Council",
+    "district": 92
+  }
+},
+{
+  "model": "dashboard.subcounty",
+  "pk": 1014,
+  "fields": {
     "identifier": "DiPNrbcTMu7",
     "name": "Kabale Southern Division",
     "district": 92
@@ -9118,7 +9127,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1014,
+  "pk": 1015,
   "fields": {
     "identifier": "yCliwz5ZvHM",
     "name": "Kabale Kitumba Subcounty",
@@ -9127,7 +9136,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1015,
+  "pk": 1016,
   "fields": {
     "identifier": "afMspJFqzy0",
     "name": "Muko Subcounty",
@@ -9136,7 +9145,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1016,
+  "pk": 1017,
   "fields": {
     "identifier": "EkLjk71mOyH",
     "name": "Nyamweru Subcounty",
@@ -9145,7 +9154,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1017,
+  "pk": 1018,
   "fields": {
     "identifier": "KHKxw334CWz",
     "name": "Bufundi Subcounty",
@@ -9154,7 +9163,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1018,
+  "pk": 1019,
   "fields": {
     "identifier": "uJLhpdO3O7K",
     "name": "Maziba Subcounty",
@@ -9163,7 +9172,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1019,
+  "pk": 1020,
   "fields": {
     "identifier": "nLtTLd8oVQi",
     "name": "Bubare Subcounty",
@@ -9172,7 +9181,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1020,
+  "pk": 1021,
   "fields": {
     "identifier": "IU8fCTgthtM",
     "name": "Hamurwa Subcounty",
@@ -9181,7 +9190,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1021,
+  "pk": 1022,
   "fields": {
     "identifier": "tpjk403ii11",
     "name": "Kaharo Subcounty",
@@ -9190,7 +9199,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1022,
+  "pk": 1023,
   "fields": {
     "identifier": "FIum5r1vz31",
     "name": "Kabale Northern Division",
@@ -9199,7 +9208,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1023,
+  "pk": 1024,
   "fields": {
     "identifier": "anjXngIyBSK",
     "name": "Kabale Central Division",
@@ -9208,7 +9217,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1024,
+  "pk": 1025,
   "fields": {
     "identifier": "xNFWmVZ4Q5L",
     "name": "Kamuganguzi Subcounty",
@@ -9217,7 +9226,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1025,
+  "pk": 1026,
   "fields": {
     "identifier": "ACGwiDCOGnv",
     "name": "Butanda Subcounty",
@@ -9226,7 +9235,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1026,
+  "pk": 1027,
   "fields": {
     "identifier": "rFcB1UxSU9H",
     "name": "Ruhija subcounty",
@@ -9235,7 +9244,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1027,
+  "pk": 1028,
   "fields": {
     "identifier": "vOnAOaB1pFA",
     "name": "Bukinda Subcounty",
@@ -9244,7 +9253,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1028,
+  "pk": 1029,
   "fields": {
     "identifier": "areRYmW2Moa",
     "name": "Buhara Subcounty",
@@ -9253,7 +9262,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1029,
+  "pk": 1030,
   "fields": {
     "identifier": "A2UOcJadqvg",
     "name": "Kashambya Subcounty",
@@ -9262,7 +9271,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1030,
+  "pk": 1031,
   "fields": {
     "identifier": "powsUW9bIIP",
     "name": "Kyanamira Subcounty",
@@ -9271,7 +9280,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1031,
+  "pk": 1032,
   "fields": {
     "identifier": "O8iZOZeRWv1",
     "name": "Kamwezi Subcounty",
@@ -9280,7 +9289,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1032,
+  "pk": 1033,
   "fields": {
     "identifier": "bccV4EYcggS",
     "name": "Kabale Rubaya Subcounty",
@@ -9289,7 +9298,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1033,
+  "pk": 1034,
   "fields": {
     "identifier": "qi6GOznKLly",
     "name": "Ikumba Subcounty",
@@ -9298,7 +9307,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1034,
+  "pk": 1035,
   "fields": {
     "identifier": "n4gYlmLUOrU",
     "name": "Karujubu Division",
@@ -9307,7 +9316,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1035,
+  "pk": 1036,
   "fields": {
     "identifier": "ajfHMWjRuW4",
     "name": "Budongo Subcounty",
@@ -9316,7 +9325,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1036,
+  "pk": 1037,
   "fields": {
     "identifier": "H5dzLI03le7",
     "name": "Nyangahya Subcounty",
@@ -9325,7 +9334,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1037,
+  "pk": 1038,
   "fields": {
     "identifier": "SV1Bw284a44",
     "name": "Bwijanga Subcounty",
@@ -9334,7 +9343,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1038,
+  "pk": 1039,
   "fields": {
     "identifier": "HGPMh3r18FZ",
     "name": "Pakanyi Subcounty",
@@ -9343,7 +9352,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1039,
+  "pk": 1040,
   "fields": {
     "identifier": "OOoyWm1xvfG",
     "name": "Miirya Subcounty",
@@ -9352,7 +9361,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1040,
+  "pk": 1041,
   "fields": {
     "identifier": "NYb019QWhPQ",
     "name": "Masindi Central Division",
@@ -9361,7 +9370,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1041,
+  "pk": 1042,
   "fields": {
     "identifier": "M1GFPaWfMs9",
     "name": "Kimengo Subcounty",
@@ -9370,7 +9379,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1042,
+  "pk": 1043,
   "fields": {
     "identifier": "svThtOW2ZOx",
     "name": "Kitura Sub County",
@@ -9379,7 +9388,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1043,
+  "pk": 1044,
   "fields": {
     "identifier": "ZLnbMrovQ9f",
     "name": "Engari Sub County",
@@ -9388,7 +9397,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1044,
+  "pk": 1045,
   "fields": {
     "identifier": "asGXvs8RGcx",
     "name": "Kiruhura Town Council",
@@ -9397,7 +9406,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1045,
+  "pk": 1046,
   "fields": {
     "identifier": "rX3aSZRsV6q",
     "name": "Kanoni Subcounty (Kiruhura)",
@@ -9406,7 +9415,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1046,
+  "pk": 1047,
   "fields": {
     "identifier": "Pp5WSDc9OCY",
     "name": "Kazo Subcounty",
@@ -9415,7 +9424,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1047,
+  "pk": 1048,
   "fields": {
     "identifier": "aVSDdSh3pZc",
     "name": "Kashongi Subcounty",
@@ -9424,7 +9433,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1048,
+  "pk": 1049,
   "fields": {
     "identifier": "Avn1mi6BJ58",
     "name": "Buremba Subcounty",
@@ -9433,7 +9442,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1049,
+  "pk": 1050,
   "fields": {
     "identifier": "jkd1XWIp0ZR",
     "name": "Sanga Town Council",
@@ -9442,7 +9451,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1050,
+  "pk": 1051,
   "fields": {
     "identifier": "jvcz0hVcAxJ",
     "name": "Kenshunga Subcounty",
@@ -9451,7 +9460,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1051,
+  "pk": 1052,
   "fields": {
     "identifier": "noZnZEDjkuI",
     "name": "Kanyaryeru Subcounty",
@@ -9460,7 +9469,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1052,
+  "pk": 1053,
   "fields": {
     "identifier": "jm4G6gQJISm",
     "name": "Kikatsi Subcounty",
@@ -9469,7 +9478,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1053,
+  "pk": 1054,
   "fields": {
     "identifier": "aqJaciRotCj",
     "name": "Sanga Subcounty",
@@ -9478,7 +9487,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1054,
+  "pk": 1055,
   "fields": {
     "identifier": "V8YasjaiKtV",
     "name": "Burunga Subcounty",
@@ -9487,7 +9496,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1055,
+  "pk": 1056,
   "fields": {
     "identifier": "Ler1BWHg56d",
     "name": "Nyakashashara Subcounty",
@@ -9496,7 +9505,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1056,
+  "pk": 1057,
   "fields": {
     "identifier": "RPWh7oVz9kg",
     "name": "Nkungu Sub County",
@@ -9505,7 +9514,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1057,
+  "pk": 1058,
   "fields": {
     "identifier": "O3kEMiNyC7J",
     "name": "Kinoni Subcounty",
@@ -9514,7 +9523,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1058,
+  "pk": 1059,
   "fields": {
     "identifier": "AyD2uS3F3Jb",
     "name": "Rwemikoma Subcounty",
@@ -9523,7 +9532,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1059,
+  "pk": 1060,
   "fields": {
     "identifier": "zCQyW5ODHjj",
     "name": "Kazo Town Council",
@@ -9532,7 +9541,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1060,
+  "pk": 1061,
   "fields": {
     "identifier": "BUWL20wfAHB",
     "name": "Kamukuzi Division",
@@ -9541,7 +9550,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1061,
+  "pk": 1062,
   "fields": {
     "identifier": "y7RFe3e9KKO",
     "name": "Ndeija Subcounty",
@@ -9550,7 +9559,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1062,
+  "pk": 1063,
   "fields": {
     "identifier": "k7Wgi7O0JdY",
     "name": "Kakoba Division",
@@ -9559,7 +9568,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1063,
+  "pk": 1064,
   "fields": {
     "identifier": "aRxbH61glg4",
     "name": "Biharwe Subcounty",
@@ -9568,7 +9577,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1064,
+  "pk": 1065,
   "fields": {
     "identifier": "AzKsBz4epB3",
     "name": "Nyakayojo Subcounty",
@@ -9577,7 +9586,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1065,
+  "pk": 1066,
   "fields": {
     "identifier": "IzhBEvsBLuC",
     "name": "Kagongi Subcounty",
@@ -9586,7 +9595,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1066,
+  "pk": 1067,
   "fields": {
     "identifier": "s2dkjCPY2qR",
     "name": "Bugamba Subcounty",
@@ -9595,7 +9604,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1067,
+  "pk": 1068,
   "fields": {
     "identifier": "aBJcRBYVnCc",
     "name": "Rugando Subcounty",
@@ -9604,7 +9613,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1068,
+  "pk": 1069,
   "fields": {
     "identifier": "QnyFjJrR0jW",
     "name": "Nyamitanga Division",
@@ -9613,7 +9622,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1069,
+  "pk": 1070,
   "fields": {
     "identifier": "MCcHPIPGtCo",
     "name": "Bukiro Subcounty",
@@ -9622,7 +9631,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1070,
+  "pk": 1071,
   "fields": {
     "identifier": "DZ756Z6f6or",
     "name": "Kakiika Subcounty",
@@ -9631,7 +9640,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1071,
+  "pk": 1072,
   "fields": {
     "identifier": "alAMOnr7I1C",
     "name": "Kashare Subcounty",
@@ -9640,7 +9649,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1072,
+  "pk": 1073,
   "fields": {
     "identifier": "aLbdtQFDIfU",
     "name": "Rwanyamahembe Subcounty",
@@ -9649,7 +9658,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1073,
+  "pk": 1074,
   "fields": {
     "identifier": "iYyORXQ8Z6h",
     "name": "Rubaya Subcounty (Mbarara)",
@@ -9658,7 +9667,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1074,
+  "pk": 1075,
   "fields": {
     "identifier": "W9JVeFCwE5n",
     "name": "Rubindi Subcounty",
@@ -9667,7 +9676,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1075,
+  "pk": 1076,
   "fields": {
     "identifier": "zzuqkx8GWNy",
     "name": "Bubaare Subcounty",
@@ -9676,7 +9685,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1076,
+  "pk": 1077,
   "fields": {
     "identifier": "AA8TRyfTwtn",
     "name": "Mwizi Subcounty",
@@ -9685,34 +9694,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1077,
-  "fields": {
-    "identifier": "ggvYKc3bfrH",
-    "name": "Kichwamba Subcounty (Rubirizi)",
-    "district": 96
-  }
-},
-{
-  "model": "dashboard.subcounty",
   "pk": 1078,
-  "fields": {
-    "identifier": "zXzgzNuexTY",
-    "name": "Rutoto Subcounty",
-    "district": 96
-  }
-},
-{
-  "model": "dashboard.subcounty",
-  "pk": 1079,
-  "fields": {
-    "identifier": "L91J9E1sJbc",
-    "name": "Rubirizi Town Council",
-    "district": 96
-  }
-},
-{
-  "model": "dashboard.subcounty",
-  "pk": 1080,
   "fields": {
     "identifier": "EaYP1A2wyvE",
     "name": "Katunguru Subcounty",
@@ -9721,16 +9703,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1081,
-  "fields": {
-    "identifier": "PQEJbD9Vybo",
-    "name": "Ryeru Subcounty",
-    "district": 96
-  }
-},
-{
-  "model": "dashboard.subcounty",
-  "pk": 1082,
+  "pk": 1079,
   "fields": {
     "identifier": "IalHV5BSxEb",
     "name": "Magambo Subcounty",
@@ -9739,7 +9712,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1083,
+  "pk": 1080,
   "fields": {
     "identifier": "K6tAujIHmVM",
     "name": "Katanda Subcounty",
@@ -9748,34 +9721,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1084,
-  "fields": {
-    "identifier": "OArnksuH9WD",
-    "name": "Katerera Town Council",
-    "district": 96
-  }
-},
-{
-  "model": "dashboard.subcounty",
-  "pk": 1085,
-  "fields": {
-    "identifier": "ase3dyB86hx",
-    "name": "Rubirizi Subcounty",
-    "district": 96
-  }
-},
-{
-  "model": "dashboard.subcounty",
-  "pk": 1086,
-  "fields": {
-    "identifier": "BKmwdsqAY8X",
-    "name": "Kyabakara Subcounty",
-    "district": 96
-  }
-},
-{
-  "model": "dashboard.subcounty",
-  "pk": 1087,
+  "pk": 1081,
   "fields": {
     "identifier": "GLbWzyzBfzw",
     "name": "Kirugu Subcounty",
@@ -9784,7 +9730,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1088,
+  "pk": 1082,
   "fields": {
     "identifier": "fzvBAzpTuei",
     "name": "Katerera Subcounty",
@@ -9793,7 +9739,70 @@
 },
 {
   "model": "dashboard.subcounty",
+  "pk": 1083,
+  "fields": {
+    "identifier": "ggvYKc3bfrH",
+    "name": "Kichwamba Subcounty (Rubirizi)",
+    "district": 96
+  }
+},
+{
+  "model": "dashboard.subcounty",
+  "pk": 1084,
+  "fields": {
+    "identifier": "zXzgzNuexTY",
+    "name": "Rutoto Subcounty",
+    "district": 96
+  }
+},
+{
+  "model": "dashboard.subcounty",
+  "pk": 1085,
+  "fields": {
+    "identifier": "L91J9E1sJbc",
+    "name": "Rubirizi Town Council",
+    "district": 96
+  }
+},
+{
+  "model": "dashboard.subcounty",
+  "pk": 1086,
+  "fields": {
+    "identifier": "PQEJbD9Vybo",
+    "name": "Ryeru Subcounty",
+    "district": 96
+  }
+},
+{
+  "model": "dashboard.subcounty",
+  "pk": 1087,
+  "fields": {
+    "identifier": "OArnksuH9WD",
+    "name": "Katerera Town Council",
+    "district": 96
+  }
+},
+{
+  "model": "dashboard.subcounty",
+  "pk": 1088,
+  "fields": {
+    "identifier": "ase3dyB86hx",
+    "name": "Rubirizi Subcounty",
+    "district": 96
+  }
+},
+{
+  "model": "dashboard.subcounty",
   "pk": 1089,
+  "fields": {
+    "identifier": "BKmwdsqAY8X",
+    "name": "Kyabakara Subcounty",
+    "district": 96
+  }
+},
+{
+  "model": "dashboard.subcounty",
+  "pk": 1090,
   "fields": {
     "identifier": "tsLXZfmENJW",
     "name": "Karugutu Town Council",
@@ -9802,7 +9811,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1090,
+  "pk": 1091,
   "fields": {
     "identifier": "DqlVBrTm4ge",
     "name": "Bweramule Subcounty",
@@ -9811,7 +9820,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1091,
+  "pk": 1092,
   "fields": {
     "identifier": "cLqDIzGpHIA",
     "name": "Ntoroko Kanara Subcounty",
@@ -9820,7 +9829,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1092,
+  "pk": 1093,
   "fields": {
     "identifier": "QyjU22BhtrY",
     "name": "Karugutu Subcounty",
@@ -9829,7 +9838,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1093,
+  "pk": 1094,
   "fields": {
     "identifier": "ylIpZ1kqrzl",
     "name": "Kibuku Town Council",
@@ -9838,7 +9847,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1094,
+  "pk": 1095,
   "fields": {
     "identifier": "E2ZDSHzpE6w",
     "name": "Rwebisengo Town Council",
@@ -9847,7 +9856,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1095,
+  "pk": 1096,
   "fields": {
     "identifier": "y1eq9C6oPWj",
     "name": "Rwebisengo Subcounty",
@@ -9856,7 +9865,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1096,
+  "pk": 1097,
   "fields": {
     "identifier": "MZQeEUso8Um",
     "name": "Ntoroko Town Council",
@@ -9865,7 +9874,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1097,
+  "pk": 1098,
   "fields": {
     "identifier": "wZVOGC8j9Wu",
     "name": "Nombe Subcounty",
@@ -9874,7 +9883,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1098,
+  "pk": 1099,
   "fields": {
     "identifier": "nFhF5jPXNM8",
     "name": "Nyamwamba Division",
@@ -9883,7 +9892,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1099,
+  "pk": 1100,
   "fields": {
     "identifier": "Lrz2RTu4m7z",
     "name": "Kasese Central Division",
@@ -9892,7 +9901,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1100,
+  "pk": 1101,
   "fields": {
     "identifier": "aYH223NvQM9",
     "name": "Kitholhu Subcounty",
@@ -9901,7 +9910,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1101,
+  "pk": 1102,
   "fields": {
     "identifier": "HnJdqBFEw34",
     "name": "Kilembe Subcounty",
@@ -9910,7 +9919,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1102,
+  "pk": 1103,
   "fields": {
     "identifier": "cXuZrvRWFcg",
     "name": "Nyakiyumbu Subcounty",
@@ -9919,7 +9928,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1103,
+  "pk": 1104,
   "fields": {
     "identifier": "ykAaC6ZBwGO",
     "name": "Rukoki Subcounty",
@@ -9928,7 +9937,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1104,
+  "pk": 1105,
   "fields": {
     "identifier": "iusvea4wlaa",
     "name": "Buhuhira Subcounty",
@@ -9937,7 +9946,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1105,
+  "pk": 1106,
   "fields": {
     "identifier": "a8kUiWFtuPS",
     "name": "Bwera Subcounty",
@@ -9946,7 +9955,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1106,
+  "pk": 1107,
   "fields": {
     "identifier": "JStHLwEQslP",
     "name": "Bwesumbu Subcounty",
@@ -9955,7 +9964,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1107,
+  "pk": 1108,
   "fields": {
     "identifier": "d4oc9mO8c7a",
     "name": "Katwe Kabatoro Subcounty",
@@ -9964,7 +9973,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1108,
+  "pk": 1109,
   "fields": {
     "identifier": "ZwgfKE1W71u",
     "name": "Kisinga Subcounty",
@@ -9973,7 +9982,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1109,
+  "pk": 1110,
   "fields": {
     "identifier": "aQM5mVi0TJ6",
     "name": "Kyondo Subcounty",
@@ -9982,7 +9991,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1110,
+  "pk": 1111,
   "fields": {
     "identifier": "VBrVhVxTU7W",
     "name": "Maliba Subcounty",
@@ -9991,7 +10000,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1111,
+  "pk": 1112,
   "fields": {
     "identifier": "fDUCgOeUSZ3",
     "name": "Hima Subcounty",
@@ -10000,7 +10009,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1112,
+  "pk": 1113,
   "fields": {
     "identifier": "NUIvwbo2SFh",
     "name": "Isango Subcounty",
@@ -10009,7 +10018,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1113,
+  "pk": 1114,
   "fields": {
     "identifier": "jvma3lxo8f8",
     "name": "Kyarumba Subcounty",
@@ -10018,7 +10027,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1114,
+  "pk": 1115,
   "fields": {
     "identifier": "DHWHrDD2bPf",
     "name": "Kitswamba Subcounty",
@@ -10027,7 +10036,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1115,
+  "pk": 1116,
   "fields": {
     "identifier": "aOlMtRebTz8",
     "name": "Karambi Subcounty",
@@ -10036,7 +10045,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1116,
+  "pk": 1117,
   "fields": {
     "identifier": "pYK9GIYGHha",
     "name": "Kyabarungira Subcounty",
@@ -10045,7 +10054,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1117,
+  "pk": 1118,
   "fields": {
     "identifier": "qp4HY08HICB",
     "name": "Mahango Subcounty",
@@ -10054,7 +10063,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1118,
+  "pk": 1119,
   "fields": {
     "identifier": "txhaIBaEbrA",
     "name": "Ihandiro Subcounty",
@@ -10063,7 +10072,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1119,
+  "pk": 1120,
   "fields": {
     "identifier": "jxS8tyaOxom",
     "name": "Munkunyu Subcounty",
@@ -10072,7 +10081,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1120,
+  "pk": 1121,
   "fields": {
     "identifier": "qQPApRF5J28",
     "name": "Bulembia Division",
@@ -10081,7 +10090,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1121,
+  "pk": 1122,
   "fields": {
     "identifier": "O95WxDWc3nj",
     "name": "Bugoye Subcounty",
@@ -10090,7 +10099,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1122,
+  "pk": 1123,
   "fields": {
     "identifier": "atNffeiZvJ7",
     "name": "Mpondwe - Rubiriha T.C",
@@ -10099,7 +10108,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1123,
+  "pk": 1124,
   "fields": {
     "identifier": "gzw1SzvRwhp",
     "name": "Muhokya Subcounty",
@@ -10108,7 +10117,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1124,
+  "pk": 1125,
   "fields": {
     "identifier": "IkJ8rVHyW5X",
     "name": "Nyakatonzi Subcounty",
@@ -10117,7 +10126,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1125,
+  "pk": 1126,
   "fields": {
     "identifier": "r1CT8PzuM0D",
     "name": "Lake Katwe Subcounty",
@@ -10126,7 +10135,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1126,
+  "pk": 1127,
   "fields": {
     "identifier": "wVRNuBQptIz",
     "name": "Karusandara Subcounty",
@@ -10135,7 +10144,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1127,
+  "pk": 1128,
   "fields": {
     "identifier": "It68vhwjK9d",
     "name": "Mpungu Subcounty",
@@ -10144,7 +10153,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1128,
+  "pk": 1129,
   "fields": {
     "identifier": "T06zMrtvVyD",
     "name": "Rugyeyo Subcounty",
@@ -10153,7 +10162,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1129,
+  "pk": 1130,
   "fields": {
     "identifier": "El1yfqR0BNT",
     "name": "Rutenga Subcounty",
@@ -10162,7 +10171,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1130,
+  "pk": 1131,
   "fields": {
     "identifier": "VpJ2HH58EjI",
     "name": "Kihiihi Subcounty",
@@ -10171,7 +10180,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1131,
+  "pk": 1132,
   "fields": {
     "identifier": "c2axH7WAdTn",
     "name": "Nyamirama Subcounty",
@@ -10180,7 +10189,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1132,
+  "pk": 1133,
   "fields": {
     "identifier": "mbruZc0Y2Wv",
     "name": "Nyakinoni Sub County",
@@ -10189,7 +10198,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1133,
+  "pk": 1134,
   "fields": {
     "identifier": "VV0exqWnJYw",
     "name": "Kanungu Town Council",
@@ -10198,7 +10207,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1134,
+  "pk": 1135,
   "fields": {
     "identifier": "WzWkYEphZW9",
     "name": "Kanungu Kayonza Subcounty",
@@ -10207,7 +10216,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1135,
+  "pk": 1136,
   "fields": {
     "identifier": "XbFljDSYnip",
     "name": "Kambuga Subcounty",
@@ -10216,7 +10225,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1136,
+  "pk": 1137,
   "fields": {
     "identifier": "VclKT9ER4XM",
     "name": "Kinaaba Sub County",
@@ -10225,7 +10234,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1137,
+  "pk": 1138,
   "fields": {
     "identifier": "wrvQ9sKuSsJ",
     "name": "Kanyantorogo Subcounty",
@@ -10234,7 +10243,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1138,
+  "pk": 1139,
   "fields": {
     "identifier": "i6UwRGRlTe6",
     "name": "Kihiihi Town Council",
@@ -10243,7 +10252,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1139,
+  "pk": 1140,
   "fields": {
     "identifier": "H2g74E6daJi",
     "name": "Katete Sub County",
@@ -10252,7 +10261,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1140,
+  "pk": 1141,
   "fields": {
     "identifier": "hduvp3xa2Ay",
     "name": "Butogota Town Council",
@@ -10261,7 +10270,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1141,
+  "pk": 1142,
   "fields": {
     "identifier": "N38gC3CNUib",
     "name": "Nyanga Sub County",
@@ -10270,7 +10279,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1142,
+  "pk": 1143,
   "fields": {
     "identifier": "p1fk9MgsBJp",
     "name": "Kirima Subcounty",
@@ -10279,7 +10288,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1143,
+  "pk": 1144,
   "fields": {
     "identifier": "Pr3pvr9gLU8",
     "name": "Kambuga Town Council",
@@ -10288,7 +10297,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1144,
+  "pk": 1145,
   "fields": {
     "identifier": "QeI9XXwoy2h",
     "name": "Rwiimi Subcounty",
@@ -10297,7 +10306,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1145,
+  "pk": 1146,
   "fields": {
     "identifier": "ak477N3SWYO",
     "name": "South Division",
@@ -10306,7 +10315,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1146,
+  "pk": 1147,
   "fields": {
     "identifier": "DCD67vVjc2E",
     "name": "Katebwa Subcounty",
@@ -10315,7 +10324,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1147,
+  "pk": 1148,
   "fields": {
     "identifier": "i7RHER6mToP",
     "name": "Kiko Town Council",
@@ -10324,7 +10333,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1148,
+  "pk": 1149,
   "fields": {
     "identifier": "mnk10FugmGB",
     "name": "West Division",
@@ -10333,7 +10342,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1149,
+  "pk": 1150,
   "fields": {
     "identifier": "abeBKMqGN0S",
     "name": "Kibiito Subcounty",
@@ -10342,7 +10351,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1150,
+  "pk": 1151,
   "fields": {
     "identifier": "jTDRA7XUQLH",
     "name": "Kicwamba Subcounty (Kabarole)",
@@ -10351,7 +10360,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1151,
+  "pk": 1152,
   "fields": {
     "identifier": "sAIggLrZ5Ru",
     "name": "Bukuuku Subcounty",
@@ -10360,7 +10369,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1152,
+  "pk": 1153,
   "fields": {
     "identifier": "ovQV6rcV90p",
     "name": "East Division",
@@ -10369,7 +10378,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1153,
+  "pk": 1154,
   "fields": {
     "identifier": "alKCrUnF0Ww",
     "name": "Hakibale Subcounty",
@@ -10378,7 +10387,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1154,
+  "pk": 1155,
   "fields": {
     "identifier": "P0O4loDtPtQ",
     "name": "Kabonero Subcounty",
@@ -10387,7 +10396,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1155,
+  "pk": 1156,
   "fields": {
     "identifier": "QHDvSlNK4AR",
     "name": "Kyaitamba Town Council",
@@ -10396,7 +10405,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1156,
+  "pk": 1157,
   "fields": {
     "identifier": "dbfXxjnS2Pt",
     "name": "Kibiito Town Council",
@@ -10405,7 +10414,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1157,
+  "pk": 1158,
   "fields": {
     "identifier": "FCUvR11qCK1",
     "name": "Kasenda Subcounty",
@@ -10414,7 +10423,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1158,
+  "pk": 1159,
   "fields": {
     "identifier": "YrGNy5AQy2U",
     "name": "Karangura Subcounty",
@@ -10423,7 +10432,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1159,
+  "pk": 1160,
   "fields": {
     "identifier": "swymPYYE156",
     "name": "Kisomoro Subcounty",
@@ -10432,7 +10441,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1160,
+  "pk": 1161,
   "fields": {
     "identifier": "mV8AQZkSf3K",
     "name": "Rubona Town Council",
@@ -10441,7 +10450,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1161,
+  "pk": 1162,
   "fields": {
     "identifier": "HU27Dm5PRHo",
     "name": "Karambi Subcounty (Kabarole)",
@@ -10450,7 +10459,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1162,
+  "pk": 1163,
   "fields": {
     "identifier": "qgAScVAF3qQ",
     "name": "Rutete Subcounty",
@@ -10459,7 +10468,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1163,
+  "pk": 1164,
   "fields": {
     "identifier": "kkYXfP8JNL2",
     "name": "Busoro Subcounty",
@@ -10468,7 +10477,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1164,
+  "pk": 1165,
   "fields": {
     "identifier": "a7rSAVPxSgz",
     "name": "Mugusu Subcounty",
@@ -10477,7 +10486,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1165,
+  "pk": 1166,
   "fields": {
     "identifier": "dS6Xrka1WwD",
     "name": "Rwimi Town Council",
@@ -10486,7 +10495,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1166,
+  "pk": 1167,
   "fields": {
     "identifier": "lkTLhQNgq5O",
     "name": "Buheesi Subcounty",
@@ -10495,7 +10504,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1167,
+  "pk": 1168,
   "fields": {
     "identifier": "PFmDufIDfGB",
     "name": "Nyabuhikye Subcounty",
@@ -10504,7 +10513,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1168,
+  "pk": 1169,
   "fields": {
     "identifier": "YI1W2cHvMEF",
     "name": "Kikyenkye Subcounty",
@@ -10513,7 +10522,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1169,
+  "pk": 1170,
   "fields": {
     "identifier": "Bsrkpxh3yzN",
     "name": "Nsasi Subcounty",
@@ -10522,7 +10531,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1170,
+  "pk": 1171,
   "fields": {
     "identifier": "yuGhB6fDmnU",
     "name": "Keihangara Subcounty",
@@ -10531,7 +10540,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1171,
+  "pk": 1172,
   "fields": {
     "identifier": "WzfWcG6I4e6",
     "name": "Bisheshe Subcounty",
@@ -10540,7 +10549,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1172,
+  "pk": 1173,
   "fields": {
     "identifier": "EmP1TgdHCnS",
     "name": "Kicuzi Subcounty",
@@ -10549,7 +10558,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1173,
+  "pk": 1174,
   "fields": {
     "identifier": "rR2AOks4tG6",
     "name": "Nyamarebe Subcounty",
@@ -10558,7 +10567,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1174,
+  "pk": 1175,
   "fields": {
     "identifier": "arqyzyS4nL2",
     "name": "Kashangura Subcounty",
@@ -10567,7 +10576,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1175,
+  "pk": 1176,
   "fields": {
     "identifier": "eTbQFH93KnL",
     "name": "Ibanda Town Council",
@@ -10576,7 +10585,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1176,
+  "pk": 1177,
   "fields": {
     "identifier": "iNsYdEeHG7q",
     "name": "Kijongo Subcounty",
@@ -10585,7 +10594,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1177,
+  "pk": 1178,
   "fields": {
     "identifier": "KG4Ns1Klr2C",
     "name": "Rukiri Subcounty",
@@ -10594,7 +10603,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1178,
+  "pk": 1179,
   "fields": {
     "identifier": "FV5oHVJGVQj",
     "name": "Rushango Town Council",
@@ -10603,7 +10612,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1179,
+  "pk": 1180,
   "fields": {
     "identifier": "I2CScuUNy5Y",
     "name": "Ishongororo Subcounty",
@@ -10612,7 +10621,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1180,
+  "pk": 1181,
   "fields": {
     "identifier": "ZHfJLqSYMkD",
     "name": "Ishongororo Town Council",
@@ -10621,7 +10630,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1181,
+  "pk": 1182,
   "fields": {
     "identifier": "d8G3QcJpzxC",
     "name": "Rwentuuha  Subcounty",
@@ -10630,7 +10639,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1182,
+  "pk": 1183,
   "fields": {
     "identifier": "GriJuFUbYvj",
     "name": "Kasule Subcounty",
@@ -10639,7 +10648,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1183,
+  "pk": 1184,
   "fields": {
     "identifier": "ai2RrlY9Fcd",
     "name": "Hapuuyo Subcounty",
@@ -10648,7 +10657,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1184,
+  "pk": 1185,
   "fields": {
     "identifier": "ibNVWLqSB0M",
     "name": "Kakabara Subcounty",
@@ -10657,7 +10666,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1185,
+  "pk": 1186,
   "fields": {
     "identifier": "mPhXfTnsI3S",
     "name": "Mpara Subcounty",
@@ -10666,7 +10675,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1186,
+  "pk": 1187,
   "fields": {
     "identifier": "UeBN5O6ty6x",
     "name": "Kabweza SubCounty",
@@ -10675,7 +10684,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1187,
+  "pk": 1188,
   "fields": {
     "identifier": "DUP58MfrOO5",
     "name": "Ruyonza Subcounty",
@@ -10684,7 +10693,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1188,
+  "pk": 1189,
   "fields": {
     "identifier": "BMGbzxq74QD",
     "name": "Kyegegwa Town Council",
@@ -10693,7 +10702,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1189,
+  "pk": 1190,
   "fields": {
     "identifier": "Qf74g7IuA7j",
     "name": "Nyakabirizi Division",
@@ -10702,7 +10711,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1190,
+  "pk": 1191,
   "fields": {
     "identifier": "DMJIQmR8GNr",
     "name": "Ruhumuro Subcounty",
@@ -10711,7 +10720,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1191,
+  "pk": 1192,
   "fields": {
     "identifier": "QsVqR2LTTyA",
     "name": "Kakanju Subcounty",
@@ -10720,7 +10729,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1192,
+  "pk": 1193,
   "fields": {
     "identifier": "BJXJyNCFAl2",
     "name": "Bumbaire Subcounty",
@@ -10729,7 +10738,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1193,
+  "pk": 1194,
   "fields": {
     "identifier": "Pzuty2p5guf",
     "name": "Ishaka Division",
@@ -10738,7 +10747,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1194,
+  "pk": 1195,
   "fields": {
     "identifier": "smtpWtgMApq",
     "name": "Kyamuhunga Subcounty",
@@ -10747,7 +10756,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1195,
+  "pk": 1196,
   "fields": {
     "identifier": "WKSICXIHQfF",
     "name": "Kyeizooba Subcounty",
@@ -10756,7 +10765,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1196,
+  "pk": 1197,
   "fields": {
     "identifier": "FTHpI3wbK44",
     "name": "Kyabugimbi Subcounty",
@@ -10765,7 +10774,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1197,
+  "pk": 1198,
   "fields": {
     "identifier": "aYWNoEFeoUw",
     "name": "Ibaare Subcounty",
@@ -10774,7 +10783,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1198,
+  "pk": 1199,
   "fields": {
     "identifier": "mzN07vjeNN8",
     "name": "Nyabubare Subcounty",
@@ -10783,7 +10792,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1199,
+  "pk": 1200,
   "fields": {
     "identifier": "AgYgZ65N9vd",
     "name": "Bitooma Subcounty",
@@ -10792,7 +10801,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1200,
+  "pk": 1201,
   "fields": {
     "identifier": "cWGy4pU4VNL",
     "name": "Bushenyi Central Division",
@@ -10801,7 +10810,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1201,
+  "pk": 1202,
   "fields": {
     "identifier": "tjDQAJuamDX",
     "name": "Ruhinda Subcounty",
@@ -10810,7 +10819,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1202,
+  "pk": 1203,
   "fields": {
     "identifier": "g2cqoGXKKIR",
     "name": "Kebisoni Subcounty",
@@ -10819,7 +10828,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1203,
+  "pk": 1204,
   "fields": {
     "identifier": "TSjl80sWfHh",
     "name": "Buyanja Subcounty",
@@ -10828,7 +10837,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1204,
+  "pk": 1205,
   "fields": {
     "identifier": "adH5G8EstWj",
     "name": "Buhunga Subcounty",
@@ -10837,7 +10846,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1205,
+  "pk": 1206,
   "fields": {
     "identifier": "JlGpcng9BFf",
     "name": "Bugangari Subcounty",
@@ -10846,7 +10855,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1206,
+  "pk": 1207,
   "fields": {
     "identifier": "rVlOahJhyvJ",
     "name": "Nyarushanje Subcounty",
@@ -10855,7 +10864,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1207,
+  "pk": 1208,
   "fields": {
     "identifier": "xRBoyoffMdY",
     "name": "Rukungiri Southern Division",
@@ -10864,7 +10873,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1208,
+  "pk": 1209,
   "fields": {
     "identifier": "gSrojZccMJ7",
     "name": "Nyakishenyi Subcounty",
@@ -10873,7 +10882,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1209,
+  "pk": 1210,
   "fields": {
     "identifier": "aQtZqGVl9u2",
     "name": "Rukungiri Western Division",
@@ -10882,7 +10891,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1210,
+  "pk": 1211,
   "fields": {
     "identifier": "S1nFWV7Ij1f",
     "name": "Rukungiri Eastern Division",
@@ -10891,7 +10900,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1211,
+  "pk": 1212,
   "fields": {
     "identifier": "m1aZdsy6aOH",
     "name": "Nyakagyeme Subcounty",
@@ -10900,7 +10909,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1212,
+  "pk": 1213,
   "fields": {
     "identifier": "AL6JpHbgaDx",
     "name": "Bwambara Subcounty",
@@ -10909,7 +10918,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1213,
+  "pk": 1214,
   "fields": {
     "identifier": "aem5mcxM1gO",
     "name": "Kasitu Subcounty",
@@ -10918,7 +10927,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1214,
+  "pk": 1215,
   "fields": {
     "identifier": "McVQHO6D8M7",
     "name": "Nduguto Subcounty",
@@ -10927,7 +10936,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1215,
+  "pk": 1216,
   "fields": {
     "identifier": "YRxg8b8P3CN",
     "name": "Nyahuka Town Council",
@@ -10936,7 +10945,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1216,
+  "pk": 1217,
   "fields": {
     "identifier": "tQcM2PMDVjA",
     "name": "Busaru Subcounty",
@@ -10945,7 +10954,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1217,
+  "pk": 1218,
   "fields": {
     "identifier": "AvjirMUjg0j",
     "name": "Bukonzo Subcounty",
@@ -10954,7 +10963,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1218,
+  "pk": 1219,
   "fields": {
     "identifier": "giI51CVkmc5",
     "name": "Harugali Subcounty",
@@ -10963,7 +10972,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1219,
+  "pk": 1220,
   "fields": {
     "identifier": "TQCB9RroT0I",
     "name": "Bubandi Subcounty",
@@ -10972,7 +10981,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1220,
+  "pk": 1221,
   "fields": {
     "identifier": "vNdP5dtds30",
     "name": "Ntotoro Subcounty",
@@ -10981,7 +10990,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1221,
+  "pk": 1222,
   "fields": {
     "identifier": "a98vV85q7VA",
     "name": "Sindila Subcounty",
@@ -10990,7 +10999,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1222,
+  "pk": 1223,
   "fields": {
     "identifier": "mwrx20w7TwC",
     "name": "Bubukwanga Subcounty",
@@ -10999,7 +11008,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1223,
+  "pk": 1224,
   "fields": {
     "identifier": "Uzi6oqsmWod",
     "name": "Ngamba Subcounty",
@@ -11008,7 +11017,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1224,
+  "pk": 1225,
   "fields": {
     "identifier": "a5pj74dBGEp",
     "name": "Bundibugyo Town Council",
@@ -11017,7 +11026,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1225,
+  "pk": 1226,
   "fields": {
     "identifier": "INpjo0DSjXk",
     "name": "Kirumya Subcounty",
@@ -11026,7 +11035,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1226,
+  "pk": 1227,
   "fields": {
     "identifier": "LITVvlOIhKH",
     "name": "Kisuba Subcounty",
@@ -11035,7 +11044,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1227,
+  "pk": 1228,
   "fields": {
     "identifier": "MZPstrhbA2g",
     "name": "Mirambi Subcounty",
@@ -11044,7 +11053,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1228,
+  "pk": 1229,
   "fields": {
     "identifier": "kQqMT67WT2W",
     "name": "Masha Subcounty",
@@ -11053,7 +11062,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1229,
+  "pk": 1230,
   "fields": {
     "identifier": "a8UqcJq7pdF",
     "name": "Kabingo Subcounty",
@@ -11062,7 +11071,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1230,
+  "pk": 1231,
   "fields": {
     "identifier": "vLujVIJd0j7",
     "name": "Nyanuyanja Subcounty",
@@ -11071,7 +11080,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1231,
+  "pk": 1232,
   "fields": {
     "identifier": "z7zg0AlCyHn",
     "name": "Kaberebere Town Council",
@@ -11080,7 +11089,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1232,
+  "pk": 1233,
   "fields": {
     "identifier": "LQLSqsdH1d5",
     "name": "Kabuyanda Subcounty",
@@ -11089,7 +11098,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1233,
+  "pk": 1234,
   "fields": {
     "identifier": "wLL0PdmBLep",
     "name": "Kabuyanda Town Council",
@@ -11098,7 +11107,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1234,
+  "pk": 1235,
   "fields": {
     "identifier": "C8KGSaxhXaQ",
     "name": "Nyakitunda Subcounty",
@@ -11107,7 +11116,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1235,
+  "pk": 1236,
   "fields": {
     "identifier": "a8kHG8t6bY6",
     "name": "Endiinzi Subcounty",
@@ -11116,7 +11125,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1236,
+  "pk": 1237,
   "fields": {
     "identifier": "KQCblChIrTo",
     "name": "Kikagati Subcounty",
@@ -11125,7 +11134,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1237,
+  "pk": 1238,
   "fields": {
     "identifier": "SXrFhwJB3wi",
     "name": "Birere Subcounty",
@@ -11134,7 +11143,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1238,
+  "pk": 1239,
   "fields": {
     "identifier": "eeBbHGQ0Z2K",
     "name": "Ngarama Subcounty",
@@ -11143,7 +11152,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1239,
+  "pk": 1240,
   "fields": {
     "identifier": "wyW0esOM7ZB",
     "name": "Isingiro Town Council",
@@ -11152,7 +11161,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1240,
+  "pk": 1241,
   "fields": {
     "identifier": "js9oxW08GfX",
     "name": "Mbaare Subcounty",
@@ -11161,7 +11170,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1241,
+  "pk": 1242,
   "fields": {
     "identifier": "ipjC8RjDoJ0",
     "name": "Ruborogota Subcounty",
@@ -11170,7 +11179,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1242,
+  "pk": 1243,
   "fields": {
     "identifier": "hNN2wZnydEg",
     "name": "Rugaaga Subcounty",
@@ -11179,7 +11188,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1243,
+  "pk": 1244,
   "fields": {
     "identifier": "ubp4U8p1EGD",
     "name": "Rushasha Subcounty",
@@ -11188,7 +11197,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1244,
+  "pk": 1245,
   "fields": {
     "identifier": "atjtfI5ERhj",
     "name": "Kashumba Subcounty",
@@ -11197,7 +11206,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1245,
+  "pk": 1246,
   "fields": {
     "identifier": "lqOmHQtlRmV",
     "name": "Buliisa Subcounty",
@@ -11206,7 +11215,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1246,
+  "pk": 1247,
   "fields": {
     "identifier": "l9dRuCYLpXH",
     "name": "Kigwera Subcounty",
@@ -11215,7 +11224,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1247,
+  "pk": 1248,
   "fields": {
     "identifier": "RgaVJyjupYA",
     "name": "Kihungya Subcounty",
@@ -11224,7 +11233,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1248,
+  "pk": 1249,
   "fields": {
     "identifier": "r7Yx3IGPRyv",
     "name": "Butiaba Subcounty",
@@ -11233,7 +11242,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1249,
+  "pk": 1250,
   "fields": {
     "identifier": "aNr9ajfdR2q",
     "name": "Biiso Subcounty",
@@ -11242,7 +11251,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1250,
+  "pk": 1251,
   "fields": {
     "identifier": "VeSVU5gWpPv",
     "name": "Ngwedo Subcounty",
@@ -11251,7 +11260,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1251,
+  "pk": 1252,
   "fields": {
     "identifier": "BnEEwTPuAdl",
     "name": "Kisoro Town Council",
@@ -11260,7 +11269,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1252,
+  "pk": 1253,
   "fields": {
     "identifier": "sXpYXsXppVM",
     "name": "Nyundo Subcounty",
@@ -11269,7 +11278,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1253,
+  "pk": 1254,
   "fields": {
     "identifier": "MobV3oxRvud",
     "name": "Nyakabande Subcounty",
@@ -11278,7 +11287,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1254,
+  "pk": 1255,
   "fields": {
     "identifier": "aNYVpLHVWVQ",
     "name": "Murora Subcounty",
@@ -11287,7 +11296,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1255,
+  "pk": 1256,
   "fields": {
     "identifier": "eSxa9KsHr5h",
     "name": "Nyarubuye Subcounty",
@@ -11296,7 +11305,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1256,
+  "pk": 1257,
   "fields": {
     "identifier": "mS0Js3oecic",
     "name": "Kirundo Subcounty",
@@ -11305,7 +11314,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1257,
+  "pk": 1258,
   "fields": {
     "identifier": "B9VTI1nHb8T",
     "name": "Chahi Subcounty",
@@ -11314,7 +11323,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1258,
+  "pk": 1259,
   "fields": {
     "identifier": "Uuo4aSz4x5g",
     "name": "Nyarusiza Subcounty",
@@ -11323,7 +11332,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1259,
+  "pk": 1260,
   "fields": {
     "identifier": "LBmenMWrESK",
     "name": "Nyakinama Subcounty",
@@ -11332,7 +11341,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1260,
+  "pk": 1261,
   "fields": {
     "identifier": "Nc5nlJywn4F",
     "name": "Nyabwishenya Subcounty",
@@ -11341,7 +11350,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1261,
+  "pk": 1262,
   "fields": {
     "identifier": "F1OvU15f7z0",
     "name": "Bukimbiri Subcounty",
@@ -11350,7 +11359,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1262,
+  "pk": 1263,
   "fields": {
     "identifier": "PTydXF4vkcb",
     "name": "Muramba Subcounty",
@@ -11359,7 +11368,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1263,
+  "pk": 1264,
   "fields": {
     "identifier": "fYaQexh3P77",
     "name": "Busanza Subcounty",
@@ -11368,7 +11377,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1264,
+  "pk": 1265,
   "fields": {
     "identifier": "LD3UI99qch9",
     "name": "Kanaba Subcounty",
@@ -11377,7 +11386,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1265,
+  "pk": 1266,
   "fields": {
     "identifier": "aeWGRzEMtRa",
     "name": "Nyabuharwa Subcounty",
@@ -11386,7 +11395,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1266,
+  "pk": 1267,
   "fields": {
     "identifier": "aGywgyDsaIJ",
     "name": "Kisojjo Subcounty",
@@ -11395,7 +11404,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1267,
+  "pk": 1268,
   "fields": {
     "identifier": "uig2M5cny1H",
     "name": "Butiiti Subcounty",
@@ -11404,7 +11413,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1268,
+  "pk": 1269,
   "fields": {
     "identifier": "spa5nU4NVar",
     "name": "Nyankwazi Subcounty",
@@ -11413,7 +11422,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1269,
+  "pk": 1270,
   "fields": {
     "identifier": "EIwIQOkPTaD",
     "name": "Katooke Subcounty",
@@ -11422,7 +11431,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1270,
+  "pk": 1271,
   "fields": {
     "identifier": "WjtyvvauxbS",
     "name": "Kyarusozi Town Council",
@@ -11431,7 +11440,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1271,
+  "pk": 1272,
   "fields": {
     "identifier": "ZlnVZxGQXOx",
     "name": "Kyarusozi Subcounty",
@@ -11440,7 +11449,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1272,
+  "pk": 1273,
   "fields": {
     "identifier": "fcACbA55GDC",
     "name": "Bufunjo Subcounty",
@@ -11449,7 +11458,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1273,
+  "pk": 1274,
   "fields": {
     "identifier": "aZwX9DfOUK2",
     "name": "Bugaaki Subcounty",
@@ -11458,7 +11467,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1274,
+  "pk": 1275,
   "fields": {
     "identifier": "gtOP1Uo7oOx",
     "name": "Nyantungo Subcounty",
@@ -11467,7 +11476,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1275,
+  "pk": 1276,
   "fields": {
     "identifier": "hDJoLiGGfRY",
     "name": "Katooke Town Council",
@@ -11476,7 +11485,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1276,
+  "pk": 1277,
   "fields": {
     "identifier": "aX8e1LzHpbE",
     "name": "Kigarale Subcounty",
@@ -11485,7 +11494,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1277,
+  "pk": 1278,
   "fields": {
     "identifier": "VzNo51e77c5",
     "name": "Butunduuzi Town Council",
@@ -11494,7 +11503,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1278,
+  "pk": 1279,
   "fields": {
     "identifier": "k6Qib6wlmSW",
     "name": "Kihuura Subcounty",
@@ -11503,7 +11512,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1279,
+  "pk": 1280,
   "fields": {
     "identifier": "v4SsBMVYOWo",
     "name": "Kyenjojo Town Council",
@@ -11512,7 +11521,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1280,
+  "pk": 1281,
   "fields": {
     "identifier": "VdgakBSJmWY",
     "name": "Kabira Subcounty",
@@ -11521,7 +11530,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1281,
+  "pk": 1282,
   "fields": {
     "identifier": "rKLL7VlbL3b",
     "name": "Bitereko Subcounty",
@@ -11530,7 +11539,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1282,
+  "pk": 1283,
   "fields": {
     "identifier": "RtQUimJT9Ek",
     "name": "Mayanga Subcounty",
@@ -11539,7 +11548,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1283,
+  "pk": 1284,
   "fields": {
     "identifier": "aXyuXVfPhwz",
     "name": "Mitooma Subcounty",
@@ -11548,7 +11557,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1284,
+  "pk": 1285,
   "fields": {
     "identifier": "DJRzqJrw6hs",
     "name": "Kanyabwanga Subcounty",
@@ -11557,7 +11566,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1285,
+  "pk": 1286,
   "fields": {
     "identifier": "YXmA2I9pEgy",
     "name": "Kashenshero Town council",
@@ -11566,7 +11575,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1286,
+  "pk": 1287,
   "fields": {
     "identifier": "aPkiP7PQgCU",
     "name": "Mitooma  Town council",
@@ -11575,7 +11584,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1287,
+  "pk": 1288,
   "fields": {
     "identifier": "L2U4GtsXEpx",
     "name": "Mutara Subcounty",
@@ -11584,7 +11593,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1288,
+  "pk": 1289,
   "fields": {
     "identifier": "ZA35ZIXly1S",
     "name": "Kashenshero Subcounty",
@@ -11593,7 +11602,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1289,
+  "pk": 1290,
   "fields": {
     "identifier": "PpJwAqyUEAw",
     "name": "Rurehe Subcounty",
@@ -11602,7 +11611,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1290,
+  "pk": 1291,
   "fields": {
     "identifier": "qJ0sxVsO2pk",
     "name": "Katenga Subcounty",
@@ -11611,7 +11620,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1291,
+  "pk": 1292,
   "fields": {
     "identifier": "aKZZ42qXlZq",
     "name": "Kiyanga Subcounty",
@@ -11620,7 +11629,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1292,
+  "pk": 1293,
   "fields": {
     "identifier": "p8sjPfR588j",
     "name": "Ntara Subcounty",
@@ -11629,7 +11638,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1293,
+  "pk": 1294,
   "fields": {
     "identifier": "lmgYdspcL6p",
     "name": "Nyabbani Subcounty",
@@ -11638,7 +11647,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1294,
+  "pk": 1295,
   "fields": {
     "identifier": "xMnKacdHGIz",
     "name": "Mahyoro Subcounty",
@@ -11647,7 +11656,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1295,
+  "pk": 1296,
   "fields": {
     "identifier": "XbSvPK3Vt68",
     "name": "Kabambiro Subcounty",
@@ -11656,7 +11665,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1296,
+  "pk": 1297,
   "fields": {
     "identifier": "oAC3iaYXnzM",
     "name": "Kamwenge Town council",
@@ -11665,7 +11674,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1297,
+  "pk": 1298,
   "fields": {
     "identifier": "GKYsDNWyURe",
     "name": "Kamwenge-Kanara Subcounty",
@@ -11674,7 +11683,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1298,
+  "pk": 1299,
   "fields": {
     "identifier": "tzIWNdJGfLJ",
     "name": "Nkoma Subcounty",
@@ -11683,7 +11692,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1299,
+  "pk": 1300,
   "fields": {
     "identifier": "IEjbPvDOXTU",
     "name": "Biguli Subcounty",
@@ -11692,7 +11701,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1300,
+  "pk": 1301,
   "fields": {
     "identifier": "tiCEiYlOHa9",
     "name": "Kicheche Subcounty",
@@ -11701,7 +11710,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1301,
+  "pk": 1302,
   "fields": {
     "identifier": "a9bdfn2hOs0",
     "name": "Kamwenge Subcounty",
@@ -11710,7 +11719,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1302,
+  "pk": 1303,
   "fields": {
     "identifier": "kisFgxvHQ0b",
     "name": "Buhanda Subcounty",
@@ -11719,7 +11728,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1303,
+  "pk": 1304,
   "fields": {
     "identifier": "f82sIZY6sXk",
     "name": "Kahunge Subcounty",
@@ -11728,7 +11737,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1304,
+  "pk": 1305,
   "fields": {
     "identifier": "I9sa8wYtbhI",
     "name": "Kamwenge Bihanga subcounty",
@@ -11737,7 +11746,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1305,
+  "pk": 1306,
   "fields": {
     "identifier": "pnxCSdB9Msk",
     "name": "Busiriba Subcounty",
@@ -11746,7 +11755,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1306,
+  "pk": 1307,
   "fields": {
     "identifier": "Ve7T1nizG7q",
     "name": "Bwizi Subcounty",
@@ -11755,7 +11764,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1307,
+  "pk": 1308,
   "fields": {
     "identifier": "weIcTd1431E",
     "name": "Ihunga Subcounty",
@@ -11764,7 +11773,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1308,
+  "pk": 1309,
   "fields": {
     "identifier": "K8EbLIWv4gn",
     "name": "Ntungamo Subcounty",
@@ -11773,7 +11782,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1309,
+  "pk": 1310,
   "fields": {
     "identifier": "eJ6V2fUvJa3",
     "name": "Ntungamo Eastern Division",
@@ -11782,7 +11791,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1310,
+  "pk": 1311,
   "fields": {
     "identifier": "q7s1d5LzgWc",
     "name": "Bwongyera Subcounty",
@@ -11791,7 +11800,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1311,
+  "pk": 1312,
   "fields": {
     "identifier": "gW8zDLtLKRw",
     "name": "Ruhaama Subcounty",
@@ -11800,7 +11809,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1312,
+  "pk": 1313,
   "fields": {
     "identifier": "h6Wx2ZuKWJ3",
     "name": "Rugarama Subcounty",
@@ -11809,7 +11818,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1313,
+  "pk": 1314,
   "fields": {
     "identifier": "ezgM4Z4aWIc",
     "name": "Ngoma Subcounty (Ntungamo)",
@@ -11818,7 +11827,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1314,
+  "pk": 1315,
   "fields": {
     "identifier": "wCiHoNAAXNp",
     "name": "Rubaare Subcounty",
@@ -11827,7 +11836,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1315,
+  "pk": 1316,
   "fields": {
     "identifier": "IlCTmTQDK1j",
     "name": "Nyabihoko Subcounty",
@@ -11836,7 +11845,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1316,
+  "pk": 1317,
   "fields": {
     "identifier": "OelY0OuJRrh",
     "name": "Rweikiniro Subcounty",
@@ -11845,7 +11854,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1317,
+  "pk": 1318,
   "fields": {
     "identifier": "xR3tMZhXRSG",
     "name": "Ntungamo Central Division",
@@ -11854,7 +11863,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1318,
+  "pk": 1319,
   "fields": {
     "identifier": "e9lITPTVy5H",
     "name": "Kibatsi Subcounty",
@@ -11863,7 +11872,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1319,
+  "pk": 1320,
   "fields": {
     "identifier": "aBKUgg9eMEK",
     "name": "Rukoni West Subcounty",
@@ -11872,7 +11881,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1320,
+  "pk": 1321,
   "fields": {
     "identifier": "a7R6lzPJHUN",
     "name": "Rukoni East Subcounty",
@@ -11881,7 +11890,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1321,
+  "pk": 1322,
   "fields": {
     "identifier": "aT8hmwXQ07D",
     "name": "Nyakyera Subcounty",
@@ -11890,7 +11899,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1322,
+  "pk": 1323,
   "fields": {
     "identifier": "XziArrrpUNq",
     "name": "Ntungamo Western Division",
@@ -11899,7 +11908,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1323,
+  "pk": 1324,
   "fields": {
     "identifier": "ZXKYB8MLZ0N",
     "name": "Ntungamo Kayonza Subcounty",
@@ -11908,7 +11917,7 @@
 },
 {
   "model": "dashboard.subcounty",
-  "pk": 1324,
+  "pk": 1325,
   "fields": {
     "identifier": "oUbjAL1F0oh",
     "name": "Itojo Subcounty",

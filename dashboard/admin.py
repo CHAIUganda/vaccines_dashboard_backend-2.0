@@ -45,10 +45,16 @@ class EmailUserAdmin(UserAdmin):
     filter_horizontal = ('groups', 'user_permissions',)
 
 
+class StockRequirementAdmin(admin.ModelAdmin):
+    search_fields = ('district', 'vaccine', 'year')
+    list_display = ('district', 'vaccine', 'year', 'minimum', 'maximum')
+    list_filter = ('district', 'vaccine', 'year')
+
+
 class StockAdmin(admin.ModelAdmin):
-    search_fields = ('district','month', "year", "month", "vaccine")
-    list_display = ('district', 'year', 'month', 'vaccine',)
-    list_filter = ('district', 'year', 'month', 'vaccine',)
+    search_fields = ('stock_requirement', 'month')
+    list_display = ('stock_requirement', 'month', 'at_hand', 'ordered')
+    list_filter = ('stock_requirement', 'month')
 
 
 class DataElementAdmin(admin.ModelAdmin):
@@ -81,15 +87,6 @@ class VaccineCategoryAdmin(admin.ModelAdmin):
     list_filter = ('vaccine', 'vaccine__index')
 
 
-class DataValueAdmin(admin.ModelAdmin):
-    list_display = (
-        'get_facility', 'district', 'region', 'data_element', 'value', 'period', 'vaccine_category')
-    search_fields = ('data_element__identifier', 'district__name', 'facility__name', 'vaccine_category')
-    list_filter = ('data_element__name', 'period', 'vaccine_category')
-
-    def get_facility(self, obj):
-        return obj.facility.name
-
 
 class DataSyncTrackerAdmin(admin.ModelAdmin):
     list_display = ('period', 'last_downloaded', 'last_parsed', 'get_status')
@@ -112,6 +109,7 @@ class DataSyncTrackerAdmin(admin.ModelAdmin):
 admin_site = QdbSite()
 admin_site.register(Group, GroupAdmin)
 admin_site.register(DashboardUser, EmailUserAdmin)
+admin_site.register(StockRequirement, StockRequirementAdmin)
 admin_site.register(Stock, StockAdmin)
 admin_site.register(DataSet, DataSetAdmin)
 admin_site.register(DataElement, DataElementAdmin)
@@ -121,6 +119,5 @@ admin_site.register(SubCounty, SubCountyAdmin)
 admin_site.register(Vaccine, VaccineAdmin)
 admin_site.register(VaccineCategory, VaccineCategoryAdmin)
 admin_site.register(Facility, FacilityAdmin)
-admin_site.register(DataValue, DataValueAdmin)
 admin_site.register(DataSyncTracker, DataSyncTrackerAdmin)
 

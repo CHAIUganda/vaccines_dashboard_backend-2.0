@@ -20,7 +20,7 @@ import django_filters
 from django.db.models.expressions import F
 from dashboard.helpers import *
 from dashboard.models import *
-from dashboard.views.filters import StockFilter
+# from dashboard.views.filters import StockFilter
 
 
 class ApiParams(Serializer):
@@ -67,6 +67,7 @@ class CoverageRate(APIView):
                {'month':'Feb 2015', 'units': 10010, 'vaccine':'MEASLES'}]
         return Response(data)
 
+
 class StockApi(APIView):
     def get(self, request):
         district = request.query_params.get('district', None)
@@ -84,10 +85,10 @@ class StockApi(APIView):
             args.update({'vaccine__name': vaccine})
 
         summary = Stock.objects.filter(**args) \
-            .values('district__name') \
+            .values('stock_requirement__district__name') \
             .annotate(stockathand=Sum('at_hand'))\
-            .order_by('district__name', 'period') \
-            .values('district__name', 'stockathand', 'month', 'period')
+            .order_by('stock_requirement__district__name', 'period') \
+            .values('stock_requirement__district__name', 'stockathand', 'month', 'period')
 
         return Response(summary)
 

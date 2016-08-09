@@ -135,23 +135,6 @@ class DataSetParserStatus(object):
     COMPLETED = 2
 
 
-class DataValue(models.Model):
-    class Meta:
-              unique_together = (('facility', 'original_period', 'data_element', 'vaccine_category'),)
-
-    data_set = models.ForeignKey(DataSet, on_delete=models.SET_NULL, null=True, blank=True)
-    region = models.ForeignKey(Region, on_delete=models.SET_NULL, null=True, blank=True)
-    district = models.ForeignKey(District, on_delete=models.SET_NULL, null=True, blank=True)
-    facility = models.ForeignKey(Facility, on_delete=models.SET_NULL, null=True, blank=True)
-    data_element = models.ForeignKey(DataElement, on_delete=models.SET_NULL, null=True, blank=True)
-    vaccine_category = models.ForeignKey(VaccineCategory, on_delete=models.SET_NULL, null=True, blank=True)
-    year = models.IntegerField(default=2016)
-    month = models.IntegerField(choices=MONTHS, default=1)
-    period = models.IntegerField()
-    original_period = models.CharField(max_length=20)
-    value = models.IntegerField()
-
-
 class StockRequirement(models.Model):
     district = models.ForeignKey(District, on_delete=models.SET_NULL, null=True, blank=True)
     year = models.IntegerField(default=2015)
@@ -163,27 +146,26 @@ class StockRequirement(models.Model):
         unique_together = ("district", "vaccine", "year")
 
     def __unicode__(self):
-        return "%s %d %d" % (self.district, self.vaccine, self.year )
-
+        return "%s %s %s" % (self.district__name, self.vaccine__name, self.year)
 
 
 class Stock(models.Model):
-    district = models.ForeignKey(District, on_delete=models.SET_NULL, null=True, blank=True)
-    year = models.IntegerField(default=2015)
+    stock_requirement = models.ForeignKey(StockRequirement, on_delete=models.SET_NULL, null=True, blank=True)
     month = models.IntegerField(choices=MONTHS, default=1)
     period = models.IntegerField()
-    vaccine = models.ForeignKey(Vaccine, on_delete=models.SET_NULL, null=True, blank=True)
+    data_element = models.ForeignKey(DataElement, on_delete=models.SET_NULL, null=True, blank=True)
     firstdate = models.DateField(auto_now=False)
     lastdate = models.DateField(auto_now=False)
     at_hand = models.FloatField(default=0)
     received = models.FloatField(default=0) #imported
     ordered = models.FloatField(default=0)  #
+    consumed = models.FloatField(default=0)
 
     class Meta:
-        unique_together = ("district", "vaccine", "year", "month", )
+        unique_together = ("stock_requirement", "month",)
 
     def __unicode__(self):
-        return "%s %d %d %s" % (self.district, self.vaccine, self.year, self.month )
+        return "%s %d %d %s" % (self.stock_requirement.district, self.stock_requirement.vaccine, self.stock_requirement.year, self.month)
 
 
 class DataSyncTrackerStatus(object):

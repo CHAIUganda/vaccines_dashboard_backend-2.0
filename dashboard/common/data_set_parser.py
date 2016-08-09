@@ -1,7 +1,9 @@
 import json
+from datetime import date
+
 from django.db import IntegrityError
 from dashboard import utils
-from dashboard.models import DataElement, DataValue, Facility, District, Region, VaccineCategory  #CategoryOptionCombo
+from dashboard.models import *
 
 
 class DataSetParser(object):
@@ -58,27 +60,25 @@ class DataSetParser(object):
         print "Sub County:%s in (%s) value: %s" % (facility.sub_county, district, data_value['value'])
         year = int(data_value['period'][0:4])
         month = int(data_value['period'][4:])
-        vaccine_category = VaccineCategory.objects.get(data_element_id=data_element.id)
 
+        #Get vaccine category
+        vaccine_category = VaccineCategory.objects.filter(data_element_id=data_element.id, vaccine__index__gt=0).first()
+        stock_requirement = StockRequirement.objects.filter(
+                                            district__name__contains=district_item.name,
+                                            vaccine__name=vaccine_category.vaccine.name,
+                                            year=year,
+                                        ).first()
         try:
-            dv = DataValue()
-            dv.data_set = self.data_set
-            dv.facility = facility
-            dv.district = district
-            dv.region = region
-            dv.data_element = data_element
-            dv.vaccine_category = vaccine_category
-            dv.period = int(self.period)
-            dv.year = year
-            dv.month = month
-            dv.original_period = data_value['period']
-            dv.value = data_value['value']
-            dv.save()
+            if stock_requirement:
+                stock, created = Stock.objects.update_or_create(
+                                    stock_requirement = stock_requirement,
+                                    month=month,
+                                    period=int(self.period),
+                                    defaults={'firstdate': date(year, month, 1),
+                                              'lastdate': date(year, month, LAST_MONTH_DAY[month]),
+                                              'data_element': data_element,
+                                              'consumed': data_value['value']},
+                                )
+                stock_requirement.save()
         except IntegrityError, e:
-            print "| Updating..."
-            dv = DataValue.objects.get(facility=facility,
-                                       data_element=data_element,
-                                       vaccine_category=vaccine_category,
-                                       period=self.period)
-            dv.value = data_value['value']
-            dv.save()
+            print "| Failing..."
