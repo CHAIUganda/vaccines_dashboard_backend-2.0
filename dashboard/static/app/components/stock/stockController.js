@@ -33,7 +33,7 @@ angular.module('dashboard')
                 // calculate totals
                 var total = 0;
                 for(var i = 0; i < vm.data.length; i++){
-                    var units = vm.data[i].stockathand;
+                    var units = vm.data[i].at_hand;
                     total += units;
                 }
 
@@ -47,9 +47,9 @@ angular.module('dashboard')
 
                     //var month = vm.data[i].period.toString().substr(4, 2)
                     graphdata.push({
-                        key: vm.data[i].period,
+                        key: vm.data[i].district_name,
                         values: [
-                            [ vm.district, vm.data[i].stockathand]
+                            [ vm.data[i].district_name, vm.data[i].at_hand]
                         ]
                     });
                 }
