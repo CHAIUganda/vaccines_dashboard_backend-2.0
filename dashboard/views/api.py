@@ -87,17 +87,22 @@ class StockApi(APIView):
         summary = Stock.objects.filter(**args) \
             .values('stock_requirement__district__name') \
             .annotate(district_name=F('stock_requirement__district__name'),
-                      at_hand=Sum('at_hand'),
+                      total_at_hand=Sum('at_hand'),
                       ordered=Sum('ordered'),
                       consumed=Sum('consumed'),
-                      min_variance=F('at_hand')-F('stock_requirement__minimum'))\
+                      min_stock=Sum('stock_requirement__minimum'),
+                      max_stock=Sum('stock_requirement__maximum'),
+                      min_variance=Sum('at_hand') / Sum('stock_requirement__minimum') * 100 - 100,
+                      max_variance=Sum('at_hand') / Sum('stock_requirement__maximum') * 100 - 100)\
             .order_by('stock_requirement__district__name',) \
             .values('district_name',
                     'at_hand',
                     'ordered',
                     'consumed',
                     'stock_requirement__minimum',
-                    'stock_requirement__maximum')
+                    'stock_requirement__maximum', 
+                    'min_variance',
+                    'max_variance')
         return Response(summary)
 
 
