@@ -14,7 +14,7 @@ angular.module('dashboard')
         FilterService.getMonths().then(function(data) {
             shell.months = data;
             shell.startMonth = shell.months[0];
-            shell.endMonth = shell.months[0];
+            shell.endMonth = shell.months[5];
         });
 
         FilterService.getDistricts().then(function(data) {
