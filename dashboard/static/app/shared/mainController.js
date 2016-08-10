@@ -25,7 +25,6 @@ angular.module('dashboard')
 
         FilterService.getVaccines().then(function(data) {
             shell.vaccines = data;
-            shell.vaccines.unshift({"name": ""});
             shell.selectedVaccine = shell.vaccines[0];
         });
 
@@ -33,7 +32,6 @@ angular.module('dashboard')
         $scope.$watch('shell.endMonth', function() {
             if (shell.endMonth) {
                 $rootScope.$broadcast('refresh', shell.startMonth, shell.endMonth, shell.selectedDistrict, shell.selectedVaccine);
-                /*console.log(shell.selectedVaccine);*/
             }
         }, true);
 
