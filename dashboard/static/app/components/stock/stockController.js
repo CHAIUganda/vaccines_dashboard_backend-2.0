@@ -33,11 +33,11 @@ angular.module('dashboard')
                 // calculate totals
                 var total = 0;
                 for(var i = 0; i < vm.data.length; i++){
-                    var units = vm.data[i].consumed;
+                    var units = vm.data[i].stockathand;
                     total += units;
                 }
 
-                shellScope.child.consumed = total;
+                shellScope.child.stockathand = total;
 
                 // construct graph data
                 var graphdata = [];
@@ -45,11 +45,11 @@ angular.module('dashboard')
                     if(vm.data.length == 0)
                         break;
 
-                    var month = vm.data[i].period.toString().substr(4, 2)
+                    //var month = vm.data[i].period.toString().substr(4, 2)
                     graphdata.push({
                         key: vm.data[i].period,
                         values: [
-                            [ vm.getMonthName(month), vm.data[i].consumed]
+                            [ vm.district, vm.data[i].stockathand]
                         ]
                     });
                 }

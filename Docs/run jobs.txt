@@ -19,10 +19,14 @@ python manage.py dumpdata --indent 2 > .\dashboard\fixtures\initial_data.json
 
 ----To load use
 
-./manage.py loaddata .\dashboard\fixtures\region.json
-./manage.py loaddata .\dashboard\fixtures\district.json
-./manage.py loaddata .\dashboard\fixtures\subcounty.json
-./manage.py loaddata .\dashboard\fixtures\facility.json
+python ./manage.py loaddata .\dashboard\fixtures\region.json
+python ./manage.py loaddata .\dashboard\fixtures\district.json
+python ./manage.py loaddata .\dashboard\fixtures\subcounty.json
+python ./manage.py loaddata .\dashboard\fixtures\facility.json
+python ./manage.py loaddata .\dashboard\fixtures\dataset.json
+python ./manage.py loaddata .\dashboard\fixtures\dataelement.json
+python ./manage.py loaddata .\dashboard\fixtures\vaccine.json
+python ./manage.py loaddata .\dashboard\fixtures\vaccinecategory.json
 
 
 //Check Elements

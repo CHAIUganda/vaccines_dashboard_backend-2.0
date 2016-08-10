@@ -157,16 +157,16 @@ class Stock(models.Model):
     firstdate = models.DateField(auto_now=False)
     lastdate = models.DateField(auto_now=False)
     at_hand = models.FloatField(default=0)
-    received = models.FloatField(default=0) #imported
-    ordered = models.FloatField(default=0)  #
-    consumed = models.FloatField(default=0)
+    received = models.FloatField(default=0) # imported from xls
+    ordered = models.FloatField(default=0)  # imported from xls
+    consumed = models.FloatField(default=0) # import DHIS2
 
     class Meta:
         unique_together = ("stock_requirement", "month",)
 
-    def __unicode__(self):
-        return "%s %d %d %s %d %d" % (self.stock_requirement.district, self.stock_requirement.vaccine,
-                                self.stock_requirement.year, self.month, self.max_variance, self.max_variance)
+    # def __unicode__(self):
+    #     return "%s %d %d %s %d %d" % (self.stock_requirement.district, self.stock_requirement.vaccine,
+    #                             self.stock_requirement.year, self.month, self.max_variance, self.max_variance)
 
 
 class DataSyncTrackerStatus(object):

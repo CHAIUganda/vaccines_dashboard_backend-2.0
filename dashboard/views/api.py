@@ -86,10 +86,17 @@ class StockApi(APIView):
 
         summary = Stock.objects.filter(**args) \
             .values('stock_requirement__district__name') \
-            .annotate(district_name=F('stock_requirement__district__name'), consumed=Sum('consumed'))\
+            .annotate(district_name=F('stock_requirement__district__name'),
+                      at_hand=Sum('at_hand'),
+                      ordered=Sum('ordered'),
+                      consumed=Sum('consumed'))\
             .order_by('stock_requirement__district__name',) \
-            .values('district_name', 'consumed', 'stock_requirement__minimum', 'stock_requirement__maximum')
-
+            .values('district_name',
+                    'at_hand',
+                    'ordered',
+                    'consumed',
+                    'stock_requirement__minimum',
+                    'stock_requirement__maximum')
         return Response(summary)
 
 

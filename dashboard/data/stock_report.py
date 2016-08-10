@@ -54,22 +54,26 @@ class StockReport:
                         value = 0
 
                     stock_requirement = StockRequirement.objects.filter(
-                                            district__name__contains=row[0].value,
-                                            vaccine__name=vaccine,
-                                            year=int(self.year),
-                                        ).first()
+                        district__name__contains=row[0].value,
+                        vaccine__name=vaccine,
+                        year=int(self.year),
+                    ).first()
 
                     if stock_requirement:
                         if value:
-                            stock, created = Stock.objects.update_or_create(
-                                stock_requirement = stock_requirement,
-                                month=self.month,
-                                at_hand=value,
-                                period=self.period,
-                                defaults={'firstdate': date(int(self.year), int(self.month), 1),
-                                          'lastdate': date(int(self.year), int(self.month), LAST_MONTH_DAY[int(self.month)])
-                                          }
-                            )
+                            try:
+                                stock = Stock.objects.get(
+                                    stock_requirement=stock_requirement,
+                                    month=self.month)
+                                stock.at_hand = value
+                                stock.save()
+                            except Stock.DoesNotExist:
+                                stock = Stock()
+                                stock.at_hand = value,
+                                stock.period = self.period,s
+                                stock.firstdate = date(int(self.year), int(self.month), 1)
+                                stock.lastdate = date(int(self.year), int(self.month), LAST_MONTH_DAY[int(self.month)])
+                                stock.save()
 
     def import_orders(self):
         # Todo: use proper name
@@ -90,23 +94,25 @@ class StockReport:
                         value = 0
 
                     stock_requirement = StockRequirement.objects.filter(
-                                            district__name__contains=row[0].value,
-                                            vaccine__name=vaccine,
-                                            year=int(self.year),
-                                        ).first()
+                        district__name__contains=row[0].value,
+                        vaccine__name=vaccine,
+                        year=int(self.year),
+                    ).first()
 
                     if stock_requirement:
                         if value:
-                            stock, created = Stock.objects.update_or_create(
-                                stock_requirement = stock_requirement,
-                                year=self.year,
-                                month=self.month,
-                                period=self.period,
-                                defaults={'firstdate': date(int(self.year), int(self.month), 1),
-                                          'lastdate': date(int(self.year), int(self.month),
-                                                           LAST_MONTH_DAY[int(self.month)]),
-                                          'ordered': value},
-                            )
+                            try:
+                                stock = Stock.objects.get(stock_requirement=stock_requirement, month=self.month)
+                                stock.ordered = value
+                                stock.save()
+                            except Stock.DoesNotExist:
+                                stock = Stock()
+                                stock.ordered = value,
+                                stock.period = self.period,
+                                stock.firstdate = date(int(self.year), int(self.month), 1)
+                                stock.lastdate = date(int(self.year), int(self.month), LAST_MONTH_DAY[int(self.month)])
+                                stock.save()
+
 
     def get_value(self, row, i):
         if i <= len(row):
