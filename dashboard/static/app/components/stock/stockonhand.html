@@ -5,12 +5,12 @@
 
 
 
-    <div class="col-md-8">
+    <div class="col-md-7">
         <div class="page_graph">
             <nvd3 options="vm.options" data="vm.graph"></nvd3>
         </div>
     </div>
-    <div class="col-md-4">
+    <div class="col-md-5">
 
        <div id="custom-search-input">
             <div class="input-group col-md-12">
@@ -25,10 +25,10 @@
 
         <table ng-table="vm.tableParams" class="table table-condensed table-striped" show-filter="false">
             <tr ng-repeat="row in $data | filter:searchText">
-                <td title="'District'" >{{vm.district_name}}</td>
-                <td title="'Units'" >{{row.consumed | number:0}}</td>
-                <td title="'Min Stock'" >{{vm.stock_requirement__minimum}}</td>
-                <td title="'Max Stock'" >{{vm.stock_requirement__maximum}}</td>
+                <td title="'District'" >{{row.district_name}}</td>
+                <td title="'At Hand'" >{{row.at_hand | number:0}}</td>
+                <td title="'Min Stock'" >{{row.stock_requirement__minimum}}</td>
+                <td title="'Max Stock'" >{{row.stock_requirement__maximum}}</td>
             </tr>
         </table>
     </div>
