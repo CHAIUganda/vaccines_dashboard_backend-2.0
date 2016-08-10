@@ -41,19 +41,23 @@ angular.module('dashboard')
 
                 // construct graph data
                 var graphdata = [];
-                for (var i = 0; i < 3   ; i++) {
-                    if(vm.data.length == 0)
-                        break;
-
-                    //var month = vm.data[i].period.toString().substr(4, 2)
-                    graphdata.push({
-                        key: vm.data[i].district_name,
-                        values: [
-                            [ vm.data[i].district_name, vm.data[i].at_hand]
-                        ]
-                    });
+                var values = []
+                for (var i = 0; i < 5 ; i++) {
+                    values.push([vm.data[i].district_name, vm.data[i].at_hand])
                 }
-                vm.graph = null;
+                graphdata.push({
+                        key: "At Hand",
+                        values: values
+                });
+
+                values = []
+                for (var i = 0; i < 5 ; i++) {
+                    values.push([vm.data[i].district_name, vm.data[i].stock_requirement__maximum])
+                }
+                graphdata.push({
+                        key: "Max",
+                        values: values
+                });
                 vm.graph = graphdata;
 
                 // update graph
@@ -67,7 +71,7 @@ angular.module('dashboard')
                                 text: 'VACCINE STOCK ON HAND'
                             },
                             showLegend: true,
-
+                            stacked: true,
                             showControls: false,
                             margin : {
                                 top: 20,
@@ -75,7 +79,7 @@ angular.module('dashboard')
                                 bottom: 45,
                                 left: 65
                             },
-                            groupSpacing: 0,
+                            groupSpacing: 0.2,
                             rotateLabels: -45,
                             staggerLabels: true,
                             x: function(d){ return d[0]; },

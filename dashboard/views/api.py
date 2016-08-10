@@ -89,7 +89,8 @@ class StockApi(APIView):
             .annotate(district_name=F('stock_requirement__district__name'),
                       at_hand=Sum('at_hand'),
                       ordered=Sum('ordered'),
-                      consumed=Sum('consumed'))\
+                      consumed=Sum('consumed'),
+                      min_variance=F('at_hand')-F('stock_requirement__minimum'))\
             .order_by('stock_requirement__district__name',) \
             .values('district_name',
                     'at_hand',

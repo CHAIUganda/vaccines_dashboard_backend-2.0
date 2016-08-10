@@ -3,8 +3,6 @@
 
     <h4 class="text-center">STOCK ON HAND</h4>
 
-
-
     <div class="col-md-6">
         <div class="page_graph">
             <nvd3 options="vm.options" data="vm.graph"></nvd3>
@@ -27,7 +25,7 @@
             <tr ng-repeat="row in $data | filter:searchText">
                 <td title="'District'" >{{row.district_name}}</td>
                 <td title="'At Hand'" >{{row.at_hand | number:0}}</td>
-                <td title="'Min Stock'" >{{row.stock_requirement__minimum}}</td>
+                <td title="'Min'" >{{row.stock_requirement__minimum}}</td>
                 <td title="'Max'" >{{row.stock_requirement__maximum}}</td>
                 <td title="'Min (%)'" >{{(row.at_hand / row.stock_requirement__minimum * 100) - 100 | number:0}}%</td>
                 <td title="'Max (%)'" >{{(row.at_hand / row.stock_requirement__maximum * 100) - 100 | number:0}}%</td>
