@@ -49,24 +49,18 @@ angular.module('dashboard')
                 }
 
                 shellScope.child.stockathand = total;
-                var worstPerforming = vm.SortByKey(vm.data, 'min_variance')
-                        .filter(function IfGreatetThanZero(value, index, ar) {
-                                        if (value == 0) {
-                                            return false;
-                                        }
-                                    return true;
-                                }).slice(0, 10)
+                var worstPerforming = vm.SortByKey(vm.data, 'min_variance').slice(0, 10)
 
                 // construct graph data
                 var graphdata = [];
-                var at_hand_values = []
-                for (var i = 0; i < 10 ; i++) {
-                    at_hand_values.push([worstPerforming[i].district_name, worstPerforming[i].at_hand])
-                }
-                graphdata.push({
-                        key: "At Hand",
-                        values: at_hand_values
-                });
+                // var at_hand_values = []
+                // for (var i = 0; i < 10 ; i++) {
+                //     at_hand_values.push([worstPerforming[i].district_name, worstPerforming[i].at_hand])
+                // }
+                // graphdata.push({
+                //         key: "At Hand",
+                //         values: at_hand_values
+                // });
 
                 var min_variance_values = []
                 for (var i = 0; i < 10 ; i++) {

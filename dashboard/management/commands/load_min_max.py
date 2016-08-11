@@ -9,9 +9,6 @@ from openpyxl import load_workbook
 
 
 def import_min_max(excel_file):
-    #summary = Stock.objects.all().values('district__name').annotate(stockathand=Sum('at_hand')).order_by('district__name', 'period').values('district__name', 'stockathand', 'month', 'period')
-
-    #excel_file = "c:\\Dev\\Python\\vaccines\\Docs\\Vaccines Dashboard Phase 1 Data v2\\Stock Management\\2016_Vax_Supplied-values.xlsx"
     workbook = load_workbook(excel_file, read_only=True, use_iterators=True)
 
     vaccines = ["MEASLES", "BCG", "TT", "TOPV",  "PCV", "PENTA"]

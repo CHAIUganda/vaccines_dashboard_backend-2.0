@@ -77,7 +77,7 @@ class StockApi(APIView):
         endMonth, endYear= request.query_params.get('endMonth', 'Jan 2016').split(' ')
 
         date_range = ["%s-%s-%s" % (startYear, MONTH_TO_NUM[startMonth], 1), "%s-%s-%s" % (endYear, MONTH_TO_NUM[endMonth], LAST_MONTH_DAY[MONTH_TO_NUM[endMonth]])]
-        args = {'firstdate__range':date_range}
+        args = {'lastdate__range':date_range}
         if district:
             args.update({'stock_requirement__district__name': district})
 
@@ -117,18 +117,32 @@ class StockByMonthApi(APIView):
         date_range = ["%s-%s-%s" % (startYear, MONTH_TO_NUM[startMonth], 1), "%s-%s-%s" % (endYear, MONTH_TO_NUM[endMonth], LAST_MONTH_DAY[MONTH_TO_NUM[endMonth]])]
         args = {'firstdate__range':date_range}
         if district:
-            args.update({'district__name': district})
+            args.update({'stock_requirement__district__name': district})
 
         if vaccine:
-            args.update({'vaccine__name': vaccine})
+            args.update({'stock_requirement__vaccine__name': vaccine})
 
         summary = Stock.objects.filter(**args) \
-            .values('period') \
-            .annotate(stockathand=Sum('at_hand')) \
-            .order_by('vaccine_name')\
-            .values('period', 'stockathand')
-
+            .values('stock_requirement__district__name') \
+            .annotate(district_name=F('stock_requirement__district__name'),
+                      total_at_hand=Sum('at_hand'),
+                      ordered=Sum('ordered'),
+                      consumed=Sum('consumed'),
+                      min_stock=Sum('stock_requirement__minimum'),
+                      max_stock=Sum('stock_requirement__maximum'),
+                      min_variance=Sum('at_hand') / Sum('stock_requirement__minimum') * 100 - 100,
+                      max_variance=Sum('at_hand') / Sum('stock_requirement__maximum') * 100 - 100)\
+            .order_by('stock_requirement__district__name',) \
+            .values('district_name',
+                    'at_hand',
+                    'ordered',
+                    'consumed',
+                    'stock_requirement__minimum',
+                    'stock_requirement__maximum',
+                    'min_variance',
+                    'max_variance')
         return Response(summary)
+
 
 class AmcApi(APIView):
     def get(self, request):
