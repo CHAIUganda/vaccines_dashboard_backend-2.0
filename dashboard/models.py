@@ -164,10 +164,6 @@ class Stock(models.Model):
     class Meta:
         unique_together = ("stock_requirement", "month",)
 
-    # def __unicode__(self):
-    #     return "%s %d %d %s %d %d" % (self.stock_requirement.district, self.stock_requirement.vaccine,
-    #                             self.stock_requirement.year, self.month, self.max_variance, self.max_variance)
-
 
 class DataSyncTrackerStatus(object):
     UNKNOWN = 0

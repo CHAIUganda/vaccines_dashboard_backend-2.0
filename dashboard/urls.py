@@ -18,8 +18,10 @@ urlpatterns = [
     url(r'^api/coverage/total', dashboard.views.api.CoverageRateTotal.as_view(), name='coverage_rate_total'),
     url(r'^api/coverage/district', dashboard.views.api.CoverageRate.as_view(), name='coverage_rate'),
 
-    url(r'^api/stockbymonth', dashboard.views.api.StockByMonthApi.as_view(), name='stock_by_month'),
-    url(r'^api/stock', dashboard.views.api.StockApi.as_view(), name='stock_at_hand'),
+
+    url(r'^api/stock/athandbydistrict', dashboard.views.api.StockAtHandByDistrictApi.as_view(), name='stock_at_hand_by_district'),
+    url(r'^api/stock/athandbymonth', dashboard.views.api.StockAtHandByMonthApi.as_view(), name='stock_at_hand_by_month'),
+
     url(r'^api/amc', dashboard.views.api.AmcApi.as_view(), name='amc'),
 
 ]

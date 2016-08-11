@@ -1,6 +1,6 @@
 angular.module('dashboard')
-    .controller('FridgeController', ['$scope', 'ReportService', '$rootScope', 'FilterService',
-    function($scope, ReportService, $rootScope, FilterService)
+    .controller('FridgeController', ['$scope', 'StockService', '$rootScope', 'FilterService',
+    function($scope, StockService, $rootScope, FilterService)
     {
         $scope.selectedDistrict = "";
 

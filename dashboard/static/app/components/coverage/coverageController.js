@@ -1,6 +1,6 @@
 angular.module('dashboard').
-controller('CoverageController', ['$scope', 'ReportService', '$httpParamSerializer', 'FilterService',
-    function($scope, ReportService, $httpParamSerializer, FilterService) {
+controller('CoverageController', ['$scope', 'StockService', '$httpParamSerializer', 'FilterService',
+    function($scope, StockService, $httpParamSerializer, FilterService) {
         $scope.vaccine = "MEASLES";
         $scope.displayMonth = function(month) {
             return "MONTH " + month.number + " '" + month.year;
@@ -11,8 +11,8 @@ controller('CoverageController', ['$scope', 'ReportService', '$httpParamSerializ
 ]);
 
 angular.module('dashboard')
-    .controller('DropoutRateController', ['$scope', 'ReportService', '$rootScope', 'FilterService',
-    function($scope, ReportService, $rootScope, FilterService)
+    .controller('DropoutRateController', ['$scope', 'StockService', '$rootScope', 'FilterService',
+    function($scope, StockService, $rootScope, FilterService)
     {
     }
 
@@ -21,8 +21,8 @@ angular.module('dashboard')
 
 
 angular.module('dashboard')
-    .controller('UnderImmunizedController', ['$scope', 'ReportService', '$rootScope', 'FilterService',
-    function($scope, ReportService, $rootScope, FilterService)
+    .controller('UnderImmunizedController', ['$scope', 'StockService', '$rootScope', 'FilterService',
+    function($scope, StockService, $rootScope, FilterService)
     {
     }
 

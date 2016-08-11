@@ -1,6 +1,6 @@
 angular.module('dashboard')
-    .controller('StockController', ['$scope', 'ReportService', '$rootScope', 'NgTableParams', 'FilterService', 'MonthService',
-    function($scope, ReportService, $rootScope, NgTableParams, FilterService, MonthService)
+    .controller('StockController', ['$scope', 'StockService', '$rootScope', 'NgTableParams', 'FilterService', 'MonthService',
+    function($scope, StockService, $rootScope, NgTableParams, FilterService, MonthService)
     {
         var vm = this;
         var shellScope = $scope.$parent;
@@ -27,7 +27,7 @@ angular.module('dashboard')
             vm.district = vm.selectedDistrict ? vm.selectedDistrict.name : "";
             vm.vaccine = vm.selectedVaccine ? vm.selectedVaccine.name : "";
 
-            ReportService.getStockTotals(startMonth, endMonth, district, vaccine)
+            StockService.getStockTotals(startMonth, endMonth, district, vaccine)
                 .then(function(data) {
 
                 vm.data = angular.copy(data);
@@ -122,8 +122,8 @@ angular.module('dashboard')
 
 
 angular.module('dashboard')
-    .controller('AmcController', ['$scope', 'ReportService', '$rootScope', 'NgTableParams', 'FilterService',
-    function($scope, ReportService, $rootScope, NgTableParams, FilterService)
+    .controller('AmcController', ['$scope', 'StockService', '$rootScope', 'NgTableParams', 'FilterService',
+    function($scope, StockService, $rootScope, NgTableParams, FilterService)
        {
     var vm = this;
         var shellScope = $scope.$parent;
@@ -135,7 +135,7 @@ angular.module('dashboard')
             vm.district = vm.selectedDistrict ? vm.selectedDistrict.name : "";
             vm.vaccine = vm.selectedVaccine ? vm.selectedVaccine.name : "";
 
-            ReportService.getAmc(startMonth, endMonth, district, vaccine)
+            StockService.getAmc(startMonth, endMonth, district, vaccine)
                 .then(function(data) {
 
                 vm.data = angular.copy(data);
@@ -212,8 +212,8 @@ angular.module('dashboard')
 ]);
 
 angular.module('dashboard')
-    .controller('MonthsStockLeftController', ['$scope', 'ReportService', '$rootScope',
-    function($scope, ReportService, $rootScope)
+    .controller('MonthsStockLeftController', ['$scope', 'StockService', '$rootScope',
+    function($scope, StockService, $rootScope)
     {
     }
 
@@ -223,8 +223,8 @@ angular.module('dashboard')
 
 
 angular.module('dashboard')
-    .controller('UptakeRateController', ['$scope', 'ReportService', '$rootScope',
-    function($scope, ReportService, $rootScope)
+    .controller('UptakeRateController', ['$scope', 'StockService', '$rootScope',
+    function($scope, StockService, $rootScope)
     {
     }
 
@@ -234,8 +234,8 @@ angular.module('dashboard')
 
 
 angular.module('dashboard')
-    .controller('WastageRateController', ['$scope', 'ReportService', '$rootScope',
-    function($scope, ReportService, $rootScope)
+    .controller('WastageRateController', ['$scope', 'StockService', '$rootScope',
+    function($scope, StockService, $rootScope)
     {
     }
 
