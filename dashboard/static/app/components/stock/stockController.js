@@ -6,6 +6,17 @@ angular.module('dashboard')
         var shellScope = $scope.$parent;
         shellScope.child = $scope;
 
+        vm.SortByKey = function(array, key) {
+            return array.sort(function(a, b) {
+                var x = a[key]; var y = b[key];
+                return ((x < y) ? -1 : ((x > y) ? 1 : 0));
+            });
+        };
+
+        vm.ValueOf = function(value) {
+            return value >= 0;
+        }
+
         vm.getMonthName = function(month){
             return MonthService.getMonthName(month);
         };
@@ -38,25 +49,32 @@ angular.module('dashboard')
                 }
 
                 shellScope.child.stockathand = total;
+                var worstPerforming = vm.SortByKey(vm.data, 'min_variance')
+                        .filter(function IfGreatetThanZero(value, index, ar) {
+                                        if (value == 0) {
+                                            return false;
+                                        }
+                                    return true;
+                                }).slice(0, 10)
 
                 // construct graph data
                 var graphdata = [];
-                var values = []
-                for (var i = 0; i < 5 ; i++) {
-                    values.push([vm.data[i].district_name, vm.data[i].at_hand])
+                var at_hand_values = []
+                for (var i = 0; i < 10 ; i++) {
+                    at_hand_values.push([worstPerforming[i].district_name, worstPerforming[i].at_hand])
                 }
                 graphdata.push({
                         key: "At Hand",
-                        values: values
+                        values: at_hand_values
                 });
 
-                values = []
-                for (var i = 0; i < 5 ; i++) {
-                    values.push([vm.data[i].district_name, vm.data[i].stock_requirement__maximum])
+                var min_variance_values = []
+                for (var i = 0; i < 10 ; i++) {
+                    min_variance_values.push([worstPerforming.district_name, worstPerforming.stock_requirement__minimum])
                 }
                 graphdata.push({
                         key: "Max",
-                        values: values
+                        values: min_variance_values
                 });
                 vm.graph = graphdata;
 
