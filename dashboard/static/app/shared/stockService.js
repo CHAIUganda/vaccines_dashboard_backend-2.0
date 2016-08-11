@@ -4,15 +4,7 @@ angular.module('services').service('StockService', ['$http',
             return response.data;
         };
 
-        var getMonths = function() {
-            return $http.get('/api/months').then(handleResponse);
-        };
-
-        var getDistricts = function() {
-            return $http.get('/api/districts').then(handleResponse);
-        };
-
-        var getStockTotals = function(startMonth, endMonth, district, vaccine) {
+        var getStockByDistrict = function(startMonth, endMonth, district, vaccine) {
             return $http.get('api/stock/athandbydistrict', {
                 params: {
                     startMonth: startMonth,
@@ -43,15 +35,9 @@ angular.module('services').service('StockService', ['$http',
                 }
             }).then(handleResponse);
         };
-        var getVaccines = function() {
-            return $http.get('/api/vaccines/').then(handleResponse);
-        }
 
         return {
-            "getMonths": getMonths,
-            "getVaccines": getVaccines,
-            "getDistricts": getDistricts,
-            "getStockTotals": getStockTotals,
+            "getStockByDistrict": getStockByDistrict,
             "getStockByMonth": getStockByMonth,
             "getAmc":getAmc
         };

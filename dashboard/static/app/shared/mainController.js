@@ -19,7 +19,6 @@ angular.module('dashboard')
 
         FilterService.getDistricts().then(function(data) {
             shell.districts = data;
-            shell.districts.unshift({"name": ""});
             shell.selectedDistrict = shell.districts[0];
         });
 

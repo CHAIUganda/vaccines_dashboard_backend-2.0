@@ -44,8 +44,48 @@ angular.module('services').service('MonthService', [
             return months[month];        
         };
 
+        var getMonthNumber = function(month) {
+            var months = {};
+            months['Jan'] = 0;
+            months['Feb'] = 1;
+            months['Mar'] = 2;
+            months['Apr'] = 3;
+            months['May'] = 4;
+            months['Jun'] = 5;
+            months['Jul'] = 6;
+            months['Aug'] = 7;
+            months['Sep'] = 8;
+            months['Oct'] = 9;
+            months['Nov'] = 10;
+            months['Dec'] = 11;
+            return months[month];
+        };
+
+        var monthToDate = function(monthYear) {
+            var parts = monthYear.split(" ");
+            var month = getMonthNumber(parts[0]);
+            var year = parseInt(parts[1]);
+            return new Date(year, month, 1);
+        };
+
+        monthDiff = function (startDate, endDate) {
+            var months;
+            months = (endDate.getFullYear() - startDate.getFullYear()) * 12;
+            months -= startDate.getMonth() + 1;
+            months += endDate.getMonth();
+            return months <= 0 ? 0 : months;
+        };
+
+        monthRangeDiff = function (startDate, endDate) {
+            return monthDiff(monthToDate(startDate), monthToDate(endDate));
+        };
+
         return {
             "getMonthName": getMonthName,
+            "getMonthNumber": getMonthNumber,
+            "monthToDate": monthToDate,
+            "monthDiff": monthDiff,
+            "monthRangeDiff": monthRangeDiff,
         };
     }
 ])
