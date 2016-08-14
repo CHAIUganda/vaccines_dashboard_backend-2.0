@@ -90,7 +90,7 @@ angular.module('dashboard')
                                 left: 65
                             },
                             groupSpacing: 0.2,
-                            rotateLabels: -45,
+                            rotateLabels: 0,
                             staggerLabels: true,
                             x: function(d){ return d[0]; },
                             y: function(d){ return d[1]; },
