@@ -90,13 +90,13 @@ angular.module('dashboard')
                                 left: 65
                             },
                             groupSpacing: 0.2,
-                            rotateLabels: -45,
+                            rotateLabels: 0,
                             staggerLabels: true,
                             x: function(d){ return d[0]; },
                             y: function(d){ return d[1]; },
                             showValues: true,
                             valueFormat: function(d){
-                                return d3.format(',.1f')(d);
+                                return tickFormat(d3.format(',.1f'));
                             },
                             transitionDuration: 500,
                         }
