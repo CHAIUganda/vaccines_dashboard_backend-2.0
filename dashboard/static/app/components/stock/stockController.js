@@ -96,7 +96,7 @@ angular.module('dashboard')
                             y: function(d){ return d[1]; },
                             showValues: true,
                             valueFormat: function(d){
-                                return d3.format(',.1f')(d);
+                                return tickFormat(d3.format(',.1f'));
                             },
                             transitionDuration: 500,
                         }

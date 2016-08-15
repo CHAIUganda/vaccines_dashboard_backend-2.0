@@ -1,0 +1,35 @@
+<div ng-controller="StockedOutController as vm">
+
+
+    <h4 class="text-center">STOCKED OUT</h4>
+
+    <div class="col-md-6">
+        <div class="page_graph">
+            <nvd3 options="vm.options" data="vm.graph"></nvd3>
+        </div>
+    </div>
+    <div class="col-md-6">
+
+       <div id="custom-search-input">
+            <div class="input-group col-md-12">
+                <input type="text" class="  search-query form-control" ng-model="searchText" placeholder="Search" />
+                <span class="input-group-btn">
+                    <button class="btn btn-danger" type="button">
+                        <span class=" glyphicon glyphicon-search"></span>
+                    </button>
+                </span>
+            </div>
+       </div>
+
+        <table ng-table="vm.tableParams" class="table table-condensed table-striped" show-filter="false">
+            <tr ng-repeat="row in $data | filter:searchText">
+                <td title="'District'" >{{row.district_name}}</td>
+                <td title="'At Hand'" >{{row.at_hand | number:0}}</td>
+                <td title="'Min'" >{{row.stock_requirement__minimum}}</td>
+                <td title="'Max'" >{{row.stock_requirement__maximum}}</td>
+            </tr>
+        </table>
+    </div>
+
+
+</div>
