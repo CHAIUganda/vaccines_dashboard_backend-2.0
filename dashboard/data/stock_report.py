@@ -69,8 +69,8 @@ class StockReport:
                                 stock.save()
                             except Stock.DoesNotExist:
                                 stock = Stock()
-                                stock.at_hand = value,
-                                stock.period = self.period,s
+                                stock.at_hand = value
+                                stock.period = self.period
                                 stock.firstdate = date(int(self.year), int(self.month), 1)
                                 stock.lastdate = date(int(self.year), int(self.month), LAST_MONTH_DAY[int(self.month)])
                                 stock.save()
@@ -107,8 +107,8 @@ class StockReport:
                                 stock.save()
                             except Stock.DoesNotExist:
                                 stock = Stock()
-                                stock.ordered = value,
-                                stock.period = self.period,
+                                stock.ordered = value
+                                stock.period = self.period
                                 stock.firstdate = date(int(self.year), int(self.month), 1)
                                 stock.lastdate = date(int(self.year), int(self.month), LAST_MONTH_DAY[int(self.month)])
                                 stock.save()
