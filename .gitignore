@@ -12,3 +12,5 @@ site/build/
 site/bin/
 site/node_modules/
 site/vendor/
+.idea/workspace.xml
+
