@@ -2,6 +2,10 @@ angular.module('dashboard')
     .controller('MainController', ['$scope', 'FilterService', '$rootScope',
     function($scope, FilterService, $rootScope)
     {
+        $scope.sortType     = 'name'; // set the default sort type
+        $scope.sortReverse  = false;  // set the default sort order
+        $scope.searchText   = '';     // set the default search/filter term
+
         $scope.root = {};
         var shell = this;
         shell.startMonth = shell.startMonth ? shell.startMonth.name : "Nov 2015";

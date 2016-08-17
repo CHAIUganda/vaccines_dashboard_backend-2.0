@@ -1,7 +1,9 @@
+
 <div ng-controller="StockController as vm">
 
+    <h4 class="text-left">STOCK ON HAND</h4>
 
-    <h4 class="text-center">STOCK ON HAND</h4>
+    <h3 class="text-right">Arrange By Performance</h3>
 
     <div class="col-md-6">
         <div class="page_graph">
@@ -21,13 +23,49 @@
             </div>
        </div>
 
-        <table ng-table="vm.tableParams" class="table table-condensed table-striped" show-filter="false">
-            <tr ng-repeat="row in $data | filter:searchText">
-                <td title="'District'" >{{row.district_name}}</td>
-                <td title="'At Hand'" >{{row.at_hand | number:0}}</td>
-                <td title="'Min'" >{{row.stock_requirement__minimum}}</td>
-                <td title="'Max'" >{{row.stock_requirement__maximum}}</td>
+       <table ng-table="vm.tableParams" class="table table-condensed table-striped" show-filter="false">
+
+             <thead>
+                <tr>
+                    <td>
+                        <a href="#" ng-click="sortType = 'District'; sortReverse = !sortReverse">
+                        District
+                        <span ng-show="sortType == 'District' && !sortReverse" class="fa fa-caret-down"></span>
+                        <span ng-show="sortType == 'District' && sortReverse" class="fa fa-caret-up"></span>
+                        </a>
+                    </td>
+                    <td>
+                        <a href="#" ng-click="sortType = 'At Hand'; sortReverse = !sortReverse">
+                        At Hand
+                        <span ng-show="sortType == 'At Hand' && !sortReverse" class="fa fa-caret-down"></span>
+                        <span ng-show="sortType == 'At Hand' && sortReverse" class="fa fa-caret-up"></span>
+                        </a>
+                    </td>
+                    <td>
+                        <a href="#" ng-click="sortType = 'Min'; sortReverse = !sortReverse">
+                        Min
+                        <span ng-show="sortType == 'Min' && !sortReverse" class="fa fa-caret-down"></span>
+                        <span ng-show="sortType == 'Min' && sortReverse" class="fa fa-caret-up"></span>
+                        </a>
+                    </td>
+                    <td>
+                        <a href="#" ng-click="sortType = 'Max'; sortReverse = !sortReverse">
+                        Max
+                        <span ng-show="sortType == 'Max' && !sortReverse" class="fa fa-caret-down"></span>
+                        <span ng-show="sortType == 'Max' && sortReverse" class="fa fa-caret-up"></span>
+                        </a>
+                    </td>
+                </tr>
+             </thead>
+
+            <tbody>
+            <tr ng-repeat="row in $data | orderBy:sortType:sortReverse | filter:searchText">
+                <td title="'District'" sortable="'District'"  >{{row.district_name}}</td>
+                <td title="'At Hand'" sortable="'At hand'" >{{row.at_hand | number:0}}</td>
+                <td title="'Min'" sortable="'Min'" >{{row.stock_requirement__minimum}}</td>
+                <td title="'Max'" sortable="'Max'" >{{row.stock_requirement__maximum}}</td>
             </tr>
+           </tbody>
         </table>
     </div>
 
