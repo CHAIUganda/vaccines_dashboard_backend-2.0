@@ -13,63 +13,25 @@
     <div class="col-md-6">
 
        <div id="custom-search-input">
-            <div class="input-group col-md-12">
-                <input type="text" class="  search-query form-control" ng-model="searchText" placeholder="Search" />
-                <span class="input-group-btn">
-                    <button class="btn btn-danger" type="button">
-                        <span class=" glyphicon glyphicon-search"></span>
-                    </button>
-                </span>
-            </div>
-       </div>
+                <div class="input-group col-md-12">
+                    <input type="text" class="  search-query form-control" ng-model="searchText" placeholder="Search" />
+                    <span class="input-group-btn">
+                        <button class="btn btn-danger" type="button">
+                            <span class=" glyphicon glyphicon-search"></span>
+                        </button>
+                    </span>
+                </div>
+           </div>
 
-       <table ng-table="vm.tableParams" class="table table-condensed table-striped" show-filter="false">
+       <table ng-table="vm.tableParams" class="row-border hover table table-condensed table-striped" show-filter="true">
 
-             <thead>
-                <tr>
-                    <th>
-                        <a href="#" ng-click="sortType = 'District'; sortReverse = !sortReverse">
-                            <button ng-click="sortBy('District')">District</button>
-                            <span class="sortorder" ng-show="propertyName === 'District'" ng-class="{reverse: reverse}"></span>
-                            <span ng-show="sortType == 'District' && !sortReverse" class="fa fa-caret-down"></span>
-                            <span ng-show="sortType == 'District' && sortReverse" class="fa fa-caret-up"></span>
-                        </a>
-                    </th>
-                    <th>
-                        <a href="#" ng-click="sortType = 'At Hand'; sortReverse = !sortReverse">
-                            <button ng-click="sortBy('At Hand')">At Hand</button>
-                            <span class="sortorder" ng-show="propertyName === 'At Hand'" ng-class="{reverse: reverse}"></span>
-                            <span ng-show="sortType == 'At Hand' && !sortReverse" class="fa fa-caret-down"></span>
-                            <span ng-show="sortType == 'At Hand' && sortReverse" class="fa fa-caret-up"></span>
-                        </a>
-                    </th>
-                    <th>
-                        <a href="#" ng-click="sortType = 'Min'; sortReverse = !sortReverse">
-                            <button ng-click="sortBy('Min')">Min</button>
-                            <span class="sortorder" ng-show="propertyName === 'Min'" ng-class="{reverse: reverse}"></span>
-                            <span ng-show="sortType == 'Min' && !sortReverse" class="fa fa-caret-down"></span>
-                            <span ng-show="sortType == 'Min' && sortReverse" class="fa fa-caret-up"></span>
-                        </a>
-                    </th>
-                    <th>
-                        <a href="#" ng-click="sortType = 'Max'; sortReverse = !sortReverse">
-                            <button ng-click="sortBy('Max')">Max</button>
-                            <span class="sortorder" ng-show="propertyName === 'Max'" ng-class="{reverse: reverse}"></span>
-                            <span ng-show="sortType == 'Max' && !sortReverse" class="fa fa-caret-down"></span>
-                            <span ng-show="sortType == 'Max' && sortReverse" class="fa fa-caret-up"></span>
-                        </a>
-                    </th>
-                </tr>
-             </thead>
-
-            <tbody>
-            <tr ng-repeat="row in $data | orderBy:sortType:sortReverse | filter:searchText">
-                <td title="'District'" sortable="'District'"  >{{row.district_name}}</td>
-                <td title="'At Hand'" sortable="'At hand'" >{{row.at_hand | number:0}}</td>
-                <td title="'Min'" sortable="'Min'" >{{row.stock_requirement__minimum}}</td>
-                <td title="'Max'" sortable="'Max'" >{{row.stock_requirement__maximum}}</td>
+            <tr ng-repeat="row in $data | filter:searchText">
+                <td title="'District'" sortable="'district_name'"  >{{row.district_name}}</td>
+                <td title="'At Hand'" sortable="'at_hand'" >{{row.at_hand | number:0}}</td>
+                <td title="'Min'" sortable="'stock_requirement__minimum'" >{{row.stock_requirement__minimum}}</td>
+                <td title="'Max'" sortable="'stock_requirement__maximum'" >{{row.stock_requirement__maximum}}</td>
             </tr>
-           </tbody>
+
         </table>
     </div>
 
