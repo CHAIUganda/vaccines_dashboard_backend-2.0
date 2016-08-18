@@ -161,43 +161,28 @@ class AmcApi(APIView):
     def get(self, request):
         district = request.query_params.get('district', None)
         vaccine = request.query_params.get('vaccine', None)
+        startMonth = request.query_params.get('startMonth', None)
+        endMonth = request.query_params.get('endMonth', None)
+        year = request.query_params.get('year', None)
 
-        startMonth, startYear = request.query_params.get('startMonth', 'Nov 2014').split(' ')
-        endMonth, endYear= request.query_params.get('endMonth', 'Jan 2016').split(' ')
+        #startMonth, startYear = request.query_params.get('startMonth', 'Nov 2014').split(' ')
+        #endMonth, endYear= request.query_params.get('endMonth', 'Jan 2016').split(' ')
 
-        date_range = ["%s-%s-%s" % (startYear, MONTH_TO_NUM[startMonth], 1), "%s-%s-%s" % (endYear, MONTH_TO_NUM[endMonth], LAST_MONTH_DAY[MONTH_TO_NUM[endMonth]])]
+        #date_range = ["%s-%s-%s" % (startYear, MONTH_TO_NUM[startMonth], 1), "%s-%s-%s" % (endYear, MONTH_TO_NUM[endMonth], LAST_MONTH_DAY[MONTH_TO_NUM[endMonth]])]
         args = {}
-        if district:
-            args.update({'district__name': district})
 
+        sr = StockRequirement.objects.get(vaccine__name=vaccine, district__name=district, year=int(year))
         if vaccine:
-            args.update({'vaccine__name': vaccine})
+            #args.update({'stock_requirement__vaccine__name': vaccine})
+            args.update({'stock_requirement__year': year})
+        args.update({'month__gte': startMonth})
+        args.update({'month__lte': endMonth})
+        #args.update({'stock_requirement': sr})
 
         summary = Stock.objects.filter(**args) \
-                    .values('stock_requirement__district__name') \
-                    .annotate(district_name=F('stock_requirement__district__name'),
-                              period=F('period'),
-                              period_month=F('month'),
-                              period_year=F('stock_requirement__year'),
-                              at_hand=F('at_hand'),
-                              ordered=F('ordered'),
-                              consumed=F('consumed'),
-                              min_stock=F('stock_requirement__minimum'),
-                              max_stock=F('stock_requirement__maximum'),
-                              min_variance=ExpressionWrapper(F('at_hand')- F('stock_requirement__minimum'), output_field=FloatField()),
-                              max_variance=ExpressionWrapper(F('at_hand')- F('stock_requirement__maximum'), output_field=FloatField()))\
-                    .order_by('stock_requirement__district__name',) \
-                    .values('district_name',
-                            'period',
-                            'period_month',
-                            'period_year',
-                            'at_hand',
-                            'ordered',
-                            'consumed',
-                            'stock_requirement__minimum',
-                            'stock_requirement__maximum',
-                            'min_variance',
-                            'max_variance')
+                .values('stock_requirement__district__name',
+                        'stock_requirement__vaccine__name') \
+                    .annotate(Avg('consumed'), Sum('consumed'))
 
         return Response(summary)
 
