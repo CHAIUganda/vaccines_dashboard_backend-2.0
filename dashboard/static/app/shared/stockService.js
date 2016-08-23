@@ -25,8 +25,8 @@ angular.module('services').service('StockService', ['$http',
                 }
             }).then(handleResponse);
         };
-         var getAmc = function(startMonth, endMonth, district, vaccine) {
-            return $http.get('/api/amc', {
+         var getConsumption = function(startMonth, endMonth, district, vaccine) {
+            return $http.get('/api/stock/consumption', {
                 params: {
                     startMonth: startMonth,
                     endMonth: endMonth,
@@ -36,7 +36,7 @@ angular.module('services').service('StockService', ['$http',
             }).then(handleResponse);
         };
           var getStockedOut = function(startMonth, endMonth, district, vaccine) {
-            return $http.get('/api/amc', {
+            return $http.get('/api/stockedout', {
                 params: {
                     startMonth: startMonth,
                     endMonth: endMonth,
@@ -48,7 +48,7 @@ angular.module('services').service('StockService', ['$http',
         return {
             "getStockByDistrict": getStockByDistrict,
             "getStockByMonth": getStockByMonth,
-            "getAmc":getAmc,
+            "getConsumption":getConsumption,
             "getStockedOut":getStockedOut
         };
     }

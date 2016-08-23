@@ -120,7 +120,7 @@ angular.module('dashboard')
 
 
 angular.module('dashboard')
-    .controller('AmcController', ['$scope', 'StockService', '$rootScope', 'NgTableParams', 'FilterService',
+    .controller('ConsumptionController', ['$scope', 'StockService', '$rootScope', 'NgTableParams', 'FilterService',
     function($scope, StockService, $rootScope, NgTableParams, FilterService)
        {
     var vm = this;
