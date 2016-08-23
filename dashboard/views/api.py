@@ -145,28 +145,21 @@ class ConsumptionApi(APIView):
     def get(self, request):
         district = request.query_params.get('district', None)
         vaccine = request.query_params.get('vaccine', None)
-        startMonth = request.query_params.get('startMonth', None)
-        endMonth = request.query_params.get('endMonth', None)
         year = request.query_params.get('year', None)
+        month = request.query_params.get('month', None)
 
-        #startMonth, startYear = request.query_params.get('startMonth', 'Nov 2014').split(' ')
-        #endMonth, endYear= request.query_params.get('endMonth', 'Jan 2016').split(' ')
-
-        #date_range = ["%s-%s-%s" % (startYear, MONTH_TO_NUM[startMonth], 1), "%s-%s-%s" % (endYear, MONTH_TO_NUM[endMonth], LAST_MONTH_DAY[MONTH_TO_NUM[endMonth]])]
         args = {}
 
-        sr = StockRequirement.objects.get(vaccine__name=vaccine, district__name=district, year=int(year))
         if vaccine:
-            #args.update({'stock_requirement__vaccine__name': vaccine})
+            args.update({'stock_requirement__district__name': district})
             args.update({'stock_requirement__year': year})
-        args.update({'month__gte': startMonth})
-        args.update({'month__lte': endMonth})
-        #args.update({'stock_requirement': sr})
+            args.update({'stock_requirement__month': month})
+            args.update({'stock_requirement__vaccine__name': vaccine})
 
         summary = Stock.objects.filter(**args) \
                 .values('stock_requirement__district__name',
-                        'stock_requirement__vaccine__name') \
-                    .annotate(Avg('consumed'), Sum('consumed'))
+                        'stock_requirement__vaccine',
+                        'consumed')
 
         return Response(summary)
 
