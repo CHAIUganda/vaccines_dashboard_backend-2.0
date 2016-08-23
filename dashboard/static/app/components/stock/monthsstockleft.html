@@ -1,13 +1,13 @@
-<div ng-controller="MonthsStockLeftController as vm">
-    <h4 class="text-center">MONTHS OF STOCK LEFT</h4>
 
+<div ng-controller="MonthsStockLeftController as vm">
+
+    <h4 class="text-left">MONTHS OF STOCK LEFT</h4>
 
     <div class="col-md-6">
         <div class="page_graph">
             <nvd3 options="vm.options" data="vm.graph"></nvd3>
         </div>
     </div>
-
     <div class="col-md-6">
 
        <div id="custom-search-input">
@@ -24,12 +24,14 @@
        <table ng-table="vm.tableParams" class="row-border hover table table-condensed table-striped" show-filter="true">
 
             <tr ng-repeat="row in $data | filter:searchText">
-                <td title="'District'" sortable="'stock_requirement__district__name'"  >{{row.stock_requirement__district__name}}</td>
+                <td title="'District'" sortable="'district_name'"  >{{row.district_name}}</td>
                 <td title="'At Hand'" sortable="'at_hand'" >{{row.at_hand | number:0}}</td>
-                <td title="'Max'" sortable="'stock_requirement__maximum'" >{{row.stock_requirement__maximum}}</td>
+                <td title="'Max'">{{row.stock_requirement__maximum}}</td>
                 <td title="'Months Left'" sortable="'stock_left'" >{{row.stock_left}}</td>
             </tr>
 
         </table>
     </div>
+
+
 </div>
