@@ -45,11 +45,20 @@ angular.module('services').service('StockService', ['$http',
                 }
             }).then(handleResponse);
         };
+        var getStockMonthsLeft = function(district, vaccine) {
+            return $http.get('api/stock/stockmonthsleft', {
+                params: {
+                    district: district,
+                    vaccine: vaccine
+                }
+            }).then(handleResponse);
+        };
         return {
             "getStockByDistrict": getStockByDistrict,
             "getStockByMonth": getStockByMonth,
             "getAmc":getAmc,
-            "getStockedOut":getStockedOut
+            "getStockedOut":getStockedOut,
+            "getStockMonthsLeft":getStockMonthsLeft
         };
     }
 ])

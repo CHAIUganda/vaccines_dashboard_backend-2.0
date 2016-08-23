@@ -1,26 +1,10 @@
-import csv
-import json
-import json
-from django.core.serializers.json import DjangoJSONEncoder, Serializer
-from functools import cmp_to_key
-import calendar
-from django.core import serializers
-import pydash
-from arrow import now
-from braces.views import LoginRequiredMixin
-from django.db.models import Count, Sum, Avg, FloatField
-from django.http import HttpResponse
-from rest_framework import filters
-from rest_framework.generics import ListAPIView
-from rest_framework.response import Response
-from rest_framework.status import HTTP_400_BAD_REQUEST
-from rest_framework.views import APIView
-from datetime import date
-import django_filters
+from django.core.serializers.json import Serializer
+from django.db.models import Sum, Avg, FloatField
 from django.db.models.expressions import F, ExpressionWrapper
+from rest_framework.response import Response
+from rest_framework.views import APIView
 from dashboard.helpers import *
 from dashboard.models import *
-# from dashboard.views.filters import StockFilter
 
 
 class ApiParams(Serializer):
@@ -187,3 +171,29 @@ class AmcApi(APIView):
         return Response(summary)
 
 
+class StockMonthsLeftAPI(APIView):
+    def get(self, request):
+        district = request.query_params.get('district', None)
+        vaccine = request.query_params.get('vaccine', None)
+        year = request.query_params.get('year', None)
+
+        args = {}
+
+        if vaccine:
+            args.update({'stock_requirement__district__name': district})
+            args.update({'stock_requirement__year': year})
+            args.update({'stock_requirement__vaccine__name': vaccine})
+
+        import datetime
+
+        currentMonth = datetime.datetime.now().month
+        args.update({'month': currentMonth - 1})
+
+        summary = Stock.objects.filter(**args) \
+                .annotate(stock_left=ExpressionWrapper(F('at_hand')/F('stock_requirement__maximum'), output_field=FloatField())) \
+                .values('stock_requirement__district__name',
+                        'at_hand',
+                        'stock_requirement__maximum',
+                        'stock_left')
+
+        return Response(summary)

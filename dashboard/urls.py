@@ -23,5 +23,6 @@ urlpatterns = [
     url(r'^api/stock/athandbymonth', dashboard.views.api.StockAtHandByMonthApi.as_view(), name='stock_at_hand_by_month'),
 
     url(r'^api/amc', dashboard.views.api.AmcApi.as_view(), name='amc'),
+    url(r'^api/stock/stockmonthsleft', dashboard.views.api.StockMonthsLeftAPI.as_view(), name='stock_months_left'),
 
 ]
