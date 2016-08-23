@@ -27,7 +27,7 @@
                 <td title="'District'" sortable="'district_name'"  >{{row.district_name}}</td>
                 <td title="'At Hand'" sortable="'at_hand'" >{{row.at_hand | number:0}}</td>
                 <td title="'Max'">{{row.stock_requirement__maximum}}</td>
-                <td title="'Months Left'" sortable="'stock_left'" >{{row.stock_left}}</td>
+                <td title="'Months Left'" sortable="'stock_left'" >{{row.at_hand/row.stock_requirement__maximum | number:2}}</td>
             </tr>
 
         </table>
