@@ -57,7 +57,7 @@ class StockAtHandByDistrictApi(APIView):
         # Get the parameters
         district = request.query_params.get('district', None)
         vaccine = request.query_params.get('vaccine', None)
-        endMonth, endYear= request.query_params.get('endMonth', 'Jan 2016').split(' ')
+        endMonth, endYear= request.query_params.get('endMonth', 'Jul 2016').split(' ')
 
         # Create arguments for filtering
         date_range = ["%s-%s-%s" % (endYear, MONTH_TO_NUM[endMonth], 1), "%s-%s-%s" % (endYear, MONTH_TO_NUM[endMonth], LAST_MONTH_DAY[MONTH_TO_NUM[endMonth]])]
@@ -158,7 +158,7 @@ class ConsumptionApi(APIView):
 
         summary = Stock.objects.filter(**args) \
                 .values('stock_requirement__district__name',
-                        'stock_requirement__vaccine',
+                        'stock_requirement__vaccine__name',
                         'consumed')
 
         return Response(summary)
