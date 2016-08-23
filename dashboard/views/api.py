@@ -141,7 +141,7 @@ class StockAtHandByMonthApi(APIView):
         return Response(summary)
 
 
-class AmcApi(APIView):
+class ConsumptionApi(APIView):
     def get(self, request):
         district = request.query_params.get('district', None)
         vaccine = request.query_params.get('vaccine', None)
