@@ -1,14 +1,14 @@
 <div ng-controller="StockController as vm">
 
     <div class="col-md-6">
-        
+
     </div>
     <div class="col-md-6">
         <table ng-table="vm.tableParams" class="row-border hover table table-condensed table-striped" show-filter="true">
             <tr ng-repeat="row in $data">
                 <td title="'District'" sortable="'district_name'"  >{{row.district_name}}</td>
-                <td title="'AConsumption'" sortable="consumed" >{{row.consumed | number:0}}</td>
-                <td title="'PConsumption'"></td>
+                <td title="'Actual Consumption'" sortable="consumed" >{{row.consumed | number:0}}</td>
+                <td title="'Planned Consumption'"></td>
             </tr>
 
         </table>
