@@ -2,7 +2,7 @@
  * Created by BCHAI on 8/23/2016.
  */
 angular.module('dashboard')
-    .controller('StockController', ['$scope', 'StockService', '$rootScope', 'NgTableParams', 'FilterService', 'MonthService',
+    .controller('ConsumptionController', ['$scope', 'StockService', '$rootScope', 'NgTableParams', 'FilterService', 'MonthService',
     function($scope, StockService, $rootScope, NgTableParams, FilterService, MonthService)
     {
         var vm = this;
