@@ -72,6 +72,7 @@ class District(models.Model):
     name = models.CharField(max_length=255)
     display_name = models.CharField(max_length=255)
     region = models.ForeignKey(Region, on_delete=models.SET_NULL, null=True, blank=True)
+    zone = models.SmallIntegerField(blank=True, null=True)
 
     def __str__(self):
          return self.name
