@@ -34,10 +34,10 @@ dashboard.config(["$stateProvider", "$urlRouterProvider", function($stateProvide
                 templateUrl: "static/app/components/stock/stockonhand.html",
                 controller: "StockController"
              })
-            .state("stock.stockedout", {
-                url: "/stockedout",
-                templateUrl: "static/app/components/stock/stockedout.html",
-                controller: "StockedOutController"
+            .state("stock.distribution", {
+                url: "/distribution",
+                templateUrl: "static/app/components/stock/distribution.html",
+                controller: "DistributionController"
             })
             .state("stock.consumption", {
                 url: "/consumption",
