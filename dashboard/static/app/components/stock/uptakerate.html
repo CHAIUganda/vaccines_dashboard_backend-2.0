@@ -1,6 +1,33 @@
-<div ng-controller="UptakeRateController">
-    <h4 class="text-center">UPTAKE RATES</h4>
-    <div class="page_graph">
+<div ng-controller="StockController as vm">
 
+    <h4 class="text-left">STOCK ON HAND</h4>
+
+    <h3 class="text-right">Sort By Performance</h3>
+
+    <div class="col-md-6">
+        <div class="page_graph">
+            <nvd3 options="vm.options" data="vm.graph"></nvd3>
+        </div>
     </div>
+    <div class="col-md-6">
+
+       <div id="custom-search-input">
+                <div class="input-group col-md-12">
+                    <input type="text" data-ng-model="searchDistrict">
+                </div>
+       </div>
+
+       <table ng-table="vm.tableParams" class="row-border hover table table-condensed table-striped" show-filter="true">
+
+            <tr ng-repeat="row in $data | filter:searchDistrict">
+                <td title="'District'" sortable="'district_name'"  >{{row.district_name}}</td>
+                <td title="'At Hand'" sortable="'at_hand'" >{{row.at_hand | number:0}}</td>
+                <td title="'Min'" sortable="'stock_requirement__minimum'" >{{row.stock_requirement__minimum}}</td>
+                <td title="'Max'" sortable="'stock_requirement__maximum'" >{{row.stock_requirement__maximum}}</td>
+            </tr>
+
+        </table>
+    </div>
+
+
 </div>
