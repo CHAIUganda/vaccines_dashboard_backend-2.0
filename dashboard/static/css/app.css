@@ -1206,8 +1206,8 @@ h2,
 .h2,
 h3,
 .h3 {
-  margin-top: 20px;
-  margin-bottom: 10px;
+  margin-top: 5px;
+  margin-bottom: 5px;
 }
 h1 small,
 .h1 small,
@@ -1581,7 +1581,7 @@ pre code {
 }
 @media (min-width: 1200px) {
   .container {
-    width: 1170px;
+    width: 1140px;
   }
 }
 .container-fluid {
@@ -6698,10 +6698,10 @@ button.close {
   }
 }
 body {
-  padding-top: 90px;
-  font-size: 15px;
-  padding-bottom: 30px;
-  font-weight: 400;
+  padding-top: 6%;
+  font-size: 13px;
+  padding-bottom: 15%;
+  font-weight: 600;
 }
 body input,
 body textarea,
@@ -6722,10 +6722,10 @@ th {
 .quality_test {
   position: relative;
   min-height: 1px;
-  padding-left: 15px;
-  padding-right: 15px;
-  padding-top: 15px;
-  padding-bottom: 15px;
+  padding-left: 5px;
+  padding-right: 5px;
+  padding-top: 5px;
+  padding-bottom: 5px;
 }
 @media (min-width: 768px) {
   .quality_test {
@@ -6733,15 +6733,15 @@ th {
     width: 25%;
   }
 }
-@media (min-width: 992px) {
+@media (min-width: 768px) {
   .quality_test {
     float: left;
-    width: 25%;
+    width: 19%;
   }
 }
 .quality_test__metric {
   display: block;
-  font-size: 30px;
+  font-size: 18px;
   color: #585858;
   margin: 0 auto 0 auto;
   text-align: center;
@@ -6814,7 +6814,7 @@ th {
 @media (min-width: 992px) {
   .test-area {
     float: left;
-    width: 100%;
+    width: 95%;
   }
 }
 .page_graph {
