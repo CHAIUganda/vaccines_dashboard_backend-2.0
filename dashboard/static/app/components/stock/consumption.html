@@ -8,7 +8,7 @@
             <tr ng-repeat="row in $data">
                 <td title="'District'" sortable="'district_name'"  >{{row.district_name}}</td>
                 <td title="'Actual Consumption'" sortable="consumed" >{{row.consumed | number:0}}</td>
-                <td title="'Planned Consumption'"></td>
+                <td title="'Planned Consumption'">{{row.planned_consumption }}</td>
             </tr>
 
         </table>
