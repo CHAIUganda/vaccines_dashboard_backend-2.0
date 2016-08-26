@@ -82,6 +82,7 @@ class StockAtHandByDistrictApi(APIView):
                       max_variance=ExpressionWrapper(F('at_hand')- F('stock_requirement__maximum'), output_field=FloatField()))\
             .order_by('at_hand')\
             .values('district_name',
+                    'stock_requirement__district__zone',
                     'at_hand',
                     'ordered',
                     'consumed',
