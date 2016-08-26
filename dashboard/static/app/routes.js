@@ -34,25 +34,25 @@ dashboard.config(["$stateProvider", "$urlRouterProvider", function($stateProvide
                 templateUrl: "static/app/components/stock/stockonhand.html",
                 controller: "StockController"
              })
-            .state("stock.stockedout", {
-                url: "/amc",
-                templateUrl: "static/app/components/stock/stockedout.html",
-                controller: "StockedOutController"
+            .state("stock.distribution", {
+                url: "/distribution",
+                templateUrl: "static/app/components/stock/distribution.html",
+                controller: "StockController"
             })
-            .state("stock.amc", {
-                url: "/amc",
-                templateUrl: "static/app/components/stock/amc.html",
-                controller: "AmcController"
+            .state("stock.consumption", {
+                url: "/consumption",
+                templateUrl: "static/app/components/stock/consumption.html",
+                controller: "StockController"
             })
             .state("stock.monthsleft", {
                 url: "/monthsleft",
                 templateUrl: "static/app/components/stock/monthsstockleft.html",
-                controller: "MonthsStockLeftController"
+                controller: "StockController"
             })
             .state("stock.uptakerate", {
                 url: "/uptakerate",
                 templateUrl: "static/app/components/stock/uptakerate.html",
-                controller: "UptakeRateController"
+                controller: "StockController"
             })
             .state("stock.wastagerate", {
                 url: "/wastagerate",

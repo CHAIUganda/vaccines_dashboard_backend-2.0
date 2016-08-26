@@ -1,7 +1,7 @@
 from django.core.management import BaseCommand
 from django.db.models import Sum
 
-from dashboard.models import Region, District, SubCounty, Facility, DataValue
+from dashboard.models import Region, District, SubCounty, Facility, DataElement
 from dashboard.utils import dhis2_request
 
 

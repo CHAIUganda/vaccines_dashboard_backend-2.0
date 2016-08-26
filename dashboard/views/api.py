@@ -1,26 +1,10 @@
-import csv
-import json
-import json
-from django.core.serializers.json import DjangoJSONEncoder, Serializer
-from functools import cmp_to_key
-import calendar
-from django.core import serializers
-import pydash
-from arrow import now
-from braces.views import LoginRequiredMixin
-from django.db.models import Count, Sum, Avg, FloatField
-from django.http import HttpResponse
-from rest_framework import filters
-from rest_framework.generics import ListAPIView
-from rest_framework.response import Response
-from rest_framework.status import HTTP_400_BAD_REQUEST
-from rest_framework.views import APIView
-from datetime import date
-import django_filters
+from django.core.serializers.json import Serializer
+from django.db.models import Sum, Avg, FloatField
 from django.db.models.expressions import F, ExpressionWrapper
+from rest_framework.response import Response
+from rest_framework.views import APIView
 from dashboard.helpers import *
 from dashboard.models import *
-# from dashboard.views.filters import StockFilter
 
 
 class ApiParams(Serializer):
@@ -73,7 +57,7 @@ class StockAtHandByDistrictApi(APIView):
         # Get the parameters
         district = request.query_params.get('district', None)
         vaccine = request.query_params.get('vaccine', None)
-        endMonth, endYear= request.query_params.get('endMonth', 'Jan 2016').split(' ')
+        endMonth, endYear= request.query_params.get('endMonth', 'Jul 2016').split(' ')
 
         # Create arguments for filtering
         date_range = ["%s-%s-%s" % (endYear, MONTH_TO_NUM[endMonth], 1), "%s-%s-%s" % (endYear, MONTH_TO_NUM[endMonth], LAST_MONTH_DAY[MONTH_TO_NUM[endMonth]])]
@@ -90,6 +74,7 @@ class StockAtHandByDistrictApi(APIView):
                       total_at_hand=F('at_hand'),
                       ordered=F('ordered'),
                       consumed=F('consumed'),
+                      planned_consumption=F('planned_consumption'),
                       vaccine=F('stock_requirement__vaccine__name'),
                       min_stock=F('stock_requirement__minimum'),
                       max_stock=F('stock_requirement__maximum'),
@@ -100,6 +85,7 @@ class StockAtHandByDistrictApi(APIView):
                     'at_hand',
                     'ordered',
                     'consumed',
+                    'planned_consumption',
                     'vaccine',
                     'stock_requirement__minimum',
                     'stock_requirement__maximum',
@@ -157,48 +143,52 @@ class StockAtHandByMonthApi(APIView):
         return Response(summary)
 
 
-class AmcApi(APIView):
+class ConsumptionApi(APIView):
     def get(self, request):
         district = request.query_params.get('district', None)
         vaccine = request.query_params.get('vaccine', None)
+        year = request.query_params.get('year', None)
+        month = request.query_params.get('month', None)
 
-        startMonth, startYear = request.query_params.get('startMonth', 'Nov 2014').split(' ')
-        endMonth, endYear= request.query_params.get('endMonth', 'Jan 2016').split(' ')
-
-        date_range = ["%s-%s-%s" % (startYear, MONTH_TO_NUM[startMonth], 1), "%s-%s-%s" % (endYear, MONTH_TO_NUM[endMonth], LAST_MONTH_DAY[MONTH_TO_NUM[endMonth]])]
         args = {}
-        if district:
-            args.update({'district__name': district})
 
         if vaccine:
-            args.update({'vaccine__name': vaccine})
+            args.update({'stock_requirement__district__name': district})
+            args.update({'stock_requirement__year': year})
+            args.update({'stock_requirement__month': month})
+            args.update({'stock_requirement__vaccine__name': vaccine})
 
         summary = Stock.objects.filter(**args) \
-                    .values('stock_requirement__district__name') \
-                    .annotate(district_name=F('stock_requirement__district__name'),
-                              period=F('period'),
-                              period_month=F('month'),
-                              period_year=F('stock_requirement__year'),
-                              at_hand=F('at_hand'),
-                              ordered=F('ordered'),
-                              consumed=F('consumed'),
-                              min_stock=F('stock_requirement__minimum'),
-                              max_stock=F('stock_requirement__maximum'),
-                              min_variance=ExpressionWrapper(F('at_hand')- F('stock_requirement__minimum'), output_field=FloatField()),
-                              max_variance=ExpressionWrapper(F('at_hand')- F('stock_requirement__maximum'), output_field=FloatField()))\
-                    .order_by('stock_requirement__district__name',) \
-                    .values('district_name',
-                            'period',
-                            'period_month',
-                            'period_year',
-                            'at_hand',
-                            'ordered',
-                            'consumed',
-                            'stock_requirement__minimum',
-                            'stock_requirement__maximum',
-                            'min_variance',
-                            'max_variance')
+                .values('stock_requirement__district__name',
+                        'stock_requirement__vaccine__name',
+                        'consumed')
 
         return Response(summary)
 
 
+class StockMonthsLeftAPI(APIView):
+    def get(self, request):
+        district = request.query_params.get('district', None)
+        vaccine = request.query_params.get('vaccine', None)
+        year = request.query_params.get('year', None)
+
+        args = {}
+
+        if vaccine:
+            args.update({'stock_requirement__district__name': district})
+            args.update({'stock_requirement__year': year})
+            args.update({'stock_requirement__vaccine__name': vaccine})
+
+        import datetime
+
+        currentMonth = datetime.datetime.now().month
+        args.update({'month': currentMonth - 1})
+
+        summary = Stock.objects.filter(**args) \
+                .annotate(stock_left=ExpressionWrapper(F('at_hand')/F('stock_requirement__maximum'), output_field=FloatField())) \
+                .values('stock_requirement__district__name',
+                        'at_hand',
+                        'stock_requirement__maximum',
+                        'stock_left')
+
+        return Response(summary)

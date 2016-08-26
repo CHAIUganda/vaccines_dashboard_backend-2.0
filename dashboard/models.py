@@ -160,6 +160,7 @@ class Stock(models.Model):
     received = models.FloatField(default=0) # imported from xls
     ordered = models.FloatField(default=0)  # imported from xls
     consumed = models.FloatField(default=0) # import DHIS2
+    planned_consumption = models.FloatField(default=0)
 
     class Meta:
         unique_together = ("stock_requirement", "month",)
