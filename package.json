@@ -13,9 +13,9 @@
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/CHAIUganda/OrderQualityTool/issues"
+    "url": "https://github.com/CHAIUganda/vc_dashboard/issues"
   },
-  "homepage": "https://github.com/CHAIUganda/OrderQualityTool#readme",
+  "homepage": "https://github.com/CHAIUganda/vc_dashboard#readme",
   "devDependencies": {
     "css-loader": "^0.23.1",
     "eslint": "^1.10.3",
