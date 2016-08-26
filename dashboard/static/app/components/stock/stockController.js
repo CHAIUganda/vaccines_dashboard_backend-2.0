@@ -44,19 +44,6 @@ angular.module('dashboard')
                 }
 
                 shellScope.child.stockathand = total;
-            });
-        };
-
-        vm.getStockByMonth = function(startMonth, endMonth, district, vaccine) {
-            vm.startMonth ? vm.startMonth : "Nov 2015";
-            vm.endMonth = vm.endMonth ? vm.endMonth : "Dec 2016";
-            vm.district = vm.selectedDistrict ? vm.selectedDistrict.name : "";
-            vm.vaccine = vm.selectedVaccine ? vm.selectedVaccine.name : "";
-
-            StockService.getStockByMonth(startMonth, endMonth, district, vaccine)
-                .then(function(data) {
-
-                vm.data = angular.copy(data);
 
                 // construct graph data
                 var graphdata = [];
@@ -65,18 +52,17 @@ angular.module('dashboard')
                 var max_series = [];
 
                 for (var i = 0; i < vm.data.length ; i++) {
-                    series.push([MonthService.getMonthName(vm.data[i].period_month), vm.data[i].at_hand])
-                    min_series.push([MonthService.getMonthName(vm.data[i].period_month), vm.data[i].stock_requirement__minimum])
-                    max_series.push([MonthService.getMonthName(vm.data[i].period_month), vm.data[i].stock_requirement__maximum])
+                    series.push([vm.data[i].district_name, vm.data[i].at_hand])
+                    min_series.push([vm.data[i].district_name, vm.data[i].stock_requirement__minimum])
+                    max_series.push([vm.data[i].district_name, vm.data[i].stock_requirement__maximum])
                 }
-                graphdata.push({
-                        key: "Stock At Hand",
-                        values: series
-                });
-
                 graphdata.push({
                         key: "Min",
                         values: min_series
+                });
+                graphdata.push({
+                        key: "Stock At Hand",
+                        values: series
                 });
 
                 graphdata.push({
@@ -90,7 +76,7 @@ angular.module('dashboard')
                 vm.options = {
                         chart: {
                             type: 'multiBarChart',
-                            height: 600,
+                            height: 500,
 
                             title: {
                                 enable: true,
@@ -98,15 +84,15 @@ angular.module('dashboard')
                             },
                             showLegend: true,
                             stacked: true,
-                            showControls: false,
+                            showControls: true,
                             margin : {
                                 top: 20,
                                 right: 20,
-                                bottom: 45,
+                                bottom: 85,
                                 left: 65
                             },
                             groupSpacing: 0.2,
-                            rotateLabels: 0,
+                            rotateLabels: 90,
                             staggerLabels: true,
                             x: function(d){ return d[0]; },
                             y: function(d){ return d[1]; },
@@ -117,14 +103,13 @@ angular.module('dashboard')
                             transitionDuration: 500,
                         }
                 };
-
             });
         };
 
         $scope.$on('refresh', function(e, startMonth, endMonth, district, vaccine) {
             if(startMonth.name && endMonth.name && district.name && vaccine.name)
             {
-                
+
                 vm.getStockByDistrict(startMonth.name, endMonth.name, district.name, vaccine.name);
                 vm.getStockByMonth(startMonth.name, endMonth.name, district.name, vaccine.name);
             }
