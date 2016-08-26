@@ -8,7 +8,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('dashboard', '0005_merge'),
+        ('dashboard', '0005_stock_planned_consumption'),
     ]
 
     operations = [
