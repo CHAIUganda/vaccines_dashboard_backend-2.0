@@ -57,6 +57,7 @@ class StockAtHandByDistrictApi(APIView):
         # Get the parameters
         district = request.query_params.get('district', None)
         vaccine = request.query_params.get('vaccine', None)
+        zone = request.query_params.get('zone', None)
         endMonth, endYear= request.query_params.get('endMonth', 'Jul 2016').split(' ')
 
         # Create arguments for filtering
@@ -67,6 +68,9 @@ class StockAtHandByDistrictApi(APIView):
 
         if vaccine:
             args.update({'stock_requirement__vaccine__name': vaccine})
+
+        if zone:
+            args.update({'stock_requirement__district__zone': zone})
 
         summary = Stock.objects.filter(**args) \
             .values('stock_requirement__district__name') \
