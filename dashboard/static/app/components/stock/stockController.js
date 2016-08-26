@@ -61,13 +61,29 @@ angular.module('dashboard')
                 // construct graph data
                 var graphdata = [];
                 var series = [];
+                var min_series = [];
+                var max_series = [];
+
                 for (var i = 0; i < vm.data.length ; i++) {
                     series.push([MonthService.getMonthName(vm.data[i].period_month), vm.data[i].at_hand])
+                    min_series.push([MonthService.getMonthName(vm.data[i].period_month), vm.data[i].stock_requirement__minimum])
+                    max_series.push([MonthService.getMonthName(vm.data[i].period_month), vm.data[i].stock_requirement__maximum])
                 }
                 graphdata.push({
                         key: "Stock At Hand",
                         values: series
                 });
+
+                graphdata.push({
+                        key: "Min",
+                        values: min_series
+                });
+
+                graphdata.push({
+                        key: "Max",
+                        values: max_series
+                });
+
                 vm.graph = graphdata;
 
                 // update graph
@@ -81,7 +97,7 @@ angular.module('dashboard')
                                 text: 'VACCINE STOCK ON HAND'
                             },
                             showLegend: true,
-                            stacked: false,
+                            stacked: true,
                             showControls: false,
                             margin : {
                                 top: 20,
