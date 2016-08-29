@@ -58,11 +58,14 @@ class StockAtHandByDistrictApi(APIView):
         district = request.query_params.get('district', None)
         vaccine = request.query_params.get('vaccine', None)
         zone = request.query_params.get('zone', None)
+
+
+        startMonth, startYear = request.query_params.get('startMonth', 'Nov 2014').split(' ')
         endMonth, endYear= request.query_params.get('endMonth', 'Jul 2016').split(' ')
 
         # Create arguments for filtering
-        date_range = ["%s-%s-%s" % (endYear, MONTH_TO_NUM[endMonth], 1), "%s-%s-%s" % (endYear, MONTH_TO_NUM[endMonth], LAST_MONTH_DAY[MONTH_TO_NUM[endMonth]])]
-        args = {'lastdate__range':date_range}
+        date_range = ["%s-%s-%s" % (startYear, MONTH_TO_NUM[startMonth], 1),  "%s-%s-%s" % (endYear, MONTH_TO_NUM[endMonth], LAST_MONTH_DAY[MONTH_TO_NUM[endMonth]])]
+        args = {'firstdate__range':date_range}
         if district:
             args.update({'stock_requirement__district__name': district})
 
@@ -76,6 +79,9 @@ class StockAtHandByDistrictApi(APIView):
             .values('stock_requirement__district__name') \
             .annotate(district_name=F('stock_requirement__district__name'),
                       total_at_hand=F('at_hand'),
+                      period=F('period'),
+                      period_month=F('month'),
+                      period_year=F('stock_requirement__year'),
                       ordered=F('ordered'),
                       consumed=F('consumed'),
                       planned_consumption=F('planned_consumption'),
@@ -88,6 +94,9 @@ class StockAtHandByDistrictApi(APIView):
             .values('district_name',
                     'stock_requirement__district__zone',
                     'at_hand',
+                    'period',
+                    'period_month',
+                    'period_year',
                     'ordered',
                     'consumed',
                     'planned_consumption',

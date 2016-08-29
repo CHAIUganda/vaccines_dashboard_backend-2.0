@@ -109,9 +109,7 @@ angular.module('dashboard')
         $scope.$on('refresh', function(e, startMonth, endMonth, district, vaccine) {
             if(startMonth.name && endMonth.name && district.name && vaccine.name)
             {
-
                 vm.getStockByDistrict(startMonth.name, endMonth.name, district.name, vaccine.name);
-                vm.getStockByMonth(startMonth.name, endMonth.name, district.name, vaccine.name);
             }
         });
 
@@ -244,7 +242,7 @@ angular.module('dashboard')
 ]);
 
 angular.module('dashboard')
-    .controller('ConsumptionController', ['$scope', 'StockService', '$rootScope', 'NgTableParams', 'FilterService', 'MonthService',
+    .controller('####', ['$scope', 'StockService', '$rootScope', 'NgTableParams', 'FilterService', 'MonthService',
     function($scope, StockService, $rootScope, NgTableParams, FilterService, MonthService)
     {
         var vm = this;
