@@ -161,8 +161,8 @@ class StockAtHandByMonthApi(APIView):
 
 class StockByDistrictVaccineApi(APIView):
     def get(self, request):
-        district = request.query_params.get('district', None)
-        vaccine = request.query_params.get('vaccine', None)
+        district = request.query_params.get('district', "Abim District")
+        vaccine = request.query_params.get('vaccine', "PENTA")
         #month = request.query_params.get('month', None)
 
         startMonth, startYear = request.query_params.get('startMonth', 'Jan 2016').split(' ')
@@ -174,14 +174,16 @@ class StockByDistrictVaccineApi(APIView):
         args.update({'stock_requirement__year': int(endYear)})
 
         if vaccine:
-            args.update({'stock_requirement_district_name': district})
-            args.update({'stock_requirement_vaccine_name': vaccine})
+            args.update({'stock_requirement__district__name': district})
+            args.update({'stock_requirement__vaccine__name': vaccine})
 
         summary = Stock.objects.filter(**args) \
-            .values('stock_requirement__minimum',
+            .values('stock_requirement__district__name',
+                    'stock_requirement__vaccine__name',
+                    'stock_requirement__minimum',
                     'stock_requirement__maximum',
                     'month',
-                    'planned_consumption',
+                    'stock_requirement__target',
                     'consumed',
                     'stock_requirement__district__zone',
                     'at_hand',
