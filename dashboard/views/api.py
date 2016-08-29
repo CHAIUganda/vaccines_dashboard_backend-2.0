@@ -104,7 +104,8 @@ class StockAtHandByDistrictApi(APIView):
                     'stock_requirement__minimum',
                     'stock_requirement__maximum',
                     'min_variance',
-                    'max_variance')
+                    'max_variance',
+                    'received')
 
         return Response(summary)
 

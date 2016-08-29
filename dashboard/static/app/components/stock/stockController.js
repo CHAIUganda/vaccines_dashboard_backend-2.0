@@ -411,11 +411,11 @@ angular.module('dashboard')
                 // calculate totals
                 var total = 0;
                 for(var i = 0; i < vm.data.length; i++){
-                    var units = vm.data[i].at_hand;
-                    total += units;
+                    if (vm.data[i].received == 0)
+                        total++;
                 }
 
-                shellScope.child.stockathand = total;
+                shellScope.child.noissues = (total / vm.data.length) * 100;
 
                 // construct graph data
                 var graphdata = [];
