@@ -141,6 +141,7 @@ class StockRequirement(models.Model):
     vaccine = models.ForeignKey(Vaccine, on_delete=models.SET_NULL, null=True, blank=True)
     minimum = models.IntegerField(default=0)
     maximum = models.IntegerField(default=0)
+    target = models.IntegerField(default=0)
 
     class Meta:
         unique_together = ("district", "vaccine", "year")
