@@ -1,4 +1,4 @@
-<div ng-controller="StockController as vm">
+<div ng-controller="UptakeRateController as vm">
 
     <div class="col-md-6">
         <div class="page_graph">
@@ -16,10 +16,12 @@
        <table ng-table="vm.tableParams" class="row-border hover table table-condensed table-striped" show-filter="true">
 
             <tr ng-repeat="row in $data | filter:searchDistrict">
-                <td title="'District'" sortable="'district_name'"  >{{row.district_name}}</td>
+                <td title="'Month'" sortable="'period'"  >{{row.period}}</td>
                 <td title="'Consumption'" sortable="'consumed'" >{{row.consumed | number:0}}</td>
                 <td title="'Received'" sortable="'received'" >{{row.received | number:0}}</td>
                 <td title="'Uptake Rate'" sortable="''" >{{(row.consumed/row.received)*100 | number:0}}%</td>
+                <td title="'Min'" sortable="'stock_requirement__minimum'" >{{row.stock_requirement__minimum}}</td>
+                <td title="'Max'" sortable="'stock_requirement__maximum'" >{{row.stock_requirement__maximum}}</td>
             </tr>
 
         </table>

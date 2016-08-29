@@ -242,7 +242,7 @@ angular.module('dashboard')
 ]);
 
 angular.module('dashboard')
-    .controller('####', ['$scope', 'StockService', '$rootScope', 'NgTableParams', 'FilterService', 'MonthService',
+    .controller('UptakeRateController', ['$scope', 'StockService', '$rootScope', 'NgTableParams', 'FilterService', 'MonthService',
     function($scope, StockService, $rootScope, NgTableParams, FilterService, MonthService)
     {
         var vm = this;
@@ -257,86 +257,90 @@ angular.module('dashboard')
             });
         };
 
-        vm.getStockByDistrict = function(startMonth, endMonth, district, vaccine) {
+        vm.getStockByDistrictVaccine = function(startMonth, endMonth, district, vaccine) {
 
             vm.startMonth ? vm.startMonth : "Nov 2015";
             vm.endMonth = vm.endMonth ? vm.endMonth : "Dec 2016";
             //Todo: Temporarily disable filtering by district for the table
-            district = ""
-            vm.district = "";
+            //district = ""
+            vm.district = district;
             vm.vaccine = vm.selectedVaccine ? vm.selectedVaccine.name : "";
 
-            StockService.getStockByDistrict(startMonth, endMonth, district, vaccine)
+            StockService.getStockByDistrictVaccine(startMonth, endMonth, district, vaccine)
                 .then(function(data) {
 
                 vm.data = angular.copy(data);
                 vm.tableParams = new NgTableParams({
                     page: 1,
-                    count: 10
+                    count: 15
                 }, {
                     filterDelay: 0,
                     counts: [],
                     data: vm.data,
                 });
 
-                // calculate totals
-                var total = 0;
-                for(var i = 0; i < vm.data.length; i++){
-                    var units = vm.data[i].at_hand;
-                    total += units;
-                }
-
-                shellScope.child.stockathand = total;
-            });
-        };
-
-        vm.getStockByMonth = function(startMonth, endMonth, district, vaccine) {
-            vm.startMonth ? vm.startMonth : "Nov 2015";
-            vm.endMonth = vm.endMonth ? vm.endMonth : "Dec 2016";
-            vm.district = vm.selectedDistrict ? vm.selectedDistrict.name : "";
-            vm.vaccine = vm.selectedVaccine ? vm.selectedVaccine.name : "";
-
-            StockService.getStockByMonth(startMonth, endMonth, district, vaccine)
-                .then(function(data) {
-
-                vm.data = angular.copy(data);
 
                 // construct graph data
                 var graphdata = [];
                 var series = [];
+                var issues_series = [];
+                var min_series = [];
+                var max_series = [];
+
                 for (var i = 0; i < vm.data.length ; i++) {
-                    series.push([MonthService.getMonthName(vm.data[i].period_month), vm.data[i].consumed])
+                    series.push([vm.data[i].period, vm.data[i].consumed])
+                    issues_series.push([vm.data[i].period, vm.data[i].received])
+                    min_series.push([vm.data[i].period, vm.data[i].stock_requirement__minimum])
+                    max_series.push([vm.data[i].period, vm.data[i].stock_requirement__maximum])
                 }
                 graphdata.push({
-                        key: "Monthly Consumption",
+                        key: "Min",
+                        values: min_series,
+                });
+                graphdata.push({
+                        key: "Consumption",
                         values: series
                 });
+                graphdata.push({
+                        key: "Issues",
+                        values: issues_series
+                });
+                graphdata.push({
+                        key: "Max",
+                        values: max_series
+                });
+
                 vm.graph = graphdata;
+
 
                 // update graph
                 vm.options = {
                         chart: {
-                            type: 'multiBarChart',
-                            height: 600,
-
+                            type: 'lineChart',
+                            height: 400,
                             title: {
                                 enable: true,
-                                text: 'VACCINE STOCK ON HAND'
+                                text: 'Abim'
                             },
                             showLegend: true,
-                            stacked: false,
-                            showControls: false,
+                            stacked: true,
+                            showControls: true,
                             margin : {
                                 top: 20,
                                 right: 20,
-                                bottom: 45,
+                                bottom: 85,
                                 left: 65
                             },
-                            groupSpacing: 0.2,
-                            rotateLabels: 0,
                             staggerLabels: true,
                             x: function(d){ return d[0]; },
                             y: function(d){ return d[1]; },
+                            useInteractiveGuideline: true,
+                            dispatch: {
+                            stateChange: function(e){ console.log("stateChange"); },
+                            changeState: function(e){ console.log("changeState"); },
+                            tooltipShow: function(e){ console.log("tooltipShow"); },
+                            tooltipHide: function(e){ console.log("tooltipHide"); }
+                            },
                             showValues: true,
                             valueFormat: function(d){
                                 return tickFormat(d3.format(',.1f'));
@@ -344,29 +348,17 @@ angular.module('dashboard')
                             transitionDuration: 500,
                         }
                 };
-
             });
         };
 
         $scope.$on('refresh', function(e, startMonth, endMonth, district, vaccine) {
             if(startMonth.name && endMonth.name && district.name && vaccine.name)
             {
-
-                vm.getStockByDistrict(startMonth.name, endMonth.name, district.name, vaccine.name);
-                vm.getStockByMonth(startMonth.name, endMonth.name, district.name, vaccine.name);
+                vm.getStockByDistrictVaccine(startMonth.name, endMonth.name, district.name, vaccine.name);
             }
         });
 
     }
-
-]);
-
-angular.module('dashboard')
-    .controller('UptakeRateController', ['$scope', 'StockService', '$rootScope',
-    function($scope, StockService, $rootScope)
-    {
-    }
-
 
 ]);
 
@@ -387,13 +379,13 @@ angular.module('dashboard')
             });
         };
 
-        vm.getStockByDistrict = function(startMonth, endMonth, district, vaccine) {
+        vm.getStockByDistrictVaccine = function(startMonth, endMonth, district, vaccine) {
 
             vm.startMonth ? vm.startMonth : "Nov 2015";
             vm.endMonth = vm.endMonth ? vm.endMonth : "Dec 2016";
             //Todo: Temporarily disable filtering by district for the table
-            district = ""
-            vm.district = "";
+            //district = ""
+            vm.district = district;
             vm.vaccine = vm.selectedVaccine ? vm.selectedVaccine.name : "";
 
             StockService.getStockByDistrictVaccine(startMonth, endMonth, district, vaccine)
@@ -488,7 +480,7 @@ angular.module('dashboard')
         $scope.$on('refresh', function(e, startMonth, endMonth, district, vaccine) {
             if(startMonth.name && endMonth.name && district.name && vaccine.name)
             {
-                vm.getStockByDistrict(startMonth.name, endMonth.name, district.name, vaccine.name);
+                vm.getStockByDistrictVaccine(startMonth.name, endMonth.name, district.name, vaccine.name);
             }
         });
 
