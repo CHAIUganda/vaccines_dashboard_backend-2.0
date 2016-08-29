@@ -159,28 +159,37 @@ class StockAtHandByMonthApi(APIView):
         return Response(summary)
 
 
-class ConsumptionApi(APIView):
+class StockByDistrictVaccineApi(APIView):
     def get(self, request):
         district = request.query_params.get('district', None)
         vaccine = request.query_params.get('vaccine', None)
-        year = request.query_params.get('year', None)
-        month = request.query_params.get('month', None)
+        #month = request.query_params.get('month', None)
 
-        args = {}
+        startMonth, startYear = request.query_params.get('startMonth', 'Jan 2016').split(' ')
+        endMonth, endYear= request.query_params.get('endMonth', 'Jul 2016').split(' ')
+
+        # Create arguments for filtering
+        args = {'month__gte': int(MONTH_TO_NUM[startMonth])}
+        args = {'month__lte': int(MONTH_TO_NUM[endMonth])}
+        args.update({'stock_requirement__year': int(endYear)})
 
         if vaccine:
-            args.update({'stock_requirement__district__name': district})
-            args.update({'stock_requirement__year': year})
-            args.update({'stock_requirement__month': month})
-            args.update({'stock_requirement__vaccine__name': vaccine})
+            args.update({'stock_requirement_district_name': district})
+            args.update({'stock_requirement_vaccine_name': vaccine})
 
         summary = Stock.objects.filter(**args) \
-                .values('stock_requirement__district__name',
-                        'stock_requirement__vaccine__name',
-                        'consumed')
+            .values('stock_requirement__minimum',
+                    'stock_requirement__maximum',
+                    'month',
+                    'planned_consumption',
+                    'consumed',
+                    'stock_requirement__district__zone',
+                    'at_hand',
+                    'period',
+                    'ordered',
+                    'received')
 
         return Response(summary)
-
 
 class StockMonthsLeftAPI(APIView):
     def get(self, request):
