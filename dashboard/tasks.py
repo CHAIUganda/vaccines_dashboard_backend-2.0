@@ -27,4 +27,5 @@ def import_stock_report(path, year, month):
     report = report.load()
     report.import_balances()
     report.import_orders()
+    report.import_issues()
 
