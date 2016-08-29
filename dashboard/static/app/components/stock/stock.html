@@ -37,14 +37,14 @@
          <h3>KEY METRICS</h3>
             <div class="quality_test" ui-sref-active="quality_test_active">
                 <a ui-sref="stock.stockonhand">
-                    <span class="quality_test__metric"> {{ child.stockathand | number:0 }} </span>
-                    <span class="quality_test__description">{{"Stock At Hand" | uppercase}}</span>
+                    <span class="quality_test__metric"> {{ child.stockedout | number:0 }}% </span>
+                    <span class="quality_test__description">{{"Districts Stocked Out" | uppercase}}</span>
                 </a>
             </div>
             <div class="quality_test" ui-sref-active="quality_test_active">
                 <a ui-sref="stock.distribution">
-                    <span class="quality_test__metric"> 0</span>
-                    <span class="quality_test__description">{{"Distribution" | uppercase}}</span>
+                    <span class="quality_test__metric"> {{ child.child.noissues | number:0 }}%</span>
+                    <span class="quality_test__description">{{"Did Not Receive Stock" | uppercase}}</span>
                 </a>
             </div>
             <div class="quality_test" ui-sref-active="quality_test_active">
@@ -55,8 +55,8 @@
             </div>
             <div class="quality_test" ui-sref-active="quality_test_active">
                 <a ui-sref="stock.monthsleft">
-                    <span class="quality_test__metric"> 0</span>
-                    <span class="quality_test__description">{{"Months of Stock Left" | uppercase}}</span>
+                    <span class="quality_test__metric"> {{ child.child.belowminimum | number:0 }}%</span>
+                    <span class="quality_test__description">{{"Below Minimum Stock Level" | uppercase}}</span>
                 </a>
             </div>
 
