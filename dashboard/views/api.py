@@ -64,8 +64,9 @@ class StockAtHandByDistrictApi(APIView):
         endMonth, endYear= request.query_params.get('endMonth', 'Jul 2016').split(' ')
 
         # Create arguments for filtering
-        date_range = ["%s-%s-%s" % (startYear, MONTH_TO_NUM[startMonth], 1),  "%s-%s-%s" % (endYear, MONTH_TO_NUM[endMonth], LAST_MONTH_DAY[MONTH_TO_NUM[endMonth]])]
-        args = {'firstdate__range':date_range}
+        args = {'month': int(MONTH_TO_NUM[endMonth])}
+        args.update({'stock_requirement__year': int(endYear)});
+
         if district:
             args.update({'stock_requirement__district__name': district})
 
