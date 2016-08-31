@@ -44,6 +44,8 @@ angular.module('dashboard')
                 }
 
                 shellScope.child.stockedout = (total / vm.data.length) * 100;
+                shellScope.child.themonth = endMonth;
+                shellScope.child.vaccine = vaccine;
 
                 // construct graph data
                 var graphdata = [];
@@ -164,6 +166,8 @@ angular.module('dashboard')
                 }
 
                 shellScope.child.belowminimum = (total / vm.data.length) * 100;
+                shellScope.child.themonth = endMonth;
+                shellScope.child.vaccine = vaccine;
 
                 // construct graph data
                 var graphdata = [];
@@ -233,7 +237,6 @@ angular.module('dashboard')
             {
 
                 vm.getStockByDistrict(startMonth.name, endMonth.name, district.name, vaccine.name);
-                vm.getStockByMonth(startMonth.name, endMonth.name, district.name, vaccine.name);
             }
         });
 
@@ -264,7 +267,7 @@ angular.module('dashboard')
             //Todo: Temporarily disable filtering by district for the table
             //district = ""
             vm.district = district;
-            vm.vaccine = vm.selectedVaccine ? vm.selectedVaccine.name : "";
+            vm.vaccine = vaccine; //vm.selectedVaccine ? vm.selectedVaccine.name : "";
 
             StockService.getStockByDistrictVaccine(startMonth, endMonth, district, vaccine)
                 .then(function(data) {
@@ -279,6 +282,9 @@ angular.module('dashboard')
                     data: vm.data,
                 });
 
+                shellScope.child.district = vm.district;
+                shellScope.child.vaccine = vm.vaccine;
+
 
                 // construct graph data
                 var graphdata = [];
@@ -288,10 +294,10 @@ angular.module('dashboard')
                 var max_series = [];
 
                 for (var i = 0; i < vm.data.length ; i++) {
-                    series.push([vm.data[i].period, vm.data[i].consumed])
-                    issues_series.push([vm.data[i].period, vm.data[i].received])
-                    min_series.push([vm.data[i].period, vm.data[i].stock_requirement__minimum])
-                    max_series.push([vm.data[i].period, vm.data[i].stock_requirement__maximum])
+                    series.push([vm.data[i].month, vm.data[i].consumed])
+                    issues_series.push([vm.data[i].month, vm.data[i].received])
+                    min_series.push([vm.data[i].month, vm.data[i].stock_requirement__minimum])
+                    max_series.push([vm.data[i].month, vm.data[i].stock_requirement__maximum])
                 }
                 graphdata.push({
                         key: "Min",
@@ -331,9 +337,17 @@ angular.module('dashboard')
                                 bottom: 85,
                                 left: 65
                             },
+                            forceY: ([0,100]),
                             staggerLabels: true,
                             x: function(d){ return d[0]; },
                             y: function(d){ return d[1]; },
+                            xAxis: {
+                                axisLabel: 'Months',
+                                tickFormat: function(d){
+                                                return MonthService.getMonthName(d);
+                                            },
+                                axisLabelDistance: 10
+                            },
                             useInteractiveGuideline: true,
                             dispatch: {
                             stateChange: function(e){ console.log("stateChange"); },
@@ -386,7 +400,7 @@ angular.module('dashboard')
             //Todo: Temporarily disable filtering by district for the table
             //district = ""
             vm.district = district;
-            vm.vaccine = vm.selectedVaccine ? vm.selectedVaccine.name : "";
+            vm.vaccine = vaccine; //vm.selectedVaccine ? vm.selectedVaccine.name : "";
 
             StockService.getStockByDistrictVaccine(startMonth, endMonth, district, vaccine)
                 .then(function(data) {
@@ -401,6 +415,9 @@ angular.module('dashboard')
                     data: vm.data,
                 });
 
+                shellScope.child.district = vm.district;
+                shellScope.child.vaccine = vm.vaccine;
+
 
                 // construct graph data
                 var graphdata = [];
@@ -410,8 +427,8 @@ angular.module('dashboard')
                 var max_series = [];
 
                 for (var i = 0; i < vm.data.length ; i++) {
-                    series.push([vm.data[i].month, vm.data[i].consumed])
-                    target_series.push([vm.data[i].month, vm.data[i].stock_requirement__targets])
+                    series.push([vm.data[i].month, vm.data[i].consumed*600])
+                    target_series.push([vm.data[i].month, vm.data[i].stock_requirement__target])
                     min_series.push([vm.data[i].month, vm.data[i].stock_requirement__minimum])
                     max_series.push([vm.data[i].month, vm.data[i].stock_requirement__maximum])
                 }
@@ -453,9 +470,17 @@ angular.module('dashboard')
                                 bottom: 85,
                                 left: 65
                             },
+                            forceY: ([0,100]),
                             staggerLabels: true,
                             x: function(d){ return d[0]; },
                             y: function(d){ return d[1]; },
+                            xAxis: {
+                                axisLabel: 'Months',
+                                tickFormat: function(d){
+                                                return MonthService.getMonthName(d);
+                                            },
+                                axisLabelDistance: 10
+                            },
                             useInteractiveGuideline: true,
                             dispatch: {
                             stateChange: function(e){ console.log("stateChange"); },
@@ -530,6 +555,8 @@ angular.module('dashboard')
                 }
 
                 shellScope.child.noissues = (total / vm.data.length) * 100;
+                shellScope.child.themonth = endMonth;
+                shellScope.child.vaccine = vaccine;
 
                 // construct graph data
                 var graphdata = [];
@@ -597,7 +624,6 @@ angular.module('dashboard')
             {
 
                 vm.getStockByDistrict(startMonth.name, endMonth.name, district.name, vaccine.name);
-                vm.getStockByMonth(startMonth.name, endMonth.name, district.name, vaccine.name);
             }
         });
 

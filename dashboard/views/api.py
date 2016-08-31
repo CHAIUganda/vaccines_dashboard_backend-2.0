@@ -180,6 +180,7 @@ class StockByDistrictVaccineApi(APIView):
             args.update({'stock_requirement__vaccine__name': vaccine})
 
         summary = Stock.objects.filter(**args) \
+            .order_by('period', ) \
             .values('stock_requirement__district__name',
                     'stock_requirement__vaccine__name',
                     'stock_requirement__minimum',
