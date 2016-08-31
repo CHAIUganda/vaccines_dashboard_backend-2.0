@@ -19,11 +19,11 @@
 
             <tr ng-repeat="row in $data | filter:searchDistrict">
                 <td title="'Month'" sortable="'period'"  >{{row.period}}</td>
-                <td title="'Consumption'" sortable="'consumed'" >{{row.consumed | number:0}}</td>
-                <td title="'Received'" sortable="'received'" >{{row.received | number:0}}</td>
-                <td title="'Uptake Rate'" sortable="''" >{{(row.consumed/row.received)*100 | number:0}}%</td>
-                <td title="'Min'" sortable="'stock_requirement__minimum'" >{{row.stock_requirement__minimum}}</td>
-                <td title="'Max'" sortable="'stock_requirement__maximum'" >{{row.stock_requirement__maximum}}</td>
+                <td title="'Consumption'" sortable="'consumed'" class="text-center" >{{row.consumed | number:0}}</td>
+                <td title="'Received'" sortable="'received'" class="text-center" >{{row.received | number:0}}</td>
+                <td title="'Uptake Rate'" sortable="''" class="text-center" >{{(row.consumed/row.received)*100 | number:0}}%</td>
+                <td title="'Min'" sortable="'stock_requirement__minimum'" class="text-center" >{{row.stock_requirement__minimum}}</td>
+                <td title="'Max'" sortable="'stock_requirement__maximum'" class="text-center" >{{row.stock_requirement__maximum}}</td>
             </tr>
 
         </table>
