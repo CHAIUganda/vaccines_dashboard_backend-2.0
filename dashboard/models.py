@@ -201,9 +201,9 @@ class DataSyncTracker(models.Model):
 
 
 class DHIS2Dataset(models.Model):
-    period  = models.IntegerField(unique=True)
-    dataelement = models.ForeignKey(DataElement, on_delete=models.SET_NULL, null=True, blank=True)
-    org_unit = models.ForeignKey(Facility, on_delete=models.SET_NULL, null=True, blank=True)
+    period  = models.IntegerField(unique=False)
+    dataelement = models.CharField(max_length=255)
+    org_unit = models.CharField(max_length=255)
     category_option_combo = models.CharField(max_length=255)
     attribute_option_combo = models.CharField(max_length=255)
     value = models.FloatField(default=0)

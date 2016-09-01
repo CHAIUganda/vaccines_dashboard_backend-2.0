@@ -38,8 +38,8 @@ class DataSetParser(object):
 
     def save_data_value(self, data_value):
         dhis2_dataset = DHIS2Dataset();
-        dhis2_dataset.facility = Facility.objects.filter(identifier=data_value['orgUnit']).first()
-        dhis2_dataset.dataelement = DataElement.objects.get(identifier=data_value['dataElement'])
+        dhis2_dataset.org_unit = data_value['orgUnit']
+        dhis2_dataset.dataelement = data_value['dataElement']
         dhis2_dataset.period = int(data_value['period'])
         dhis2_dataset.attribute_option_combo = data_value['attributeOptionCombo']
         dhis2_dataset.category_option_combo = data_value['categoryOptionCombo']
