@@ -45,4 +45,7 @@ python manage.py dhis2_05_download_data_sets "201512"
 
 
 // Download monthly data
-python manage.py dhis2_06_parse_data_sets "201512"
+    python manage.py dhis2_06_parse_data_sets "201512"
+
+    // This option is much faster - Please do not run this more than once for the same months
+    python manage.py dhis2_06_parse_data_sets "201512" --bulk

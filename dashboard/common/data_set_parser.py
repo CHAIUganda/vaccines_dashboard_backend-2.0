@@ -146,3 +146,27 @@ class DataSetParser(object):
                 print "%s %s %s : %s - Consumed: %s" % (dh.id, dh.period, dh.district, dh.vaccine, dh.consumed)
             except IntegrityError, e:
                 print "| Failing... %s" % e.message
+
+    def bulk_import(self):
+        from sqlalchemy import create_engine
+        import pandas as pd
+        from django.conf import settings
+
+        df = pd.read_json(json.dumps(self.get_data_values()))
+        df = df[['attributeOptionCombo', 'categoryOptionCombo', 'dataElement', 'orgUnit', 'period', 'value']]
+        df.columns = ['attribute_option_combo', 'category_option_combo', 'dataelement', 'org_unit', 'period', 'value']
+
+        DB_TYPE = 'postgresql'
+        DB_DRIVER = 'psycopg2'
+        DB_USER = settings.DATABASES['default']['USER']
+        DB_PASS = settings.DATABASES['default']['PASSWORD']
+        DB_HOST = settings.DATABASES['default']['HOST']
+        DB_PORT = settings.DATABASES['default']['PORT']
+        DB_NAME = settings.DATABASES['default']['NAME']
+        POOL_SIZE = 50
+        SQLALCHEMY_DATABASE_URI = '%s+%s://%s:%s@%s:%s/%s' % (DB_TYPE, DB_DRIVER, DB_USER,
+                                                              DB_PASS, DB_HOST, DB_PORT, DB_NAME)
+        db= create_engine(SQLALCHEMY_DATABASE_URI, pool_size=POOL_SIZE, max_overflow=0)
+        print "Processing bulk import..."
+        df.to_sql('dashboard_dhis2dataset', db, if_exists='append', index=False)
+        print "Done."
