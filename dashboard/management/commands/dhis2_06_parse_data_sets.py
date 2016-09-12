@@ -16,3 +16,4 @@ class Command(BaseCommand):
         for data_set in data_sets:
             parser = DataSetParser(data_set, period)
             parser.parse()
+            parser.save_from_model()

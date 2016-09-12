@@ -23,7 +23,8 @@ class DataSetParser(object):
         data_values = self.get_data_values()
         print "Started..."
 
-        for value in data_values:
+        for counter, value in enumerate(data_values):
+            print "Processed %s of %s" % (counter, len(data_values))
             try:
                 if not self.is_valid_data_element(value['dataElement']):
                     continue
@@ -37,15 +38,16 @@ class DataSetParser(object):
             return True
 
     def save_data_value(self, data_value):
-        dhis2_dataset = DHIS2Dataset();
-        dhis2_dataset.org_unit = data_value['orgUnit']
-        dhis2_dataset.dataelement = data_value['dataElement']
-        dhis2_dataset.period = int(data_value['period'])
-        dhis2_dataset.attribute_option_combo = data_value['attributeOptionCombo']
-        dhis2_dataset.category_option_combo = data_value['categoryOptionCombo']
-        dhis2_dataset.value = data_value['value']
-        dhis2_dataset.save()
-        pass
+        DHIS2Dataset.objects.update_or_create(
+            org_unit=data_value['orgUnit'],
+            dataelement=data_value['dataElement'],
+            period=int(data_value['period']),
+            attribute_option_combo=data_value['attributeOptionCombo'],
+            category_option_combo=data_value['categoryOptionCombo'],
+            defaults={'value': data_value['value']}
+        )
+        # Avoid old code by returning at this point, save_from_model() is now use apply stock data
+        return
 
 
         if data_value['value'] == 0:
@@ -95,3 +97,52 @@ class DataSetParser(object):
                     stock_requirement.save()
             except IntegrityError, e:
                 print "| Failing..."
+
+    def save_from_model(self):
+        sql = """SELECT
+              row_number() OVER () AS id,
+              dashboard_district.name as district,
+              dashboard_vaccine.name as vaccine,
+              dashboard_dhis2dataset.period,
+              SUM(dashboard_dhis2dataset.value) as consumed
+            FROM
+              dashboard_dhis2dataset
+            inner join dashboard_dataelement on dashboard_dataelement.identifier = dashboard_dhis2dataset.dataelement
+            inner join dashboard_vaccinecategory on dashboard_dataelement.id = dashboard_vaccinecategory.data_element_id
+            left join dashboard_district as d on d.identifier = dashboard_dhis2dataset.org_unit
+            inner join dashboard_vaccine on dashboard_vaccinecategory.vaccine_id = dashboard_vaccine.id
+            inner join dashboard_facility on dashboard_facility.identifier = dashboard_dhis2dataset.org_unit
+            inner join dashboard_subcounty on dashboard_subcounty.id = dashboard_facility.sub_county_id
+            inner join dashboard_district on dashboard_subcounty.district_id = dashboard_district.id
+            where dashboard_vaccine.index > 0 and dashboard_dhis2dataset.period = '%s'
+            group by dashboard_district.name,  dashboard_vaccine.name, dashboard_dhis2dataset.period
+            limit 1000;
+            """ % self.period
+
+        dhis2ds = DHIS2Dataset.objects.raw(sql)
+
+        print "Processing data for period %s" % self.period
+
+        for dh in dhis2ds:
+            year = int(str(dh.period)[0:4])
+            month = int(str(dh.period)[4:])
+
+            stock_requirement = StockRequirement.objects.filter(
+                                                district__name__contains=dh.district,
+                                                vaccine__name=dh.vaccine,
+                                                year=year,
+                                            ).first()
+            try:
+                if stock_requirement:
+                    stock, created = Stock.objects.update_or_create(
+                                        stock_requirement = stock_requirement,
+                                        month=month,
+                                        period=int(self.period),
+                                        defaults={'firstdate': date(year, month, 1),
+                                                  'lastdate': date(year, month, LAST_MONTH_DAY[month]),
+                                                  'consumed': dh.consumed},
+                                    )
+                    stock_requirement.save()
+                print "%s %s %s : %s - Consumed: %s" % (dh.id, dh.period, dh.district, dh.vaccine, dh.consumed)
+            except IntegrityError, e:
+                print "| Failing... %s" % e.message
