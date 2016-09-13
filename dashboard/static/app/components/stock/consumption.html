@@ -2,12 +2,12 @@
 
     <h4 class="text-center" >Consumption for {{child.vaccine }} for {{child.district }}</h4>
 
-    <div class="col-md-12">
+    <div class="col-md-6">
         <div class="page_graph">
             <nvd3 options="vm.options" data="vm.graph"></nvd3>
         </div>
     </div>
-    <div class="col-md-12">
+    <div class="col-md-6">
         <table ng-table="vm.tableParams" class="row-border hover table table-condensed table-striped" show-filter="true">
             <tr ng-repeat="row in $data">
                 <td title="'Months'" sortable="'period'"  >{{row.period}}</td>
