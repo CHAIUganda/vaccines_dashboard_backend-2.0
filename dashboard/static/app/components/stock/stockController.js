@@ -503,7 +503,8 @@ angular.module('dashboard')
                 });
                 graphdata.push({
                         key: "Planned consumption",
-                        values: target_series
+                        values: target_series,
+                        color: '#FF7F0E'
                 });
 
 
@@ -623,15 +624,18 @@ angular.module('dashboard')
                 graphdata.push({
                         key: "Min",
                         values: min_series,
+                        color:'#A5E816'
                 });
                 graphdata.push({
                         key: "Issued",
-                        values: series
+                        values: series,
+                        color:'#1F77B4'
                 });
 
                 graphdata.push({
                         key: "Max",
-                        values: max_series
+                        values: max_series,
+                        color:'#FF7F0E'
                 });
 
                 vm.graph = graphdata;
