@@ -505,7 +505,7 @@ angular.module('dashboard')
                 
 
                 for (var i = 0; i < vm.data.length ; i++) {
-                    series.push([vm.data[i].month, vm.data[i].consumed*600])
+                    series.push([vm.data[i].month, vm.data[i].consumed])
                     target_series.push([vm.data[i].month, vm.data[i].stock_requirement__target])
 
                 }
