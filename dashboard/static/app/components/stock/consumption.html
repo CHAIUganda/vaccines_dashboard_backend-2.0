@@ -11,7 +11,7 @@
         <table ng-table="vm.tableParams" class="row-border hover table table-condensed table-striped" show-filter="true">
             <tr ng-repeat="row in $data">
                 <td title="'Months'" sortable="'period'"  >{{row.period}}</td>
-                <td title="'Actual Consumption'" sortable="consumed"  class="text-center">{{row.consumed*600 | number:0}}</td>
+                <td title="'Actual Consumption'" sortable="consumed"  class="text-center">{{row.consumed | number:0}}</td>
                 <td title="'Planned Consumption'" class="text-center">{{row.stock_requirement__target }}</td>
             </tr>
 
