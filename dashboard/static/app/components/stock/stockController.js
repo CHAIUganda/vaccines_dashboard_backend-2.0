@@ -368,32 +368,19 @@ angular.module('dashboard')
                 // construct graph data
                 var graphdata = [];
                 var series = [];
-                var issues_series = [];
-                var min_series = [];
-                var max_series = [];
 
                 for (var i = 0; i < vm.data.length ; i++) {
-                    series.push([vm.data[i].month, vm.data[i].consumed])
-                    issues_series.push([vm.data[i].month, vm.data[i].received])
-                    min_series.push([vm.data[i].month, vm.data[i].stock_requirement__minimum])
-                    max_series.push([vm.data[i].month, vm.data[i].stock_requirement__maximum])
+                    if (vm.data[i].received == 0)
+                    {series.push([vm.data[i].month, 0])}
+                    else
+                    series.push([vm.data[i].month, vm.data[i].consumed/vm.data[i].received*100])
                 }
-                graphdata.push({
-                        key: "Min",
-                        values: min_series,
-                });
+
                 graphdata.push({
                         key: "Consumption",
                         values: series
                 });
-                graphdata.push({
-                        key: "Issues",
-                        values: issues_series
-                });
-                graphdata.push({
-                        key: "Max",
-                        values: max_series
-                });
+
 
                 vm.graph = graphdata;
 

@@ -172,7 +172,7 @@ class StockByDistrictVaccineApi(APIView):
 
         # Create arguments for filtering
         args = {'month__gte': int(MONTH_TO_NUM[startMonth])}
-        args = {'month__lte': int(MONTH_TO_NUM[endMonth])}
+        args.update({'month__lte': int(MONTH_TO_NUM[endMonth])})
         args.update({'stock_requirement__year': int(endYear)})
 
         if vaccine:
