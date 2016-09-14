@@ -9,21 +9,15 @@
     </div>
     <div ng-controller="StockController as vm" class="col-md-5">
 
-       <div id="custom-search-input">
-           <div class="input-group col-md-5">
-               <input type="text" data-ng-model="searchDistrict" placeholder="search districts">
-           </div>
-       </div>
-
-       <table ng-table="vm.tableParamsAlldistricts" class="row-border hover table table-condensed table-striped" show-filter="true">
-           <tr ng-repeat="row in $data | filter:searchDistrict">
-               <td title="'District'" sortable="'district_name'"  >{{row.district_name}}</td>
-               <td title="'Consumption'" sortable="'consumed'" class="text-center" >{{row.consumed | number:0}}</td>
-               <td title="'Received'" sortable="'received'" class="text-center" >{{row.received | number:0}}</td>
-               <td title="'Uptake Rate'" sortable="'uptake_rate'"  >{{row.uptake_rate}}%</td>
+      <table ng-table="vm.tableParamsAlldistricts" class="row-border hover table table-condensed table-striped" show-filter="true">
+          <tr ng-repeat="row in $data | filter:searchDistrict">
+              <td title="'District'" sortable="'district_name'" filter="{district_name: 'text'}" >{{row.district_name}}</td>
+              <td title="'Consumption'" sortable="'consumed'" class="text-center" >{{row.consumed | number:0}}</td>
+              <td title="'Received'" sortable="'received'" class="text-center" >{{row.received | number:0}}</td>
+              <td title="'Uptake Rate'" sortable="'uptake_rate'"  >{{row.uptake_rate}}%</td>
            </tr>
 
-        </table>
+      </table>
     </div>
 
 
