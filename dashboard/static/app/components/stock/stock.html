@@ -36,32 +36,32 @@
         <div class="col-md-12">
          <h3>KEY METRICS</h3>
             <div class="quality_test" ui-sref-active="quality_test_active">
-                <a ui-sref="stock.stockonhand">
+                <a ui-sref="stock.stockonhand" ui-sref-opts="{reload: true}">
                     <span class="quality_test__metric"> {{ child.stockedout | number:0 }}% </span>
                     <span class="quality_test__description">{{"Districts Stocked Out" | uppercase}}</span>
                 </a>
             </div>
             <div class="quality_test" ui-sref-active="quality_test_active">
-                <a ui-sref="stock.distribution">
+                <a ui-sref="stock.distribution" ui-sref-opts="{reload: true}">
                     <span class="quality_test__metric"> {{ child.child.noissues | number:0 }}%</span>
                     <span class="quality_test__description">{{"Did Not Receive Stock" | uppercase}}</span>
                 </a>
             </div>
             <div class="quality_test" ui-sref-active="quality_test_active">
-                <a ui-sref="stock.consumption">
+                <a ui-sref="stock.consumption" ui-sref-opts="{reload: true}">
                     <span class="quality_test__metric"> 0</span>
                     <span class="quality_test__description">{{"CONSUMPTION" | uppercase}}</span>
                 </a>
             </div>
             <!--<div class="quality_test" ui-sref-active="quality_test_active">
-                <a ui-sref="stock.monthsleft">
+                <a ui-sref="stock.monthsleft" ui-sref-opts="{reload: true}">
                     <span class="quality_test__metric"> {{ child.child.belowminimum | number:0 }}%</span>
                     <span class="quality_test__description">{{"Below Minimum Stock Level" | uppercase}}</span>
                 </a>
             </div>-->
 
             <div class="quality_test" ui-sref-active="quality_test_active">
-                <a ui-sref="stock.uptakerate">
+                <a ui-sref="stock.uptakerate" ui-sref-opts="{reload: true}">
                     <span class="quality_test__metric"> 0</span>
                     <span class="quality_test__description">{{"Uptake Rate" | uppercase}}</span>
                 </a>
