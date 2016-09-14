@@ -414,7 +414,11 @@ angular.module('dashboard')
                     if (vm.data[i].received == 0)
                     {series.push([vm.data[i].month, 0])}
                     else
-                    series.push([vm.data[i].month, vm.data[i].consumed/vm.data[i].received*100])
+                    {
+                        var uptakeRate = Math.ceil(vm.data[i].consumed/vm.data[i].received*100);
+                        series.push([vm.data[i].month, uptakeRate])
+                    }
+
                 }
 
                 graphdata.push({
