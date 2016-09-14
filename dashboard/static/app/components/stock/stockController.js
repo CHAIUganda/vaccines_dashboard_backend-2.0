@@ -50,6 +50,19 @@ angular.module('dashboard')
                         return ((value.at_hand < value.stock_requirement__minimum) && (value.at_hand > 0));
                 });
 
+                tabledataAlldistricts = vm.data.filter(
+                    function(value){
+                        return value;
+                });
+
+                vm.tableParamsAlldistricts = new NgTableParams({
+                    page: 1,
+                    count: 15
+                }, {
+                    filterDelay: 0,
+                    counts: [],
+                    data: tabledataAlldistricts,
+                });
 
                 vm.tableParams = new NgTableParams({
                     page: 1,
@@ -377,7 +390,7 @@ angular.module('dashboard')
                 }
 
                 graphdata.push({
-                        key: "Consumption",
+                        key: "Uptake Rate",
                         values: series
                 });
 
