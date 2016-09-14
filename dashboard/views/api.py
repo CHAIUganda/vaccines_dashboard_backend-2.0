@@ -1,6 +1,6 @@
 from django.core.serializers.json import Serializer
-from django.db.models import Sum, Avg, FloatField
-from django.db.models.expressions import F, ExpressionWrapper
+from django.db.models import Sum, Case, Value, When, Avg, FloatField, IntegerField
+from django.db.models.expressions import F, Q, ExpressionWrapper
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from dashboard.helpers import *
@@ -85,6 +85,10 @@ class StockAtHandByDistrictApi(APIView):
                       period_year=F('stock_requirement__year'),
                       ordered=F('ordered'),
                       consumed=F('consumed'),
+                      uptake_rate=Case(
+                          When(Q(received=Value(0)) | Q(consumed=Value(0)) , then=Value(0)),
+                          default=(ExpressionWrapper(100*F('consumed')/ F('received'), output_field=IntegerField()))
+                      ),
                       planned_consumption=F('planned_consumption'),
                       vaccine=F('stock_requirement__vaccine__name'),
                       min_stock=F('stock_requirement__minimum'),
@@ -107,6 +111,7 @@ class StockAtHandByDistrictApi(APIView):
                     'stock_requirement__maximum',
                     'min_variance',
                     'max_variance',
+                    'uptake_rate',
                     'received')
 
         return Response(summary)

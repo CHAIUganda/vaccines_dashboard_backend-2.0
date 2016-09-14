@@ -60,7 +60,7 @@ angular.module('dashboard')
 
                 vm.tableParamsAlldistricts = new NgTableParams({
                     page: 1,
-                    count: 15
+                    count: 10
                 }, {
                     filterDelay: 0,
                     counts: [],
@@ -69,7 +69,7 @@ angular.module('dashboard')
 
                 vm.tableParams_so = new NgTableParams({
                     page: 1,
-                    count: 15
+                    count: 10
                 }, {
                     filterDelay: 0,
                     counts: [],
@@ -78,7 +78,7 @@ angular.module('dashboard')
 
                 vm.tableParams_bm = new NgTableParams({
                     page: 1,
-                    count: 15
+                    count: 10
                 }, {
                     filterDelay: 0,
                     counts: [],
@@ -87,7 +87,7 @@ angular.module('dashboard')
 
                 vm.tableParams_wr = new NgTableParams({
                     page: 1,
-                    count: 15
+                    count: 10
                 }, {
                     filterDelay: 0,
                     counts: [],
@@ -96,7 +96,7 @@ angular.module('dashboard')
 
                 vm.tableParams_am = new NgTableParams({
                     page: 1,
-                    count: 15
+                    count: 10
                 }, {
                     filterDelay: 0,
                     counts: [],
@@ -152,78 +152,47 @@ angular.module('dashboard')
                 //vm.graph = graphdata;
 
                 // update graph
-/*                vm.options = {
-                        chart: {
-                            type: 'multiBarChart',
-                            height: 500,
-
-                            title: {
-                                enable: true,
-                                text: 'VACCINE STOCK ON HAND'
-                            },
-                            showLegend: true,
-                            stacked: true,
-                            showControls: true,
-                            margin : {
-                                top: 20,
-                                right: 20,
-                                bottom: 85,
-                                left: 65
-                            },
-                            groupSpacing: 0.2,
-                            rotateLabels: 45,
-                            staggerLabels: true,
-                            x: function(d){ return d[0]; },
-                            y: function(d){ return d[1]; },
-                            showValues: true,
-                            valueFormat: function(d){
-                                return tickFormat(d3.format(',.1f'));
-                            },
-                            transitionDuration: 500,
+                vm.options = {
+                    chart: {
+                        type: 'pieChart',
+                        height: 500,
+                        x: function(d){return d.key;},
+                        y: function(d){return d.y;},
+                        showLabels: true,
+                        duration: 500,
+                        labelThreshold: 0.01,
+                        labelSunbeamLayout: true,
+                        legend: {
+                            margin: {
+                                top: 5,
+                                right: 35,
+                                bottom: 5,
+                                left: 0
+                            }
                         }
+                    }
                 };
-*/
-                        vm.options = {
-                            chart: {
-                                type: 'pieChart',
-                                height: 500,
-                                x: function(d){return d.key;},
-                                y: function(d){return d.y;},
-                                showLabels: true,
-                                duration: 500,
-                                labelThreshold: 0.01,
-                                labelSunbeamLayout: true,
-                                legend: {
-                                    margin: {
-                                        top: 5,
-                                        right: 35,
-                                        bottom: 5,
-                                        left: 0
-                                    }
-                                }
-                            }
-                        };
 
-                        vm.chartdata = [
-                            {
-                                key: "Stocked Out",
-                                y: (nothing / vm.data.length) * 100
-                            },
-                            {
-                                key: "Within Range",
-                                y: (within / vm.data.length) * 100
-                            },
-                            {
-                                key: "Below Minimum",
-                                y: (belowminimum / vm.data.length) * 100
-                            },
-                            {
-                                key: "Above Maximum",
-                                y: (abovemaximum / vm.data.length) * 100
-                            }
-                        ];
+                vm.chartdata = [
+                    {
+                        key: "Stocked Out",
+                        y: (nothing / vm.data.length) * 100
+                    },
+                    {
+                        key: "Within Range",
+                        y: (within / vm.data.length) * 100
+                    },
+                    {
+                        key: "Below Minimum",
+                        y: (belowminimum / vm.data.length) * 100
+                    },
+                    {
+                        key: "Above Maximum",
+                        y: (abovemaximum / vm.data.length) * 100
+                    }
+                ];
 
-                        vm.graph = vm.chartdata;
+                vm.graph = vm.chartdata;
 
             });
         };
@@ -393,14 +362,6 @@ angular.module('dashboard')
                 .then(function(data) {
 
                 vm.data = angular.copy(data);
-                vm.tableParams = new NgTableParams({
-                    page: 1,
-                    count: 15
-                }, {
-                    filterDelay: 0,
-                    counts: [],
-                    data: vm.data,
-                });
 
                 shellScope.child.district = vm.district;
                 shellScope.child.vaccine = vm.vaccine;
@@ -434,12 +395,13 @@ angular.module('dashboard')
                 vm.options = {
                         chart: {
                             type: 'lineChart',
-                            height: 400,
+                            height: 500,
+                            width : 550,
                             title: {
                                 enable: true,
                                 text: 'Abim'
                             },
-                            showLegend: true,
+                            showLegend: false,
                             stacked: true,
                             showControls: true,
                             margin : {
