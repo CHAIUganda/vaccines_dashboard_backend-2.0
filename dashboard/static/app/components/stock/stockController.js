@@ -613,6 +613,14 @@ angular.module('dashboard')
                     data: vm.data,
                 });
 
+                // calculate totals
+                var nothing = 0;
+                for(var i = 0; i < vm.data.length; i++) {
+                    if (vm.data[i].received == 0)
+                        nothing++;
+                }
+
+                shellScope.child.noissues = (nothing / vm.data.length) * 100;
                 shellScope.child.district = vm.district;
                 shellScope.child.vaccine = vm.vaccine;
 
