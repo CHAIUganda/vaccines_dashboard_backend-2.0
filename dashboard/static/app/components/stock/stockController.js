@@ -26,26 +26,29 @@ angular.module('dashboard')
             StockService.getStockByDistrict(startMonth, endMonth, district, vaccine)
                 .then(function(data) {
 
-                var tabledata = [];
+                var tabledata_so = [];
+                var tabledata_bm = [];
+                var tabledata_wr = [];
+                var tabledata_am = [];
 
                 vm.data = angular.copy(data);
 
-                //tabledata = vm.data.filter(
-                //    function(value){
-                //        return value.at_hand == 0;
-                //});
+                tabledata_so = vm.data.filter(
+                    function(value){
+                        return value.at_hand == 0;
+                });
 
-                /*tabledata = vm.data.filter(
+                tabledata_am = vm.data.filter(
                     function(value){
                         return value.at_hand > value.stock_requirement__maximum;
-                });*/
+                });
 
-                /*tabledata = vm.data.filter(
+                tabledata_wr = vm.data.filter(
                     function(value){
                         return ((value.at_hand > value.stock_requirement__minimum) && (value.at_hand < value.stock_requirement__maximum));
-                });*/
+                });
 
-                tabledata = vm.data.filter(
+                tabledata_bm = vm.data.filter(
                     function(value){
                         return ((value.at_hand < value.stock_requirement__minimum) && (value.at_hand > 0));
                 });
@@ -64,16 +67,41 @@ angular.module('dashboard')
                     data: tabledataAlldistricts,
                 });
 
-                vm.tableParams = new NgTableParams({
+                vm.tableParams_so = new NgTableParams({
                     page: 1,
                     count: 15
                 }, {
                     filterDelay: 0,
                     counts: [],
-                    data: tabledata,
+                    data: tabledata_so,
                 });
 
+                vm.tableParams_bm = new NgTableParams({
+                    page: 1,
+                    count: 15
+                }, {
+                    filterDelay: 0,
+                    counts: [],
+                    data: tabledata_bm,
+                });
 
+                vm.tableParams_wr = new NgTableParams({
+                    page: 1,
+                    count: 15
+                }, {
+                    filterDelay: 0,
+                    counts: [],
+                    data: tabledata_wr,
+                });
+
+                vm.tableParams_am = new NgTableParams({
+                    page: 1,
+                    count: 15
+                }, {
+                    filterDelay: 0,
+                    counts: [],
+                    data: tabledata_am,
+                });
 
                 // calculate totals
                 var nothing = 0;
