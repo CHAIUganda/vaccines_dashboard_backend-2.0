@@ -46,18 +46,18 @@ angular.module('services').service('MonthService', [
 
         var getMonthNumber = function(month) {
             var months = {};
-            months['Jan'] = 0;
-            months['Feb'] = 1;
-            months['Mar'] = 2;
-            months['Apr'] = 3;
-            months['May'] = 4;
-            months['Jun'] = 5;
-            months['Jul'] = 6;
-            months['Aug'] = 7;
-            months['Sep'] = 8;
-            months['Oct'] = 9;
-            months['Nov'] = 10;
-            months['Dec'] = 11;
+            months['Jan'] = 1;
+            months['Feb'] = 2;
+            months['Mar'] = 3;
+            months['Apr'] = 4;
+            months['May'] = 5;
+            months['Jun'] = 6;
+            months['Jul'] = 7;
+            months['Aug'] = 8;
+            months['Sep'] = 9;
+            months['Oct'] = 10;
+            months['Nov'] = 11;
+            months['Dec'] = 12;
             return months[month];
         };
 

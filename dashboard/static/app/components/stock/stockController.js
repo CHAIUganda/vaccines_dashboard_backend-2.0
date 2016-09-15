@@ -26,174 +26,152 @@ angular.module('dashboard')
             StockService.getStockByDistrict(startMonth, endMonth, district, vaccine)
                 .then(function(data) {
 
-                var tabledata_so = [];
-                var tabledata_bm = [];
-                var tabledata_wr = [];
-                var tabledata_am = [];
+                    var tabledata_so = [];
+                    var tabledata_bm = [];
+                    var tabledata_wr = [];
+                    var tabledata_am = [];
 
-                vm.data = angular.copy(data);
+                    vm.data = angular.copy(data);
 
-                tabledata_so = vm.data.filter(
-                    function(value){
-                        return value.at_hand == 0;
-                });
+                    tabledata_so = vm.data.filter(
+                        function (value) {
+                            return value.at_hand == 0;
+                        });
 
-                tabledata_am = vm.data.filter(
-                    function(value){
-                        return value.at_hand > value.stock_requirement__maximum;
-                });
+                    tabledata_am = vm.data.filter(
+                        function (value) {
+                            return value.at_hand > value.stock_requirement__maximum;
+                        });
 
-                tabledata_wr = vm.data.filter(
-                    function(value){
-                        return ((value.at_hand > value.stock_requirement__minimum) && (value.at_hand < value.stock_requirement__maximum));
-                });
+                    tabledata_wr = vm.data.filter(
+                        function (value) {
+                            return ((value.at_hand > value.stock_requirement__minimum) && (value.at_hand < value.stock_requirement__maximum));
+                        });
 
-                tabledata_bm = vm.data.filter(
-                    function(value){
-                        return ((value.at_hand < value.stock_requirement__minimum) && (value.at_hand > 0));
-                });
+                    tabledata_bm = vm.data.filter(
+                        function (value) {
+                            return ((value.at_hand < value.stock_requirement__minimum) && (value.at_hand > 0));
+                        });
 
-                tabledataAlldistricts = vm.data.filter(
-                    function(value){
-                        return value;
-                });
+                    tabledataAlldistricts = vm.data.filter(
+                        function (value) {
+                            return value;
+                        });
 
-                vm.tableParamsAlldistricts = new NgTableParams({
-                    page: 1,
-                    count: 10
-                }, {
-                    filterDelay: 0,
-                    counts: [],
-                    data: tabledataAlldistricts,
-                });
+                    vm.tableParamsAlldistricts = new NgTableParams({
+                        page: 1,
+                        count: 10
+                    }, {
+                        filterDelay: 0,
+                        counts: [],
+                        data: tabledataAlldistricts,
+                    });
 
-                vm.tableParams_so = new NgTableParams({
-                    page: 1,
-                    count: 10
-                }, {
-                    filterDelay: 0,
-                    counts: [],
-                    data: tabledata_so,
-                });
+                    // calculate totals
+                    var nothing = 0;
+                    var within = 0;
+                    var belowminimum = 0;
+                    var abovemaximum = 0;
+                    for (var i = 0; i < vm.data.length; i++) {
+                        if (vm.data[i].at_hand == 0)
+                            nothing++;
+                        if ((vm.data[i].at_hand > vm.data[i].stock_requirement__minimum) && (vm.data[i].at_hand < vm.data[i].stock_requirement__maximum))
+                            within++;
+                        if ((vm.data[i].at_hand < vm.data[i].stock_requirement__minimum) && (vm.data[i].at_hand > 0))
+                            belowminimum++;
+                        if (vm.data[i].at_hand > vm.data[i].stock_requirement__maximum)
+                            abovemaximum++;
+                    }
 
-                vm.tableParams_bm = new NgTableParams({
-                    page: 1,
-                    count: 10
-                }, {
-                    filterDelay: 0,
-                    counts: [],
-                    data: tabledata_bm,
-                });
+                    shellScope.child.stockedout = (nothing / vm.data.length) * 100;
+                    shellScope.child.themonth = endMonth;
+                    shellScope.child.vaccine = vaccine;
 
-                vm.tableParams_wr = new NgTableParams({
-                    page: 1,
-                    count: 10
-                }, {
-                    filterDelay: 0,
-                    counts: [],
-                    data: tabledata_wr,
-                });
-
-                vm.tableParams_am = new NgTableParams({
-                    page: 1,
-                    count: 10
-                }, {
-                    filterDelay: 0,
-                    counts: [],
-                    data: tabledata_am,
-                });
-
-                // calculate totals
-                var nothing = 0;
-                var within = 0;
-                var belowminimum = 0;
-                var abovemaximum = 0;
-                for(var i = 0; i < vm.data.length; i++){
-                    if (vm.data[i].at_hand == 0)
-                        nothing++;
-                    if ((vm.data[i].at_hand > vm.data[i].stock_requirement__minimum) && (vm.data[i].at_hand < vm.data[i].stock_requirement__maximum))
-                        within++;
-                    if ((vm.data[i].at_hand < vm.data[i].stock_requirement__minimum) && (vm.data[i].at_hand > 0))
-                        belowminimum++;
-                    if (vm.data[i].at_hand > vm.data[i].stock_requirement__maximum)
-                        abovemaximum++;
-                }
-
-                shellScope.child.stockedout = (nothing / vm.data.length) * 100;
-                shellScope.child.themonth = endMonth;
-                shellScope.child.vaccine = vaccine;
-
-                // construct graph data
-                var graphdata = [];
-                var series = [];
-                var min_series = [];
-                var max_series = [];
-                var chartdata = [];
-
-                for (var i = 0; i < vm.data.length ; i++) {
-                    series.push([vm.data[i].district_name, vm.data[i].at_hand])
-                    min_series.push([vm.data[i].district_name, vm.data[i].stock_requirement__minimum])
-                    max_series.push([vm.data[i].district_name, vm.data[i].stock_requirement__maximum])
-                }
-                graphdata.push({
-                        key: "Min",
-                        values: min_series
-                });
-                graphdata.push({
-                        key: "Stock At Hand",
-                        values: series
-                });
-
-                graphdata.push({
-                        key: "Max",
-                        values: max_series
-                });
-
-                //vm.graph = graphdata;
-
-                // update graph
-                vm.options = {
-                    chart: {
-                        type: 'pieChart',
-                        height: 500,
-                        width : 500,
-                        x: function(d){return d.key;},
-                        y: function(d){return d.y;},
-                        showLabels: true,
-                        duration: 500,
-                        labelThreshold: 0.01,
-                        labelSunbeamLayout: true,
-                        legend: {
-                            margin: {
-                                top: 5,
-                                right: 35,
-                                bottom: 5,
-                                left: 0
+                    // update graph
+                    vm.options = {
+                        chart: {
+                            type: 'pieChart',
+                            height: 500,
+                            width: 500,
+                            x: function (d) {
+                                return d.key;
+                            },
+                            y: function (d) {
+                                return d.y;
+                            },
+                            showLabels: true,
+                            duration: 500,
+                            labelThreshold: 0.01,
+                            labelSunbeamLayout: true,
+                            legend: {
+                                margin: {
+                                    top: 5,
+                                    right: 35,
+                                    bottom: 5,
+                                    left: 0
+                                }
                             }
                         }
-                    }
-                };
+                    };
 
-                vm.chartdata = [
-                    {
-                        key: "Stocked Out",
-                        y: (nothing / vm.data.length) * 100
-                    },
-                    {
-                        key: "Within Range",
-                        y: (within / vm.data.length) * 100
-                    },
-                    {
-                        key: "Below MIN",
-                        y: (belowminimum / vm.data.length) * 100
-                    },
-                    {
-                        key: "Above MAX",
-                        y: (abovemaximum / vm.data.length) * 100
-                    }
-                ];
+                    if (nothing == vm.data.length) {
+                        vm.graph = [];
+                    } else {
+                        vm.tableParams_so = new NgTableParams({
+                            page: 1,
+                            count: 10
+                        }, {
+                            filterDelay: 0,
+                            counts: [],
+                            data: tabledata_so,
+                        });
 
-                vm.graph = vm.chartdata;
+                        vm.tableParams_bm = new NgTableParams({
+                            page: 1,
+                            count: 10
+                        }, {
+                            filterDelay: 0,
+                            counts: [],
+                            data: tabledata_bm,
+                        });
+
+                        vm.tableParams_wr = new NgTableParams({
+                            page: 1,
+                            count: 10
+                        }, {
+                            filterDelay: 0,
+                            counts: [],
+                            data: tabledata_wr,
+                        });
+
+                        vm.tableParams_am = new NgTableParams({
+                            page: 1,
+                            count: 10
+                        }, {
+                            filterDelay: 0,
+                            counts: [],
+                            data: tabledata_am,
+                        });
+
+                        vm.graph = [
+                            {
+                                key: "Stocked Out",
+                                y: (nothing / vm.data.length) * 100
+                            },
+                            {
+                                key: "Within Range",
+                                y: (within / vm.data.length) * 100
+                            },
+                            {
+                                key: "Below MIN",
+                                y: (belowminimum / vm.data.length) * 100
+                            },
+                            {
+                                key: "Above MAX",
+                                y: (abovemaximum / vm.data.length) * 100
+                            }
+                        ];
+                    }
 
             });
         };
@@ -221,13 +199,6 @@ angular.module('dashboard')
                 });
 
                 // calculate totals
-                var nothing = 0;
-                for(var i = 0; i < vm.data.length; i++) {
-                    if (vm.data[i].received == 0)
-                        nothing++;
-                }
-
-                shellScope.child.refreshrate = (nothing / vm.data.length) * 100;
                 shellScope.child.district = vm.district;
                 shellScope.child.vaccine = vm.vaccine;
 
@@ -237,11 +208,15 @@ angular.module('dashboard')
                 var seriesDistribution = [];
                 var min_seriesDistribution = [];
                 var max_seriesDistribution = [];
+                shellScope.child.refreshrate = 0;
 
                 for (var i = 0; i < vm.data.length ; i++) {
                     seriesDistribution.push([vm.data[i].month, vm.data[i].received])
                     min_seriesDistribution.push([vm.data[i].month, vm.data[i].stock_requirement__minimum])
                     max_seriesDistribution.push([vm.data[i].month, vm.data[i].stock_requirement__maximum])
+                    if (vm.data[i].month == MonthService.getMonthNumber(endMonth.split(" ")[0])){
+                        shellScope.child.refreshrate = vm.data[i].ordered == 0 ? 0 :vm.data[i].received/vm.data[i].ordered*100 ;
+                    }
                 }
                 graphdataDistribution.push({
                         key: "Min",
@@ -311,6 +286,7 @@ angular.module('dashboard')
                 // construct Uptake graph data
                 var graphdataUptake = [];
                 var seriesUptake = [];
+                shellScope.child.uptake = 0;
 
                 for (var i = 0; i < vm.data.length ; i++) {
                     if (vm.data[i].received == 0)
@@ -319,6 +295,10 @@ angular.module('dashboard')
                     {
                         var uptakeRate = Math.ceil(vm.data[i].consumed/vm.data[i].received*100);
                         seriesUptake.push([vm.data[i].month, uptakeRate])
+                    }
+                    if (vm.data[i].month == MonthService.getMonthNumber(endMonth.split(" ")[0])){
+                        shellScope.child.uptake = vm.data[i].received == 0 ?
+                            0 :vm.data[i].consumed/vm.data[i].received*100;
                     }
 
                 }
@@ -381,11 +361,16 @@ angular.module('dashboard')
                 var graphdataConsumption = [];
                 var seriesConsumption = [];
                 var target_seriesConsumption = [];
+                shellScope.child.coverage = 0;
 
-
+                console.log(endMonth);
                 for (var i = 0; i < vm.data.length ; i++) {
                     seriesConsumption.push([vm.data[i].month, vm.data[i].consumed])
                     target_seriesConsumption.push([vm.data[i].month, vm.data[i].stock_requirement__target])
+                    if (vm.data[i].month == MonthService.getMonthNumber(endMonth.split(" ")[0])){
+                        shellScope.child.coverage = vm.data[i].stock_requirement__target == 0 ?
+                            0 :vm.data[i].consumed/vm.data[i].stock_requirement__target*100;
+                    }
 
                 }
 

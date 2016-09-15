@@ -51,7 +51,7 @@
             </div>
             <div class="quality_test" ui-sref-active="quality_test_active">
                 <a ui-sref="stock.consumption" ui-sref-opts="{reload: true}">
-                    <span class="quality_test__metric"> 0</span>
+                    <span class="quality_test__metric"> {{ child.coverage | number:0 }}%</span>
                     <span class="quality_test__description">{{"Children Reached" | uppercase}}</span>
                 </a>
             </div>
@@ -64,7 +64,7 @@
 
             <div class="quality_test" ui-sref-active="quality_test_active">
                 <a ui-sref="stock.uptakerate" ui-sref-opts="{reload: true}">
-                    <span class="quality_test__metric"> 0</span>
+                    <span class="quality_test__metric"> {{ child.uptake | number:0 }}%</span>
                     <span class="quality_test__description">{{"Uptake Rate" | uppercase}}</span>
                 </a>
             </div>
