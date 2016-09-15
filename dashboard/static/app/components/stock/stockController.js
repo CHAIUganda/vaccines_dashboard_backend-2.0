@@ -298,7 +298,7 @@ angular.module('dashboard')
                     }
                     if (vm.data[i].month == MonthService.getMonthNumber(endMonth.split(" ")[0])){
                         shellScope.child.uptake = vm.data[i].received == 0 ?
-                            0 :vm.data[i].consumed/vm.data[i].received*100;
+                            0 :vm.data[i].consumed/(vm.data[i].received+vm.data[i].at_hand)*100;
                     }
 
                 }
