@@ -10,12 +10,12 @@ def user_is_super_user(request):
     return request.user and request.user.is_superuser
 
 
-Menu.add_item("main", MenuItem("Coverage",
+Menu.add_item("main", MenuItem("Stock Management",
                                reverse("home"),
                                weight=10))
-
-Menu.add_item("main", MenuItem("Stock Management",
-                               "#/stock/stockonhand",
+'''
+Menu.add_item("main", MenuItem("Coverage",
+                               "#/coverage/facilities",
                                weight=10))
 
 Menu.add_item("main", MenuItem("Fridge Coverage",
@@ -29,7 +29,7 @@ Menu.add_item("main", MenuItem("Surveillance",
 Menu.add_item("main", MenuItem("CVS",
                                "#",
                                weight=10))
-
+'''
 Menu.add_item("main", MenuItem("Import Files",
                                reverse("import"),
                                check=user_is_admin,

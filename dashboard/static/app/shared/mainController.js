@@ -13,12 +13,15 @@ angular.module('dashboard')
         shell.selectedVaccine = "";
         shell.selectedDistrict = "";
 
+        var date = new Date();
+        defaultMonth = date.getMonth() - 1;
+
         shell.stockathand = 0;
 
         FilterService.getMonths().then(function(data) {
             shell.months = data;
             shell.startMonth = shell.months[0];
-            shell.endMonth = shell.months[5];
+            shell.endMonth = shell.months[defaultMonth];
         });
 
         FilterService.getDistricts().then(function(data) {
@@ -28,7 +31,7 @@ angular.module('dashboard')
 
         FilterService.getVaccines().then(function(data) {
             shell.vaccines = data;
-            shell.selectedVaccine = shell.vaccines[0];
+            shell.selectedVaccine = shell.vaccines[6];
         });
 
 

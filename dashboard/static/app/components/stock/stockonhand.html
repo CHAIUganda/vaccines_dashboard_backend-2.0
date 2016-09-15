@@ -1,7 +1,7 @@
 
 <div ng-controller="StockController as vm">
 
-    <h4 class="text-center">Stock On Hand for {{child.vaccine }} for {{child.themonth }}</h4>
+    <h4 class="text-center">Stock On Hand of {{child.vaccine }} for {{child.themonth }}</h4>
     <br>
     <br>
 
@@ -20,17 +20,13 @@
         </ul>
     <br>
     <div class="tab-content">
-        <div id="custom-search-input ">
-                <div class="input-group col-md-6 pull-right">
-                    <input type="text" data-ng-model="searchDistrict">
-                </div>
-       </div>
+
        <div id="stocked-out" class="tab-pane fade in active">
 
        <table ng-table="vm.tableParams_so" class="row-border hover table table-condensed table-striped"  show-filter="true">
             <col align="right">
-            <tr ng-repeat="row in $data | filter:searchDistrict">
-                <td title="'District'" sortable="'district_name'"  >{{row.district_name}}</td>
+            <tr ng-repeat="row in $data">
+                <td title="'District'" sortable="'district_name'" filter="{district_name: 'text'}"  >{{row.district_name}}</td>
                 <td title="'At Hand'" sortable="'at_hand'" class="text-center" >{{row.at_hand | number:0}}</td>
                 <td title="'Min'" sortable="'stock_requirement__minimum'" class="text-center" >{{row.stock_requirement__minimum}}</td>
                 <td title="'Max'" sortable="'stock_requirement__maximum'" class="text-center" >{{row.stock_requirement__maximum}}</td>
@@ -45,8 +41,8 @@
 
        <table ng-table="vm.tableParams_bm" class="row-border hover table table-condensed table-striped"  show-filter="true">
             <col align="right">
-            <tr ng-repeat="row in $data | filter:searchDistrict">
-                <td title="'District'" sortable="'district_name'"  >{{row.district_name}}</td>
+            <tr ng-repeat="row in $data">
+                <td title="'District'" sortable="'district_name'" filter="{district_name: 'text'}"  >{{row.district_name}}</td>
                 <td title="'At Hand'" sortable="'at_hand'" class="text-center" >{{row.at_hand | number:0}}</td>
                 <td title="'Min'" sortable="'stock_requirement__minimum'" class="text-center" >{{row.stock_requirement__minimum}}</td>
                 <td title="'Max'" sortable="'stock_requirement__maximum'" class="text-center" >{{row.stock_requirement__maximum}}</td>
@@ -61,8 +57,8 @@
 
        <table ng-table="vm.tableParams_wr" class="row-border hover table table-condensed table-striped"  show-filter="true">
             <col align="right">
-            <tr ng-repeat="row in $data | filter:searchDistrict">
-                <td title="'District'" sortable="'district_name'"  >{{row.district_name}}</td>
+            <tr ng-repeat="row in $data">
+                <td title="'District'" sortable="'district_name'" filter="{district_name: 'text'}"  >{{row.district_name}}</td>
                 <td title="'At Hand'" sortable="'at_hand'" class="text-center" >{{row.at_hand | number:0}}</td>
                 <td title="'Min'" sortable="'stock_requirement__minimum'" class="text-center" >{{row.stock_requirement__minimum}}</td>
                 <td title="'Max'" sortable="'stock_requirement__maximum'" class="text-center" >{{row.stock_requirement__maximum}}</td>
@@ -77,8 +73,8 @@
 
        <table ng-table="vm.tableParams_am" class="row-border hover table table-condensed table-striped"  show-filter="true">
             <col align="right">
-            <tr ng-repeat="row in $data | filter:searchDistrict">
-                <td title="'District'" sortable="'district_name'"  >{{row.district_name}}</td>
+            <tr ng-repeat="row in $data">
+                <td title="'District'" sortable="'district_name'" filter="{district_name: 'text'}"  >{{row.district_name}}</td>
                 <td title="'At Hand'" sortable="'at_hand'" class="text-center" >{{row.at_hand | number:0}}</td>
                 <td title="'Min'" sortable="'stock_requirement__minimum'" class="text-center" >{{row.stock_requirement__minimum}}</td>
                 <td title="'Max'" sortable="'stock_requirement__maximum'" class="text-center" >{{row.stock_requirement__maximum}}</td>

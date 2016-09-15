@@ -156,6 +156,7 @@ angular.module('dashboard')
                     chart: {
                         type: 'pieChart',
                         height: 500,
+                        width : 500,
                         x: function(d){return d.key;},
                         y: function(d){return d.y;},
                         showLabels: true,
@@ -183,11 +184,11 @@ angular.module('dashboard')
                         y: (within / vm.data.length) * 100
                     },
                     {
-                        key: "Below Minimum",
+                        key: "Below MIN",
                         y: (belowminimum / vm.data.length) * 100
                     },
                     {
-                        key: "Above Maximum",
+                        key: "Above MAX",
                         y: (abovemaximum / vm.data.length) * 100
                     }
                 ];
@@ -522,7 +523,8 @@ angular.module('dashboard')
                 vm.options = {
                         chart: {
                             type: 'lineChart',
-                            height: 400,
+                            height: 500,
+                            width : 500,
                             title: {
                                 enable: true,
                                 text: 'Abim'
@@ -660,7 +662,8 @@ angular.module('dashboard')
                 vm.options = {
                         chart: {
                             type: 'lineChart',
-                            height: 400,
+                            height: 500,
+                            width : 500,
                             title: {
                                 enable: true,
                                 text: 'Abim'
