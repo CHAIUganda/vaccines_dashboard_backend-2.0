@@ -37,12 +37,12 @@ dashboard.config(["$stateProvider", "$urlRouterProvider", function($stateProvide
             .state("stock.distribution", {
                 url: "/distribution",
                 templateUrl: "static/app/components/stock/distribution.html",
-                controller: "DistributionController"
+                controller: "StockController"
             })
             .state("stock.consumption", {
                 url: "/consumption",
                 templateUrl: "static/app/components/stock/consumption.html",
-                controller: "ConsumptionController"
+                controller: "StockController"
             })
             .state("stock.monthsleft", {
                 url: "/monthsleft",
@@ -52,7 +52,7 @@ dashboard.config(["$stateProvider", "$urlRouterProvider", function($stateProvide
             .state("stock.uptakerate", {
                 url: "/uptakerate",
                 templateUrl: "static/app/components/stock/uptakerate.html",
-                controller: "UptakeRateController"
+                controller: "StockController"
             })
 
             .state("fridge", {

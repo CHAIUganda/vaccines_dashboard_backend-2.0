@@ -87,7 +87,11 @@ class StockAtHandByDistrictApi(APIView):
                       consumed=F('consumed'),
                       uptake_rate=Case(
                           When(Q(received=Value(0)) | Q(consumed=Value(0)) , then=Value(0)),
-                          default=(ExpressionWrapper(100*F('consumed')/ F('received'), output_field=IntegerField()))
+                          default=(ExpressionWrapper(100*F('consumed')/ (F('received')+F('at_hand')), output_field=IntegerField()))
+                      ),
+                      coverage_rate=Case(
+                          When(Q(stock_requirement__target=Value(0)) | Q(consumed=Value(0)), then=Value(0)),
+                          default=(ExpressionWrapper(100 * F('consumed') / F('stock_requirement__target'), output_field=IntegerField()))
                       ),
                       planned_consumption=F('planned_consumption'),
                       vaccine=F('stock_requirement__vaccine__name'),
@@ -112,6 +116,7 @@ class StockAtHandByDistrictApi(APIView):
                     'min_variance',
                     'max_variance',
                     'uptake_rate',
+                    'coverage_rate',
                     'received')
 
         return Response(summary)

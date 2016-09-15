@@ -1,4 +1,4 @@
-<div ng-controller="DistributionController as vm">
+<div ng-controller="StockController as vm">
 
     <h4 class="text-left">Distribution of {{child.vaccine }} for {{child.district }}</h4>
     <br>
@@ -6,10 +6,10 @@
 
     <div class="col-md-7">
         <div class="page_graph">
-            <nvd3 options="vm.options" data="vm.graph"></nvd3>
+            <nvd3 options="vm.optionsDistribution" data="vm.graphDistribution"></nvd3>
         </div>
     </div>
-    <div ng-controller="StockController as vm" class="col-md-5">
+    <div class="col-md-5">
 
        <table ng-table="vm.tableParamsAlldistricts" class="row-border hover table table-condensed table-striped" show-filter="true">
 

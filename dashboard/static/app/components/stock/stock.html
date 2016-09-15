@@ -45,14 +45,14 @@
             </div>
             <div class="quality_test" ui-sref-active="quality_test_active">
                 <a ui-sref="stock.distribution" ui-sref-opts="{reload: true}">
-                    <span class="quality_test__metric"> {{ child.child.noissues | number:0 }}%</span>
-                    <span class="quality_test__description">{{"Did Not Receive Stock" | uppercase}}</span>
+                    <span class="quality_test__metric"> {{ child.refreshrate | number:0 }}%</span>
+                    <span class="quality_test__description">{{"Refresh Rate" | uppercase}}</span>
                 </a>
             </div>
             <div class="quality_test" ui-sref-active="quality_test_active">
                 <a ui-sref="stock.consumption" ui-sref-opts="{reload: true}">
                     <span class="quality_test__metric"> 0</span>
-                    <span class="quality_test__description">{{"CONSUMPTION" | uppercase}}</span>
+                    <span class="quality_test__description">{{"Children Reached" | uppercase}}</span>
                 </a>
             </div>
             <!--<div class="quality_test" ui-sref-active="quality_test_active">
