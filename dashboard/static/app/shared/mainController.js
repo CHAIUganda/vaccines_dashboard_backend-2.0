@@ -14,7 +14,7 @@ angular.module('dashboard')
         shell.selectedDistrict = "";
 
         var date = new Date();
-        defaultMonth = date.getMonth() - 1;
+        defaultMonth = date.getMonth() - 2;
 
         shell.stockathand = 0;
 

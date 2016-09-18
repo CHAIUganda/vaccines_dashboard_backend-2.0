@@ -85,6 +85,7 @@ class StockAtHandByDistrictApi(APIView):
                       period_year=F('stock_requirement__year'),
                       ordered=F('ordered'),
                       consumed=F('consumed'),
+                      available_stock=ExpressionWrapper(F('received')+F('at_hand'), output_field=IntegerField()),
                       uptake_rate=Case(
                           When(Q(received=Value(0)) | Q(consumed=Value(0)) , then=Value(0)),
                           default=(ExpressionWrapper(100*F('consumed')/ (F('received')+F('at_hand')), output_field=IntegerField()))
@@ -117,6 +118,7 @@ class StockAtHandByDistrictApi(APIView):
                     'max_variance',
                     'uptake_rate',
                     'coverage_rate',
+                    'available_stock',
                     'received')
 
         return Response(summary)
