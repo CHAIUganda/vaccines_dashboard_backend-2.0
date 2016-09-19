@@ -13,7 +13,7 @@
           <tr ng-repeat="row in $data">
               <td title="'District'" sortable="'district_name'" filter="{district_name: 'text'}" >{{row.district_name}}</td>
               <td title="'Consumption'" sortable="'consumed'" class="text-center" >{{row.consumed | number:0}}</td>
-              <td title="'Received'" sortable="'received'" class="text-center" >{{row.received | number:0}}</td>
+              <td title="'Available Stock'" sortable="'available_stock'" class="text-center" >{{row.available_stock | number:0}}</td>
               <td title="'Uptake'" sortable="'uptake_rate'"  >{{row.uptake_rate}}%</td>
            </tr>
 
