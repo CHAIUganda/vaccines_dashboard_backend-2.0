@@ -1,0 +1,26 @@
+<div ng-controller="StockController as vm">
+
+    <h4 class="text-left" >Consumption of {{child.vaccine }} for {{child.district }}</h4>
+    <br>
+    <br>
+
+    <div class="col-md-7">
+        <div class="page_graph">
+            <nvd3 options="vm.optionsConsumption" data="vm.graphConsumption"></nvd3>
+        </div>
+    </div>
+    <div class="col-md-5">
+
+        <table ng-table="vm.tableParamsAlldistricts" class="row-border hover table table-condensed table-striped" show-filter="true">
+            <tr ng-repeat="row in $data">
+                <td title="'District'" sortable="'district_name'" filter="{district_name: 'text'}"  >{{row.district_name}}</td>
+                <td title="'Actual'" sortable="'consumed'"  class="text-center">{{row.consumed | number:0}}</td>
+                <td title="'Planned'" sortable="'stock_requirement__target'" class="text-center">{{row.stock_requirement__target }}</td>
+                <td title="'Coverage'" sortable="'coverage_rate'" class="text-center">{{row.coverage_rate }}%</td>
+            </tr>
+
+        </table>
+    </div>
+
+
+</div>

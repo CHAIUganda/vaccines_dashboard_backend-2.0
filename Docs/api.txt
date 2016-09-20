@@ -1,0 +1,32 @@
+http://hmis2.health.go.ug/hmis2/api/dataValueSets.json?dataSet=tZvfVXqVIHy&orgUnit=akV6429SUqu&period=201501&dataElement=Lw4CdWq0wUO&children=true
+
+MOH OrgUnit=akV6429SUqu
+HMIS 105.2.11 = tZvfVXqVIHy
+
+
+http://hmis2.health.go.ug/hmis2/api/resources
+
+http://hmis2.health.go.ug/hmis2/api/dataElements?pageSize=3000
+
+http://hmis2.health.go.ug/hmis2/api/dataElements/G7vzcF44h7G.json
+
+http://hmis2.health.go.ug/hmis2/api/dataSets/JtF8FUVBIs8.json
+
+http://hmis2.health.go.ug/hmis2/api/dataValueSets.json?dataSet=XnjkPghTBX9&orgUnit=akV6429SUqu&period=201512
+
+http://hmis2.health.go.ug/hmis2/api/dataSets
+
+http://hmis2.health.go.ug/hmis2/api/dataValueSets.json?dataSet=XnjkPghTBX9&orgUnit=akV6429SUqu&period=201512
+
+http://hmis2.health.go.ug/hmis2/dhis-web-pivot/#
+
+http://hmis2.health.go.ug/hmis2/api/dataSets/JtF8FUVBIs8.json
+
+http://hmis2.health.go.ug/hmis2/api/dataElements/G7vzcF44h7G.json
+
+http://hmis2.health.go.ug/hmis2/api/dataElements?pageSize=3000
+
+http://hmis2.health.go.ug/hmis2/api/resources
+
+http://hmis2.health.go.ug/hmis2/dhis-web-reporting/showDataSetReportForm.action
+

@@ -1,0 +1,51 @@
+python manage.py dhis2_00_download_org_units region
+python manage.py dhis2_00_download_org_units district
+python manage.py dhis2_00_download_org_units subcounty
+
+python manage.py dhis2_01_download_facilities
+
+python manage.py dhis2_02_set_org_unit_parents region
+python manage.py dhis2_02_set_org_unit_parents district
+python manage.py dhis2_02_set_org_unit_parents subcounty
+python manage.py dhis2_02_set_org_unit_parents facility
+
+python manage.py dumpdata dashboard.region --indent 2 > .\dashboard\fixtures\region.json
+python manage.py dumpdata dashboard.district --indent 2 > .\dashboard\fixtures\district.json
+python manage.py dumpdata dashboard.subcounty --indent 2 > .\dashboard\fixtures\subcounty.json
+python manage.py dumpdata dashboard.facility --indent 2 > .\dashboard\fixtures\facility.json
+python ./manage.py dumpdata dashboard.vaccinecategory --indent 2 > .\dashboard\fixtures\vaccinecategory.json
+python ./manage.py dumpdata dashboard.vaccine --indent 2 > .\dashboard\fixtures\vaccine.json
+python manage.py dumpdata --indent 2 > .\dashboard\fixtures\initial_data.json
+
+----To load use
+
+python ./manage.py loaddata .\dashboard\fixtures\region.json
+python ./manage.py loaddata .\dashboard\fixtures\district.json
+python ./manage.py loaddata .\dashboard\fixtures\subcounty.json
+python ./manage.py loaddata .\dashboard\fixtures\facility.json
+python ./manage.py loaddata .\dashboard\fixtures\dataset.json
+python ./manage.py loaddata .\dashboard\fixtures\dataelement.json
+python ./manage.py loaddata .\dashboard\fixtures\vaccine.json
+python ./manage.py loaddata .\dashboard\fixtures\vaccinecategory.json
+
+
+//Check Elements
+description: "HMIS FORM 105: HEALTH UNIT OUTPATIENT MONTHLY REPORT",
+python manage.py dhis2_03_find_data_elements tZvfVXqVIHy
+
+insert into dashboard_dataset (identifier, name, period_type) values ('tZvfVXqVIHy', 'HMIS FORM 105: HEALTH UNIT OUTPATIENT MONTHLY REPORT', 'monthly')
+
+
+//file dataelements
+python manage.py dhis2_04_download_data_elements tZvfVXqVIHy
+
+
+// Download monthly data
+python manage.py dhis2_05_download_data_sets "201512"
+
+
+// Download monthly data
+    python manage.py dhis2_06_parse_data_sets "201512"
+
+    // This option is much faster - Please do not run this more than once for the same months
+    python manage.py dhis2_06_parse_data_sets "201512" --bulk

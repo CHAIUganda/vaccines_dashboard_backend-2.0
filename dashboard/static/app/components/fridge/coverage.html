@@ -1,0 +1,28 @@
+<div ng-controller="FridgeController">
+    <h4 class="text-center">COVERAGE</h4>
+    <div class="col-md-8">
+        <div class="page_graph">
+            <nvd3 options="options" data="data.slice(1,4)"></nvd3>
+        </div>
+    </div>
+    <div class="col-md-4">
+
+           <div id="custom-search-input">
+                <div class="input-group col-md-12">
+                    <input type="text" class="  search-query form-control" ng-model="searchText" placeholder="Search" />
+                    <span class="input-group-btn">
+                        <button class="btn btn-danger" type="button">
+                            <span class=" glyphicon glyphicon-search"></span>
+                        </button>
+                    </span>
+                </div>
+           </div>
+
+        <table ng-table="tableParams" class="table" show-filter="false">
+            <tr ng-repeat="district in data | filter:searchText">
+                <td title="'District'" sortable="'district'">{{district.key}}</td>
+                <td title="'Units'" sortable="'value'">{{getTotal(district.key)}}</td>
+            </tr>
+        </table>
+    </div>
+</div>

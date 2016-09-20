@@ -1,0 +1,120 @@
+from django.db.models.expressions import F
+from dashboard.models import *
+from django.db.models import Count, Sum, Avg
+from django.db.models import FloatField, ExpressionWrapper
+from django.db.models.expressions import F
+from datetime import datetime, timedelta
+
+
+
+
+summary = Stock.objects.filter() \
+            .values('stock_requirement__district__name') \
+            .annotate(district_name=F('stock_requirement__district__name'),
+                      total_at_hand=Sum('at_hand'),
+                      ordered=Sum('ordered'),
+                      consumed=Sum('consumed'),
+                      min_stock=Sum('stock_requirement__minimum'),
+                      max_stock=Sum('stock_requirement__maximum'),
+                      min_variance=Sum('at_hand') / Sum('stock_requirement__minimum') * 100 - 100,
+                      max_variance=Sum('at_hand') / Sum('stock_requirement__maximum') * 100 - 100)\
+            .order_by('stock_requirement__district__name',) \
+            .values('district_name',
+                    'at_hand',
+                    'ordered',
+                    'consumed',
+                    'stock_requirement__minimum',
+                    'stock_requirement__maximum', 
+                    'min_variance')
+                    
+                    
+                    
+summary = Stock.objects.filter() \
+            .values('stock_requirement__district__name') \
+            .annotate(district_name=F('stock_requirement__district__name'),
+                      at_hand=Sum('at_hand'),
+                      ordered=Sum('ordered'),
+                      consumed=Sum('consumed'),
+                      min_variance=ExpressionWrapper(F('at_hand')- F('stock_requirement__minimum')), output_field=FloatField())\
+            .order_by('stock_requirement__district__name',) \
+            .values('district_name',
+                    'at_hand',
+                    'ordered',
+                    'consumed',
+                    'stock_requirement__minimum',
+                    'stock_requirement__maximum', 'min_variance')
+   
+   
+   
+   
+                    
+                    
+
+endMonth, endYear= 'May 2016'.split(' ')
+
+date_range = ["%s-%s-%s" % (endYear, MONTH_TO_NUM[endMonth], 1), "%s-%s-%s" % (endYear, MONTH_TO_NUM[endMonth], LAST_MONTH_DAY[MONTH_TO_NUM[endMonth]])]
+args = {'lastdate__range':date_range}
+args.update({'stock_requirement__district__name': 'Abim District'})
+args.update({'stock_requirement__vaccine__name': 'PENTA'})                
+
+
+summary = Stock.objects.filter(**args) \
+            .values('stock_requirement__district__name') \
+            .annotate(district_name=F('stock_requirement__district__name'),
+                      total_at_hand=F('at_hand'),
+                      ordered=F('ordered'),
+                      consumed=F('consumed'),
+                      min_stock=F('stock_requirement__minimum'),
+                      max_stock=F('stock_requirement__maximum'),
+                      min_variance=ExpressionWrapper(F('at_hand')- F('stock_requirement__minimum')), output_field=FloatField())\
+                      max_variance=ExpressionWrapper(F('at_hand')- F('stock_requirement__maximum')), output_field=FloatField())\
+            .order_by('stock_requirement__district__name',) \
+            .values('district_name',
+                    'at_hand',
+                    'ordered',
+                    'consumed',
+                    'stock_requirement__minimum',
+                    'stock_requirement__maximum', 
+                    'min_variance',
+                    'max_variance')
+                    
+summary = Stock.objects.filter(**args) \
+            .values('stock_requirement__district__name') \
+            .annotate(district_name=F('stock_requirement__district__name'),
+                      period=F('period'), 
+                      period_month=F('month'),
+                      period_year=F('stock_requirement__year'),
+                      at_hand=F('at_hand'),
+                      ordered=F('ordered'),
+                      consumed=F('consumed'),
+                      min_stock=F('stock_requirement__minimum'),
+                      max_stock=F('stock_requirement__maximum'),
+                      min_variance=ExpressionWrapper(F('at_hand')- F('stock_requirement__minimum'), output_field=FloatField()),
+                      max_variance=ExpressionWrapper(F('at_hand')- F('stock_requirement__maximum'), output_field=FloatField()))\
+            .order_by('stock_requirement__district__name',) \
+            .values('district_name',
+                    'period',
+                    'period_month',
+                    'period_year',
+                    'at_hand',
+                    'ordered',
+                    'consumed',
+                    'stock_requirement__minimum',
+                    'stock_requirement__maximum', 
+                    'min_variance',
+                    'max_variance')
+                    
+                    
+                    
+                    
+                    
+                                    // var at_hand_values = []
+                // for (var i = 0; i < 10 ; i++) {
+                //     at_hand_values.push([worstPerforming[i].district_name, worstPerforming[i].at_hand])
+                // }
+                // graphdata.push({
+                //         key: "At Hand",
+                //         values: at_hand_values
+                // });
+
+                    

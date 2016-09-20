@@ -1,0 +1,51 @@
+vaccines:
+  restart: always
+  build: ./
+  ports:
+    - "9000:9000"
+  volumes:
+    - /data/assets:/usr/src/app/asset_files
+    - /data/tmp:/usr/src/app/tmp
+  links:
+    - redis:redis
+    - postgres:postgres
+  env_file: .env
+  command: /usr/local/bin/gunicorn vaccines.wsgi:application -w 2 -b :9000
+
+postgres:
+  restart: always
+  image: postgres:latest
+  volumes:
+    - /data/postgresql:/var/lib/postgresql
+  ports:
+    - "5432:5432"
+
+redis:
+  restart: always
+  image: redis:latest
+  ports:
+    - "6379:6379"
+
+celery:
+  restart: always
+  build: ./
+  links:
+    - postgres:postgres
+    - redis:redis
+  volumes_from:
+    - vaccines
+  env_file: .env
+  command: celery -A vaccines.celery worker --concurrency=3
+
+flower:
+  restart: always
+  build: ./
+  ports:
+    - "5555:5555"
+  links:
+    - postgres:postgres
+    - redis:redis
+  volumes_from:
+    - vaccines
+  env_file: .env
+  command: celery flower -A vaccines.celery --address=0.0.0.0 --port=5555

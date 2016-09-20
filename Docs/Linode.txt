@@ -1,0 +1,17 @@
+23.239.25.10
+Username: root
+Password: Chaiug12345
+
+source /src/virtualenvs/vaccines/bin/activate
+
+cd /src/vc_dashboard
+
+git pull origin master
+
+python manage.py collectstatic
+
+sudo supervisorctl reload
+
+python manage.py makemigrations
+
+python manage.py migrate

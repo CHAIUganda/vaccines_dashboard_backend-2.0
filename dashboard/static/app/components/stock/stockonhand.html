@@ -1,0 +1,91 @@
+
+<div ng-controller="StockController as vm">
+
+    <h4 class="text-center">Stock Balances of {{child.vaccine }} at the end of {{child.themonth | date:'MMM yyyy' }}</h4>
+    <br>
+    <br>
+
+    <div class="col-md-6">
+        <div class="page_graph">
+            <nvd3 options="vm.options" data="vm.graph"></nvd3>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <ul class="nav nav-tabs">
+          <li class="active"><a data-toggle="tab" href="#stocked-out">Stocked Out</a></li>
+          <li><a data-toggle="tab" href="#below-min">Below MIN</a></li>
+          <li><a data-toggle="tab" href="#within-range">Within RANGE</a></li>
+          <li><a data-toggle="tab" href="#above-max">Above MAX</a></li>
+        </ul>
+    <br>
+    <div class="tab-content">
+
+       <div id="stocked-out" class="tab-pane fade in active">
+
+       <table ng-table="vm.tableParams_so" class="row-border hover table table-condensed table-striped"  show-filter="true">
+            <col align="right">
+            <tr ng-repeat="row in $data">
+                <td title="'District'" sortable="'district_name'" filter="{district_name: 'text'}"  >{{row.district_name}}</td>
+                <td title="'Balances'" sortable="'at_hand'" class="text-center" >{{row.at_hand | number:0}}</td>
+                <td title="'Min'" sortable="'stock_requirement__minimum'" class="text-center" >{{row.stock_requirement__minimum}}</td>
+                <td title="'Max'" sortable="'stock_requirement__maximum'" class="text-center" >{{row.stock_requirement__maximum}}</td>
+            </tr>
+
+        </table>
+       </div>
+
+
+
+        <div id="below-min" class="tab-pane fade">
+
+       <table ng-table="vm.tableParams_bm" class="row-border hover table table-condensed table-striped"  show-filter="true">
+            <col align="right">
+            <tr ng-repeat="row in $data">
+                <td title="'District'" sortable="'district_name'" filter="{district_name: 'text'}"  >{{row.district_name}}</td>
+                <td title="'At Hand'" sortable="'at_hand'" class="text-center" >{{row.at_hand | number:0}}</td>
+                <td title="'Min'" sortable="'stock_requirement__minimum'" class="text-center" >{{row.stock_requirement__minimum}}</td>
+                <td title="'Max'" sortable="'stock_requirement__maximum'" class="text-center" >{{row.stock_requirement__maximum}}</td>
+            </tr>
+
+        </table>
+       </div>
+
+
+
+        <div id="within-range" class="tab-pane fade">
+
+       <table ng-table="vm.tableParams_wr" class="row-border hover table table-condensed table-striped"  show-filter="true">
+            <col align="right">
+            <tr ng-repeat="row in $data">
+                <td title="'District'" sortable="'district_name'" filter="{district_name: 'text'}"  >{{row.district_name}}</td>
+                <td title="'At Hand'" sortable="'at_hand'" class="text-center" >{{row.at_hand | number:0}}</td>
+                <td title="'Min'" sortable="'stock_requirement__minimum'" class="text-center" >{{row.stock_requirement__minimum}}</td>
+                <td title="'Max'" sortable="'stock_requirement__maximum'" class="text-center" >{{row.stock_requirement__maximum}}</td>
+            </tr>
+
+        </table>
+       </div>
+
+
+
+        <div id="above-max" class="tab-pane fade">
+
+       <table ng-table="vm.tableParams_am" class="row-border hover table table-condensed table-striped"  show-filter="true">
+            <col align="right">
+            <tr ng-repeat="row in $data">
+                <td title="'District'" sortable="'district_name'" filter="{district_name: 'text'}"  >{{row.district_name}}</td>
+                <td title="'At Hand'" sortable="'at_hand'" class="text-center" >{{row.at_hand | number:0}}</td>
+                <td title="'Min'" sortable="'stock_requirement__minimum'" class="text-center" >{{row.stock_requirement__minimum}}</td>
+                <td title="'Max'" sortable="'stock_requirement__maximum'" class="text-center" >{{row.stock_requirement__maximum}}</td>
+            </tr>
+
+        </table>
+       </div>
+
+
+    </div>
+    </div>
+
+
+</div>

@@ -1,0 +1,47 @@
+{
+  "name": "qdb",
+  "version": "1.0.0",
+  "description": "Order Quality Tool and Dashboard, to connect to DHIS2 data",
+  "main": "index.js",
+  "scripts": {
+    "test": "karma start"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CHAIUganda/OrderQualityTool.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/CHAIUganda/vc_dashboard/issues"
+  },
+  "homepage": "https://github.com/CHAIUganda/vc_dashboard#readme",
+  "devDependencies": {
+    "css-loader": "^0.23.1",
+    "eslint": "^1.10.3",
+    "eslint-loader": "^1.2.1",
+    "file-loader": "^0.8.5",
+    "gulp": "^3.9.1",
+    "gulp-autoprefixer": "^3.1.0",
+    "gulp-concat": "^2.6.0",
+    "gulp-less": "^3.0.5",
+    "gulp-nightwatch": "^0.2.9",
+    "gulp-watch-less": "^1.0.1",
+    "gulp-webpack": "^1.5.0",
+    "jasmine": "^2.3.2",
+    "karma": "^0.13.15",
+    "karma-chrome-launcher": "^0.2.1",
+    "karma-jasmine": "^0.3.6",
+    "less": "^2.5.3",
+    "less-loader": "^2.2.2",
+    "selenium-server": "^2.52.0",
+    "style-loader": "^0.13.0",
+    "url-loader": "^0.5.7",
+    "webpack": "^1.12.13"
+  },
+  "dependencies": {
+    "gulp-bg": "0.0.7",
+    "gulp-webpack": "^1.5.0",
+    "webpack": "^1.12.12"
+  }
+}

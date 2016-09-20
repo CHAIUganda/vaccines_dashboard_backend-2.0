@@ -1,0 +1,15 @@
+    @property
+    def min_variance(self):
+        divisor = self.stock_requirement.minimum
+        if divisor == 0:
+            return self.at_hand - self.stock_requirement.minimum / 1
+        else:
+            return self.at_hand - self.stock_requirement.minimum / divisor
+
+    @property
+    def max_variance(self):
+        divisor = self.stock_requirement.maximum
+        if divisor == 0:
+            return self.consumed - self.stock_requirement.maximum / 1
+        else:
+            return self.consumed - self.stock_requirement.maximum / divisor

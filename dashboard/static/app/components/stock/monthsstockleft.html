@@ -1,0 +1,37 @@
+
+<div ng-controller="MonthsStockLeftController as vm">
+
+    <h4 class="text-center">Months Of Stock Left for {{child.vaccine }} for {{child.themonth }}</h4>
+
+    <div class="col-md-12">
+        <div class="page_graph">
+            <nvd3 options="vm.options" data="vm.graph"></nvd3>
+        </div>
+    </div>
+    <div class="col-md-12">
+
+       <div id="custom-search-input">
+                <div class="input-group col-md-12">
+                    <input type="text" class="  search-query form-control" ng-model="searchText" placeholder="Search" />
+                    <span class="input-group-btn">
+                        <button class="btn btn-danger" type="button">
+                            <span class=" glyphicon glyphicon-search"></span>
+                        </button>
+                    </span>
+                </div>
+           </div>
+
+       <table ng-table="vm.tableParams" class="row-border hover table table-condensed table-striped" show-filter="true">
+
+            <tr ng-repeat="row in $data | filter:searchText">
+                <td title="'District'" sortable="'district_name'"  >{{row.district_name}}</td>
+                <td title="'At Hand'" sortable="'at_hand'" class="text-center" >{{row.at_hand | number:0}}</td>
+                <td title="'Max'" class="text-center">{{row.stock_requirement__maximum}}</td>
+                <td title="'Months Left'" sortable="'stock_left'" class="text-center" >{{row.at_hand/row.stock_requirement__maximum | number:0}}</td>
+            </tr>
+
+        </table>
+    </div>
+
+
+</div>
