@@ -87,7 +87,7 @@ class StockAtHandByDistrictApi(APIView):
                       consumed=F('consumed'),
                       available_stock=ExpressionWrapper(F('received')+F('at_hand'), output_field=IntegerField()),
                       uptake_rate=Case(
-                          When(Q(received=Value(0)) | Q(consumed=Value(0)) , then=Value(0)),
+                          When(Q(available_stock=Value(0)), then=Value(0)),
                           default=(ExpressionWrapper(100*F('consumed')/ (F('received')+F('at_hand')), output_field=IntegerField()))
                       ),
                       coverage_rate=Case(
@@ -100,7 +100,7 @@ class StockAtHandByDistrictApi(APIView):
                       max_stock=F('stock_requirement__maximum'),
                       min_variance=ExpressionWrapper(F('at_hand')- F('stock_requirement__minimum'), output_field=FloatField()),
                       max_variance=ExpressionWrapper(F('at_hand')- F('stock_requirement__maximum'), output_field=FloatField()))\
-            .order_by('at_hand')\
+            .order_by('district_name')\
             .values('district_name',
                     'stock_requirement__district__zone',
                     'at_hand',
