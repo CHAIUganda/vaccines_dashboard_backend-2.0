@@ -208,12 +208,14 @@ angular.module('dashboard')
                 // construct Distribution graph data
                 var graphdataDistribution = [];
                 var seriesDistribution = [];
+                var seriesOrders = [];
                 var min_seriesDistribution = [];
                 var max_seriesDistribution = [];
                 shellScope.child.refreshrate = 0;
 
                 for (var i = 0; i < vm.data.length ; i++) {
-                    seriesDistribution.push([vm.data[i].month, vm.data[i].received])
+                    seriesDistribution.push([vm.data[i].month, parseInt(vm.data[i].received)])
+                    seriesOrders.push([vm.data[i].month, vm.data[i].ordered])
                     min_seriesDistribution.push([vm.data[i].month, vm.data[i].stock_requirement__minimum])
                     max_seriesDistribution.push([vm.data[i].month, vm.data[i].stock_requirement__maximum])
                     if (vm.data[i].month == MonthService.getMonthNumber(endMonth.split(" ")[0])){
@@ -229,6 +231,11 @@ angular.module('dashboard')
                         key: "Issued",
                         values: seriesDistribution,
                         color:'#1F77B4'
+                });
+                graphdataDistribution.push({
+                        key: "Ordered",
+                        values: seriesOrders,
+                        color:'red'
                 });
 
                 graphdataDistribution.push({
