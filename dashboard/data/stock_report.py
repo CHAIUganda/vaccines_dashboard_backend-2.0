@@ -23,7 +23,7 @@ class StockReport:
         self.month = month
         self.month_name = MONTHS_TO_STR[int(self.month)]
         self.month_name = self.month_name.upper()
-        self.vaccines = ["MEASLES", "BCG", "HPV", "BOHV", "TT", "TOPV", "IPV", "PCV", "PENTA"]
+        self.vaccines = ["MEASLES", "BCG", "HPV", "BOPV", "TT", "TOPV", "IPV", "PCV", "PENTA"]
         self.period = int(year + month)
 
     def load(self):
