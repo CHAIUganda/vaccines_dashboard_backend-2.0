@@ -11,7 +11,7 @@ from openpyxl import load_workbook
 def import_min_max(excel_file):
     workbook = load_workbook(excel_file, read_only=True, use_iterators=True)
 
-    vaccines = ["MEASLES", "BCG", "TT", "TOPV",  "PCV", "PENTA"]
+    vaccines = ["MEASLES", "BCG", "TT", "OPV",  "PCV", "PENTA"]
 
     for vaccine in vaccines:
         location_sheet = workbook.get_sheet_by_name(vaccine)
