@@ -37,8 +37,15 @@ def import_targets(excel_file, year):
                     stock_requirement.save()
                     print 'Target saved for %s - %s' % (row[0].value, vaccine)
                 except StockRequirement.DoesNotExist:
-                    print 'No record found for %s - %s' % (row[0].value, vaccine)
-                    pass
+                    district_object = District.objects.filter(name__contains=row[0].value).first()
+                    vaccine_object = Vaccine.objects.filter(name=vaccine).first()
+                    stock_requirement = StockRequirement()
+                    stock_requirement.district = district_object
+                    stock_requirement.year = int(year)
+                    stock_requirement.vaccine = vaccine_object
+                    stock_requirement.target = value
+                    stock_requirement.save()
+                    print 'Target saved for %s - %s' % (row[0].value, vaccine)
 
 
 class Command(BaseCommand):

@@ -23,7 +23,10 @@ class StockReport:
         self.month = month
         self.month_name = MONTHS_TO_STR[int(self.month)]
         self.month_name = self.month_name.upper()
-        self.vaccines = ["MEASLES", "BCG", "HPV", "BOPV", "TT", "TOPV", "IPV", "PCV", "PENTA"]
+        self.vaccines = []
+        self.vaccines0 = ["MEASLES", "BCG", "HPV", "OPV", "TT", "TOPV", "IPV", "PCV", "PENTA"]
+        self.vaccines1 = ["MEASLES", "BCG", "HPV", "HEPB", "TT", "OPV", "IPV", "PCV", "PENTA"]
+        self.start_row = 2
         self.period = int(year + month)
 
     def load(self):
@@ -38,8 +41,14 @@ class StockReport:
         worksheet_name = "%s %s" % (self.month_name, self.year)
         location_sheet = self.workbook.get_sheet_by_name(worksheet_name)
         current_period = self.period
+        if current_period > 20164:
+            self.vaccines = self.vaccines0
+        else:
+            self.vaccines = self.vaccines1
+        if current_period < 20166:
+            self.start_row = 1
 
-        for row in location_sheet.iter_rows('B%s:K%s' % (location_sheet.min_row + 2, location_sheet.max_row)):
+        for row in location_sheet.iter_rows('B%s:K%s' % (location_sheet.min_row + self.start_row, location_sheet.max_row)):
             if row[0].value:
                 for vaccine in self.vaccines:
                     col = self.vaccines.index(vaccine) + 1
@@ -69,17 +78,20 @@ class StockReport:
                                 stock.save()
                             except Stock.DoesNotExist:
                                 stock = Stock()
+                                stock.stock_requirement = stock_requirement
                                 stock.at_hand = value
                                 stock.period = self.period
+                                stock.month=self.month
                                 stock.firstdate = date(int(self.year), int(self.month), 1)
                                 stock.lastdate = date(int(self.year), int(self.month), LAST_MONTH_DAY[int(self.month)])
                                 stock.save()
+                            #print "Saved %s %s %s" % (row[0].value, vaccine, value)
 
     def import_orders(self):
         # Todo: use proper name
         worksheet_name = "%s %s" % (self.month_name, self.year)
         location_sheet = self.workbook.get_sheet_by_name(worksheet_name)
-        for row in location_sheet.iter_rows('B%s:AC%s' % (location_sheet.min_row + 2, location_sheet.max_row)):
+        for row in location_sheet.iter_rows('B%s:AC%s' % (location_sheet.min_row + self.start_row, location_sheet.max_row)):
             if row[0].value:
                 for vaccine in self.vaccines:
                     col = self.vaccines.index(vaccine) + 18
@@ -107,11 +119,14 @@ class StockReport:
                                 stock.save()
                             except Stock.DoesNotExist:
                                 stock = Stock()
+                                stock.stock_requirement = stock_requirement
                                 stock.ordered = value
                                 stock.period = self.period
+                                stock.month=self.month
                                 stock.firstdate = date(int(self.year), int(self.month), 1)
                                 stock.lastdate = date(int(self.year), int(self.month), LAST_MONTH_DAY[int(self.month)])
                                 stock.save()
+                        #print "Saved order %s %s %s" % (row[0].value, vaccine, value)
 
     def import_issues(self):
         # Todo: use proper name
@@ -149,8 +164,10 @@ class StockReport:
                                 stock.save()
                             except Stock.DoesNotExist:
                                 stock = Stock()
+                                stock.stock_requirement = stock_requirement
                                 stock.received = value
                                 stock.period = self.period
+                                stock.month=self.month
                                 stock.firstdate = date(int(self.year), int(self.month), 1)
                                 stock.lastdate = date(int(self.year), int(self.month), LAST_MONTH_DAY[int(self.month)])
                                 stock.save()
