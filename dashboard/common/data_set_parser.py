@@ -142,8 +142,7 @@ class DataSetParser(object):
                                                   'lastdate': date(year, month, LAST_MONTH_DAY[month]),
                                                   'consumed': dh.consumed},
                                     )
-                    stock_requirement.save()
-                print "%s %s %s : %s - Consumed: %s" % (dh.id, dh.period, dh.district, dh.vaccine, dh.consumed)
+                    print "%s %s %s : %s - Consumed: %s" % (dh.id, dh.period, dh.district, dh.vaccine, dh.consumed)
             except IntegrityError, e:
                 print "| Failing... %s" % e.message
 
