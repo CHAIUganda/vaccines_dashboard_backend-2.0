@@ -13,11 +13,11 @@ def user_is_super_user(request):
 Menu.add_item("main", MenuItem("Stock Management",
                                reverse("home"),
                                weight=10))
-'''
-Menu.add_item("main", MenuItem("Coverage",
-                               "#/coverage/facilities",
-                               weight=10))
 
+Menu.add_item("main", MenuItem("Coverage",
+                               "/coverage",
+                               weight=10))
+'''
 Menu.add_item("main", MenuItem("Fridge Coverage",
                                "#/fridge/facilities",
                                weight=10))
