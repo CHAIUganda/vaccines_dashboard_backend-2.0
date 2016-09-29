@@ -36,21 +36,27 @@
         <div class="col-md-12">
          <h3>KEY METRICS</h3>
             <div class="quality_test" ui-sref-active="quality_test_active">
-                <a ui-sref="coverage.home">
+                <a ui-sref="coverage.coveragerate" ui-sref-opts="{reload: true}">
                     <span class="quality_test__metric"> 0</span>
-                    <span class="quality_test__description">{{"Coverage"}}</span>
+                    <span class="quality_test__description">{{"Coverage Rate"}}</span>
                 </a>
             </div>
             <div class="quality_test" ui-sref-active="quality_test_active">
-                <a ui-sref="coverage.dropoutrate">
+                <a ui-sref="coverage.dropoutrate" ui-sref-opts="{reload: true}">
                     <span class="quality_test__metric"> 0</span>
                     <span class="quality_test__description">{{"Dropout Rate" }}</span>
                 </a>
             </div>
             <div class="quality_test" ui-sref-active="quality_test_active">
-                <a ui-sref="coverage.underimmunized">
+                <a ui-sref="coverage.underimmunized" ui-sref-opts="{reload: true}">
                     <span class="quality_test__metric"> 0</span>
                     <span class="quality_test__description">{{"Under-Immunized"}}</span>
+                </a>
+            </div>
+            <div class="quality_test" ui-sref-active="quality_test_active">
+                <a ui-sref="coverage.unimmunized" ui-sref-opts="{reload: true}">
+                    <span class="quality_test__metric"> 0</span>
+                    <span class="quality_test__description">{{"Not Immunized"}}</span>
                 </a>
             </div>
         </div>

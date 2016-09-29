@@ -3,6 +3,7 @@ from django.conf.urls import include, url
 from dashboard import urls as dashboard_urls
 from dashboard.admin import admin_site
 from qdbauth import urls as auth_urls
+from coverage import urls as coverage_urls
 
 urlpatterns = [
     url(r'^admin/', include(admin_site.urls)),
