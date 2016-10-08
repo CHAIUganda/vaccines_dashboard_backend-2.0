@@ -1,0 +1,69 @@
+<div ng-controller="MainController as shell">
+
+    <div class="row range_filter">
+
+        <div class="filter-title col-md-12">
+            <span class="filter-title h3">FILTERS</span>
+        </div>
+
+        <div class="col-md-12 main-filters">
+            <select name="name" class="form-control filter criteria-select" ng-model="shell.startQuarter"
+                ng-options="quarter as quarter.name group by quarter.year for quarter in shell.quarter">
+            </select>
+        <div class="spacer">
+            <h5 class="text-center"> - </h5>
+        </div>
+            <select name="quarter" class="form-control filter criteria-select" ng-model="shell.endQuarter"
+                    ng-options="quarter as quarter.name group by quarter.year for quarter in shell.quarter.slice(shell.quarter.indexOf(shell.startQuarter))">
+            </select>
+        <div class="spacer">
+            <h5 class="text-center"> - </h5>
+        </div>
+            <select name="district" class="form-control filter criteria-select" ng-model="shell.selectedDistrict"
+                    ng-options="district as district.name for district in shell.districts">
+            </select>
+        <div class="spacer">
+            <h5 class="text-center"> - </h5>
+        </div>
+            <select name="CARE LEVEL" class="form-control filter criteria-select" ng-model="shell.selectedcarelevel"
+                    ng-options="carelevel as carelevel.name for carelevel in shell.carelevel">
+            </select>
+        </div>
+    </div>
+
+
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+         <h3>KEY METRICS</h3>
+            <div class="quality_test" ui-sref-active="quality_test_active">
+                <a ui-sref="fridge.facilities">
+                    <span class="quality_test__metric"> 0 </span>
+                    <span class="quality_test__description">{{"IMMUNIZING FACILITIES" }}</span>
+                </a>
+            </div>
+
+            <div class="quality_test" ui-sref-active="quality_test_active">
+                <a ui-sref="fridge.workingstatus">
+                    <span class="quality_test__metric"> 0</span>
+                    <span class="quality_test__description">{{"FUNCTIONALITY" }}</span>
+                </a>
+            </div>
+            <div class="quality_test" ui-sref-active="quality_test_active">
+                <a ui-sref="fridge.capacity">
+                    <span class="quality_test__metric"> 0</span>
+                    <span class="quality_test__description">{{"AVAILABLE CAPACITY"}}</span>
+                </a>
+            </div>
+        </div>
+
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="test-area clearfix">
+                <div ui-view></div>
+            </div>
+        </div>
+
+    </div>
+</div>

@@ -10,7 +10,6 @@ DEBUG = True
 ALLOWED_HOSTS = []
 
 INSTALLED_APPS = (
-    'coverage',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -26,7 +25,8 @@ INSTALLED_APPS = (
     'menu',
     'rest_framework',
     'django.contrib.sites',
-    'custom_user'
+    'custom_user',
+    'cold_chain'
 )
 
 MIDDLEWARE_CLASSES = (

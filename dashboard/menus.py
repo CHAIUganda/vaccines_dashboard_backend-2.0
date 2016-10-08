@@ -14,12 +14,12 @@ Menu.add_item("main", MenuItem("Stock Management",
                                reverse("home"),
                                weight=10))
 
-Menu.add_item("main", MenuItem("Coverage",
-                               "/coverage",
+Menu.add_item("main", MenuItem("Cold Chain",
+                               "/cold",
                                weight=10))
 '''
-Menu.add_item("main", MenuItem("Fridge Coverage",
-                               "#/fridge/facilities",
+Menu.add_item("main", MenuItem("Coverage",
+                               "/coverage",
                                weight=10))
 
 Menu.add_item("main", MenuItem("Surveillance",
