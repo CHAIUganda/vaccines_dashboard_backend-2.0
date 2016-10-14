@@ -1,4 +1,3 @@
-
 from datetime import date
 from django.core.management import BaseCommand
 
@@ -12,12 +11,14 @@ def import_facilities(excel_file):
     workbook_results = workbook.get_sheet_by_name(worksheet_name)
 
     for row in workbook_results.iter_rows('A%s:F%s' % (workbook_results.min_row + 1, workbook_results.max_row)):
-        facility = Facility()
-        facility.code = row[0].value
-        facility.name = row[4].value
-        facility.district = row[1].value
-        facility.sub_county = row[2].value
-        facility.save()
+        fc = Facility()
+        fc.code = row[0].value
+        fc.name = row[4].value
+        fc.district = row[1].value
+        fc.sub_county = row[2].value
+        ft = FacilityType.objects.filter(facility_type_id=row[3].value)
+        fc.type = ft
+        fc.save()
 
 class Command(BaseCommand):
     args = '<path to dataset file>'
