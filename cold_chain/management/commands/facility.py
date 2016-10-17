@@ -16,7 +16,7 @@ def import_facilities(excel_file):
         fc.name = row[4].value
         fc.district = row[1].value
         fc.sub_county = row[2].value
-        ft = FacilityType.objects.filter(facility_type_id=row[3].value)
+        ft = FacilityType.objects.get(facility_type_id=row[3].value)
         fc.type = ft
         fc.save()
 

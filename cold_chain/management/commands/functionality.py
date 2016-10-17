@@ -11,14 +11,21 @@ def import_functionality(excel_file):
     workbook_results = workbook.get_sheet_by_name(worksheet_name)
 
     for row in workbook_results.iter_rows('A%s:N%s' % (workbook_results.min_row + 4, workbook_results.max_row)):
-        fn = Functionality()
-        fn.working_well = row[11].value
-        fn.needs_maintenance = row[12].value
-        fn.not_working = row[13].value
-        fn.number_existing = row[10].value
-        ft = Facility.objects.get(code=row[0].value)
-        fn.facility = ft
-        fn.save()
+        try:
+            fn = Functionality()
+            ft = Facility.objects.get(code=row[0].value)
+            fn.facility = ft
+            fn.working_well = row[11].value
+            fn.needs_maintenance = row[12].value
+            fn.not_working = row[13].value
+            fn.number_existing = row[10].value
+            fn.save()
+        except Facility.DoesNotExist:
+            fn.working_well = row[11].value
+            fn.needs_maintenance = row[12].value
+            fn.not_working = row[13].value
+            fn.number_existing = row[10].value
+            fn.save()
 
 class Command(BaseCommand):
     args = '<path to dataset file>'
