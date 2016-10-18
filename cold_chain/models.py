@@ -37,10 +37,10 @@ class Facility(models.Model):
 
 
 class ImmunizingFacility(models.Model):
-    facility = models.ForeignKey(Facility, on_delete=models.SET_NULL, null=True, blank=True)
-    static = models.BooleanField()
-    outreach = models.BooleanField()
-    ficc_storage = models.BooleanField()
+    facility = models.ForeignKey(FacilityType, on_delete=models.SET_NULL, null=True, blank=True)
+    static = models.NullBooleanField(blank=True)
+    outreach = models.NullBooleanField(blank=False, null=True)
+    ficc_storage = models.NullBooleanField(blank=True)
     quarter = models.CharField(choices=QUARTERS, max_length=20)
 
 
