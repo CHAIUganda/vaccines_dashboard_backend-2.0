@@ -8,7 +8,7 @@
 
         <div class="col-md-12 main-filters">
             <select name="name" class="form-control filter criteria-select" ng-model="shell.startQuarter"
-                ng-options="quarter as quarter.name group by quarter.year for quarter in shell.quarter">
+                ng-options="quarter as quarter for quarter in shell.quarter">
             </select>
         <div class="spacer">
             <h5 class="text-center"> - </h5>
@@ -20,7 +20,7 @@
             <h5 class="text-center"> - </h5>
         </div>
             <select name="district" class="form-control filter criteria-select" ng-model="shell.selectedDistrict"
-                    ng-options="district as district.name for district in shell.districts">
+                    ng-options="district as district.district for district in shell.districts">
             </select>
         <div class="spacer">
             <h5 class="text-center"> - </h5>

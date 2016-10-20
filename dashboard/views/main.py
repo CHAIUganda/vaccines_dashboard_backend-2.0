@@ -28,7 +28,7 @@ class StockView(TemplateView):
 
 
 class FridgeView(TemplateView):
-    template_name = "cold.html"
+    template_name = "fridge.html"
 
     def get_context_data(self, **kwargs):
         context = super(FridgeView, self).get_context_data(**kwargs)
