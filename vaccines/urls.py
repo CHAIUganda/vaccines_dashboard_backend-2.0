@@ -7,7 +7,7 @@ from cold_chain import urls as cold_chain_urls
 
 urlpatterns = [
     url(r'^admin/', include(admin_site.urls)),
-    url(r'^cold/', include('cold_chain.urls')),
+    url(r'^coldchain/', include('cold_chain.urls')),
     url(r'^', include(dashboard_urls)),
     url(r'^', include(auth_urls)),
     url(r'^', include('password_reset.urls'))

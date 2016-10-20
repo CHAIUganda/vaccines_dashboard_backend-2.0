@@ -15,7 +15,7 @@ Menu.add_item("main", MenuItem("Stock Management",
                                weight=10))
 
 Menu.add_item("main", MenuItem("Cold Chain",
-                               "/cold",
+                               "/coldchain",
                                weight=10))
 '''
 Menu.add_item("main", MenuItem("Coverage",

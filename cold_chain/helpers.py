@@ -46,9 +46,20 @@ def to_date(text):
 
 def generate_quarters():
     quarters =[]
-    for y in range(2016, date.today().year + 1):
-        for q in range(1, 4):
-           quarters.append({'name': '%s %d' % (calendar.quarter.abbr[q], y), 'quarter': q, 'year': y})
+    q = ['Q1', 'Q2', 'Q3', 'Q4']
+    x = (date.today().month + 1)//3
+
+    for y in range(2016, date.today().year+1):
+        if y == date.today().year:
+            x1 = ((date.today().month - 1) - 1) // 3 + 1
+            qx = q[:x1]
+        else:
+            qx = q
+
+        for z in qx:
+            quarters.append('%s - %s' % (y, z))
+
+
     return quarters
 
 
