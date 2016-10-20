@@ -29,6 +29,21 @@ angular.module('dashboard')
             shell.selectedDistrict = shell.districts[0];
         });
 
+        FilterService.getFridgeDistricts().then(function(data) {
+            shell.fridgeDistricts = data;
+            shell.selectedFridgeDistrict = shell.fridgeDistricts[0];
+        });
+
+        FilterService.getFridgeCareLevels().then(function(data) {
+            shell.fridgeCareLevels = data;
+            //shell.selectedFridgeCareLevel = shell.fridgeCareLevels[0];
+        });
+
+        FilterService.getFridgeQuarters().then(function(data) {
+            shell.fridgeQuarters = data;
+            shell.selectedFridgeQuarter = shell.fridgeQuarters[0];
+        });
+
         FilterService.getVaccines().then(function(data) {
             shell.vaccines = data;
             shell.selectedVaccine = shell.vaccines[6];
