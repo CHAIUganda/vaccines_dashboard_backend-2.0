@@ -52,7 +52,7 @@ class ImmunizingFacilities(APIView):
         if endQuarter:
             args.update({'quarter__lte': endQuarter})
 
-        summary = ImmunizingFacility.objects.filter()\
+        summary = ImmunizingFacility.objects.filter(**args)\
                 .values(
                         'quarter',
                         'static',
@@ -66,16 +66,34 @@ class ImmunizingFacilities(APIView):
         return Response(summary)
 
 
-class Refrigerators(APIView):
+class Capacities(APIView):
     def get(self, request):
+#        district = request.query_params.get('district', None)
+#        carelevel = request.query_params.get('carelevel', None)
+#        startQuarter = request.query_params.get('startQuarter', '201601')
+#        endQuarter = request.query_params.get('endQuarter', None)
 
-        summary = Functionality.objects.filter()\
+        # Create arguments for filtering
+#        args = {'quarter__gte': startQuarter}
+
+#        if district:
+#            args.update({'facility__district': district})
+
+#        if carelevel:
+#            args.update({'facility__type__group': carelevel})
+
+#        if endQuarter:
+#            args.update({'quarter__lte': endQuarter})
+
+        summary = Capacity.objects.filter()\
                 .values(
-                        'number_existing',
-                        'working_well',
-                        'needs_maintenance',
-                        'not_working',
+                        'actual',
+                        'required',
+                        'difference',
+                        'facility',
                         'facility__district',
                         'facility__name',
-                        'quarter')
+                        'facility__type__group',
+                        'facility__code')
+
         return Response(summary)
