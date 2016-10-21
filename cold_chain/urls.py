@@ -13,5 +13,6 @@ urlpatterns = [
     url(r'^api/carelevels', cold_chain.views.api.CareLevels.as_view(), name='carelevel'),
     url(r'^api/quarters', cold_chain.views.api.Quarters.as_view(), name='quarter'),
     url(r'^api/immunizingfacilities', cold_chain.views.api.ImmunizingFacilities.as_view(), name='immunizingfacilities'),
+    url(r'^api/capacities', cold_chain.views.api.Capacities.as_view(), name='capacities'),
 
 ]
