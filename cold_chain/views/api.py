@@ -83,32 +83,31 @@ class Refrigerators(APIView):
 
 class Capacities(APIView):
     def get(self, request):
-#        district = request.query_params.get('district', None)
-#        carelevel = request.query_params.get('carelevel', None)
-#        startQuarter = request.query_params.get('startQuarter', '201601')
-#        endQuarter = request.query_params.get('endQuarter', None)
+        district = request.query_params.get('district', None)
+        carelevel = request.query_params.get('carelevel', None)
+        startQuarter = request.query_params.get('startQuarter', '201601')
+        endQuarter = request.query_params.get('endQuarter', None)
 
         # Create arguments for filtering
-#        args = {'quarter__gte': startQuarter}
+        args = {'quarter__gte': startQuarter}
 
-#        if district:
-#            args.update({'facility__district': district})
+        if district:
+            args.update({'facility__district': district})
 
-#        if carelevel:
-#            args.update({'facility__type__group': carelevel})
+        if carelevel:
+            args.update({'facility__type__group': carelevel})
 
-#        if endQuarter:
-#            args.update({'quarter__lte': endQuarter})
+        if endQuarter:
+            args.update({'quarter__lte': endQuarter})
 
-        summary = Capacity.objects.filter()\
+        summary = Capacity.objects.filter(**args)\
                 .values(
                         'actual',
                         'required',
                         'difference',
+                        'quarter',
                         'facility',
                         'facility__district',
                         'facility__name',
-                        'facility__type__group',
-                        'facility__code')
-
+                        'facility__type__group')
         return Response(summary)
