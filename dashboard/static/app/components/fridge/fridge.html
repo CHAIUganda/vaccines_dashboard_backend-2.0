@@ -8,13 +8,13 @@
 
         <div class="col-md-12 main-filters">
             <select name="name" class="form-control filter criteria-select" ng-model="shell.startQuarter"
-                ng-options="quarter as quarter for quarter in shell.fridgeQuarters">
+                ng-options="quarter.value as quarter.name for quarter in shell.fridgeQuarters">
             </select>
         <div class="spacer">
             <h5 class="text-center"> - </h5>
         </div>
             <select name="quarter" class="form-control filter criteria-select" ng-model="shell.endQuarter"
-                    ng-options="quarter as quarter for quarter in shell.fridgeQuarters">
+                    ng-options="quarter.value as quarter.name for quarter in shell.fridgeQuarters">
             </select>
         <div class="spacer">
             <h5 class="text-center"> - </h5>

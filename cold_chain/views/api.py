@@ -36,20 +36,27 @@ class CareLevels(APIView):
 class ImmunizingFacilities(APIView):
     def get(self, request):
         district = request.query_params.get('district', None)
-        carelevel = request.query_params.get('group', None)
+        carelevel = request.query_params.get('carelevel', None)
         quarter = request.query_params.get('quarter', None)
 
+        # Create arguments for filtering
+        args = {}
+
+        if district:
+            args.update({'facility__district': district})
+
+        if carelevel:
+            args.upd({'facility__type__group': carelevel})
+
         summary = ImmunizingFacility.objects.filter()\
-                .order_by('facility__facility__code' )\
                 .values(
-                        'facility__facility__district',
-                        'facility__facility_type_id',
-                        'facility__facility__name',
-                        'facility',
-                        'facility__group',
-                        'facility__facility__code',
                         'quarter',
                         'static',
                         'outreach',
-                        'ficc_storage')
+                        'ficc_storage',
+                        'facility',
+                        'facility__district',
+                        'facility__name',
+                        'facility__type__group',
+                        'facility__code')
         return Response(summary)
