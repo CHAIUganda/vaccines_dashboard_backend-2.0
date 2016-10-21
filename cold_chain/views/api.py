@@ -66,6 +66,21 @@ class ImmunizingFacilities(APIView):
         return Response(summary)
 
 
+class Refrigerators(APIView):
+    def get(self, request):
+
+        summary = Functionality.objects.filter()\
+                .values(
+                        'number_existing',
+                        'working_well',
+                        'needs_maintenance',
+                        'not_working',
+                        'facility__district',
+                        'facility__name',
+                        'quarter')
+        return Response(summary)
+
+
 class Capacities(APIView):
     def get(self, request):
 #        district = request.query_params.get('district', None)
