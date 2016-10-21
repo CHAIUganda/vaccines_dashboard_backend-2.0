@@ -49,6 +49,7 @@ class Functionality(models.Model):
     needs_maintenance = models.IntegerField()
     not_working = models.IntegerField()
     number_existing = models.IntegerField()
+    quarter = models.CharField(choices=QUARTERS, max_length=20,null=True, blank=True)
 
 
 class Capacity(models.Model):
@@ -56,3 +57,4 @@ class Capacity(models.Model):
     actual = models.CharField(max_length=200)
     required = models.CharField(max_length=200)
     difference = models.CharField(max_length=200)
+    quarter = models.CharField(choices=QUARTERS, max_length=20,null=True, blank=True)

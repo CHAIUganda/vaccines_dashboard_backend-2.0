@@ -64,3 +64,18 @@ class ImmunizingFacilities(APIView):
                         'facility__type__group',
                         'facility__code')
         return Response(summary)
+
+
+class Refrigerators(APIView):
+    def get(self, request):
+
+        summary = Functionality.objects.filter()\
+                .values(
+                        'number_existing',
+                        'working_well',
+                        'needs_maintenance',
+                        'not_working',
+                        'facility__district',
+                        'facility__name',
+                        'quarter')
+        return Response(summary)

@@ -13,5 +13,5 @@ urlpatterns = [
     url(r'^api/carelevels', cold_chain.views.api.CareLevels.as_view(), name='carelevel'),
     url(r'^api/quarters', cold_chain.views.api.Quarters.as_view(), name='quarter'),
     url(r'^api/immunizingfacilities', cold_chain.views.api.ImmunizingFacilities.as_view(), name='immunizingfacilities'),
-
+    url(r'^api/refrigerators', cold_chain.views.api.Refrigerators.as_view(), name='Refrigerators'),
 ]

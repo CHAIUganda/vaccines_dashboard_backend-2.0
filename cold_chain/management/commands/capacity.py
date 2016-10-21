@@ -5,7 +5,7 @@ from cold_chain.models import *
 from openpyxl import load_workbook
 
 
-def import_capacity(excel_file):
+def import_capacity(excel_file, quarter):
     workbook = load_workbook(excel_file, read_only=True, use_iterators=True)
     worksheet_name = "capacity"
     workbook_results = workbook.get_sheet_by_name(worksheet_name)
@@ -18,11 +18,13 @@ def import_capacity(excel_file):
             fc.actual = row[4].value
             fc.required = row[5].value
             fc.difference = row[6].value
+            fc.quarter = quarter
             fc.save()
         except Facility.DoesNotExist:
             fc.actual = row[4].value
             fc.required = row[5].value
             fc.difference = row[6].value
+            fc.quarter = quarter
             fc.save()
 
 class Command(BaseCommand):
@@ -31,4 +33,5 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         excel_file = args[0]
-        import_capacity(excel_file)
+        quarter = args[1]
+        import_capacity(excel_file, quarter)
