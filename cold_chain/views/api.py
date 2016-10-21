@@ -37,16 +37,20 @@ class ImmunizingFacilities(APIView):
     def get(self, request):
         district = request.query_params.get('district', None)
         carelevel = request.query_params.get('carelevel', None)
-        quarter = request.query_params.get('quarter', None)
+        startQuarter = request.query_params.get('startQuarter', '201601')
+        endQuarter = request.query_params.get('endQuarter', None)
 
         # Create arguments for filtering
-        args = {}
+        args = {'quarter__gte': startQuarter}
 
         if district:
             args.update({'facility__district': district})
 
         if carelevel:
-            args.upd({'facility__type__group': carelevel})
+            args.update({'facility__type__group': carelevel})
+
+        if endQuarter:
+            args.update({'quarter__lte': endQuarter})
 
         summary = ImmunizingFacility.objects.filter()\
                 .values(
