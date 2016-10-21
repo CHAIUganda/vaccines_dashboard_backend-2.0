@@ -23,7 +23,6 @@ QUARTERS = (
 
 
 class FacilityType(models.Model):
-    facility_type_id = models.IntegerField()
     name = models.CharField(max_length=200)
     group = models.CharField(max_length=200)
 
@@ -37,7 +36,7 @@ class Facility(models.Model):
 
 
 class ImmunizingFacility(models.Model):
-    facility = models.ForeignKey(FacilityType, on_delete=models.SET_NULL, null=True, blank=True)
+    facility = models.ForeignKey(Facility, on_delete=models.SET_NULL, null=True, blank=True)
     static = models.NullBooleanField(blank=True)
     outreach = models.NullBooleanField(blank=False, null=True)
     ficc_storage = models.NullBooleanField(blank=True)
