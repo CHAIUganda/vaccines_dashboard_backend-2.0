@@ -54,7 +54,7 @@ class Functionality(models.Model):
 
 class Capacity(models.Model):
     facility = models.ForeignKey(Facility, on_delete=models.SET_NULL, null=True, blank=True)
-    actual = models.CharField(max_length=200)
-    required = models.CharField(max_length=200)
-    difference = models.CharField(max_length=200)
+    actual = models.FloatField()
+    required = models.FloatField()
+    difference = models.FloatField()
     quarter = models.CharField(choices=QUARTERS, max_length=20,null=True, blank=True)

@@ -8,6 +8,8 @@ angular.module('dashboard')
 
         $scope.root = {};
         var shell = this;
+
+        //=== Stock Management =======
         shell.startMonth = shell.startMonth ? shell.startMonth.name : "Nov 2015";
         shell.endMonth = shell.endMonth ? shell.endMonth.name : "Dec 2015";
         shell.selectedVaccine = "";
@@ -16,6 +18,7 @@ angular.module('dashboard')
         var date = new Date();
         defaultMonth = date.getMonth() - 2;
 
+        shell.myname = "Stephen";
         shell.stockathand = 0;
 
         FilterService.getMonths().then(function(data) {
@@ -29,9 +32,23 @@ angular.module('dashboard')
             shell.selectedDistrict = shell.districts[0];
         });
 
+        FilterService.getVaccines().then(function(data) {
+            shell.vaccines = data;
+            shell.selectedVaccine = shell.vaccines[6];
+        });
+
+        //==== End Stock Management =====
+
+        //=== Cold chain ======
+        shell.startQuarter = shell.startQuarter ? shell.startQuarter.name : "201601";
+        shell.endQuarter = shell.endQuarter ? shell.endQuarter.name : "201603";
+        shell.selectedFridgeDistrict = "";
+        shell.selectedFridgeCareLevel = "";
+
+
         FilterService.getFridgeDistricts().then(function(data) {
             shell.fridgeDistricts = data;
-            shell.selectedFridgeDistrict = shell.fridgeDistricts[0];
+            shell.selectedFridgeDistrict = shell.fridgeDistricts[1];
         });
 
         FilterService.getFridgeCareLevels().then(function(data) {
@@ -41,13 +58,10 @@ angular.module('dashboard')
 
         FilterService.getFridgeQuarters().then(function(data) {
             shell.fridgeQuarters = data;
-            shell.selectedFridgeQuarter = shell.fridgeQuarters[0];
+            //shell.selectedFridgeQuarter = shell.fridgeQuarters[0];
         });
 
-        FilterService.getVaccines().then(function(data) {
-            shell.vaccines = data;
-            shell.selectedVaccine = shell.vaccines[6];
-        });
+        //==== End Cold Chain =======
 
 
         $scope.$watch('shell.endMonth', function() {
@@ -60,6 +74,20 @@ angular.module('dashboard')
             if(data[0] && data[1] && data[2]){
                 if (shell.endMonth) {
                     $rootScope.$broadcast('refresh', shell.startMonth, shell.endMonth, shell.selectedDistrict, shell.selectedVaccine);
+                }
+            }
+        });
+
+        $scope.$watch('shell.endQuarter', function() {
+            if (shell.endQuarter) {
+                $rootScope.$broadcast('refreshCapacity', shell.startQuarter, shell.endQuarter, shell.selectedFridgeDistrict, shell.selectedFridgeCareLevel);
+            }
+        }, true);
+
+        $scope.$watchGroup(['shell.endQuarter', 'shell.selectedFridgeCareLevel', 'shell.selectedFridgeDistrict'], function(data){
+            if(data[0] && data[1] && data[2]){
+                if (shell.endQuarter) {
+                    $rootScope.$broadcast('refreshCapacity', shell.startQuarter, shell.endQuarter, shell.selectedFridgeDistrict, shell.selectedFridgeCareLevel);
                 }
             }
         });

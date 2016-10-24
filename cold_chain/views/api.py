@@ -100,8 +100,9 @@ class Capacities(APIView):
         if endQuarter:
             args.update({'quarter__lte': endQuarter})
 
-        summary = Capacity.objects.filter(**args)\
-                .values(
+        summary = Capacity.objects.filter(**args) \
+            .order_by('facility__district') \
+            .values(
                         'actual',
                         'required',
                         'difference',
@@ -110,4 +111,70 @@ class Capacities(APIView):
                         'facility__district',
                         'facility__name',
                         'facility__type__group')
+        return Response(summary)
+
+class DistrictCapacities(APIView):
+    def get(self, request):
+        district = request.query_params.get('district', None)
+        carelevel = request.query_params.get('carelevel', None)
+        startQuarter = request.query_params.get('startQuarter', '201601')
+        endQuarter = request.query_params.get('endQuarter', None)
+
+        # Create arguments for filtering
+        args = {'quarter__gte': startQuarter}
+
+        if district:
+            args.update({'facility__district': district})
+
+        if carelevel:
+            args.update({'facility__type__group': carelevel})
+
+        if endQuarter:
+            args.update({'quarter__lte': endQuarter})
+
+        summary = Capacity.objects.filter(**args)\
+                .values('facility__district')\
+                .annotate(required = Sum('required'),
+                          available = Sum('actual'),
+                          gap = Sum('difference'))\
+                .order_by('facility__district')\
+                .values(
+                        'available',
+                        'required',
+                        'gap',
+                        'quarter',
+                        'facility__district')
+        return Response(summary)
+
+class FacilityCapacities(APIView):
+    def get(self, request):
+        district = request.query_params.get('district', None)
+        carelevel = request.query_params.get('carelevel', None)
+        startQuarter = request.query_params.get('startQuarter', '201601')
+        endQuarter = request.query_params.get('endQuarter', None)
+
+        # Create arguments for filtering
+        args = {'quarter__gte': startQuarter}
+
+        if district:
+            args.update({'facility__district': district})
+
+        if carelevel:
+            args.update({'facility__type__group': carelevel})
+
+        if endQuarter:
+            args.update({'quarter__lte': endQuarter})
+
+        summary = Capacity.objects.filter(**args)\
+                .values('facility__name')\
+                .annotate(required = Sum('required'),
+                          available = Sum('actual'),
+                          gap = Sum('difference'))\
+                .order_by('facility__name')\
+                .values(
+                        'available',
+                        'required',
+                        'gap',
+                        'quarter',
+                        'facility__name')
         return Response(summary)
