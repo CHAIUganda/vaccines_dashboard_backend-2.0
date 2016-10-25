@@ -66,8 +66,59 @@ class ImmunizingFacilities(APIView):
         return Response(summary)
 
 
+class DistrictImmunizingFacilities(APIView):
+    def get(self, request):
+        district = request.query_params.get('district', None)
+        carelevel = request.query_params.get('carelevel', None)
+        startQuarter = request.query_params.get('startQuarter', '201601')
+        endQuarter = request.query_params.get('endQuarter', None)
+
+        # Create arguments for filtering
+        args = {'quarter__gte': startQuarter}
+
+        if district:
+            args.update({'facility__district': district})
+
+        if carelevel:
+            args.update({'facility__type__group': carelevel})
+
+        if endQuarter:
+            args.update({'quarter__lte': endQuarter})
+
+        summary = ImmunizingFacility.objects.filter(**args)\
+                .values('facility__district')\
+                .annotate()\
+                .values(
+                        'quarter',
+                        'static',
+                        'outreach',
+                        'ficc_storage',
+                        'facility',
+                        'facility__district',
+                        'facility__name',
+                        'facility__type__group',
+                        'facility__code')
+        return Response(summary)
+
+
 class Refrigerators(APIView):
     def get(self, request):
+        district = request.query_params.get('district', None)
+        carelevel = request.query_params.get('carelevel', None)
+        startQuarter = request.query_params.get('startQuarter', '201601')
+        endQuarter = request.query_params.get('endQuarter', None)
+
+        # Create arguments for filtering
+        args = {'quarter__gte': startQuarter}
+
+        if district:
+            args.update({'facility__district': district})
+
+        if carelevel:
+            args.update({'facility__type__group': carelevel})
+
+        if endQuarter:
+            args.update({'quarter__lte': endQuarter})
 
         summary = Functionality.objects.filter()\
                 .values(
@@ -78,6 +129,78 @@ class Refrigerators(APIView):
                         'facility__district',
                         'facility__name',
                         'quarter')
+        return Response(summary)
+
+
+class DistrictRefrigerators(APIView):
+    def get(self, request):
+        district = request.query_params.get('district', None)
+        carelevel = request.query_params.get('carelevel', None)
+        startQuarter = request.query_params.get('startQuarter', '201602')
+        endQuarter = request.query_params.get('endQuarter', None)
+
+        # Create arguments for filtering
+        args = {'quarter__gte': startQuarter}
+
+        if district:
+            args.update({'facility__district': district})
+
+        if carelevel:
+            args.update({'facility__type__group': carelevel})
+
+        if endQuarter:
+            args.update({'quarter__lte': endQuarter})
+
+        summary = Functionality.objects.filter(**args)\
+                .values('facility__district')\
+                .annotate(working_well = Sum('working_well'),
+                          needs_maintenance = Sum('needs_maintenance'),
+                          not_working = Sum('not_working'),
+                          number_existing = Sum('number_existing'))\
+                .order_by('facility__district')\
+                .values(
+                        'working_well',
+                        'needs_maintenance',
+                        'not_working',
+                        'quarter',
+                        'number_existing',
+                        'facility__district')
+        return Response(summary)
+
+
+class FacilityRefrigerators(APIView):
+    def get(self, request):
+        district = request.query_params.get('district', None)
+        carelevel = request.query_params.get('carelevel', None)
+        startQuarter = request.query_params.get('startQuarter', '201601')
+        endQuarter = request.query_params.get('endQuarter', None)
+
+        # Create arguments for filtering
+        args = {'quarter__gte': startQuarter}
+
+        if district:
+            args.update({'facility__district': district})
+
+        if carelevel:
+            args.update({'facility__type__group': carelevel})
+
+        if endQuarter:
+            args.update({'quarter__lte': endQuarter})
+
+        summary = Functionality.objects.filter(**args)\
+                .values('facility__name')\
+                .annotate(working_well = Sum('working_well'),
+                          needs_maintenance = Sum('needs_maintenance'),
+                          not_working = Sum('not_working'),
+                          number_existing = Sum('number_existing'))\
+                .order_by('facility__name')\
+                .values(
+                        'working_well',
+                        'needs_maintenance',
+                        'not_working',
+                        'quarter',
+                        'number_existing',
+                        'facility__name')
         return Response(summary)
 
 
