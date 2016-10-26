@@ -79,6 +79,16 @@ angular.module('services').service('FridgeService', ['$http',
                 }
             }).then(handleResponse);
         };
+        var getFridgeDistrictImmunizingFacility = function(startQuarter, endQuarter, district, carelevel) {
+            return $http.get('coldchain/api/districtimmunizingfacilities', {
+                params: {
+                    startQuarter: startQuarter,
+                    endQuarter: endQuarter,
+                    district: district,
+                    carelevel: carelevel
+                }
+            }).then(handleResponse);
+        };
 
         return {
             "getFridgeCapacity": getFridgeCapacity,
@@ -87,7 +97,8 @@ angular.module('services').service('FridgeService', ['$http',
             "getFridgeFunctionality": getFridgeFunctionality,
             "getFridgeImmunizingFacility": getFridgeImmunizingFacility,
             "getFridgeDistrictRefrigerator":getFridgeDistrictRefrigerator,
-            "getFridgeFacilityRefrigerator":getFridgeFacilityRefrigerator
+            "getFridgeFacilityRefrigerator":getFridgeFacilityRefrigerator,
+            "getFridgeDistrictImmunizingFacility":getFridgeDistrictImmunizingFacility
         };
     }
 ])

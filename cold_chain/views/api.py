@@ -76,6 +76,8 @@ class DistrictImmunizingFacilities(APIView):
         # Create arguments for filtering
         args = {'quarter__gte': startQuarter}
 
+
+
         if district:
             args.update({'facility__district': district})
 
@@ -85,21 +87,11 @@ class DistrictImmunizingFacilities(APIView):
         if endQuarter:
             args.update({'quarter__lte': endQuarter})
 
-        summary = ImmunizingFacility.objects.filter(**args)\
+        summary = ImmunizingFacility.objects.filter (**args)\
                 .values('facility__district')\
-                .annotate()\
-                .values(
-                        'quarter',
-                        'static',
-                        'outreach',
-                        'ficc_storage',
-                        'facility',
-                        'facility__district',
-                        'facility__name',
-                        'facility__type__group',
-                        'facility__code')
+                .annotate(immunizing=(Count(Q(static='True') | Q(outreach='True'))),
+                          Total_facilities=(Count('facility__code')))
         return Response(summary)
-
 
 class Refrigerators(APIView):
     def get(self, request):
