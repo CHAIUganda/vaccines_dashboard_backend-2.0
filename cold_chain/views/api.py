@@ -90,7 +90,13 @@ class DistrictImmunizingFacilities(APIView):
         summary = ImmunizingFacility.objects.filter (**args)\
                 .values('facility__district')\
                 .annotate(immunizing=(Count(Q(static='True') | Q(outreach='True'))),
-                          Total_facilities=(Count('facility__code')))
+                          Total_facilities=(Count('facility__code')))\
+                .values(
+                        'facility__district',
+                        'immunizing',
+                        'Total_facilities',
+                        'quarter',
+                        )
         return Response(summary)
 
 class Refrigerators(APIView):

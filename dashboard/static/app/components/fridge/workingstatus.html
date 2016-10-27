@@ -17,7 +17,7 @@
         <br>
         <div class="tab-content">
             <div id="district" class="tab-pane fade in active">
-                <table ng-table="vm.tableParams_d" class="row-border hover table table-condensed table-striped" show-filter="true">
+                <table ng-table="vm.tableParamsAlldistricts" class="row-border hover table table-condensed table-striped" show-filter="true">
                     <tr ng-repeat="row in $data">
                         <td title="'District'" sortable="'facility__district'" filter="{facility__district: 'text'}"  >{{row.facility__district}}</td>
                         <td title="'No.existing'" sortable="'number_existing'"  class="text-center">{{row.number_existing}}</td>
@@ -29,7 +29,7 @@
             </div>
 
             <div id="facility" class="tab-pane fade">
-                <table ng-table="vm.tableParams_f" class="row-border hover table table-condensed table-striped" show-filter="true">
+                <table ng-table="vm.tableParamsAllfacilities" class="row-border hover table table-condensed table-striped" show-filter="true">
                     <tr ng-repeat="row in $data">
                         <td title="'Facility'" sortable="'facility__name'" filter="{facility__name: 'text'}"  >{{row.facility__name}}</td>
                         <td title="'No.existing'" sortable="'number_existing'"  class="text-center">{{row.number_existing}}</td>
