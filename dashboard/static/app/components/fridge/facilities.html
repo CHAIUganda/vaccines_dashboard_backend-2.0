@@ -4,13 +4,13 @@
     <br>
     <br>
 
-    <div class="col-md-5">
+    <div class="col-md-6">
         <div class="page_graph">
             <nvd3 options="vm.options" data="vm.graph"></nvd3>
         </div>
     </div>
-    <div class="col-md-7">
-        <table ng-table="vm.tableParams_d" class="row-border hover table table-condensed table-striped" show-filter="true">
+    <div class="col-md-6">
+        <table ng-table="vm.tableParamsAllfridge" class="row-border hover table table-condensed table-striped" show-filter="true">
             <tr ng-repeat="row in $data">
                 <td title="'District'" sortable="'facility__district'" filter="{facility__district: 'text'}"  >{{row.facility__district}}</td>
                 <td title="'ImmunizingF'" sortable="'immunizing'"  class="text-center">{{row.immunizing}}</td>
