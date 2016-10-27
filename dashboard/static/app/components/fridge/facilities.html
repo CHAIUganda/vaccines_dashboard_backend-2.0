@@ -14,7 +14,7 @@
             <tr ng-repeat="row in $data">
                 <td title="'District'" sortable="'facility__district'" filter="{facility__district: 'text'}"  >{{row.facility__district}}</td>
                 <td title="'ImmunizingF'" sortable="'immunizing'"  class="text-center">{{row.immunizing}}</td>
-                <td title="'Facilities'" sortable="'Total_facilities'" class="text-center">{{row.Total_facilities}}</td>
+                <td title="'cc'" >{{ (row.immunizing/row.Total_facilities)*100 | number:0}}%</td>
             </tr>
         </table>
 

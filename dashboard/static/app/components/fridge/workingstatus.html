@@ -6,7 +6,7 @@
 
     <div class="col-md-5">
         <div class="page_graph">
-            <nvd3 options="vm.options" data="vm.graph"></nvd3>
+            <nvd3 options="vm.optionsfunctionality" data="vm.graphfunctionality"></nvd3>
         </div>
     </div>
     <div class="col-md-7">
@@ -20,10 +20,9 @@
                 <table ng-table="vm.tableParamsAlldistricts" class="row-border hover table table-condensed table-striped" show-filter="true">
                     <tr ng-repeat="row in $data">
                         <td title="'District'" sortable="'facility__district'" filter="{facility__district: 'text'}"  >{{row.facility__district}}</td>
-                        <td title="'No.existing'" sortable="'number_existing'"  class="text-center">{{row.number_existing}}</td>
-                        <td title="'Working'" sortable="'working_well'" class="text-center">{{row.working_well}}</td>
-                        <td title="'Not_working'" sortable="'not_working'" class="text-center">{{row.not_working}}</td>
-                        <td title="'Needs maintenance'" sortable="'needs_maintenance'" class="text-center">{{row.needs_maintenance}}</td>
+                        <td title="'Existing'" sortable="'number_existing'"  class="text-center">{{row.number_existing}}</td>
+                        <td title="'Not working'" sortable="'not_working'" class="text-center">{{row.not_working}}</td>
+                        <td title="'Needs Maintenance'" sortable="'needs_maintenance'" class="text-center">{{row.needs_maintenance}}</td>
                     </tr>
                 </table>
             </div>

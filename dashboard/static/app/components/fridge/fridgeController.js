@@ -164,43 +164,38 @@ angular.module('dashboard')
 
 
                 // construct District graph data
-                var graphdata = [];
-                var seriesRequired = [];
-                var seriesAvailable = [];
-                var seriesGap = [];
+                var graphfunctionalitydata = [];
+                var seriesExisting = [];
+                var seriesNotWorking = [];
+                var seriesmaintenance = [];
 
                 for (var i = 0; i < vm.data.length ; i++) {
-                    seriesRequired.push([vm.data[i].quarter, vm.data[i].required])
-                    seriesAvailable.push([vm.data[i].quarter, vm.data[i].available])
-                    seriesGap.push([vm.data[i].quarter, vm.data[i].gap])
-
+                    seriesExisting.push([vm.data[i].quarter, vm.data[i].number_existing])
+                    seriesNotWorking.push([vm.data[i].quarter, vm.data[i].not_working])
+                    seriesmaintenance.push([vm.data[i].quarter, vm.data[i].needs_maintenance])
                 }
-/*
-                seriesRequired = [[201602, 30], [201603, 30]];
-                seriesAvailable = [[201602, 60], [201603, 20]];
-*/
 
-                graphdata.push({
-                        key: "Required",
-                        values: seriesRequired,
+                graphfunctionalitydata.push({
+                        key: "Existing",
+                        values: seriesExisting,
                         color:'#A5E816'
                 });
-                graphdata.push({
-                        key: "Available",
-                        values: seriesAvailable,
+                graphfunctionalitydata.push({
+                        key: "Not Working",
+                        values: seriesNotWorking,
                         color:'#1F77B4'
                 });
-/*                graphdata.push({
-                        key: "Gap",
-                        values: seriesGap,
+               graphfunctionalitydata.push({
+                        key: "Needs maintenance",
+                        values: seriesmaintenance,
                         color:'red'
                 });
-*/
-                vm.graph = graphdata;
+
+                vm.graphfunctionality = graphfunctionalitydata;
 
 
                 // update graph
-                vm.options = {
+                vm.optionsfunctionality = {
                         chart: {
                             type: "multiBarChart",
                             height: 450,
