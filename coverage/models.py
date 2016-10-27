@@ -2,7 +2,7 @@ from __future__ import unicode_literals
 
 from django.db import models
 from custom_user.models import AbstractEmailUser
-from dashboard.models import models
+from dashboard.models import *
 
 from django.db.models import CharField
 from jsonfield import JSONField
@@ -10,11 +10,11 @@ from picklefield import PickledObjectField
 from datetime import datetime, timedelta
 from django.utils import timezone
 
-class DHIS2coverage(models.Model):
+class VaccineDose(models.Model):
     period  = models.IntegerField()
-    vaccine_category = models.CharField(max_length=255)
-    year = models.IntegerField()
-    month = models.IntegerField(default=1)
-    District = models.CharField(max_length=255)
-    value = models.FloatField(default=0)
+    vaccine = models.ForeignKey(Vaccine, on_delete=models.SET_NULL, null=True, blank=True)
+    dose = models.CharField(max_length=255)
+    district = models.ForeignKey(District, on_delete=models.SET_NULL, null=True, blank=True)
+    consumed = models.FloatField(default=0)
+    planned_consumption = models.FloatField(default=0)
 

@@ -26,7 +26,8 @@ INSTALLED_APPS = (
     'rest_framework',
     'django.contrib.sites',
     'custom_user',
-    'cold_chain'
+    'cold_chain',
+    'coverage'
 )
 
 MIDDLEWARE_CLASSES = (
