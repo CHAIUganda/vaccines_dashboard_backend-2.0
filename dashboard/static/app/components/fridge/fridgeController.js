@@ -7,11 +7,39 @@ angular.module('dashboard')
         var shellScope = $scope.$parent;
         shellScope.child = $scope;
 
+        vm.getFridgeAllDistrictCapacity = function(startQuarter, endQuarter, district, carelevel) {
+
+            vm.startQuarter = vm.startQuarter ? vm.startQuarter : "201601";
+            vm.endQuarter = vm.endQuarter ? vm.endQuarter : "201604";
+            district = "";
+            vm.carelevel = carelevel;
+
+            FridgeService.getFridgeDistrictCapacity(startQuarter, endQuarter, district, carelevel)
+                .then(function(data) {
+
+                vm.data = angular.copy(data);
+                    allData =
+                tabledataAlldistricts = vm.data.filter(
+                        function (value) {
+                            return value;
+                        });
+                vm.tableParamsCapacityAlldistricts = new NgTableParams({
+                    page: 1,
+                    count: 10
+                }, {
+                    filterDelay: 0,
+                    counts: [],
+                    data: tabledataAlldistricts,
+                    });
+
+            });
+        };
+
         vm.getFridgeDistrictCapacity = function(startQuarter, endQuarter, district, carelevel) {
 
             vm.startQuarter ? vm.startQuarter : "201601";
             vm.endQuarter = vm.endQuarter ? vm.endQuarter : "201604";
-            district = "";
+            district = "ABIM";
             vm.district = district;
             vm.carelevel = carelevel;
 
@@ -19,14 +47,7 @@ angular.module('dashboard')
                 .then(function(data) {
 
                 vm.data = angular.copy(data);
-                vm.tableParams_d = new NgTableParams({
-                    page: 1,
-                    count: 15
-                }, {
-                    filterDelay: 0,
-                    counts: [],
-                    data: vm.data,
-                });
+
 
                 // calculate totals
                 shellScope.child.district = vm.district;
@@ -95,6 +116,7 @@ angular.module('dashboard')
             });
         };
 
+
         vm.getFridgeFacilityCapacity = function(startQuarter, endQuarter, district, carelevel) {
 
             vm.startQuarter ? vm.startQuarter : "201601";
@@ -128,8 +150,8 @@ angular.module('dashboard')
 
             vm.startQuarter ? vm.startQuarter : "201601";
             vm.endQuarter = vm.endQuarter ? vm.endQuarter : "201604";
-            district = "";
-            vm.district = district;
+            district = "ADJUMANI";
+            vm.district = vm.selectedFridgeDistrict ? vm.selectedFridgeDistrict : "";
             vm.carelevel = carelevel;
 
             FridgeService.getFridgeDistrictRefrigerator(startQuarter, endQuarter, district, carelevel)
@@ -206,7 +228,7 @@ angular.module('dashboard')
                               left: 45
                             },
                             clipEdge: true,
-                            stacked: false,
+                            stacked: true,
                             x: function(d){ return d[0]; },
                             y: function(d){ return d[1]; },
                             showValues: true,
@@ -369,6 +391,7 @@ angular.module('dashboard')
                 vm.getFridgeDistrictRefrigerator(startQuarter, endQuarter, district, carelevel);
                 vm.getFridgeFacilityRefrigerator(startQuarter, endQuarter, district, carelevel);
                 vm.getFridgeDistrictImmunizingFacility(startQuarter, endQuarter, district, carelevel);
+                vm.getFridgeAllDistrictCapacity(carelevel);
                 vm.getFridgeDistrictCapacity(startQuarter, endQuarter, district, carelevel);
                 vm.getFridgeFacilityCapacity(startQuarter, endQuarter, district, carelevel);
 
