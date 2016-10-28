@@ -43,24 +43,22 @@ angular.module('dashboard')
         shell.startQuarter = shell.startQuarter ? shell.startQuarter.name : "201601";
         shell.endQuarter = shell.endQuarter ? shell.endQuarter.name : "201603";
         shell.selectedFridgeDistrict = "";
-        shell.selectedFridgeDistrict = "";
         shell.selectedFridgeCareLevel = "";
 
 
         FilterService.getFridgeDistricts().then(function(data) {
             shell.fridgeDistricts = data;
-            shell.selectedFridgeDistrict = shell.fridgeDistricts[120].district;
-            shell.selectedFridgeDistrict = shell.fridgeDistricts[120];
+            shell.selectedFridgeDistrict = shell.fridgeDistricts[1];
         });
 
         FilterService.getFridgeCareLevels().then(function(data) {
             shell.fridgeCareLevels = data;
-            //shell.selectedFridgeCareLevel = shell.fridgeCareLevels[0];
+           // shell.selectedFridgeCareLevel = shell.fridgeCareLevels[6];
         });
 
         FilterService.getFridgeQuarters().then(function(data) {
             shell.fridgeQuarters = data;
-            //shell.selectedFridgeQuarter = shell.fridgeQuarters[0];
+           // shell.selectedFridgeQuarter = shell.fridgeQuarters[3];
         });
 
         //==== End Cold Chain =======
@@ -86,8 +84,8 @@ angular.module('dashboard')
             }
         }, true);
 
-        $scope.$watchGroup(['shell.endQuarter', 'shell.selectedFridgeCareLevel', 'shell.selectedFridgeDistrict'], function(data){
-            if(data[0] && data[1] && data[2]){
+        $scope.$watchGroup(['shell.endQuarter', 'shell.selectedFridgeDistrict', 'shell.selectedFridgeCareLevel'], function(data){
+            if(data[1]){
                 if (shell.endQuarter) {
                     $rootScope.$broadcast('refreshCapacity', shell.startQuarter, shell.endQuarter, shell.selectedFridgeDistrict, shell.selectedFridgeCareLevel);
                 }

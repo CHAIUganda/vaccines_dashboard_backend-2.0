@@ -39,7 +39,7 @@ angular.module('dashboard')
 
             vm.startQuarter ? vm.startQuarter : "201601";
             vm.endQuarter = vm.endQuarter ? vm.endQuarter : "201604";
-            district = "ABIM";
+            district = "";
             vm.district = district;
             vm.carelevel = carelevel;
 
@@ -150,14 +150,13 @@ angular.module('dashboard')
 
             vm.startQuarter = vm.startQuarter ? vm.startQuarter : "201601";
             vm.endQuarter = vm.endQuarter ? vm.endQuarter : "201604";
-            district = vm.selectedFridgeDistrict ? vm.selectedFridgeDistrict : "";
+            district = "";
             vm.carelevel = carelevel;
 
             FridgeService.getFridgeDistrictRefrigerator(startQuarter, endQuarter, district, carelevel)
             .then(function(data) {
 
                 vm.data = angular.copy(data);
-                    allData =
                 tabledataAlldistricts = vm.data.filter(
                         function (value) {
                             return value;
@@ -176,10 +175,9 @@ angular.module('dashboard')
 
         vm.getFridgeDistrictRefrigerator = function(startQuarter, endQuarter, district, carelevel) {
 
-            vm.startQuarter ? vm.startQuarter : "201601";
+            vm.startQuarter = vm.startQuarter ? vm.startQuarter : "201601";
             vm.endQuarter = vm.endQuarter ? vm.endQuarter : "201604";
-            district = "ADJUMANI";
-            vm.district = vm.selectedFridgeDistrict ? vm.selectedFridgeDistrict : "";
+            district = "";
             vm.carelevel = carelevel;
 
             FridgeService.getFridgeDistrictRefrigerator(startQuarter, endQuarter, district, carelevel)
@@ -196,7 +194,7 @@ angular.module('dashboard')
                 }, {
                     filterDelay: 0,
                     counts: [],
-                    data: tabledataAlldistricts,
+                data: tabledataAlldistricts,
                     });
 
                 vm.tableParams_d = new NgTableParams({
@@ -241,12 +239,12 @@ angular.module('dashboard')
                         color:'red'
                 });
 
-                vm.graphfunctionality = graphfunctionalitydata;
+               vm.graphfunctionality = graphfunctionalitydata;
 
 
                 // update graph
-                vm.optionsfunctionality = {
-                        chart: {
+               vm.optionsfunctionality = {
+                     chart: {
                             type: "multiBarChart",
                             height: 450,
                             margin: {
@@ -263,7 +261,7 @@ angular.module('dashboard')
                             //valueFormat: function(d){
                             //    return tickFormat(d3.format(',.1f'));
                             //}
-                        },
+                     },
                 };
 
 

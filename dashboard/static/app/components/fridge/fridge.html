@@ -37,20 +37,20 @@
         <div class="col-md-12">
          <h3>KEY METRICS</h3>
             <div class="quality_test" ui-sref-active="quality_test_active">
-                <a ui-sref="fridge.facilities">
+                <a ui-sref="fridge.facilities" ui-sref-opts="{reload: true}">
                     <span class="quality_test__metric"> 0 {{ child.child.myname }} </span>
                     <span class="quality_test__description">{{"IMMUNIZING FACILITIES" }}</span>
                 </a>
             </div>
 
             <div class="quality_test" ui-sref-active="quality_test_active">
-                <a ui-sref="fridge.workingstatus">
+                <a ui-sref="fridge.workingstatus"  ui-sref-opts="{reload: true}">
                     <span class="quality_test__metric"> 0 {{ child.endQuarter }}</span>
                     <span class="quality_test__description">{{"FUNCTIONALITY" }}</span>
                 </a>
             </div>
             <div class="quality_test" ui-sref-active="quality_test_active">
-                <a ui-sref="fridge.capacity">
+                <a ui-sref="fridge.capacity"  ui-sref-opts="{reload: true}">
                     <span class="quality_test__metric"> 0</span>
                     <span class="quality_test__description">{{"AVAILABLE CAPACITY"}}</span>
                 </a>
