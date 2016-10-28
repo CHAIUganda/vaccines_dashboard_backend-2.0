@@ -17,7 +17,7 @@
         <br>
         <div class="tab-content">
             <div id="district" class="tab-pane fade in active">
-                <table ng-table="vm.tableParamsAlldistricts" class="row-border hover table table-condensed table-striped" show-filter="true">
+                <table ng-table="vm.tableParamsFunctionalityAlldistricts" class="row-border hover table table-condensed table-striped" show-filter="true">
                     <tr ng-repeat="row in $data">
                         <td title="'District'" sortable="'facility__district'" filter="{facility__district: 'text'}"  >{{row.facility__district}}</td>
                         <td title="'Existing'" sortable="'number_existing'"  class="text-center">{{row.number_existing}}</td>

@@ -10,7 +10,7 @@
         </div>
     </div>
     <div class="col-md-6">
-        <table ng-table="vm.tableParamsAllfridge" class="row-border hover table table-condensed table-striped" show-filter="true">
+        <table ng-table="vm.tableParamsImmunizingAlldistricts" class="row-border hover table table-condensed table-striped" show-filter="true">
             <tr ng-repeat="row in $data">
                 <td title="'District'" sortable="'facility__district'" filter="{facility__district: 'text'}"  >{{row.facility__district}}</td>
                 <td title="'ImmunizingF'" sortable="'immunizing'"  class="text-center">{{row.immunizing}}</td>

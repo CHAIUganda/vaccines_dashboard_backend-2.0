@@ -146,6 +146,34 @@ angular.module('dashboard')
         };
 
 
+        vm.getFridgeAllDistrictRefrigerator = function(startQuarter, endQuarter, district, carelevel) {
+
+            vm.startQuarter = vm.startQuarter ? vm.startQuarter : "201601";
+            vm.endQuarter = vm.endQuarter ? vm.endQuarter : "201604";
+            district = vm.selectedFridgeDistrict ? vm.selectedFridgeDistrict : "";
+            vm.carelevel = carelevel;
+
+            FridgeService.getFridgeDistrictRefrigerator(startQuarter, endQuarter, district, carelevel)
+            .then(function(data) {
+
+                vm.data = angular.copy(data);
+                    allData =
+                tabledataAlldistricts = vm.data.filter(
+                        function (value) {
+                            return value;
+                        });
+                vm.tableParamsFunctionalityAlldistricts = new NgTableParams({
+                    page: 1,
+                    count: 10
+                }, {
+                    filterDelay: 0,
+                    counts: [],
+                    data: tabledataAlldistricts,
+                    });
+
+            });
+        };
+
         vm.getFridgeDistrictRefrigerator = function(startQuarter, endQuarter, district, carelevel) {
 
             vm.startQuarter ? vm.startQuarter : "201601";
@@ -284,6 +312,34 @@ angular.module('dashboard')
             });
         };
 
+        vm.getFridgeAllDistrictImmunizingFacility = function(startQuarter, endQuarter, district, carelevel) {
+
+            vm.startQuarter = vm.startQuarter ? vm.startQuarter : "201601";
+            vm.endQuarter = vm.endQuarter ? vm.endQuarter : "201604";
+            district = "";
+            vm.carelevel = carelevel;
+
+            FridgeService.getFridgeDistrictImmunizingFacility(startQuarter, endQuarter, district, carelevel)
+            .then(function(data) {
+
+                vm.data = angular.copy(data);
+                    allData =
+                tabledataAlldistricts = vm.data.filter(
+                        function (value) {
+                            return value;
+                        });
+                vm.tableParamsImmunizingAlldistricts = new NgTableParams({
+                    page: 1,
+                    count: 10
+                }, {
+                    filterDelay: 0,
+                    counts: [],
+                    data: tabledataAlldistricts,
+                    });
+
+            });
+        };
+
         vm.getFridgeDistrictImmunizingFacility = function(startQuarter, endQuarter, district, carelevel) {
 
             vm.startQuarter ? vm.startQuarter : "201601";
@@ -389,7 +445,9 @@ angular.module('dashboard')
             if(startQuarter && endQuarter)
             {
                 vm.getFridgeDistrictRefrigerator(startQuarter, endQuarter, district, carelevel);
+                vm.getFridgeAllDistrictRefrigerator(startQuarter, endQuarter, district, carelevel);
                 vm.getFridgeFacilityRefrigerator(startQuarter, endQuarter, district, carelevel);
+                vm.getFridgeAllDistrictImmunizingFacility(startQuarter, endQuarter, district, carelevel);
                 vm.getFridgeDistrictImmunizingFacility(startQuarter, endQuarter, district, carelevel);
                 vm.getFridgeAllDistrictCapacity(carelevel);
                 vm.getFridgeDistrictCapacity(startQuarter, endQuarter, district, carelevel);
