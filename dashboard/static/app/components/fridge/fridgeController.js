@@ -177,7 +177,7 @@ angular.module('dashboard')
 
             vm.startQuarter = vm.startQuarter ? vm.startQuarter : "201601";
             vm.endQuarter = vm.endQuarter ? vm.endQuarter : "201604";
-            district = "";
+            district = vm.selectedFridgeDistrict ? vm.selectedFridgeDistrict: "ADJUMANI";
             vm.carelevel = carelevel;
 
             FridgeService.getFridgeDistrictRefrigerator(startQuarter, endQuarter, district, carelevel)
