@@ -35,22 +35,22 @@ angular.module('dashboard')
             });
         };
 
-        vm.getFridgeDistrictCapacity = function(startQuarter, endQuarter, district, carelevel) {
+        vm.getFridgeDistrictCapacity = function(startQuarter, endQuarter, fridgeDistrict, carelevel) {
 
             vm.startQuarter ? vm.startQuarter : "201601";
             vm.endQuarter = vm.endQuarter ? vm.endQuarter : "201604";
-            district = "";
-            vm.district = district;
+            fridgeDistrict = "";
+            vm.fridgeDistrict = fridgeDistrict;
             vm.carelevel = carelevel;
 
-            FridgeService.getFridgeDistrictCapacity(startQuarter, endQuarter, district, carelevel)
+            FridgeService.getFridgeDistrictCapacity(startQuarter, endQuarter, fridgeDistrict, carelevel)
                 .then(function(data) {
 
                 vm.data = angular.copy(data);
 
 
                 // calculate totals
-                shellScope.child.district = vm.district;
+                shellScope.child.fridgeDistrict = vm.fridgeDistrict;
                 shellScope.child.carelevel = vm.carelevel;
 
 
@@ -117,15 +117,15 @@ angular.module('dashboard')
         };
 
 
-        vm.getFridgeFacilityCapacity = function(startQuarter, endQuarter, district, carelevel) {
+        vm.getFridgeFacilityCapacity = function(startQuarter, endQuarter, fridgeDistrict, carelevel) {
 
             vm.startQuarter ? vm.startQuarter : "201601";
             vm.endQuarter = vm.endQuarter ? vm.endQuarter : "201604";
-            district = "";
-            vm.district = district;
+            fridgeDistrict = "";
+            vm.district = fridgeDistrict;
             vm.carelevel = carelevel;
 
-            FridgeService.getFridgeFacilityCapacity(startQuarter, endQuarter, district, carelevel)
+            FridgeService.getFridgeFacilityCapacity(startQuarter, endQuarter, fridgeDistrict, carelevel)
                 .then(function(data) {
 
                 vm.data = angular.copy(data);
@@ -139,21 +139,21 @@ angular.module('dashboard')
                 });
 
                 // calculate totals
-                shellScope.child.district = vm.district;
+                shellScope.child.fridgeDistrict = vm.fridgeDistrict;
                 shellScope.child.carelevel = vm.carelevel;
 
             });
         };
 
 
-        vm.getFridgeAllDistrictRefrigerator = function(startQuarter, endQuarter, district, carelevel) {
+        vm.getFridgeAllDistrictRefrigerator = function(startQuarter, endQuarter, fridgeDistrict, carelevel) {
 
             vm.startQuarter = vm.startQuarter ? vm.startQuarter : "201601";
             vm.endQuarter = vm.endQuarter ? vm.endQuarter : "201604";
-            district = "";
+            vm.fridgeDistrict = fridgeDistrict;
             vm.carelevel = carelevel;
 
-            FridgeService.getFridgeDistrictRefrigerator(startQuarter, endQuarter, district, carelevel)
+            FridgeService.getFridgeDistrictRefrigerator(startQuarter, endQuarter, fridgeDistrict, carelevel)
             .then(function(data) {
 
                 vm.data = angular.copy(data);
@@ -173,14 +173,14 @@ angular.module('dashboard')
             });
         };
 
-        vm.getFridgeDistrictRefrigerator = function(startQuarter, endQuarter, district, carelevel) {
+        vm.getFridgeDistrictRefrigerator = function(startQuarter, endQuarter, fridgeDistrict, carelevel) {
 
             vm.startQuarter = vm.startQuarter ? vm.startQuarter : "201601";
             vm.endQuarter = vm.endQuarter ? vm.endQuarter : "201604";
-            district = vm.selectedFridgeDistrict ? vm.selectedFridgeDistrict: "ADJUMANI";
+            fridgeDistrict = vm.selectedFridgeDistrict ? vm.selectedFridgeDistrict: "";
             vm.carelevel = carelevel;
 
-            FridgeService.getFridgeDistrictRefrigerator(startQuarter, endQuarter, district, carelevel)
+            FridgeService.getFridgeDistrictRefrigerator(startQuarter, endQuarter, fridgeDistrict, carelevel)
                 .then(function(data) {
 
                 vm.data = angular.copy(data);
@@ -207,7 +207,7 @@ angular.module('dashboard')
                 });
 
                 // calculate totals
-                shellScope.child.district = vm.district;
+                shellScope.child.fridgeDistrict = vm.fridgeDistrict;
                 shellScope.child.carelevel = vm.carelevel;
 
 
@@ -268,15 +268,15 @@ angular.module('dashboard')
             });
         };
 
-        vm.getFridgeFacilityRefrigerator = function(startQuarter, endQuarter, district, carelevel) {
+        vm.getFridgeFacilityRefrigerator = function(startQuarter, endQuarter, fridgeDistrict, carelevel) {
 
             vm.startQuarter ? vm.startQuarter : "201601";
             vm.endQuarter = vm.endQuarter ? vm.endQuarter : "201604";
-            district = "";
-            vm.district = district;
+            fridgeDistrict = "";
+            vm.district = fridgeDistrict;
             vm.carelevel = carelevel;
 
-            FridgeService.getFridgeFacilityRefrigerator(startQuarter, endQuarter, district, carelevel)
+            FridgeService.getFridgeFacilityRefrigerator(startQuarter, endQuarter, fridgeDistrict, carelevel)
                 .then(function(data) {
 
                 vm.data = angular.copy(data);
@@ -304,20 +304,20 @@ angular.module('dashboard')
                 });
 
                 // calculate totals
-                shellScope.child.district = vm.district;
+                shellScope.child.fridgeDistrict = vm.fridgeDistrict;
                 shellScope.child.carelevel = vm.carelevel;
 
             });
         };
 
-        vm.getFridgeAllDistrictImmunizingFacility = function(startQuarter, endQuarter, district, carelevel) {
+        vm.getFridgeAllDistrictImmunizingFacility = function(startQuarter, endQuarter, fridgeDistrict, carelevel) {
 
             vm.startQuarter = vm.startQuarter ? vm.startQuarter : "201601";
             vm.endQuarter = vm.endQuarter ? vm.endQuarter : "201604";
-            district = "";
+            fridgeDistrict = "";
             vm.carelevel = carelevel;
 
-            FridgeService.getFridgeDistrictImmunizingFacility(startQuarter, endQuarter, district, carelevel)
+            FridgeService.getFridgeDistrictImmunizingFacility(startQuarter, endQuarter, fridgeDistrict, carelevel)
             .then(function(data) {
 
                 vm.data = angular.copy(data);
@@ -338,15 +338,15 @@ angular.module('dashboard')
             });
         };
 
-        vm.getFridgeDistrictImmunizingFacility = function(startQuarter, endQuarter, district, carelevel) {
+        vm.getFridgeDistrictImmunizingFacility = function(startQuarter, endQuarter, fridgeDistrict, carelevel) {
 
             vm.startQuarter ? vm.startQuarter : "201601";
             vm.endQuarter = vm.endQuarter ? vm.endQuarter : "201604";
-            district = "";
-            vm.district = district;
+            fridgeDistrict = "";
+            vm.district = fridgeDistrict;
             vm.carelevel = carelevel;
 
-            FridgeService.getFridgeDistrictImmunizingFacility(startQuarter, endQuarter, district, carelevel)
+            FridgeService.getFridgeDistrictImmunizingFacility(startQuarter, endQuarter, fridgeDistrict, carelevel)
                 .then(function(data) {
 
                 vm.data = angular.copy(data);
@@ -373,7 +373,7 @@ angular.module('dashboard')
                 });
 
                 // calculate totals
-                shellScope.child.district = vm.district;
+                shellScope.child.fridgeDistrict = vm.fridgeDistrict;
                 shellScope.child.carelevel = vm.carelevel;
 
 
@@ -439,17 +439,17 @@ angular.module('dashboard')
             });
         };
 
-        $scope.$on('refreshCapacity', function(e, startQuarter, endQuarter, district, carelevel) {
+        $scope.$on('refreshCapacity', function(e, startQuarter, endQuarter, fridgeDistrict, carelevel) {
             if(startQuarter && endQuarter)
             {
-                vm.getFridgeDistrictRefrigerator(startQuarter, endQuarter, district, carelevel);
-                vm.getFridgeAllDistrictRefrigerator(startQuarter, endQuarter, district, carelevel);
-                vm.getFridgeFacilityRefrigerator(startQuarter, endQuarter, district, carelevel);
-                vm.getFridgeAllDistrictImmunizingFacility(startQuarter, endQuarter, district, carelevel);
-                vm.getFridgeDistrictImmunizingFacility(startQuarter, endQuarter, district, carelevel);
-                vm.getFridgeAllDistrictCapacity(carelevel);
-                vm.getFridgeDistrictCapacity(startQuarter, endQuarter, district, carelevel);
-                vm.getFridgeFacilityCapacity(startQuarter, endQuarter, district, carelevel);
+                vm.getFridgeDistrictRefrigerator(startQuarter, endQuarter, fridgeDistrict, carelevel);
+                vm.getFridgeAllDistrictRefrigerator(startQuarter, endQuarter, fridgeDistrict, carelevel);
+                vm.getFridgeFacilityRefrigerator(startQuarter, endQuarter, fridgeDistrict, carelevel);
+                vm.getFridgeAllDistrictImmunizingFacility(startQuarter, endQuarter, fridgeDistrict, carelevel);
+                vm.getFridgeDistrictImmunizingFacility(startQuarter, endQuarter, fridgeDistrict, carelevel);
+                vm.getFridgeAllDistrictCapacity(startQuarter, endQuarter, fridgeDistrict, carelevel);
+                vm.getFridgeDistrictCapacity(startQuarter, endQuarter, fridgeDistrict, carelevel);
+                vm.getFridgeFacilityCapacity(startQuarter, endQuarter, fridgeDistrict, carelevel);
 
             }
         });

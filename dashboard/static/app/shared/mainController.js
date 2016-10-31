@@ -48,7 +48,7 @@ angular.module('dashboard')
 
         FilterService.getFridgeDistricts().then(function(data) {
             shell.fridgeDistricts = data;
-            shell.selectedFridgeDistrict = shell.fridgeDistricts[1];
+            shell.selectedFridgeDistrict = shell.fridgeDistricts[2];
         });
 
         FilterService.getFridgeCareLevels().then(function(data) {
@@ -85,7 +85,7 @@ angular.module('dashboard')
         }, true);
 
         $scope.$watchGroup(['shell.endQuarter', 'shell.selectedFridgeDistrict', 'shell.selectedFridgeCareLevel'], function(data){
-            if(data[1]){
+            if(data[0] && data[1] && data[2]){
                 if (shell.endQuarter) {
                     $rootScope.$broadcast('refreshCapacity', shell.startQuarter, shell.endQuarter, shell.selectedFridgeDistrict, shell.selectedFridgeCareLevel);
                 }
