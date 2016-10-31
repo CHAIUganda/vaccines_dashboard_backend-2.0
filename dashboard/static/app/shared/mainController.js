@@ -34,7 +34,7 @@ angular.module('dashboard')
 
         FilterService.getVaccines().then(function(data) {
             shell.vaccines = data;
-            shell.selectedVaccine = shell.vaccines[5];
+            shell.selectedVaccine = shell.vaccines[6];
         });
 
         //==== End Stock Management =====
@@ -85,8 +85,8 @@ angular.module('dashboard')
         }, true);
 
         $scope.$watchGroup(['shell.endQuarter', 'shell.selectedFridgeDistrict', 'shell.selectedFridgeCareLevel'], function(data){
-            if(data[0] && data[1] && data[2]){
-                if (shell.endQuarter) {
+            if(data[0] && data[1]){
+                if (shell.endQuarter && shell.selectedFridgeDistrict) {
                     $rootScope.$broadcast('refreshCapacity', shell.startQuarter, shell.endQuarter, shell.selectedFridgeDistrict, shell.selectedFridgeCareLevel);
                 }
             }

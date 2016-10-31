@@ -7,18 +7,18 @@ angular.module('dashboard')
         var shellScope = $scope.$parent;
         shellScope.child = $scope;
 
-        vm.getFridgeAllDistrictCapacity = function(startQuarter, endQuarter, district, carelevel) {
+        vm.getFridgeAllDistrictCapacity = function(startQuarter, endQuarter, fridgeDistrict, carelevel) {
 
             vm.startQuarter = vm.startQuarter ? vm.startQuarter : "201601";
             vm.endQuarter = vm.endQuarter ? vm.endQuarter : "201604";
-            district = "";
+            fridgeDistrict = "";
             vm.carelevel = carelevel;
 
-            FridgeService.getFridgeDistrictCapacity(startQuarter, endQuarter, district, carelevel)
+            FridgeService.getFridgeDistrictCapacity(startQuarter, endQuarter, fridgeDistrict, carelevel)
                 .then(function(data) {
 
                 vm.data = angular.copy(data);
-                    allData =
+
                 tabledataAlldistricts = vm.data.filter(
                         function (value) {
                             return value;
@@ -39,7 +39,7 @@ angular.module('dashboard')
 
             vm.startQuarter ? vm.startQuarter : "201601";
             vm.endQuarter = vm.endQuarter ? vm.endQuarter : "201604";
-            fridgeDistrict = "ADJUMANI";
+            district = "";
             vm.fridgeDistrict = fridgeDistrict;
             vm.carelevel = carelevel;
 
@@ -444,16 +444,16 @@ angular.module('dashboard')
         };
 
         $scope.$on('refreshCapacity', function(e, startQuarter, endQuarter, fridgeDistrict, carelevel) {
-            if(startQuarter && endQuarter)
+            if(startQuarter && endQuarter && fridgeDistrict.district)
             {
-                vm.getFridgeDistrictRefrigerator(startQuarter, endQuarter, fridgeDistrict, carelevel);
-                vm.getFridgeAllDistrictRefrigerator(startQuarter, endQuarter, fridgeDistrict, carelevel);
-                vm.getFridgeFacilityRefrigerator(startQuarter, endQuarter, fridgeDistrict, carelevel);
-                vm.getFridgeAllDistrictImmunizingFacility(startQuarter, endQuarter, fridgeDistrict, carelevel);
-                vm.getFridgeDistrictImmunizingFacility(startQuarter, endQuarter, fridgeDistrict, carelevel);
-                vm.getFridgeAllDistrictCapacity(startQuarter, endQuarter, fridgeDistrict, carelevel);
-                vm.getFridgeDistrictCapacity(startQuarter, endQuarter, fridgeDistrict, carelevel);
-                vm.getFridgeFacilityCapacity(startQuarter, endQuarter, fridgeDistrict, carelevel);
+                vm.getFridgeDistrictRefrigerator(startQuarter, endQuarter, fridgeDistrict.district, carelevel);
+                vm.getFridgeAllDistrictRefrigerator(startQuarter, endQuarter, fridgeDistrict.district, carelevel);
+                vm.getFridgeFacilityRefrigerator(startQuarter, endQuarter, fridgeDistrict.district, carelevel);
+                vm.getFridgeAllDistrictImmunizingFacility(startQuarter, endQuarter, fridgeDistrict.district, carelevel);
+                vm.getFridgeDistrictImmunizingFacility(startQuarter, endQuarter, fridgeDistrict.district, carelevel);
+                vm.getFridgeAllDistrictCapacity(startQuarter, endQuarter, fridgeDistrict.district, carelevel);
+                vm.getFridgeDistrictCapacity(startQuarter, endQuarter, fridgeDistrict.district, carelevel);
+                vm.getFridgeFacilityCapacity(startQuarter, endQuarter, fridgeDistrict.district, carelevel);
 
             }
         });
