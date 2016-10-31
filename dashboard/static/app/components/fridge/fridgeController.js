@@ -39,7 +39,7 @@ angular.module('dashboard')
 
             vm.startQuarter ? vm.startQuarter : "201601";
             vm.endQuarter = vm.endQuarter ? vm.endQuarter : "201604";
-            fridgeDistrict = "ABIM";
+            fridgeDistrict = "ADJUMANI";
             vm.fridgeDistrict = fridgeDistrict;
             vm.carelevel = carelevel;
 
@@ -59,11 +59,15 @@ angular.module('dashboard')
                 var seriesRequired = [];
                 var seriesAvailable = [];
                 var seriesGap = [];
+				shellScope.child.available = 0;
 
                 for (var i = 0; i < vm.data.length ; i++) {
                     seriesRequired.push([vm.data[i].quarter, vm.data[i].required])
                     seriesAvailable.push([vm.data[i].quarter, vm.data[i].available])
                     seriesGap.push([vm.data[i].quarter, vm.data[i].gap])
+					if (vm.data[i].quarter){
+					shellScope.child.available = vm.data[i].available
+					}
 
                 }
 /*
@@ -74,12 +78,12 @@ angular.module('dashboard')
                 graphdata.push({
                         key: "Required",
                         values: seriesRequired,
-                        color:'#A5E816'
+                        color:'red'
                 });
                 graphdata.push({
                         key: "Available",
                         values: seriesAvailable,
-                        color:'#1F77B4'
+                        color:'green'
                 });
 /*                graphdata.push({
                         key: "Gap",
@@ -93,7 +97,7 @@ angular.module('dashboard')
                 // update graph
                 vm.options = {
                         chart: {
-                            type: "multiBarChart",
+                            type: "discreteBarChart",
                             height: 450,
                             margin: {
                               top: 20,
@@ -102,10 +106,11 @@ angular.module('dashboard')
                               left: 45
                             },
                             clipEdge: true,
-                            stacked: false,
+                            stacked: true,
                             x: function(d){ return d[0]; },
                             y: function(d){ return d[1]; },
                             showValues: true,
+                            color: function(d){ return '#1F77B4'}
                             //valueFormat: function(d){
                             //    return tickFormat(d3.format(',.1f'));
                             //}

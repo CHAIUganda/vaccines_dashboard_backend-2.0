@@ -51,8 +51,8 @@
             </div>
             <div class="quality_test" ui-sref-active="quality_test_active">
                 <a ui-sref="fridge.capacity"  ui-sref-opts="{reload: true}">
-                    <span class="quality_test__metric">{{ child.required | number:0 }}</span>
-                    <span class="quality_test__description">{{"AVAILABLE CAPACITY"}}</span>
+                    <span class="quality_test__metric">{{ child.available | number:0 }} Litres</span>
+                    <span class="quality_test__description">{{"AVAILABLE"}}</span>
                 </a>
             </div>
         </div>
