@@ -257,12 +257,12 @@ class DistrictCapacities(APIView):
                 .values('facility__district')\
                 .annotate(required = Sum('required'),
                           available = Sum('actual'),
-                          gap = Sum('difference'))\
+                         )\
                 .order_by('facility__district')\
                 .values(
                         'available',
                         'required',
-                        'gap',
+
                         'quarter',
                         'facility__district')
         return Response(summary)

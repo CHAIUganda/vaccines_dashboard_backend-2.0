@@ -39,7 +39,7 @@ angular.module('dashboard')
 
             vm.startQuarter ? vm.startQuarter : "201601";
             vm.endQuarter = vm.endQuarter ? vm.endQuarter : "201604";
-            fridgeDistrict = "";
+            fridgeDistrict = "ABIM";
             vm.fridgeDistrict = fridgeDistrict;
             vm.carelevel = carelevel;
 
@@ -177,7 +177,7 @@ angular.module('dashboard')
 
             vm.startQuarter = vm.startQuarter ? vm.startQuarter : "201601";
             vm.endQuarter = vm.endQuarter ? vm.endQuarter : "201604";
-            fridgeDistrict = vm.selectedFridgeDistrict ? vm.selectedFridgeDistrict: "";
+            fridgeDistrict = vm.selectedFridgeDistrict ? vm.selectedFridgeDistrict: "KABALE";
             vm.carelevel = carelevel;
 
             FridgeService.getFridgeDistrictRefrigerator(startQuarter, endQuarter, fridgeDistrict, carelevel)
