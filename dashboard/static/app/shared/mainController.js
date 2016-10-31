@@ -34,7 +34,7 @@ angular.module('dashboard')
 
         FilterService.getVaccines().then(function(data) {
             shell.vaccines = data;
-            shell.selectedVaccine = shell.vaccines[6];
+            shell.selectedVaccine = shell.vaccines[5];
         });
 
         //==== End Stock Management =====

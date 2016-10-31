@@ -342,7 +342,7 @@ angular.module('dashboard')
 
             vm.startQuarter ? vm.startQuarter : "201601";
             vm.endQuarter = vm.endQuarter ? vm.endQuarter : "201604";
-            fridgeDistrict = "";
+            fridgeDistrict = "KUMI";
             vm.district = fridgeDistrict;
             vm.carelevel = carelevel;
 
@@ -378,15 +378,14 @@ angular.module('dashboard')
 
 
                 // construct District graph data
-                var graphdata = [];
-                var seriesRequired = [];
-                var seriesAvailable = [];
-                var seriesGap = [];
+                var graphdataimmunizing = [];
+                var seriesccCoverage = [];
+
+
 
                 for (var i = 0; i < vm.data.length ; i++) {
-                    seriesRequired.push([vm.data[i].quarter, vm.data[i].required])
-                    seriesAvailable.push([vm.data[i].quarter, vm.data[i].available])
-                    seriesGap.push([vm.data[i].quarter, vm.data[i].gap])
+                    seriesccCoverage.push([vm.data[i].quarter, (vm.data[i].immunizing/vm.data[i].Total_facilities *100)])
+
 
                 }
 /*
@@ -394,27 +393,27 @@ angular.module('dashboard')
                 seriesAvailable = [[201602, 60], [201603, 20]];
 */
 
-                graphdata.push({
-                        key: "Required",
-                        values: seriesRequired,
-                        color:'#A5E816'
+                graphdataimmunizing.push({
+                        key: "CC",
+                        values: seriesccCoverage,
+                        color:'green'
                 });
-                graphdata.push({
+ /*               graphdata.push({
                         key: "Available",
                         values: seriesAvailable,
                         color:'#1F77B4'
                 });
-/*                graphdata.push({
+                graphdata.push({
                         key: "Gap",
                         values: seriesGap,
                         color:'red'
                 });
 */
-                vm.graph = graphdata;
+                vm.graphimmunizing = graphdataimmunizing;
 
 
                 // update graph
-                vm.options = {
+                vm.optionsimmunizing = {
                         chart: {
                             type: "multiBarChart",
                             height: 450,
