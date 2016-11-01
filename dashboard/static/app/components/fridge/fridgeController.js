@@ -155,6 +155,7 @@ angular.module('dashboard')
 
             vm.startQuarter = vm.startQuarter ? vm.startQuarter : "201601";
             vm.endQuarter = vm.endQuarter ? vm.endQuarter : "201604";
+            fridgeDistrict = "";
             vm.fridgeDistrict = fridgeDistrict;
             vm.carelevel = carelevel;
 
@@ -182,7 +183,7 @@ angular.module('dashboard')
 
             vm.startQuarter = vm.startQuarter ? vm.startQuarter : "201601";
             vm.endQuarter = vm.endQuarter ? vm.endQuarter : "201604";
-            fridgeDistrict = vm.selectedFridgeDistrict ? vm.selectedFridgeDistrict: "KABALE";
+            district = "";
             vm.carelevel = carelevel;
 
             FridgeService.getFridgeDistrictRefrigerator(startQuarter, endQuarter, fridgeDistrict, carelevel)
@@ -217,15 +218,19 @@ angular.module('dashboard')
 
 
                 // construct District graph data
+
                 var graphfunctionalitydata = [];
                 var seriesExisting = [];
                 var seriesNotWorking = [];
                 var seriesmaintenance = [];
+				shellScope.child.functionality = 0;
 
                 for (var i = 0; i < vm.data.length ; i++) {
                     seriesExisting.push([vm.data[i].quarter, vm.data[i].number_existing])
                     seriesNotWorking.push([vm.data[i].quarter, vm.data[i].not_working])
                     seriesmaintenance.push([vm.data[i].quarter, vm.data[i].needs_maintenance])
+					if (vm.data[i].quarter)
+						shellScope.child.functionality = (vm.data[i].number_existing - vm.data[i].not_working)/vm.data[i].number_existing*100;
                 }
 
                 graphfunctionalitydata.push({

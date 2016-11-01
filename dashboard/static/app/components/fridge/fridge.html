@@ -45,8 +45,8 @@
 
             <div class="quality_test" ui-sref-active="quality_test_active">
                 <a ui-sref="fridge.workingstatus"  ui-sref-opts="{reload: true}">
-                    <span class="quality_test__metric"> 0 {{ child.endQuarter }}</span>
-                    <span class="quality_test__description">{{"FUNCTIONALITY" }}</span>
+                    <span class="quality_test__metric">{{ child.functionality | number:0}}%</span>
+                    <span class="quality_test__description">{{"WORKING WELL" }}</span>
                 </a>
             </div>
             <div class="quality_test" ui-sref-active="quality_test_active">
