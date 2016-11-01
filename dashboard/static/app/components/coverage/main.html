@@ -36,21 +36,27 @@
         <div class="col-md-12">
          <h3>KEY METRICS</h3>
             <div class="quality_test" ui-sref-active="quality_test_active">
-                <a ui-sref="coverage.home">
-                    <span class="quality_test__metric"> 0</span>
+                <a ui-sref="coverage.home" ui-sref-opts="{reload: true}">
+                    <span class="quality_test__metric"> {{ child.coverage | number:0 }}% </span>
                     <span class="quality_test__description">{{"Coverage" | uppercase}}</span>
                 </a>
             </div>
             <div class="quality_test" ui-sref-active="quality_test_active">
-                <a ui-sref="coverage.dropoutrate">
-                    <span class="quality_test__metric"> 0</span>
+                <a ui-sref="coverage.dropoutrate" ui-sref-opts="{reload: true}">
+                    <span class="quality_test__metric"> {{ child.dropedout }}% </span>
                     <span class="quality_test__description">{{"Dropout Rate" | uppercase}}</span>
                 </a>
             </div>
             <div class="quality_test" ui-sref-active="quality_test_active">
-                <a ui-sref="coverage.underimmunized">
-                    <span class="quality_test__metric"> 0</span>
+                <a ui-sref="coverage.underimmunized" ui-sref-opts="{reload: true}">
+                    <span class="quality_test__metric"> {{ child.underimmunized | number:0 }} </span>
                     <span class="quality_test__description">{{"Under-Immunized" | uppercase}}</span>
+                </a>
+            </div>
+            <div class="quality_test" ui-sref-active="quality_test_active">
+                <a ui-sref="coverage.notimmunized" ui-sref-opts="{reload: true}">
+                    <span class="quality_test__metric"> {{ child.notimmunized | number:0 }} </span>
+                    <span class="quality_test__description">{{"Not-Immunized" | uppercase}}</span>
                 </a>
             </div>
         </div>

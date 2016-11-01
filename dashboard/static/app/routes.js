@@ -16,12 +16,17 @@ dashboard.config(["$stateProvider", "$urlRouterProvider", function($stateProvide
             .state("coverage.dropoutrate", {
                 url: "/dropoutrate",
                 templateUrl: "static/app/components/coverage/dropoutrate.html",
-                controller: "DropoutRateController"
+                controller: "CoverageController"
             })
             .state("coverage.underimmunized", {
                 url: "/underimmunized",
                 templateUrl: "static/app/components/coverage/underimmunized.html",
-                controller: "UnderImmunizedController"
+                controller: "CoverageController"
+            })
+            .state("coverage.notimmunized", {
+                url: "/notimmunized",
+                templateUrl: "static/app/components/coverage/notimmunized.html",
+                controller: "CoverageController"
             })
 
             .state("stock", {

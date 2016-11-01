@@ -10,7 +10,7 @@ from picklefield import PickledObjectField
 from datetime import datetime, timedelta
 from django.utils import timezone
 
-class VaccineDose(models.Model):
+class DHIS2VaccineDoseDataset(models.Model):
     period  = models.IntegerField()
     vaccine = models.ForeignKey(Vaccine, on_delete=models.SET_NULL, null=True, blank=True)
     dose = models.CharField(max_length=255)
@@ -18,3 +18,9 @@ class VaccineDose(models.Model):
     consumed = models.FloatField(default=0)
     planned_consumption = models.FloatField(default=0)
 
+class VaccineDose(models.Model):
+    period  = models.IntegerField()
+    vaccine = models.ForeignKey(Vaccine, on_delete=models.SET_NULL, null=True, blank=True)
+    district = models.ForeignKey(District, on_delete=models.SET_NULL, null=True, blank=True)
+    drop_out_rate = models.FloatField(default=0)
+    under_immunized = models.FloatField(default=0)

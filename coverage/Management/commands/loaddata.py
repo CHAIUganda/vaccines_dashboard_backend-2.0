@@ -40,7 +40,7 @@ def save_from_model(period):
         ).first()
         try:
             if stock_requirement:
-                VaccineDose.objects.update_or_create(
+                DHIS2VaccineDoseDataset.objects.update_or_create(
                     vaccine = stock_requirement.vaccine,
                     district = stock_requirement.district,
                     period = dh.period,
@@ -52,4 +52,114 @@ def save_from_model(period):
                 print "%s %s %s : %s - Consumed: %s" % (dh.id, dh.period, dh.district, dh.vaccine, dh.consumed)
         except IntegrityError, e:
             print "| Failing... %s" % e.message
+
+
+def save_vaccine_dose(period):
+
+    doses = DHIS2VaccineDoseDataset.objects.filter(period=period)
+    districts = District.objects.all().order_by('name')
+
+    for d in districts:
+        district = d.name
+        summary = doses.filter(district=d)
+
+        # ====== OPV ===========================
+        opv_drop_out_rate = None
+        opv_dose1 = summary.filter(vaccine__name='OPV', dose='105-2.11 Polio 1')
+        opv_dose3 = summary.filter(vaccine__name='OPV', dose='105-2.11 Polio 3')
+        if opv_dose1 and opv_dose3 and opv_dose1.first().consumed > 0:
+            opv_drop_out_rate = float('%.2f' % (((opv_dose1.first().consumed
+                                                  - opv_dose3.first().consumed)
+                                                 / opv_dose1.first().consumed) * 100))
+            VaccineDose.objects.update_or_create(
+                vaccine=opv_dose1.first().vaccine,
+                district=d,
+                period=period,
+                drop_out_rate=opv_drop_out_rate,
+                under_immunized=opv_dose1.first().consumed-opv_dose3.first().consumed,
+            )
+
+        # ====== PCV ===========================
+        pcv_drop_out_rate = None
+        pcv_dose1 = summary.filter(vaccine__name='PCV', dose='105-2.11 PCV 1')
+        pcv_dose3 = summary.filter(vaccine__name='PCV', dose='105-2.11 PCV 3')
+        if pcv_dose1 and pcv_dose3 and pcv_dose1.first().consumed > 0:
+            pcv_drop_out_rate = float('%.2f' % (((pcv_dose1.first().consumed
+                                                  - pcv_dose3.first().consumed)
+                                                 / pcv_dose1.first().consumed) * 100))
+            VaccineDose.objects.update_or_create(
+                vaccine=pcv_dose1.first().vaccine,
+                district=d,
+                period=period,
+                drop_out_rate=pcv_drop_out_rate,
+                under_immunized=pcv_dose1.first().consumed-pcv_dose3.first().consumed,
+            )
+
+        # ====== PENTA ===========================
+        penta_drop_out_rate = None
+        penta_dose1 = summary.filter(vaccine__name='PENTA', dose='105-2.11 DPT-HepB+Hib 1')
+        penta_dose3 = summary.filter(vaccine__name='PENTA', dose='105-2.11 DPT-HepB+Hib 3')
+        if penta_dose1 and penta_dose3 and penta_dose1.first().consumed > 0:
+            penta_drop_out_rate = float('%.2f' % (((penta_dose1.first().consumed
+                                                    - penta_dose3.first().consumed)
+                                                   / penta_dose1.first().consumed) * 100))
+
+            VaccineDose.objects.update_or_create(
+                vaccine=penta_dose1.first().vaccine,
+                district=d,
+                period=period,
+                drop_out_rate=penta_drop_out_rate,
+                under_immunized=penta_dose1.first().consumed-penta_dose3.first().consumed,
+            )
+
+        # ====== TT ===========================
+        tt_drop_out_rate = None
+        tt_dose1 = summary.filter(vaccine__name='TT', dose='105-2.9 Tetanus Immunization Dose 1')
+        tt_dose2 = summary.filter(vaccine__name='TT', dose='105-2.9 Tetanus Immunization Dose 2')
+        if tt_dose1 and tt_dose2 and tt_dose1.first().consumed > 0:
+            tt_drop_out_rate = float('%.2f' % (((tt_dose1.first().consumed
+                                                 - tt_dose2.first().consumed)
+                                                / tt_dose1.first().consumed) * 100))
+            VaccineDose.objects.update_or_create(
+                vaccine=tt_dose1.first().vaccine,
+                district=d,
+                period=period,
+                drop_out_rate=tt_drop_out_rate,
+                under_immunized=tt_dose1.first().consumed-tt_dose2.first().consumed,
+            )
+
+        # ====== HPV ===========================
+        hpv_drop_out_rate = None
+        hpv_dose1 = summary.filter(vaccine__name='HPV', dose='105-2.10 HPV1-Dose 1')
+        hpv_dose2 = summary.filter(vaccine__name='HPV', dose='105-2.10 HPV2-Dose 2')
+        if hpv_dose1 and hpv_dose2 and hpv_dose1.first().consumed > 0:
+            hpv_drop_out_rate = float('%.2f' % (((hpv_dose1.first().consumed
+                                                  - hpv_dose2.first().consumed)
+                                                 / hpv_dose1.first().consumed) * 100))
+            VaccineDose.objects.update_or_create(
+                vaccine=hpv_dose1.first().vaccine,
+                district=d,
+                period=period,
+                drop_out_rate=hpv_drop_out_rate,
+                under_immunized=hpv_dose1.first().consumed-hpv_dose2.first().consumed,
+            )
+
+        # ====== BCG_MEASLES ===========================
+        bcgm_drop_out_rate = None
+        bcgm_dose1 = summary.filter(vaccine__name='BCG')
+        bcgm_dose2 = summary.filter(vaccine__name='MEASLES')
+        if bcgm_dose1 and bcgm_dose2 and bcgm_dose1.first().consumed > 0:
+            bcgm_drop_out_rate = float('%.2f' % (((bcgm_dose1.first().consumed
+                                                   - bcgm_dose2.first().consumed)
+                                                  / bcgm_dose1.first().consumed) * 100))
+            VaccineDose.objects.update_or_create(
+                vaccine=bcgm_dose1.first().vaccine,
+                district=d,
+                period=period,
+                drop_out_rate=bcgm_drop_out_rate,
+                under_immunized=bcgm_dose1.first().consumed-bcgm_dose2.first().consumed,
+            )
+
+
+
 

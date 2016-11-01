@@ -1,6 +1,24 @@
-<div ng-controller="DropoutRateController">
-    <h4 class="text-center">DROP OUT RATE</h4>
-    <div class="page_graph">
-        <angular-chart options="options"></angular-chart>
+<div ng-controller="CoverageController as vm">
+
+    <h4 class="text-left" >Drop Out Rate for {{child.vaccine }} for {{child.district }}</h4>
+    <br>
+    <br>
+
+    <div class="col-md-7">
+        <div class="page_graph">
+            <nvd3 options="vm.optionsConsumption" data="vm.graphConsumption"></nvd3>
+        </div>
     </div>
+    <div class="col-md-5">
+
+        <table ng-table="vm.tableParamsDropOut" class="row-border hover table table-condensed table-striped" show-filter="true">
+            <tr ng-repeat="row in $data">
+                <td title="'District'" sortable="'district__name'" filter="{district__name: 'text'}"  >{{row.district__name}}</td>
+                <td title="'Drop Out Rate'" sortable="'drop_out_rate'"  class="text-center">{{row.drop_out_rate}}%</td>
+            </tr>
+
+        </table>
+    </div>
+
+
 </div>

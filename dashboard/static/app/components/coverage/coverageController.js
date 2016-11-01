@@ -1,168 +1,93 @@
 angular.module('dashboard')
-    .controller('CoverageController', ['$scope', 'FridgeService', '$rootScope', 'NgTableParams', 'FilterService',
-    function($scope, CoverageService, $rootScope, NgTableParams, FilterService)
+    .controller('CoverageController', ['$scope', 'StockService', '$rootScope', 'NgTableParams', 'FilterService', 'MonthService', 'CoverageService',
+    function($scope, StockService, $rootScope, NgTableParams, FilterService, MonthService, CoverageService)
     {
-
         var vm = this;
         var shellScope = $scope.$parent;
         shellScope.child = $scope;
 
-        vm.getVaccineDoses = function(period, district, vaccine) {
+        vm.getStockByDistrict = function(startMonth, endMonth, district, vaccine) {
 
-            vm.coveragePeriod = vm.coveragePeriod ? vm.coveragePeriod : "201604";
-            district = "ABIM";
-            vm.district = district;
-            vm.vaccine = vaccine;
+            vm.startMonth = vm.startMonth ? vm.startMonth : "Nov 2015";
+            vm.endMonth = vm.endMonth ? vm.endMonth : "Dec 2016";
+            //Todo: Temporarily disable filtering by district for the table
+            district = ""
+            vm.district = "";
+            vm.vaccine = vm.selectedVaccine ? vm.selectedVaccine.name : "";
 
-            FridgeService.getFridgeDistrictCapacity(period, district, vaccine)
+            StockService.getStockByDistrict(startMonth, endMonth, district, vaccine)
                 .then(function(data) {
 
-                vm.data = angular.copy(data);
-                vm.tableParams_d = new NgTableParams({
-                    page: 1,
-                    count: 15
-                }, {
-                    filterDelay: 0,
-                    counts: [],
-                    data: vm.data,
-                });
+                    vm.data = angular.copy(data);
 
-                // calculate totals
-                shellScope.child.district = vm.district;
-                shellScope.child.carelevel = vm.carelevel;
+                    tabledataAlldistricts = vm.data.filter(
+                        function (value) {
+                            return value;
+                        });
 
-
-                // construct District graph data
-                var graphdata = [];
-                var seriesRequired = [];
-                var seriesAvailable = [];
-                var seriesGap = [];
-
-                for (var i = 0; i < vm.data.length ; i++) {
-                    seriesRequired.push([vm.data[i].quarter, vm.data[i].required])
-                    seriesAvailable.push([vm.data[i].quarter, vm.data[i].available])
-                    seriesGap.push([vm.data[i].quarter, vm.data[i].gap])
-
-                }
-/*
-                seriesRequired = [[201602, 30], [201603, 30]];
-                seriesAvailable = [[201602, 60], [201603, 20]];
-*/
-
-                graphdata.push({
-                        key: "Required",
-                        values: seriesRequired,
-                        color:'#A5E816'
-                });
-                graphdata.push({
-                        key: "Available",
-                        values: seriesAvailable,
-                        color:'#1F77B4'
-                });
-/*                graphdata.push({
-                        key: "Gap",
-                        values: seriesGap,
-                        color:'red'
-                });
-*/
-                vm.graph = graphdata;
-
-
-                // update graph
-                vm.options = {
-                        chart: {
-                            type: "multiBarChart",
-                            height: 450,
-                            margin: {
-                              top: 20,
-                              right: 20,
-                              bottom: 45,
-                              left: 45
-                            },
-                            clipEdge: true,
-                            stacked: false,
-                            x: function(d){ return d[0]; },
-                            y: function(d){ return d[1]; },
-                            showValues: true,
-                            //valueFormat: function(d){
-                            //    return tickFormat(d3.format(',.1f'));
-                            //}
-                        },
-                };
-
+                    vm.tableParamsAlldistricts = new NgTableParams({
+                        page: 1,
+                        count: 10
+                    }, {
+                        filterDelay: 0,
+                        counts: [],
+                        data: tabledataAlldistricts,
+                    });
 
             });
         };
 
-        vm.getFridgeFacilityCapacity = function(startQuarter, endQuarter, district, carelevel) {
+        vm.getStockByDistrictVaccine = function(startMonth, endMonth, district, vaccine) {
 
-            vm.startQuarter ? vm.startQuarter : "201601";
-            vm.endQuarter = vm.endQuarter ? vm.endQuarter : "201604";
+            vm.startMonth = vm.startMonth ? vm.startMonth : "Nov 2015";
+            vm.endMonth = vm.endMonth ? vm.endMonth : "Dec 2016";
             vm.district = district;
-            vm.carelevel = carelevel;
+            vm.vaccine = vaccine; //vm.selectedVaccine ? vm.selectedVaccine.name : "";
 
-            FridgeService.getFridgeFacilityCapacity(startQuarter, endQuarter, district, carelevel)
+            StockService.getStockByDistrictVaccine(startMonth, endMonth, district, vaccine)
                 .then(function(data) {
 
                 vm.data = angular.copy(data);
-                vm.tableParams_f = new NgTableParams({
-                    page: 1,
-                    count: 15
-                }, {
-                    filterDelay: 0,
-                    counts: [],
-                    data: vm.data,
-                });
 
                 // calculate totals
                 shellScope.child.district = vm.district;
-                shellScope.child.carelevel = vm.carelevel;
+                shellScope.child.vaccine = vm.vaccine;
 
 
-                // construct Distribution graph data
-/*                var graphdataDistribution = [];
-                var seriesDistribution = [];
-                var seriesOrders = [];
-                var min_seriesDistribution = [];
-                var max_seriesDistribution = [];
-                shellScope.child.refreshrate = 0;
+                // construct Consumption graph data
+                var graphdataConsumption = [];
+                var seriesConsumption = [];
+                var target_seriesConsumption = [];
+                shellScope.child.coverage = 0;
 
+                console.log(endMonth);
                 for (var i = 0; i < vm.data.length ; i++) {
-                    seriesDistribution.push([vm.data[i].month, parseInt(vm.data[i].received)])
-                    seriesOrders.push([vm.data[i].month, vm.data[i].ordered])
-                    min_seriesDistribution.push([vm.data[i].month, vm.data[i].stock_requirement__minimum])
-                    max_seriesDistribution.push([vm.data[i].month, vm.data[i].stock_requirement__maximum])
+                    seriesConsumption.push([vm.data[i].month, vm.data[i].consumed])
+                    target_seriesConsumption.push([vm.data[i].month, vm.data[i].stock_requirement__target])
                     if (vm.data[i].month == MonthService.getMonthNumber(endMonth.split(" ")[0])){
-                        shellScope.child.refreshrate = vm.data[i].ordered == 0 ? 0 :vm.data[i].received/vm.data[i].ordered*100 ;
+                        shellScope.child.coverage = vm.data[i].stock_requirement__target == 0 ?
+                            0 :vm.data[i].consumed/vm.data[i].stock_requirement__target*100;
+                        shellScope.child.notimmunized = vm.data[i].stock_requirement__target - vm.data[i].consumed;
                     }
+
                 }
-                graphdataDistribution.push({
-                        key: "Min",
-                        values: min_seriesDistribution,
-                        color:'#A5E816'
+
+                graphdataConsumption.push({
+                        key: "Actual Consumption",
+                        values: seriesConsumption
                 });
-                graphdataDistribution.push({
-                        key: "Issued",
-                        values: seriesDistribution,
-                        color:'#1F77B4'
-                });
-                graphdataDistribution.push({
-                        key: "Ordered",
-                        values: seriesOrders,
-                        color:'red'
+                graphdataConsumption.push({
+                        key: "Planned consumption",
+                        values: target_seriesConsumption,
+                        color: '#FF7F0E'
                 });
 
-                graphdataDistribution.push({
-                        key: "Max",
-                        values: max_seriesDistribution,
-                        color:'#FF7F0E'
-                });
 
-                vm.graphDistribution = graphdataDistribution;
+                vm.graphConsumption = graphdataConsumption;
 
 
-                // update Distribution graph
-                vm.optionsDistribution = {
+                // update Consumption graph
+                vm.optionsConsumption = {
                         chart: {
                             type: 'lineChart',
                             height: 500,
@@ -205,17 +130,50 @@ angular.module('dashboard')
                             transitionDuration: 500,
                         }
                 };
-
-*/
             });
         };
 
-        $scope.$on('refreshCapacity', function(e, startQuarter, endQuarter, district, carelevel) {
-            if(startQuarter && endQuarter)
-            {
-                vm.getFridgeDistrictCapacity(startQuarter, endQuarter, district, carelevel);
-                vm.getFridgeFacilityCapacity(startQuarter, endQuarter, district, carelevel);
+        vm.getVaccineDoses = function(period, vaccine) {
 
+            CoverageService.getVaccineDoses(period, vaccine)
+                .then(function(data) {
+
+                    vm.data = angular.copy(data);
+
+                    vm.tableParamsDropOut = new NgTableParams({
+                        page: 1,
+                        count: 10
+                    }, {
+                        filterDelay: 0,
+                        counts: [],
+                        data: vm.data,
+                    });
+                });
+        };
+
+        vm.getVaccineDosesByDistrict = function(period, district, vaccine) {
+
+            CoverageService.getVaccineDosesByDistrict(period, district, vaccine)
+                .then(function(data) {
+
+                    vm.data = angular.copy(data);
+
+                    shellScope.child.dropedout = 0;
+                    if(vm.data.length > 0){
+                        shellScope.child.dropedout = vm.data[0].drop_out_rate;
+                        shellScope.child.underimmunized = vm.data[0].under_immunized;
+                    }
+
+                });
+        };
+
+        $scope.$on('refresh', function(e, startMonth, endMonth, district, vaccine) {
+            if(startMonth.name && endMonth.name && district.name && vaccine.name)
+            {
+                vm.getStockByDistrict(startMonth.name, endMonth.name, district.name, vaccine.name);
+                vm.getStockByDistrictVaccine(startMonth.name, endMonth.name, district.name, vaccine.name);
+                vm.getVaccineDosesByDistrict(201602, district.name, vaccine.name);
+                vm.getVaccineDoses(201602, vaccine.name);
             }
         });
 

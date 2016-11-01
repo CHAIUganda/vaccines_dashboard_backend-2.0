@@ -1,6 +1,6 @@
 <div ng-controller="CoverageController as vm">
 
-    <h4 class="text-left" >Consumption of {{child.vaccine }} for {{child.district }}</h4>
+    <h4 class="text-left" >Drop Out Rate for {{child.vaccine }} for {{child.district }}</h4>
     <br>
     <br>
 
@@ -16,7 +16,7 @@
                 <td title="'District'" sortable="'district_name'" filter="{district_name: 'text'}"  >{{row.district_name}}</td>
                 <td title="'Actual'" sortable="'consumed'"  class="text-center">{{row.consumed | number:0}}</td>
                 <td title="'Planned'" sortable="'stock_requirement__target'" class="text-center">{{row.stock_requirement__target }}</td>
-                <td title="'Coverage'" sortable="'coverage_rate'" class="text-center">{{row.coverage_rate }}%</td>
+                <td title="'Not Immunized'" sortable="'not_immunized'" class="text-center">{{row.not_immunized }}</td>
             </tr>
 
         </table>

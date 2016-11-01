@@ -94,6 +94,7 @@ class StockAtHandByDistrictApi(APIView):
                           When(Q(stock_requirement__target=Value(0)) | Q(consumed=Value(0)), then=Value(0)),
                           default=(ExpressionWrapper(100 * F('consumed') / F('stock_requirement__target'), output_field=IntegerField()))
                       ),
+                      not_immunized=ExpressionWrapper(F('stock_requirement__target')- F('consumed'), output_field=FloatField()),
                       planned_consumption=F('planned_consumption'),
                       vaccine=F('stock_requirement__vaccine__name'),
                       min_stock=F('stock_requirement__minimum'),
@@ -118,6 +119,7 @@ class StockAtHandByDistrictApi(APIView):
                     'max_variance',
                     'uptake_rate',
                     'coverage_rate',
+                    'not_immunized',
                     'available_stock',
                     'received')
 

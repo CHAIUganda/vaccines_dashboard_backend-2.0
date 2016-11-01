@@ -34,7 +34,7 @@ angular.module('dashboard')
 
         FilterService.getVaccines().then(function(data) {
             shell.vaccines = data;
-            shell.selectedVaccine = shell.vaccines[6];
+            shell.selectedVaccine = shell.vaccines[5];
         });
 
         //==== End Stock Management =====
@@ -43,7 +43,6 @@ angular.module('dashboard')
         shell.startQuarter = shell.startQuarter ? shell.startQuarter.name : "201601";
         shell.endQuarter = shell.endQuarter ? shell.endQuarter.name : "201603";
         shell.selectedFridgeDistrict = "";
-        shell.thefridge = "";
         shell.selectedFridgeCareLevel = "";
 
 
@@ -66,13 +65,14 @@ angular.module('dashboard')
         //==== End Cold Chain =======
 
 
-        $scope.$watch('shell.endMonth', function() {
-            if (shell.endMonth) {
-                $rootScope.$broadcast('refresh', shell.startMonth, shell.endMonth, shell.selectedDistrict, shell.selectedVaccine);
-            }
-        }, true);
+//        $scope.$watch('shell.endMonth', function() {
+//            if (shell.endMonth) {
+//                $rootScope.$broadcast('refresh', shell.startMonth, shell.endMonth, shell.selectedDistrict, shell.selectedVaccine);
+//            }
+//        }, true);
 
         $scope.$watchGroup(['shell.endMonth', 'shell.selectedVaccine', 'shell.selectedDistrict'], function(data){
+            console.log(data);
             if(data[0] && data[1] && data[2]){
                 if (shell.endMonth) {
                     $rootScope.$broadcast('refresh', shell.startMonth, shell.endMonth, shell.selectedDistrict, shell.selectedVaccine);
@@ -82,14 +82,15 @@ angular.module('dashboard')
 
         $scope.$watch('shell.endQuarter', function() {
             if (shell.endQuarter) {
-                $rootScope.$broadcast('refreshCapacity', shell.startQuarter, shell.endQuarter, shell.thefridge, shell.selectedFridgeCareLevel);
+                $rootScope.$broadcast('refreshCapacity', shell.startQuarter, shell.endQuarter, shell.selectedFridgeDistrict, shell.selectedFridgeCareLevel);
             }
         }, true);
 
-        $scope.$watchGroup(['shell.endQuarter', 'shell.selectedFridgeCareLevel', 'shell.thefridge'], function(data){
-            if(data[0] && data[1] && data[2]){
+        $scope.$watchGroup(['shell.endQuarter', 'shell.selectedFridgeDistrict', 'shell.selectedFridgeCareLevel'], function(data){
+            console.log(data);
+            if(data[0] && data[1]){
                 if (shell.endQuarter) {
-                    $rootScope.$broadcast('refreshCapacity', shell.startQuarter, shell.endQuarter, shell.thefridge, shell.selectedFridgeCareLevel);
+                    $rootScope.$broadcast('refreshCapacity', shell.startQuarter, shell.endQuarter, shell.selectedFridgeDistrict, shell.selectedFridgeCareLevel);
                 }
             }
         });

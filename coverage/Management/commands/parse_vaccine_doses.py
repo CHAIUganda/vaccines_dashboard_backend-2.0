@@ -3,7 +3,7 @@ from optparse import make_option
 
 from dashboard.common.data_set_parser import DataSetParser
 from dashboard.models import DataSet
-from loaddata import save_from_model
+from loaddata import *
 
 class Command(BaseCommand):
     option_list = BaseCommand.option_list + (
@@ -19,4 +19,5 @@ class Command(BaseCommand):
         print "Loading period: %s" % (period,)
 
         save_from_model(period)
+        save_vaccine_dose(period)
 
