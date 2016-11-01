@@ -1,14 +1,14 @@
 <div ng-controller="FridgeController as vm">
-
-    <h4 class="text-left" >Functionality</h4>
-    <br>
-    <br>
+    <font color="#00008b">
+    <h4  class="text-center" >Working Status of Fridges in {{ child.fridgeDistrict }} District</h4>
+    </font>
 
     <div class="col-md-5">
         <div class="page_graph">
             <nvd3 options="vm.optionsfunctionality" data="vm.graphfunctionality"></nvd3>
         </div>
     </div>
+    <font color="#00008b">
     <div class="col-md-7">
         <ul class="nav nav-tabs">
           <li class="active"><a data-toggle="tab" href="#district">District</a></li>
@@ -42,6 +42,7 @@
         </div>
 
     </div>
+    </font>
 
 
 </div>

@@ -50,8 +50,8 @@ angular.module('dashboard')
 
 
                 // calculate totals
-                shellScope.child.fridgeDistrict = vm.fridgeDistrict;
-                shellScope.child.carelevel = vm.carelevel;
+
+                shellScope.child.fridgeDistrict = district;
 
 
                 // construct District graph data
@@ -207,11 +207,6 @@ angular.module('dashboard')
                     data: vm.data,
                 });
 
-                // calculate totals
-                shellScope.child.fridgeDistrict = vm.fridgeDistrict;
-                shellScope.child.carelevel = vm.carelevel;
-
-
                 // construct District graph data
 
                 var graphfunctionalitydata = [];
@@ -219,6 +214,7 @@ angular.module('dashboard')
                 var seriesNotWorking = [];
                 var seriesmaintenance = [];
 				shellScope.child.functionality = 0;
+                shellScope.child.fridgeDistrict = district;
 
                 for (var i = 0; i < vm.data.length ; i++) {
                     seriesExisting.push([vm.data[i].quarter, vm.data[i].number_existing])
@@ -346,7 +342,7 @@ angular.module('dashboard')
         vm.getFridgeDistrictImmunizingFacility = function(startQuarter, endQuarter, fridgeDistrict, carelevel) {
 
             vm.startQuarter ? vm.startQuarter : "201601";
-            vm.endQuarter = vm.endQuarter ? vm.endQuarter : "201604";
+            vm.endQuarter = endQuarter.name;
             district = "";
             vm.district = fridgeDistrict;
             vm.carelevel = carelevel;
@@ -378,8 +374,8 @@ angular.module('dashboard')
                 });
 
                 // calculate totals
-                shellScope.child.fridgeDistrict = vm.fridgeDistrict;
-                shellScope.child.carelevel = vm.carelevel;
+                shellScope.child.fridgeDistrict = district;
+                shellScope.child.quarter = endQuarter.name - 2;
 
 
                 // construct District graph data
