@@ -85,12 +85,7 @@ angular.module('dashboard')
                         values: seriesAvailable,
                         color:'green'
                 });
-/*                graphdata.push({
-                        key: "Gap",
-                        values: seriesGap,
-                        color:'red'
-                });
-*/
+
                 vm.graph = graphdata;
 
 
@@ -110,7 +105,7 @@ angular.module('dashboard')
                             x: function(d){ return d[0]; },
                             y: function(d){ return d[1]; },
                             showValues: true,
-                            color: function(d){ return '#1F77B4'}
+                            //color: function(d){ return '#1F77B4'}
                             //valueFormat: function(d){
                             //    return tickFormat(d3.format(',.1f'));
                             //}
@@ -352,7 +347,7 @@ angular.module('dashboard')
 
             vm.startQuarter ? vm.startQuarter : "201601";
             vm.endQuarter = vm.endQuarter ? vm.endQuarter : "201604";
-            fridgeDistrict = "KUMI";
+            district = "";
             vm.district = fridgeDistrict;
             vm.carelevel = carelevel;
 
@@ -389,60 +384,60 @@ angular.module('dashboard')
 
                 // construct District graph data
                 var graphdataimmunizing = [];
-                var seriesccCoverage = [];
+
+
 
 
 
                 for (var i = 0; i < vm.data.length ; i++) {
-                    seriesccCoverage.push([vm.data[i].quarter, (vm.data[i].immunizing/vm.data[i].Total_facilities *100)])
+                    var Immunizing = vm.data[i].immunizing;
+                    var NotImmunizing = vm.data[i].Total_facilities - vm.data[i].immunizing;
 
+                    shellScope.child.facility = vm.data[i].immunizing;
 
                 }
-/*
-                seriesRequired = [[201602, 30], [201603, 30]];
-                seriesAvailable = [[201602, 60], [201603, 20]];
-*/
 
-                graphdataimmunizing.push({
-                        key: "CC",
-                        values: seriesccCoverage,
-                        color:'green'
-                });
- /*               graphdata.push({
-                        key: "Available",
-                        values: seriesAvailable,
-                        color:'#1F77B4'
-                });
-                graphdata.push({
-                        key: "Gap",
-                        values: seriesGap,
-                        color:'red'
-                });
-*/
-                vm.graphimmunizing = graphdataimmunizing;
 
 
                 // update graph
                 vm.optionsimmunizing = {
                         chart: {
-                            type: "multiBarChart",
-                            height: 450,
-                            margin: {
-                              top: 20,
-                              right: 20,
-                              bottom: 45,
-                              left: 45
+                            type: 'pieChart',
+                            height: 500,
+                            width: 500,
+                            x: function (d) {
+                                return d.key;
                             },
-                            clipEdge: true,
-                            stacked: false,
-                            x: function(d){ return d[0]; },
-                            y: function(d){ return d[1]; },
-                            showValues: true,
-                            //valueFormat: function(d){
-                            //    return tickFormat(d3.format(',.1f'));
-                            //}
-                        },
+                            y: function (d) {
+                                return d.y;
+                            },
+                            showLabels: true,
+                            duration: 500,
+                            labelThreshold: 0.01,
+                            labelSunbeamLayout: true,
+                            legend: {
+                                margin: {
+                                    top: 5,
+                                    right: 35,
+                                    bottom: 5,
+                                    left: 0
+                                }
+                            }
+                        }
                 };
+                vm.graphimmunizing = [
+                    {
+                       key: "Immunizing",
+                       y: Immunizing,
+                        color:'#A5E816'
+                    },
+                    {
+                       key: "Not Immunizing",
+                       y: NotImmunizing,
+                        color:'#FF7F0E'
+                    }
+
+                ];
 
 
             });
@@ -451,14 +446,14 @@ angular.module('dashboard')
         $scope.$on('refreshCapacity', function(e, startQuarter, endQuarter, fridgeDistrict, carelevel) {
             if(startQuarter && endQuarter && fridgeDistrict.district)
             {
-                vm.getFridgeDistrictRefrigerator(startQuarter, endQuarter, fridgeDistrict.district, carelevel);
-                vm.getFridgeAllDistrictRefrigerator(startQuarter, endQuarter, fridgeDistrict.district, carelevel);
-                vm.getFridgeFacilityRefrigerator(startQuarter, endQuarter, fridgeDistrict.district, carelevel);
-                vm.getFridgeAllDistrictImmunizingFacility(startQuarter, endQuarter, fridgeDistrict.district, carelevel);
-                vm.getFridgeDistrictImmunizingFacility(startQuarter, endQuarter, fridgeDistrict.district, carelevel);
-                vm.getFridgeAllDistrictCapacity(startQuarter, endQuarter, fridgeDistrict.district, carelevel);
-                vm.getFridgeDistrictCapacity(startQuarter, endQuarter, fridgeDistrict.district, carelevel);
-                vm.getFridgeFacilityCapacity(startQuarter, endQuarter, fridgeDistrict.district, carelevel);
+                vm.getFridgeDistrictRefrigerator(startQuarter, endQuarter, fridgeDistrict.district, carelevel.group);
+                vm.getFridgeAllDistrictRefrigerator(startQuarter, endQuarter, fridgeDistrict.district, carelevel.group);
+                vm.getFridgeFacilityRefrigerator(startQuarter, endQuarter, fridgeDistrict.district, carelevel.group);
+                vm.getFridgeAllDistrictImmunizingFacility(startQuarter, endQuarter, fridgeDistrict.district, carelevel.group);
+                vm.getFridgeDistrictImmunizingFacility(startQuarter, endQuarter, fridgeDistrict.district, carelevel.group);
+                vm.getFridgeAllDistrictCapacity(startQuarter, endQuarter, fridgeDistrict.district, carelevel.group);
+                vm.getFridgeDistrictCapacity(startQuarter, endQuarter, fridgeDistrict.district, carelevel.group);
+                vm.getFridgeFacilityCapacity(startQuarter, endQuarter, fridgeDistrict.district, carelevel.group);
 
             }
         });
