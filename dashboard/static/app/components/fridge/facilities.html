@@ -1,20 +1,20 @@
 <div ng-controller="FridgeController as vm">
 
-    <h4 class="text-left" >Functionality</h4>
+    <h4 class="text-left" >Immunizing Facilities</h4>
     <br>
     <br>
 
     <div class="col-md-6">
         <div class="page_graph">
-            <nvd3 options="vm.options" data="vm.graph"></nvd3>
+            <nvd3 options="vm.optionsimmunizing" data="vm.graphimmunizing"></nvd3>
         </div>
     </div>
     <div class="col-md-6">
-        <table ng-table="vm.tableParamsAllfridge" class="row-border hover table table-condensed table-striped" show-filter="true">
+        <table ng-table="vm.tableParamsImmunizingAlldistricts" class="row-border hover table table-condensed table-striped" show-filter="true">
             <tr ng-repeat="row in $data">
                 <td title="'District'" sortable="'facility__district'" filter="{facility__district: 'text'}"  >{{row.facility__district}}</td>
                 <td title="'ImmunizingF'" sortable="'immunizing'"  class="text-center">{{row.immunizing}}</td>
-                <td title="'cc'" >{{ (row.immunizing/row.Total_facilities)*100 | number:0}}%</td>
+                <td title="'CCE Coverage'" sortable="'immunizing_with_fridge / immunizing'" class="text-center" >{{ (row.immunizing_with_fridge/row.immunizing)*100 | number:0}}%</td>
             </tr>
         </table>
 

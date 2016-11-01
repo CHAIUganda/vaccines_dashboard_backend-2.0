@@ -90,12 +90,14 @@ class DistrictImmunizingFacilities(APIView):
         summary = ImmunizingFacility.objects.filter (**args)\
                 .values('facility__district')\
                 .annotate(immunizing=(Count(Q(static='True') | Q(outreach='True'))),
+                          immunizing_with_fridge=(Count(Q(static='True') & Q(outreach='True') & Q(ficc_storage='False'))),
                           Total_facilities=(Count('facility__code')))\
                 .values(
                         'facility__district',
                         'immunizing',
                         'Total_facilities',
                         'quarter',
+                        'immunizing_with_fridge'
                         )
         return Response(summary)
 
@@ -155,7 +157,7 @@ class DistrictRefrigerators(APIView):
                           needs_maintenance = Sum('needs_maintenance'),
                           not_working = Sum('not_working'),
                           number_existing = Sum('number_existing'))\
-                .order_by('facility__district')\
+                .order_by('not_working')\
                 .values(
                         'working_well',
                         'needs_maintenance',
@@ -257,12 +259,12 @@ class DistrictCapacities(APIView):
                 .values('facility__district')\
                 .annotate(required = Sum('required'),
                           available = Sum('actual'),
-                          gap = Sum('difference'))\
+                         )\
                 .order_by('facility__district')\
                 .values(
                         'available',
                         'required',
-                        'gap',
+
                         'quarter',
                         'facility__district')
         return Response(summary)

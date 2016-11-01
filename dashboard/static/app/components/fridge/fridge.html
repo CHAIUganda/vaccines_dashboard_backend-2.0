@@ -19,8 +19,8 @@
         <div class="spacer">
             <h5 class="text-center"> - </h5>
         </div>
-            <select name="district" class="form-control filter criteria-select" ng-model="shell.selectedFridgeDistrict"
-                    ng-options="district as district.district for district in shell.fridgeDistricts">
+            <select name="fridgeDistrict" class="form-control filter criteria-select" ng-model="shell.selectedFridgeDistrict"
+                    ng-options="fridgeDistrict as fridgeDistrict.district for fridgeDistrict in shell.fridgeDistricts">
             </select>
         <div class="spacer">
             <h5 class="text-center"> - </h5>
@@ -37,22 +37,22 @@
         <div class="col-md-12">
          <h3>KEY METRICS</h3>
             <div class="quality_test" ui-sref-active="quality_test_active">
-                <a ui-sref="fridge.facilities">
+                <a ui-sref="fridge.facilities" ui-sref-opts="{reload: true}">
                     <span class="quality_test__metric"> 0 {{ child.child.myname }} </span>
                     <span class="quality_test__description">{{"IMMUNIZING FACILITIES" }}</span>
                 </a>
             </div>
 
             <div class="quality_test" ui-sref-active="quality_test_active">
-                <a ui-sref="fridge.workingstatus">
-                    <span class="quality_test__metric"> 0 {{ child.endQuarter }}</span>
-                    <span class="quality_test__description">{{"FUNCTIONALITY" }}</span>
+                <a ui-sref="fridge.workingstatus"  ui-sref-opts="{reload: true}">
+                    <span class="quality_test__metric">{{ child.functionality | number:0}}%</span>
+                    <span class="quality_test__description">{{"WORKING WELL" }}</span>
                 </a>
             </div>
             <div class="quality_test" ui-sref-active="quality_test_active">
-                <a ui-sref="fridge.capacity">
-                    <span class="quality_test__metric"> 0</span>
-                    <span class="quality_test__description">{{"AVAILABLE CAPACITY"}}</span>
+                <a ui-sref="fridge.capacity"  ui-sref-opts="{reload: true}">
+                    <span class="quality_test__metric">{{ child.available | number:0 }} Litres</span>
+                    <span class="quality_test__description">{{"AVAILABLE"}}</span>
                 </a>
             </div>
         </div>
