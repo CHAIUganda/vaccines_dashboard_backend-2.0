@@ -6,6 +6,12 @@ angular.module('dashboard')
         var shellScope = $scope.$parent;
         shellScope.child = $scope;
 
+        vm.london= {
+                    lat: 51.505,
+                    lng: -0.09,
+                    zoom: 4
+                }
+
         vm.getStockByDistrict = function(startMonth, endMonth, district, vaccine) {
 
             vm.startMonth = vm.startMonth ? vm.startMonth : "Nov 2015";
@@ -166,6 +172,11 @@ angular.module('dashboard')
 
                 });
         };
+
+        var app = angular.module("demoapp", ['leaflet-directive']);
+        app.controller("BasicFirstController", [ "$scope", function($scope) {
+            // Nothing here!
+        }]);
 
         $scope.$on('refresh', function(e, startMonth, endMonth, district, vaccine) {
             if(startMonth.name && endMonth.name && district.name && vaccine.name)

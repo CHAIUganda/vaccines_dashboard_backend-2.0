@@ -9,6 +9,7 @@ var dashboard = angular.module('dashboard',
     "angularChart",
     "ngTable",
     "services",
-    "nvd3"
+    "nvd3",
+    "leaflet-directive"
   ]
 );
