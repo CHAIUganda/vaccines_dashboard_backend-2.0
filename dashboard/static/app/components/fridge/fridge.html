@@ -34,27 +34,29 @@
 
     </div>
     <div class="row">
+        <font color="navy">
         <div class="col-md-12">
          <h3>KEY METRICS</h3>
             <div class="quality_test" ui-sref-active="quality_test_active">
                 <a ui-sref="fridge.facilities" ui-sref-opts="{reload: true}">
                     <span class="quality_test__metric">{{ child.facility }} </span>
-                    <span class="quality_test__description">{{"FACILITIES IMMUNIZE" }}</span>
+                    <span class="quality_test__description">{{"IMMUNIZING FACILITIES" }}</span>
                 </a>
             </div>
 
             <div class="quality_test" ui-sref-active="quality_test_active">
                 <a ui-sref="fridge.workingstatus"  ui-sref-opts="{reload: true}">
                     <span class="quality_test__metric">{{ child.functionality | number:0}}%</span>
-                    <span class="quality_test__description">{{"WORKING WELL" }}</span>
+                    <span class="quality_test__description">{{"FUNCTIONALITY" }}</span>
                 </a>
             </div>
             <div class="quality_test" ui-sref-active="quality_test_active">
                 <a ui-sref="fridge.capacity"  ui-sref-opts="{reload: true}">
-                    <span class="quality_test__metric">{{ child.available | number:0 }} Litres</span>
-                    <span class="quality_test__description">{{"AVAILABLE"}}</span>
+                    <span class="quality_test__metric">{{ child.available | number:0 }}</span>
+                    <span class="quality_test__description">{{"CAPACITY (L)"}}</span>
                 </a>
             </div>
+            </font>
         </div>
 
     </div>
@@ -66,4 +68,5 @@
         </div>
 
     </div>
+
 </div>

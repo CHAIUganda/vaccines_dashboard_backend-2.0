@@ -78,7 +78,7 @@ angular.module('dashboard')
                 graphdata.push({
                         key: "Required",
                         values: seriesRequired,
-                        color:'red'
+                        color:'#2A448A'
                 });
                 graphdata.push({
                         key: "Available",
@@ -92,7 +92,7 @@ angular.module('dashboard')
                 // update graph
                 vm.options = {
                         chart: {
-                            type: "discreteBarChart",
+                            type: "multiBarChart",
                             height: 450,
                             margin: {
                               top: 20,
@@ -105,7 +105,9 @@ angular.module('dashboard')
                             x: function(d){ return d[0]; },
                             y: function(d){ return d[1]; },
                             showValues: true,
-                            //color: function(d){ return '#1F77B4'}
+                            showYAxis: false,
+                            //color: function(d){ return 'green'}
+
                             //valueFormat: function(d){
                             //    return tickFormat(d3.format(',.1f'));
                             //}
@@ -121,7 +123,7 @@ angular.module('dashboard')
 
             vm.startQuarter ? vm.startQuarter : "201601";
             vm.endQuarter = vm.endQuarter ? vm.endQuarter : "201604";
-            fridgeDistrict = "";
+            district = "";
             vm.district = fridgeDistrict;
             vm.carelevel = carelevel;
 
@@ -227,12 +229,12 @@ angular.module('dashboard')
                 graphfunctionalitydata.push({
                         key: "Existing",
                         values: seriesExisting,
-                        color:'#A5E816'
+                        color:'green'
                 });
                 graphfunctionalitydata.push({
                         key: "Not Working",
                         values: seriesNotWorking,
-                        color:'#1F77B4'
+                        color:'#2A448A'
                 });
                graphfunctionalitydata.push({
                         key: "Needs maintenance",
@@ -259,6 +261,7 @@ angular.module('dashboard')
                             x: function(d){ return d[0]; },
                             y: function(d){ return d[1]; },
                             showValues: true,
+                            showYAxis: false,
                             //valueFormat: function(d){
                             //    return tickFormat(d3.format(',.1f'));
                             //}
@@ -273,7 +276,7 @@ angular.module('dashboard')
 
             vm.startQuarter ? vm.startQuarter : "201601";
             vm.endQuarter = vm.endQuarter ? vm.endQuarter : "201604";
-            fridgeDistrict = "";
+            district = "";
             vm.district = fridgeDistrict;
             vm.carelevel = carelevel;
 
@@ -425,12 +428,12 @@ angular.module('dashboard')
                     {
                        key: "Immunizing",
                        y: Immunizing,
-                        color:'#A5E816'
+                        color:'green'
                     },
                     {
                        key: "Not Immunizing",
                        y: NotImmunizing,
-                        color:'#FF7F0E'
+                        color:'#2A448A'
                     }
 
                 ];

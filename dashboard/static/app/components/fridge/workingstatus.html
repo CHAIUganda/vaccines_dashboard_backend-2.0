@@ -1,7 +1,7 @@
 <div ng-controller="FridgeController as vm">
-    <font color="#00008b">
-    <h4  class="text-center" >Working Status of Fridges in {{ child.fridgeDistrict }} District</h4>
-    </font>
+
+    <h4  class="text-left" >Working Status of Fridges in {{ child.fridgeDistrict }} District</h4>
+
 
     <div class="col-md-5">
         <div class="page_graph">
@@ -21,8 +21,8 @@
                     <tr ng-repeat="row in $data">
                         <td title="'District'" sortable="'facility__district'" filter="{facility__district: 'text'}"  >{{row.facility__district}}</td>
                         <td title="'Existing'" sortable="'number_existing'"  class="text-center">{{row.number_existing}}</td>
-                        <td title="'Not working'" sortable="'not_working'" class="text-center">{{row.not_working}}</td>
-                        <td title="'Needs Maintenance'" sortable="'needs_maintenance'" class="text-center">{{row.needs_maintenance}}</td>
+                        <td title="'Working'" sortable="'not_working'" class="text-center">{{row.not_working}}</td>
+                        <td title="'Maintenance'" sortable="'needs_maintenance'" class="text-center">{{row.needs_maintenance}}</td>
                     </tr>
                 </table>
             </div>

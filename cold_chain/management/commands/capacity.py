@@ -10,20 +10,20 @@ def import_capacity(excel_file, quarter):
     worksheet_name = "capacity"
     workbook_results = workbook.get_sheet_by_name(worksheet_name)
 
-    for row in workbook_results.iter_rows('A%s:L%s' % (workbook_results.min_row + 3, workbook_results.max_row)):
+    for row in workbook_results.iter_rows('A%s:N%s' % (workbook_results.min_row + 4, workbook_results.max_row)):
         try:
             fc = Capacity()
             ft = Facility.objects.get(code=row[0].value)
             fc.facility = ft
-            fc.actual = row[4].value
-            fc.required = row[5].value
-            fc.difference = row[6].value
+            fc.actual = row[8].value
+            fc.required = row[9].value
+            fc.difference = row[10].value
             fc.quarter = quarter
             fc.save()
         except Facility.DoesNotExist:
-            fc.actual = row[4].value
-            fc.required = row[5].value
-            fc.difference = row[6].value
+            fc.actual = row[8].value
+            fc.required = row[9].value
+            fc.difference = row[10].value
             fc.quarter = quarter
             fc.save()
 
