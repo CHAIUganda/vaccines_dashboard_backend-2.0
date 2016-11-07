@@ -6,11 +6,53 @@ angular.module('dashboard')
         var shellScope = $scope.$parent;
         shellScope.child = $scope;
 
-        vm.london= {
-                    lat: 51.505,
-                    lng: -0.09,
-                    zoom: 4
+        /*vm.map = L.map('map', {
+            center: [1.3733, 32.2903],
+            zoom: 6
+        });
+
+        var shpfile = new L.Shapefile('static/Uganda_admin.zip');
+        shpfile.addTo(vm.map);
+        */
+
+        vm.uganda = {
+            lat: 1.3733,
+            lng: 32.2903,
+            zoom: 6
+        }
+
+        /*vm.defaults = {
+            scrollWheelZoom: false
+        }*/
+
+        vm.getDistrictMap = function(){
+            CoverageService.getDistrictMap()
+                .then(function(data){
+                    vm.geojson = {
+                        data: data,
+                        style: {
+                            fillColor: "green",
+                            weight: 2,
+                            opacity: 1,
+                            color: 'white',
+                            dashArray: '3',
+                            fillOpacity: 1.7
+                        }
+                    }
+                });
+        };
+
+
+        /*vm.layers = {
+            baselayers: {
+                osm: {
+                    name: 'OpenStreetMap',
+                    url: 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+                    type: 'xyz'
                 }
+            }
+        }*/
+
 
         vm.getStockByDistrict = function(startMonth, endMonth, district, vaccine) {
 
@@ -146,7 +188,7 @@ angular.module('dashboard')
 
                     vm.data = angular.copy(data);
 
-                    vm.tableParamsDropOut = new NgTableParams({
+                    vm.tableParamsDoses = new NgTableParams({
                         page: 1,
                         count: 10
                     }, {
@@ -168,23 +210,51 @@ angular.module('dashboard')
                     if(vm.data.length > 0){
                         shellScope.child.dropedout = vm.data[0].drop_out_rate;
                         shellScope.child.underimmunized = vm.data[0].under_immunized;
+                        /* Access */
+                        if(vm.data[0].access >= 90){
+                            shellScope.child.access = "Good"
+                        }
+                        else{
+                            shellScope.child.access = "Poor"
+                        }
+                        /* Utilization */
+                        if(shellScope.child.dropedout <= 10){
+                            shellScope.child.utilization = "Good"
+                        }
+                        else{
+                            shellScope.child.utilization = "Poor"
+                        }
+                        /* Red Categorization*/
+                        if((vm.data[0].access >= 90) && (vm.data[0].drop_out_rate <= 10)){
+                            shellScope.redcategory = "CAT1"
+                        }
+                        else if(vm.data[0].access >= 90 && vm.data[0].drop_out_rate > 10){
+                            shellScope.redcategory = "CAT2"
+                        }
+                        else if(vm.data[0].access < 90 && vm.data[0].drop_out_rate <= 10){
+                            shellScope.redcategory = "CAT3"
+                        }
+                        else if(vm.data[0].access < 90 && vm.data[0].drop_out_rate > 10){
+                            shellScope.redcategory = "CAT4"
+                        }
                     }
 
                 });
         };
 
-        var app = angular.module("demoapp", ['leaflet-directive']);
+        /*var app = angular.module("demoapp", ['leaflet-directive']);
         app.controller("BasicFirstController", [ "$scope", function($scope) {
             // Nothing here!
-        }]);
+        }]);*/
 
         $scope.$on('refresh', function(e, startMonth, endMonth, district, vaccine) {
             if(startMonth.name && endMonth.name && district.name && vaccine.name)
             {
                 vm.getStockByDistrict(startMonth.name, endMonth.name, district.name, vaccine.name);
                 vm.getStockByDistrictVaccine(startMonth.name, endMonth.name, district.name, vaccine.name);
-                vm.getVaccineDosesByDistrict(201602, district.name, vaccine.name);
-                vm.getVaccineDoses(201602, vaccine.name);
+                vm.getVaccineDosesByDistrict(endMonth.period, district.name, vaccine.name);
+                vm.getVaccineDoses(endMonth.period, vaccine.name);
+                vm.getDistrictMap();
             }
         });
 

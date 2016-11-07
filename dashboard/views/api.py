@@ -5,6 +5,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from dashboard.helpers import *
 from dashboard.models import *
+from django.utils import timezone
 
 
 class ApiParams(Serializer):
@@ -236,3 +237,16 @@ class StockMonthsLeftAPI(APIView):
                         'stock_left')
 
         return Response(summary)
+
+
+class LastPeriod(APIView):
+    def get(self, request):
+
+        period_year = "%d%d%d" % (datetime.now().year, 0, 0)
+
+        summary = Stock.objects.filter(period__gt = period_year)\
+            .order_by('period')\
+            .values('period')\
+            .distinct()
+
+        return Response(summary.last())

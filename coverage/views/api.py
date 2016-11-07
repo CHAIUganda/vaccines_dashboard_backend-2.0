@@ -57,6 +57,9 @@ class VaccineDoses(APIView):
             'vaccine__name',
             'district__name',
             'drop_out_rate',
-            'under_immunized')
+            'first_dose',
+            'last_dose',
+            'under_immunized',
+            'access')
 
         return Response(summary)

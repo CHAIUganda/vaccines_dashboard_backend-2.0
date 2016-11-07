@@ -14,17 +14,22 @@ angular.module('dashboard')
         shell.endMonth = shell.endMonth ? shell.endMonth.name : "Dec 2015";
         shell.selectedVaccine = "";
         shell.selectedDistrict = "";
+        shell.defaultPeriod = "";
 
         var date = new Date();
-        defaultMonth = date.getMonth() - 2;
+        FilterService.getLastPeriod().then(function(data) {
+            shell.defaultPeriod = data;
+            shell.defaultMonth = parseInt(data.period.toString().substring(4, 6));
+            shell.endMonth = shell.months[shell.defaultMonth-1];
+        });
 
-        shell.myname = "Stephen";
         shell.stockathand = 0;
+
 
         FilterService.getMonths().then(function(data) {
             shell.months = data;
             shell.startMonth = shell.months[0];
-            shell.endMonth = shell.months[defaultMonth];
+            //shell.endMonth = shell.months[defaultMonth];
         });
 
         FilterService.getDistricts().then(function(data) {

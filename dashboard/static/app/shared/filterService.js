@@ -28,6 +28,10 @@ angular.module('services').service('FilterService', ['$http',
             return $http.get('coldchain/api/quarters').then(handleResponse);
         };
 
+        var getLastPeriod = function() {
+            return $http.get('/api/lastperiod').then(handleResponse);
+        }
+
         return {
             "getMonths": getMonths,
             "getVaccines": getVaccines,
@@ -35,6 +39,7 @@ angular.module('services').service('FilterService', ['$http',
             "getFridgeDistricts": getFridgeDistricts,
             "getFridgeCareLevels": getFridgeCareLevels,
             "getFridgeQuarters": getFridgeQuarters,
+            "getLastPeriod": getLastPeriod,
         };
     }
 ])

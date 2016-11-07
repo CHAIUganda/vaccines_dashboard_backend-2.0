@@ -35,6 +35,7 @@
 
         <div class="col-md-12">
          <h3>KEY METRICS</h3>
+            <br>
             <div class="quality_test" ui-sref-active="quality_test_active">
                 <a ui-sref="coverage.home" ui-sref-opts="{reload: true}">
                     <span class="quality_test__metric"> {{ child.coverage | number:0 }}% </span>
@@ -60,15 +61,42 @@
                 </a>
             </div>
         </div>
-
     </div>
+
     <div class="row">
         <div class="col-md-12">
             <div class="test-area clearfix">
                 <div ui-view></div>
             </div>
         </div>
-
     </div>
+
+    <br>
+
+    <div class="row">
+        <div class="filter-title col-md-12">
+            <span class="filter-title h3">ADDITIONAL METRICS</span>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="test-area clearfix">
+                <div class="quality_test">
+                    <span class="quality_test__metric"> {{ child.access }} </span>
+                    <span class="quality_test__description">{{"Access" | uppercase}}</span>
+                </div>
+                <div class="quality_test">
+                    <span class="quality_test__metric"> {{ child.utilization }}</span>
+                    <span class="quality_test__description">{{"Utilization" | uppercase}}</span>
+                </div>
+                <div class="quality_test">
+                    <span class="quality_test__metric"> {{ child.redcategory }}</span>
+                    <span class="quality_test__description">{{"Red Categorization" | uppercase}}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
 </div>
 

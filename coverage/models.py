@@ -24,3 +24,6 @@ class VaccineDose(models.Model):
     district = models.ForeignKey(District, on_delete=models.SET_NULL, null=True, blank=True)
     drop_out_rate = models.FloatField(default=0)
     under_immunized = models.FloatField(default=0)
+    first_dose = models.IntegerField()
+    last_dose = models.IntegerField()
+    access = models.FloatField(default=0)

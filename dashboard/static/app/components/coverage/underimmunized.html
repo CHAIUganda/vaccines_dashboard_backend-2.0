@@ -1,19 +1,19 @@
 <div ng-controller="CoverageController as vm">
 
-    <h4 class="text-left" >Drop Out Rate for {{child.vaccine }} for {{child.district }}</h4>
+    <h4 class="text-left" >Under Immunized for {{child.vaccine }} for {{child.district }}</h4>
     <br>
     <br>
 
-    <div class="col-md-7">
-        <div class="page_graph">
-            <nvd3 options="vm.optionsConsumption" data="vm.graphConsumption"></nvd3>
-        </div>
+    <div class="col-md-7" id="map" style="height: 100%;" >
+         <leaflet center="vm.uganda" defaults="vm.defaults" width="100%" height="480px"></leaflet>
     </div>
     <div class="col-md-5">
 
-        <table ng-table="vm.tableParamsDropOut" class="row-border hover table table-condensed table-striped" show-filter="true">
+        <table ng-table="vm.tableParamsDoses" class="row-border hover table table-condensed table-striped" show-filter="true">
             <tr ng-repeat="row in $data">
                 <td title="'District'" sortable="'district__name'" filter="{district__name: 'text'}"  >{{row.district__name}}</td>
+                <td title="'First Dose'" sortable="'first_dose'"  class="text-center">{{row.first_dose | number:0}}</td>
+                <td title="'Last Dose'" sortable="'last_dose'"  class="text-center">{{row.last_dose | number:0}}</td>
                 <td title="'Under Immunized'" sortable="'under_immunized'"  class="text-center">{{row.under_immunized}}</td>
             </tr>
 

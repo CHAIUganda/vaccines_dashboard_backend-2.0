@@ -33,10 +33,15 @@ angular.module('services').service('CoverageService', ['$http',
             }).then(handleResponse);
         };
 
+        var getDistrictMap = function(){
+            return $http.get('static/Uganda_admin.json').then(handleResponse);
+        };
+
         return {
             "getDHIS2VaccineDoses": getDHIS2VaccineDoses,
             "getVaccineDoses": getVaccineDoses,
-            "getVaccineDosesByDistrict": getVaccineDosesByDistrict
+            "getVaccineDosesByDistrict": getVaccineDosesByDistrict,
+            "getDistrictMap": getDistrictMap
         };
     }
 ])

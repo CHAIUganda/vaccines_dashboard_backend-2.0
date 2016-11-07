@@ -48,7 +48,13 @@ def generate_months():
     months =[]
     for y in range(2016, date.today().year + 1):
         for m in range(1, 13):
-           months.append({'name': '%s %d' % (calendar.month_abbr[m], y), 'month': m, 'year': y})
+            if m < 10:
+                months.append(
+                    {'name': '%s %d' % (calendar.month_abbr[m], y), 'month': m, 'year': y, 'period': '%s0%s' % (y, m)})
+            else:
+                months.append(
+                    {'name': '%s %d' % (calendar.month_abbr[m], y), 'month': m, 'year': y, 'period': '%s%s' % (y, m)})
+
     return months
 
 

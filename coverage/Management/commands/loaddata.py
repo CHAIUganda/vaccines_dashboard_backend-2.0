@@ -77,6 +77,9 @@ def save_vaccine_dose(period):
                 period=period,
                 drop_out_rate=opv_drop_out_rate,
                 under_immunized=opv_dose1.first().consumed-opv_dose3.first().consumed,
+                first_dose=opv_dose1.first().consumed,
+                last_dose=opv_dose3.first().consumed,
+                access=100*(opv_dose1.first().consumed / opv_dose1.first().planned_consumption),
             )
 
         # ====== PCV ===========================
@@ -93,6 +96,9 @@ def save_vaccine_dose(period):
                 period=period,
                 drop_out_rate=pcv_drop_out_rate,
                 under_immunized=pcv_dose1.first().consumed-pcv_dose3.first().consumed,
+                first_dose=pcv_dose1.first().consumed,
+                last_dose=pcv_dose3.first().consumed,
+                access=100 * (pcv_dose1.first().consumed / pcv_dose1.first().planned_consumption),
             )
 
         # ====== PENTA ===========================
@@ -110,6 +116,9 @@ def save_vaccine_dose(period):
                 period=period,
                 drop_out_rate=penta_drop_out_rate,
                 under_immunized=penta_dose1.first().consumed-penta_dose3.first().consumed,
+                first_dose=penta_dose1.first().consumed,
+                last_dose=penta_dose3.first().consumed,
+                access=100 * (penta_dose1.first().consumed / penta_dose1.first().planned_consumption),
             )
 
         # ====== TT ===========================
@@ -126,6 +135,9 @@ def save_vaccine_dose(period):
                 period=period,
                 drop_out_rate=tt_drop_out_rate,
                 under_immunized=tt_dose1.first().consumed-tt_dose2.first().consumed,
+                first_dose=tt_dose1.first().consumed,
+                last_dose=tt_dose2.first().consumed,
+                access=100 * (tt_dose1.first().consumed / tt_dose1.first().planned_consumption),
             )
 
         # ====== HPV ===========================
@@ -142,6 +154,9 @@ def save_vaccine_dose(period):
                 period=period,
                 drop_out_rate=hpv_drop_out_rate,
                 under_immunized=hpv_dose1.first().consumed-hpv_dose2.first().consumed,
+                first_dose=hpv_dose1.first().consumed,
+                last_dose=hpv_dose2.first().consumed,
+                access=100 * (hpv_dose1.first().consumed / hpv_dose1.first().planned_consumption),
             )
 
         # ====== BCG_MEASLES ===========================
@@ -158,6 +173,9 @@ def save_vaccine_dose(period):
                 period=period,
                 drop_out_rate=bcgm_drop_out_rate,
                 under_immunized=bcgm_dose1.first().consumed-bcgm_dose2.first().consumed,
+                first_dose=bcgm_dose1.first().consumed,
+                last_dose=bcgm_dose2.first().consumed,
+                access=100 * (bcgm_dose1.first().consumed / bcgm_dose1.first().planned_consumption),
             )
 
 
