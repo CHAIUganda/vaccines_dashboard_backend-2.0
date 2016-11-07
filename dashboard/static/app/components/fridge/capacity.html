@@ -22,7 +22,7 @@
                         <td title="'District'" sortable="'facility__district'" filter="{facility__district: 'text'}"  >{{row.facility__district}}</td>
                         <td title="'Required'" sortable="'required'"  class="text-center">{{row.required | number : 0 }}</td>
                         <td title="'Available'" sortable="'available'" class="text-center">{{row.available | number : 0 }}</td>
-                        <td title="'Gap'" sortable="'available - required'" class="text-center">{{(row.available - row.required)| number : 0 }}</td>
+                        <td title="'Gap'" sortable="'difference'" class="text-center">{{(row.difference)| number : 0 }}</td>
                     </tr>
                 </table>
             </div>
@@ -32,8 +32,8 @@
                     <tr ng-repeat="row in $data">
                         <td title="'Facility'" sortable="'facility__name'" filter="{facility__name: 'text'}"  >{{row.facility__name}}</td>
                         <td title="'Required'" sortable="'required'"  class="text-center">{{row.required | number : 0 }}</td>
-                        <td title="'Available'" sortable="'available'" class="text-center">{{row.available | number : 0 }}</td>
-                        <td title="'Gap'" sortable="'gap'" class="text-center">{{(row.available - row.required) | number : 0 }}</td>
+                        <td title="'Available'" sortable="'actual'" class="text-center">{{row.actual | number : 0 }}</td>
+                        <td title="'Gap'" sortable="'difference'" class="text-center">{{row.difference | number : 0 }}</td>
                     </tr>
                 </table>
             </div>

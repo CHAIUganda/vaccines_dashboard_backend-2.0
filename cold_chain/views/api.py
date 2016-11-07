@@ -157,7 +157,7 @@ class DistrictRefrigerators(APIView):
                           needs_maintenance = Sum('needs_maintenance'),
                           not_working = Sum('not_working'),
                           number_existing = Sum('number_existing'))\
-                .order_by('not_working')\
+                .order_by('-not_working')\
                 .values(
                         'working_well',
                         'needs_maintenance',
@@ -193,7 +193,7 @@ class FacilityRefrigerators(APIView):
                           needs_maintenance = Sum('needs_maintenance'),
                           not_working = Sum('not_working'),
                           number_existing = Sum('number_existing'))\
-                .order_by('facility__name')\
+                .order_by('-not_working')\
                 .values(
                         'working_well',
                         'needs_maintenance',
@@ -259,14 +259,14 @@ class DistrictCapacities(APIView):
                 .values('facility__district')\
                 .annotate(required = Sum(F('required')),
                           available = Sum(F('actual')),
-                          difference =Sum(F('difference')),
+                          difference =Sum(F('required')-F('actual')),
 
                          surplus = Case(
                              When(Q(difference=Value(0))| Q(required=Value(0)), then=Value(0)),
                              default=(ExpressionWrapper( 100*F('difference') / F('required'), output_field=IntegerField()))
                          )
                          )\
-                .order_by('facility__district')\
+                .order_by('-difference')\
                 .values(
                         'available',
                         'required',
@@ -298,15 +298,17 @@ class FacilityCapacities(APIView):
         summary = Capacity.objects.filter(**args)\
                 .values('facility__name')\
                 .annotate(required = F('required'),
-                          available = F('actual'),
-                          difference = F('difference'),
+                          actual = F('actual'),
+                          difference = (F('required')-F('actual')),
+                          adquate = (F('actual')-F('required')),
                           surplus = Case(
-                             When(Q(difference=Value(0))| Q(required=Value(0)), then=Value(0)),
-                             default=(ExpressionWrapper( 100*F('difference') / F('required'), output_field=IntegerField()))
+                             When(Q(adquate=Value(0))| Q(required=Value(0)), then=Value(0)),
+                             default=(ExpressionWrapper( 100*F('adquate') / F('required'), output_field=IntegerField()))
                          ))\
-                .order_by('facility__name')\
+                .order_by('-difference')\
                 .values(
-                        'available',
+                        'actual',
+                        'adquate',
                         'required',
                         'difference',
                         'surplus',
