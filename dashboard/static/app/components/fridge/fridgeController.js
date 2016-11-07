@@ -87,9 +87,9 @@ angular.module('dashboard')
 				shellScope.child.available = 0;
 
                 for (var i = 0; i < vm.data.length ; i++) {
-                    seriesRequired.push([vm.data[i].quarter, vm.data[i].required])
-                    seriesAvailable.push([vm.data[i].quarter, vm.data[i].available])
-                    seriesGap.push([vm.data[i].quarter, vm.data[i].gap])
+                    seriesRequired.push([vm.data[i].quarter.slice(0,4) + "-Q" + vm.data[i].quarter.slice(5,6), vm.data[i].required])
+                    seriesAvailable.push([vm.data[i].quarter.slice(0,4) + "-Q" + vm.data[i].quarter.slice(5,6), vm.data[i].available])
+                    seriesGap.push([vm.data[i].quarter.slice(0,4) + "-Q" + vm.data[i].quarter.slice(5,6), vm.data[i].gap])
 					if (vm.data[i].quarter){
 					shellScope.child.available = vm.data[i].available
 					}
@@ -262,13 +262,15 @@ angular.module('dashboard')
                 var seriesExisting = [];
                 var seriesNotWorking = [];
                 var seriesmaintenance = [];
+
 				shellScope.child.functionality = 0;
                 shellScope.child.fridgeDistrict = district;
 
+
                 for (var i = 0; i < vm.data.length ; i++) {
-                    seriesExisting.push([vm.data[i].quarter, vm.data[i].number_existing])
-                    seriesNotWorking.push([vm.data[i].quarter, vm.data[i].not_working])
-                    seriesmaintenance.push([vm.data[i].quarter, vm.data[i].needs_maintenance])
+                    seriesExisting.push([vm.data[i].quarter.slice(0,4) + "-Q" + vm.data[i].quarter.slice(5,6), vm.data[i].number_existing])
+                    seriesNotWorking.push([vm.data[i].quarter.slice(0,4) + "-Q" + vm.data[i].quarter.slice(5,6), vm.data[i].not_working])
+                    seriesmaintenance.push([vm.data[i].quarter.slice(0,4) + "-Q" + vm.data[i].quarter.slice(5,6), vm.data[i].needs_maintenance])
 					if (vm.data[i].quarter)
 						shellScope.child.functionality = (vm.data[i].number_existing - vm.data[i].not_working)/vm.data[i].number_existing*100;
                 }
@@ -303,6 +305,7 @@ angular.module('dashboard')
                               bottom: 45,
                               left: 45
                             },
+                            showControls: false,
                             clipEdge: true,
                             stacked: true,
                             x: function(d){ return d[0]; },

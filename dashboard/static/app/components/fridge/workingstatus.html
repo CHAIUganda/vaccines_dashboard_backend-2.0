@@ -3,13 +3,13 @@
     <h4  class="text-left" >Working Status of Fridges in {{ child.fridgeDistrict }} District</h4>
 
 
-    <div class="col-md-5">
-        <div class="page_graph">
+    <div class="col-md-4">
+        <div class="page_graph text-left">
             <nvd3 options="vm.optionsfunctionality" data="vm.graphfunctionality"></nvd3>
         </div>
     </div>
     <font color="#00008b">
-    <div class="col-md-7">
+    <div class="col-md-8">
         <ul class="nav nav-tabs">
           <li class="active"><a data-toggle="tab" href="#district">District</a></li>
           <li><a data-toggle="tab" href="#facility">Facility</a></li>
@@ -21,8 +21,8 @@
                     <tr ng-repeat="row in $data">
                         <td title="'District'" sortable="'facility__district'" filter="{facility__district: 'text'}"  >{{row.facility__district}}</td>
                         <td title="'Existing'" sortable="'number_existing'"  class="text-center">{{row.number_existing}}</td>
-                        <td title="'Working'" sortable="'not_working'" class="text-center">{{row.not_working}}</td>
-                        <td title="'Maintenance'" sortable="'needs_maintenance'" class="text-center">{{row.needs_maintenance}}</td>
+                        <td title="'Not Working'" sortable="'not_working'" class="text-center">{{row.not_working}}</td>
+                        <td title="'Needs Maintenance'" sortable="'needs_maintenance'" class="text-center">{{row.needs_maintenance}}</td>
                     </tr>
                 </table>
             </div>
@@ -31,9 +31,8 @@
                 <table ng-table="vm.tableParamsAllfacilities" class="row-border hover table table-condensed table-striped" show-filter="true">
                     <tr ng-repeat="row in $data">
                         <td title="'Facility'" sortable="'facility__name'" filter="{facility__name: 'text'}"  >{{row.facility__name}}</td>
-                        <td title="'No.existing'" sortable="'number_existing'"  class="text-center">{{row.number_existing}}</td>
-                        <td title="'Working'" sortable="'working_well'" class="text-center">{{row.working_well }}</td>
-                        <td title="'Not_working'" sortable="'not_working'" class="text-center">{{row.not_working}}</td>
+                        <td title="'Existing'" sortable="'number_existing'"  class="text-center">{{row.number_existing}}</td>
+                        <td title="'Not working'" sortable="'not_working'" class="text-center">{{row.not_working}}</td>
                         <td title="'Needs maintenance'" sortable="'needs_maintenance'" class="text-center">{{row.needs_maintenance}}</td>
                     </tr>
                 </table>
