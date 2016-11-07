@@ -257,14 +257,21 @@ class DistrictCapacities(APIView):
 
         summary = Capacity.objects.filter(**args)\
                 .values('facility__district')\
-                .annotate(required = Sum('required'),
-                          available = Sum('actual'),
+                .annotate(required = Sum(F('required')),
+                          available = Sum(F('actual')),
+                          difference =Sum(F('difference')),
+
+                         surplus = Case(
+                             When(Q(difference=Value(0))| Q(required=Value(0)), then=Value(0)),
+                             default=(ExpressionWrapper( 100*F('difference') / F('required'), output_field=IntegerField()))
+                         )
                          )\
                 .order_by('facility__district')\
                 .values(
                         'available',
                         'required',
-
+                        'difference',
+                        'surplus',
                         'quarter',
                         'facility__district')
         return Response(summary)
@@ -290,14 +297,19 @@ class FacilityCapacities(APIView):
 
         summary = Capacity.objects.filter(**args)\
                 .values('facility__name')\
-                .annotate(required = Sum('required'),
-                          available = Sum('actual'),
-                          gap = Sum('difference'))\
+                .annotate(required = F('required'),
+                          available = F('actual'),
+                          difference = F('difference'),
+                          surplus = Case(
+                             When(Q(difference=Value(0))| Q(required=Value(0)), then=Value(0)),
+                             default=(ExpressionWrapper( 100*F('difference') / F('required'), output_field=IntegerField()))
+                         ))\
                 .order_by('facility__name')\
                 .values(
                         'available',
                         'required',
-                        'gap',
+                        'difference',
+                        'surplus',
                         'quarter',
                         'facility__name')
         return Response(summary)

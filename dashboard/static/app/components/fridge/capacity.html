@@ -22,7 +22,7 @@
                         <td title="'District'" sortable="'facility__district'" filter="{facility__district: 'text'}"  >{{row.facility__district}}</td>
                         <td title="'Required'" sortable="'required'"  class="text-center">{{row.required | number : 0 }}</td>
                         <td title="'Available'" sortable="'available'" class="text-center">{{row.available | number : 0 }}</td>
-                        <td title="'Gap'" sortable="'required - available'" class="text-center">{{(row.required - row.available)| number : 0 }}</td>
+                        <td title="'Gap'" sortable="'available - required'" class="text-center">{{(row.available - row.required)| number : 0 }}</td>
                     </tr>
                 </table>
             </div>
@@ -33,7 +33,7 @@
                         <td title="'Facility'" sortable="'facility__name'" filter="{facility__name: 'text'}"  >{{row.facility__name}}</td>
                         <td title="'Required'" sortable="'required'"  class="text-center">{{row.required | number : 0 }}</td>
                         <td title="'Available'" sortable="'available'" class="text-center">{{row.available | number : 0 }}</td>
-                        <td title="'Gap'" sortable="'gap'" class="text-center">{{(row.required - row.available) | number : 0 }}</td>
+                        <td title="'Gap'" sortable="'gap'" class="text-center">{{(row.available - row.required) | number : 0 }}</td>
                     </tr>
                 </table>
             </div>
@@ -42,5 +42,33 @@
 
     </div>
 
+    <div class="text-right">
+         <div class="test-area clearfix">
+
+         <h3 class="text-center">SITES WITH SUFFICIENT (*) CAPACITY</h3>
+            <div class="quality_test text-center" ui-sref-active="quality_test_active">
+                <a ui-sref-opts="{reload: true}">
+                    <span class="quality_test__metric">{{ child.utsurp }} </span>
+                    <span class="quality_test__description">{{"With Surplus Capacity" }}</span>
+                </a>
+            </div>
+
+            <div class="quality_test text-center" ui-sref-active="quality_test_active">
+                <a ui-sref-opts="{reload: true}">
+                    <span class="quality_test__metric">{{ child.utsufficient}}</span>
+                    <span class="quality_test__description">{{"With Sufficient Capacity" }}</span>
+                </a>
+            </div>
+            <div class="quality_test text-center" ui-sref-active="quality_test_active">
+                <a ui-sref-opts="{reload: true}">
+                    <span class="quality_test__metric">{{ child.utshortage}}</span>
+                    <span class="quality_test__description">{{"With a Shortage"}}</span>
+                </a>
+            </div>
+
+
+         </div>
+
+    </div>
 
 </div>

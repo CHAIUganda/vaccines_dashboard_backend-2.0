@@ -32,7 +32,30 @@ angular.module('dashboard')
                     data: tabledataAlldistricts,
                     });
 
+             //====Additional Metrics====
+
+                var surp = 0;
+                var sufficient = 0;
+                var shortage = 0;
+
+                    for(var i=0; i < vm.data.length; i++){
+                        if(vm.data[i].surplus > 30)
+                            surp++;
+                        if(vm.data[i].surplus < 30 > 0)
+                            sufficient++;
+                        if(vm.data[i].surplus < 0)
+                            shortage++;
+                    }
+
+                    shellScope.child.usurp = surp;
+
+                    shellScope.child.usufficient = sufficient;
+
+                    shellScope.child.ushortage= shortage;
+
             });
+
+
         };
 
         vm.getFridgeDistrictCapacity = function(startQuarter, endQuarter, fridgeDistrict, carelevel) {
@@ -52,6 +75,8 @@ angular.module('dashboard')
                 // calculate totals
 
                 shellScope.child.fridgeDistrict = district;
+
+
 
 
                 // construct District graph data
@@ -143,6 +168,28 @@ angular.module('dashboard')
                 // calculate totals
                 shellScope.child.fridgeDistrict = vm.fridgeDistrict;
                 shellScope.child.carelevel = vm.carelevel;
+
+
+            //====Additional Metrics====
+
+                var surp = 0;
+                var sufficient = 0;
+                var shortage = 0;
+
+                    for(var i=0; i < vm.data.length; i++){
+                        if(vm.data[i].surplus >= 30)
+                            surp++;
+                        if(vm.data[i].surplus <30>0)
+                            sufficient++;
+                        if(vm.data[i].surplus <= 0)
+                            shortage++;
+                    }
+
+                    shellScope.child.utsurp = surp;
+
+                    shellScope.child.utsufficient = sufficient;
+
+                    shellScope.child.utshortage= shortage;
 
             });
         };
