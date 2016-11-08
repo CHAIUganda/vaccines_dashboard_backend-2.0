@@ -267,7 +267,7 @@ class DistrictCapacities(APIView):
                              default=(ExpressionWrapper( 100*F('difference') / F('required'), output_field=IntegerField()))
                          )
                          )\
-                .order_by('-difference')\
+                .order_by('difference')\
                 .values(
                         'available',
                         'required',

@@ -20,7 +20,7 @@ angular.module('dashboard')
         FilterService.getLastPeriod().then(function(data) {
             shell.defaultPeriod = data;
             shell.defaultMonth = parseInt(data.period.toString().substring(4, 6));
-            shell.endMonth = shell.months[shell.defaultMonth-1];
+            shell.endMonth = shell.months[shell.defaultMonth-2];
         });
 
         shell.stockathand = 0;
@@ -58,7 +58,7 @@ angular.module('dashboard')
 
         FilterService.getFridgeCareLevels().then(function(data) {
             shell.fridgeCareLevels = data;
-           // shell.selectedFridgeCareLevel = shell.fridgeCareLevels[6];
+            //shell.selectedFridgeCareLevel = shell.fridgeCareLevels[0];
         });
 
         FilterService.getFridgeQuarters().then(function(data) {

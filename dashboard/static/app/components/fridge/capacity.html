@@ -62,17 +62,17 @@
             <div class="test-area clearfix ">
 
                 <div class="quality_test">
-                    <span class="quality_test__metric"> {{ child.utsurp }}% </span>
+                    <span class="quality_test__metric"> {{ child.utsurp | number:0}}% </span>
                     <span class="quality_test__description">{{"With Surplus Capacity" | uppercase}}</span>
                 </div>
 
                 <div class="quality_test">
-                    <span class="quality_test__metric"> {{ child.utsufficient }}%</span>
+                    <span class="quality_test__metric"> {{ child.utsufficient | number:0 }}%</span>
                     <span class="quality_test__description">{{"With Adequate Capacity" | uppercase}}</span>
                 </div>
 
                 <div class="quality_test">
-                    <span class="quality_test__metric"> {{ child.utshortage }}%</span>
+                    <span class="quality_test__metric"> {{ child.utshortage | number:0 }}%</span>
                     <span class="quality_test__description">{{"With a Shortage" | uppercase}}</span>
                 </div>
 
@@ -81,6 +81,16 @@
     </div>
 
     <br>
+
+    <div class="row">
+        <div class="col-md-12 text-left">
+            <div class=" text-left">
+                <div ui-view>
+                    <span class="text-left">(*)Sufficient refers to no Capacity Gap</span>
+                </div>
+            </div>
+        </div>
+    </div>
 
 </div>
 
