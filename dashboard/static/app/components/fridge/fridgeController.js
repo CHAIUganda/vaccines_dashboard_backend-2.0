@@ -41,7 +41,7 @@ angular.module('dashboard')
                     for(var i=0; i < vm.data.length; i++){
                         if(vm.data[i].surplus > 30)
                             surp++;
-                        if(vm.data[i].surplus < 30 > 0)
+                        if(vm.data[i].surplus <30>=0)
                             sufficient++;
                         if(vm.data[i].surplus < 0)
                             shortage++;
@@ -176,20 +176,23 @@ angular.module('dashboard')
                 var sufficient = 0;
                 var shortage = 0;
 
+                var Total = 0;
+
                     for(var i=0; i < vm.data.length; i++){
-                        if(vm.data[i].surplus >= 30)
+                        if(vm.data[i].surplus >=30)
                             surp++;
-                        if(vm.data[i].surplus <30>0)
+                        if(vm.data[i].surplus <30>0 )
                             sufficient++;
-                        if(vm.data[i].surplus <= 0)
+                        if(vm.data[i].surplus <=0)
                             shortage++;
                     }
+                    Total = surp + sufficient + shortage;
 
-                    shellScope.child.utsurp = surp;
+                    shellScope.child.utsurp = (surp/Total)*100;
 
-                    shellScope.child.utsufficient = sufficient;
+                    shellScope.child.utsufficient = (sufficient/Total)*100;
 
-                    shellScope.child.utshortage= shortage;
+                    shellScope.child.utshortage= (shortage/Total)*100;
 
             });
         };

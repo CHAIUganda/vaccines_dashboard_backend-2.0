@@ -92,6 +92,7 @@ class DistrictImmunizingFacilities(APIView):
                 .annotate(immunizing=(Count(Q(static='True') | Q(outreach='True'))),
                           immunizing_with_fridge=(Count(Q(static='True') & Q(outreach='True') & Q(ficc_storage='False'))),
                           Total_facilities=(Count('facility__code')))\
+                .order_by('facility__district')\
                 .values(
                         'facility__district',
                         'immunizing',
@@ -300,15 +301,15 @@ class FacilityCapacities(APIView):
                 .annotate(required = F('required'),
                           actual = F('actual'),
                           difference = (F('required')-F('actual')),
-                          adquate = (F('actual')-F('required')),
+                          adequate = (F('actual')-F('required')),
                           surplus = Case(
-                             When(Q(adquate=Value(0))| Q(required=Value(0)), then=Value(0)),
-                             default=(ExpressionWrapper( 100*F('adquate') / F('required'), output_field=IntegerField()))
+                             When(Q(adequate=Value(0))| Q(required=Value(0)), then=Value(0)),
+                             default=(ExpressionWrapper( 100*F('adequate') / F('required'), output_field=IntegerField()))
                          ))\
                 .order_by('-difference')\
                 .values(
                         'actual',
-                        'adquate',
+                        'adequate',
                         'required',
                         'difference',
                         'surplus',
