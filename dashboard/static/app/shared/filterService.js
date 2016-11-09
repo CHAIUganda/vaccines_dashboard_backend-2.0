@@ -16,10 +16,30 @@ angular.module('services').service('FilterService', ['$http',
             return $http.get('/api/vaccines/').then(handleResponse);
         }
 
+        var getFridgeDistricts = function() {
+            return $http.get('coldchain/api/districts').then(handleResponse);
+        };
+
+        var getFridgeCareLevels = function() {
+            return $http.get('coldchain/api/carelevels').then(handleResponse);
+        };
+
+        var getFridgeQuarters = function() {
+            return $http.get('coldchain/api/quarters').then(handleResponse);
+        };
+
+        var getLastPeriod = function() {
+            return $http.get('/api/lastperiod').then(handleResponse);
+        }
+
         return {
             "getMonths": getMonths,
             "getVaccines": getVaccines,
             "getDistricts": getDistricts,
+            "getFridgeDistricts": getFridgeDistricts,
+            "getFridgeCareLevels": getFridgeCareLevels,
+            "getFridgeQuarters": getFridgeQuarters,
+            "getLastPeriod": getLastPeriod,
         };
     }
 ])

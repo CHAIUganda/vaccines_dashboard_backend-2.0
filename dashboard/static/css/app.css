@@ -1070,7 +1070,7 @@ body {
   font-family: "Open Sans", sans-serif;
   font-size: 14px;
   line-height: 1.42857143;
-  color: #7b8a8b;
+  color: #00008b;
   background-color: #fff;
 }
 input,
@@ -6814,7 +6814,7 @@ th {
 @media (min-width: 992px) {
   .test-area {
     float: left;
-    width: 95%;
+    width: 99%;
   }
 }
 .page_graph {

@@ -15,3 +15,5 @@ sudo supervisorctl reload
 python manage.py makemigrations
 
 python manage.py migrate
+
+37123dfgsdyv
