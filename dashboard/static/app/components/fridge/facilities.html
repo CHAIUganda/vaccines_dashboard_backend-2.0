@@ -13,7 +13,7 @@
         <table ng-table="vm.tableParamsImmunizingAlldistricts" class="row-border hover table table-condensed table-striped" show-filter="true">
             <tr ng-repeat="row in $data">
                 <td title="'District'" sortable="'facility__district'" filter="{facility__district: 'text'}"  >{{row.facility__district}}</td>
-                <td title="'Immunizing'" sortable="'immunizing'"  class="text-center">{{row.immunizing}}</td>
+                <td title="'Facilities Immunizing'" sortable="'immunizing'"  class="text-center">{{row.immunizing}}</td>
                 <td title="'CCE Coverage'" sortable="'immunizing_with_fridge / immunizing'" class="text-center" >{{ (row.immunizing_with_fridge/row.immunizing)*100 | number:0}}%</td>
             </tr>
         </table>

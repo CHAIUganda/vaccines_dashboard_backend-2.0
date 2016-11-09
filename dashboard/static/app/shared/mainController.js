@@ -53,7 +53,7 @@ angular.module('dashboard')
 
         FilterService.getFridgeDistricts().then(function(data) {
             shell.fridgeDistricts = data;
-            shell.selectedFridgeDistrict = shell.fridgeDistricts[2];
+            shell.selectedFridgeDistrict = shell.fridgeDistricts[1];
         });
 
         FilterService.getFridgeCareLevels().then(function(data) {

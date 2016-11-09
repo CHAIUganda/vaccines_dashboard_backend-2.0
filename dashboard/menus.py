@@ -17,11 +17,11 @@ Menu.add_item("main", MenuItem("Stock Management",
 Menu.add_item("main", MenuItem("Cold Chain",
                                "#/fridge/facilities",
                                weight=10))
-
+'''
 Menu.add_item("main", MenuItem("Coverage",
                                "#/coverage/coverage",
                                weight=10))
-'''
+
 Menu.add_item("main", MenuItem("Surveillance",
                                "#/surveillance/cases",
                                weight=10))
