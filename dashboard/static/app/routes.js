@@ -25,8 +25,8 @@ dashboard.config(["$stateProvider", "$urlRouterProvider", function($stateProvide
             })
             .state("coverage.notimmunized", {
                 url: "/notimmunized",
-                templateUrl: "static/app/components/coverage/notimmunized.html",
-                controller: "CoverageController"
+                templateUrl: "static/app/components/coverage/map.html"//,
+                //controller: "CoverageController"
             })
 
             .state("stock", {

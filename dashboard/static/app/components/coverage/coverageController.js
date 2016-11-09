@@ -6,20 +6,29 @@ angular.module('dashboard')
         var shellScope = $scope.$parent;
         shellScope.child = $scope;
 
-        /*vm.map = L.map('map', {
+        /*vm.map = new Map({
             center: [1.3733, 32.2903],
             zoom: 6
-        });
+        });*/
 
-        var shpfile = new L.Shapefile('static/Uganda_admin.zip');
+        /*vm.titleLayer = L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '© OpenStreetMap contributors'
+        }).addTo(vm.map);*/
+
+        /*var shpfile = new L.Shapefile('static/Uganda_admin.zip');
         shpfile.addTo(vm.map);
         */
 
-        vm.uganda = {
-            lat: 1.3733,
-            lng: 32.2903,
-            zoom: 6
-        }
+
+
+        /*vm.map = new Map({
+            basemap: 'grey',
+            layers
+        });*/
+
+
+
+
 
         /*vm.defaults = {
             scrollWheelZoom: false
@@ -28,19 +37,71 @@ angular.module('dashboard')
         vm.getDistrictMap = function(){
             CoverageService.getDistrictMap()
                 .then(function(data){
-                    vm.geojson = {
+
+
+
+                vm.layers.overlays = {
+                    countries: {
+                        name:'Uganda District Boundaries',
+                        type: 'FeatureCollection',
                         data: data,
-                        style: {
-                            fillColor: "green",
-                            weight: 2,
-                            opacity: 1,
-                            color: 'white',
-                            dashArray: '3',
-                            fillOpacity: 1.7
+                        visible: true,
+                        layerOptions: {
+                            style: {
+                                color: '#00D',
+                                fillColor: 'red',
+                                weight: 2.0,
+                                opacity: 0.6,
+                                fillOpacity: 0.2
+                            }
                         }
                     }
-                });
+                }
+                /*
+                vm.geojson = {
+                    data: data,
+                    style: {
+                        fillColor: "green",
+                        weight: 2,
+                        opacity: 1,
+                        color: 'white',
+                        dashArray: '3',
+                        fillOpacity: 1.7
+                    }
+                }
+                */
+
+            });
         };
+
+        vm.uganda = {
+            lat: 1.3733,
+            lng: 32.2903,
+            zoom: 7
+        }
+
+        vm.defaults = {
+            /*tileLayer: "static/Uganda_admin.json",
+            zoomControlPosition: 'topright',
+            tileLayerOptions: {
+                opacity: 0.9,
+                detectRetina: true,
+                reuseTiles: true,
+            },*/
+            scrollWheelZoom: false
+        }
+
+        vm.layers = {
+            type: 'FeatureCollection',
+            baselayers: {
+                osm: {
+                    name: 'OpenStreetMap',
+                    url: 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+                    type: 'xyz'
+                },
+                overlays:{}
+            }
+        }
 
 
         /*vm.layers = {
@@ -53,6 +114,7 @@ angular.module('dashboard')
             }
         }*/
 
+        //var mymap = L.map('mapid').setView([51.505, -0.09], 13);
 
         vm.getStockByDistrict = function(startMonth, endMonth, district, vaccine) {
 
