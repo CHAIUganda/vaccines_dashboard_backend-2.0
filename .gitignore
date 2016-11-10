@@ -145,7 +145,6 @@ reports/
 local_settings.py
 asset_files/
 tmp
-dashboard/static/vendor/
 ~$*.xlsx
 node_modules/
 .ropeproject
