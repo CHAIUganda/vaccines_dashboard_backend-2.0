@@ -25,6 +25,7 @@ QUARTERS = (
 class FacilityType(models.Model):
     name = models.CharField(max_length=200)
     group = models.CharField(max_length=200)
+    old_id = models.IntegerField()
 
 
 class Facility(models.Model):
