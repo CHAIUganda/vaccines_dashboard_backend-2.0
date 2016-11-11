@@ -13,7 +13,7 @@ def import_tab_facilities(excel_file):
 
     for row in workbook_results.iter_rows('A%s:J%s' % (workbook_results.min_row + 1, workbook_results.max_row)):
         facility_type = FacilityType()
-        facility_type.facility_type_id = row[0].value
+        facility_type.old_id = row[0].value
         facility_type.name = row[1].value
         facility_type.group = row[7].value
         facility_type.save()
