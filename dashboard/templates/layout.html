@@ -22,6 +22,30 @@
     <link rel="stylesheet" href='{% static "vendor/nvd3/build/nv.d3.css"%}'>
     <link rel="stylesheet" href='{% static "vendor/angular-datatables/dist/css/angular-datatables.min.css"%}'>
     <link rel="stylesheet" href='{% static "vendor/leaflet/dist/leaflet.css"%}' />
+    <style>
+        #tooltip {
+            position: absolute;
+            z-index: 2;
+            background: rgba(255,255,255,0.8);
+            border-radius: 4px;
+            width: 105px;
+            height: 35px;
+            color: black;
+            font-size: 14px;
+            padding: 5px;
+            top: -150px;
+            left: -150px;
+            font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+        }
+
+        #tooltip p {
+            margin: 0;
+        }
+
+        #tooltip p.value {
+            font-weight: bold;
+        }
+    </style>
 </head>
 <body>
 
@@ -60,6 +84,13 @@
     {% block content %}
     {% endblock content %}
 </div>
+
+<!-- Tooltip div -->
+		<div id="tooltip">
+		<p class="name"></p>
+		<p class="value"></p>
+		</div>
+
 <script type="text/javascript" src='{% static "vendor/jquery/jquery.min.js" %}'></script>
 <script type="text/javascript" src='{% static "vendor/bootstrap/dist/js/bootstrap.min.js" %}'></script>
 <script type="text/javascript" src='{% static "vendor/datatables/media/js/jquery.dataTables.min.js" %}'></script>
