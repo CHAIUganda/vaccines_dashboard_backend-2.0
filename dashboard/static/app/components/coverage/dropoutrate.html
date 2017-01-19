@@ -4,8 +4,14 @@
     <br>
     <br>
 
-    <div class="col-md-7" id="map" style="height: 100%;" >
-         <leaflet center="vm.uganda" defaults="vm.defaults" width="100%" height="480px"></leaflet>
+    <div class="col-md-7">
+
+
+        <div id="map"> <!-- Map container --> </div>
+        <div id="details"><!-- Details container --></div>
+
+
+
     </div>
     <div class="col-md-5">
 
@@ -20,5 +26,9 @@
         </table>
     </div>
 
+
+    <!-- JS Libraries -->
+    <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/mustache.js/2.2.1/mustache.min.js"></script>
 
 </div>
