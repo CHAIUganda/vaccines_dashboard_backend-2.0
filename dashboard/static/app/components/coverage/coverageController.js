@@ -8,7 +8,7 @@ angular.module('dashboard')
 
         vm.getStockByDistrict = function(startMonth, endMonth, district, vaccine) {
 
-            vm.startMonth = vm.startMonth ? vm.startMonth : "Nov 2015";
+            vm.startMonth = vm.startMonth ? vm.startMonth : "Jan 2016";
             vm.endMonth = vm.endMonth ? vm.endMonth : "Dec 2016";
             //Todo: Temporarily disable filtering by district for the table
             district = ""

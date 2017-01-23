@@ -45,7 +45,7 @@ def save_from_model(period):
                     district = stock_requirement.district,
                     period = dh.period,
                     dose = dh.dose,
-                    defaults={'planned_consumption': stock_requirement.target,
+                    defaults={'planned_consumption': stock_requirement.coverage_target,
                               'consumed': dh.consumed},
                 )
 

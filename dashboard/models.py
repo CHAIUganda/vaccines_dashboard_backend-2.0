@@ -142,6 +142,7 @@ class StockRequirement(models.Model):
     minimum = models.IntegerField(default=0)
     maximum = models.IntegerField(default=0)
     target = models.IntegerField(default=0)
+    coverage_target = models.IntegerField(default=0)
 
     class Meta:
         unique_together = ("district", "vaccine", "year")
