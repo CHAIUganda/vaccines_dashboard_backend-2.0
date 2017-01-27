@@ -15,7 +15,7 @@
     </div>
     <div class="col-md-5">
 
-        <table ng-table="vm.tableParamsAlldistricts" class="row-border hover table table-condensed table-striped" show-filter="true">
+        <table ng-table="vm.tableParamsDoses" class="row-border hover table table-condensed table-striped" show-filter="true">
             <tr ng-repeat="row in $data">
                 <td title="'District'" sortable="'district_name'" filter="{district_name: 'text'}"  >{{row.district_name}}</td>
                 <td title="'Planned'" sortable="'stock_requirement__target'" class="text-center">{{row.stock_requirement__target }}</td>

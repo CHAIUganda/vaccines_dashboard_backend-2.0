@@ -25,13 +25,15 @@ class DHIS2VaccineDoses(APIView):
             args.update({'period': period})
 
         summary = DHIS2VaccineDoseDataset.objects.filter(**args)\
+                .values('district__name')\
                 .values(
                         'period',
                         'vaccine__name',
                         'dose',
                         'district__name',
                         'consumed',
-                        'planned_consumption')
+                        'planned_consumption',
+                        )
         return Response(summary)
 
 class VaccineDoses(APIView):
@@ -52,14 +54,20 @@ class VaccineDoses(APIView):
             args.update({'period': period})
 
         summary = VaccineDose.objects.filter(**args) \
+            .annotate(consumed=F('last_dose'),
+                      )\
+            .order_by('district__name')\
             .values(
             'period',
             'vaccine__name',
             'district__name',
             'drop_out_rate',
+            'coverage_rate',
             'first_dose',
             'last_dose',
+            'consumed',
             'under_immunized',
+            'planned_consumption',
             'access')
 
         return Response(summary)

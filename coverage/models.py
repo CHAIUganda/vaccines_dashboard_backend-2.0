@@ -27,3 +27,5 @@ class VaccineDose(models.Model):
     first_dose = models.IntegerField()
     last_dose = models.IntegerField()
     access = models.FloatField(default=0)
+    coverage_rate = models.FloatField(default=0)
+    planned_consumption = models.FloatField(default=0)

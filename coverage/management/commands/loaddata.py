@@ -80,6 +80,8 @@ def save_vaccine_dose(period):
                 first_dose=opv_dose1.first().consumed,
                 last_dose=opv_dose3.first().consumed,
                 access=100*(opv_dose1.first().consumed / opv_dose1.first().planned_consumption),
+                coverage_rate=float('%.1f' % (100*(opv_dose3.first().consumed / opv_dose3.first().planned_consumption))),
+                planned_consumption=opv_dose3.first().planned_consumption,
             )
 
         # ====== PCV ===========================
@@ -99,6 +101,8 @@ def save_vaccine_dose(period):
                 first_dose=pcv_dose1.first().consumed,
                 last_dose=pcv_dose3.first().consumed,
                 access=100 * (pcv_dose1.first().consumed / pcv_dose1.first().planned_consumption),
+                coverage_rate=float('%.1f' % (100*(pcv_dose3.first().consumed / pcv_dose3.first().planned_consumption))),
+                planned_consumption=pcv_dose3.first().planned_consumption,
             )
 
         # ====== PENTA ===========================
@@ -119,6 +123,8 @@ def save_vaccine_dose(period):
                 first_dose=penta_dose1.first().consumed,
                 last_dose=penta_dose3.first().consumed,
                 access=100 * (penta_dose1.first().consumed / penta_dose1.first().planned_consumption),
+                coverage_rate=float('%.1f' % (100*(penta_dose3.first().consumed / penta_dose3.first().planned_consumption))),
+                planned_consumption=penta_dose3.first().planned_consumption,
             )
 
         # ====== TT ===========================
@@ -138,6 +144,8 @@ def save_vaccine_dose(period):
                 first_dose=tt_dose1.first().consumed,
                 last_dose=tt_dose2.first().consumed,
                 access=100 * (tt_dose1.first().consumed / tt_dose1.first().planned_consumption),
+                coverage_rate=float('%.1f' % (100*(tt_dose2.first().consumed / tt_dose2.first().planned_consumption))),
+                planned_consumption=tt_dose2.first().planned_consumption,
             )
 
         # ====== HPV ===========================
@@ -157,6 +165,8 @@ def save_vaccine_dose(period):
                 first_dose=hpv_dose1.first().consumed,
                 last_dose=hpv_dose2.first().consumed,
                 access=100 * (hpv_dose1.first().consumed / hpv_dose1.first().planned_consumption),
+                coverage_rate=float('%.1f' % (100*(hpv_dose2.first().consumed / hpv_dose2.first().planned_consumption))),
+                planned_consumption=hpv_dose2.first().planned_consumption,
             )
 
         # ====== BCG_MEASLES ===========================
@@ -176,6 +186,29 @@ def save_vaccine_dose(period):
                 first_dose=bcgm_dose1.first().consumed,
                 last_dose=bcgm_dose2.first().consumed,
                 access=100 * (bcgm_dose1.first().consumed / bcgm_dose1.first().planned_consumption),
+                coverage_rate=float('%.1f' % (100*(bcgm_dose1.first().consumed / bcgm_dose1.first().planned_consumption))),
+                planned_consumption=bcgm_dose1.first().planned_consumption,
+            )
+
+        # ====== MEASLES ===========================
+        bcgm_drop_out_rate = None
+        bcgm_dose1 = summary.filter(vaccine__name='BCG')
+        bcgm_dose2 = summary.filter(vaccine__name='MEASLES')
+        if bcgm_dose1 and bcgm_dose2 and bcgm_dose1.first().consumed > 0:
+            bcgm_drop_out_rate = float('%.2f' % (((bcgm_dose1.first().consumed
+                                                   - bcgm_dose2.first().consumed)
+                                                  / bcgm_dose1.first().consumed) * 100))
+            VaccineDose.objects.update_or_create(
+                vaccine=bcgm_dose1.first().vaccine,
+                district=d,
+                period=period,
+                drop_out_rate=bcgm_drop_out_rate,
+                under_immunized=bcgm_dose1.first().consumed-bcgm_dose2.first().consumed,
+                first_dose=bcgm_dose1.first().consumed,
+                last_dose=bcgm_dose2.first().consumed,
+                access=100 * (bcgm_dose1.first().consumed / bcgm_dose1.first().planned_consumption),
+                coverage_rate=float('%.1f' % (100*(bcgm_dose2.first().consumed / bcgm_dose2.first().planned_consumption))),
+                planned_consumption=bcgm_dose2.first().planned_consumption,
             )
 
 
