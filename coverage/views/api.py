@@ -33,6 +33,7 @@ class DHIS2VaccineDoses(APIView):
                         'district__name',
                         'consumed',
                         'planned_consumption',
+
                         )
         return Response(summary)
 
@@ -55,6 +56,14 @@ class VaccineDoses(APIView):
 
         summary = VaccineDose.objects.filter(**args) \
             .annotate(consumed=F('last_dose'),
+                      Not_immunized=ExpressionWrapper(F('planned_consumption')- F('consumed'), output_field=FloatField()),
+
+                      Red_category = Case(
+                                        When(Q(access__gte=90) | Q(drop_out_rate__lte=10), then=Value(1)),
+                                        When(Q(access__gte=90) | Q(drop_out_rate__gt=10), then=Value(2)),
+                                        When(Q(access__lt=90) | Q(drop_out_rate__lte=10), then=Value(3)),
+                                        When(Q(access__lt=90) | Q(drop_out_rate__gt=10), then=Value(4)), output_field=IntegerField()),
+
                       )\
             .order_by('district__name')\
             .values(
@@ -68,6 +77,9 @@ class VaccineDoses(APIView):
             'consumed',
             'under_immunized',
             'planned_consumption',
-            'access')
+            'Not_immunized',
+            'access',
+            'Red_category'
+        )
 
         return Response(summary)

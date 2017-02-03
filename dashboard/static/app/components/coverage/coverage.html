@@ -1,13 +1,13 @@
 <div ng-controller="CoverageController as vm">
 
 
-    <h4 class="text-left" >Coverage of {{child.vaccine }}</h4>
+    <h4 class="text-left" > {{child.vaccine}} 3 Coverage for {{child.district }} </h4>
     <br>
     <br>
 
 
 
-    <div class="col-md-7">
+    <div class="col-md-6">
 
 
         <div id="map"> <!-- Map container --> </div>
@@ -17,13 +17,14 @@
 
     </div>
 
-    <div class="col-md-5">
+    <div class="col-md-6">
 
         <table ng-table="vm.tableParamsDoses" class="row-border hover table table-condensed table-striped" show-filter="true">
             <tr ng-repeat="row in $data">
                 <td title="'District'" sortable="'district__name'" filter="{district_name: 'text'}"  >{{row.district__name}}</td>
                 <td title="'Planned'" sortable="'planned_consumption'" class="text-center">{{row.planned_consumption }}</td>
                 <td title="'Actual'" sortable="'consumed'"  class="text-center">{{row.consumed | number:0}}</td>
+                <td title="'Not Immunized'" sortable="'not_immunized'" class="text-center">{{row.Not_immunized }}</td>
                 <td title="'Coverage'" sortable="'coverage_rate'" class="text-center">{{row.coverage_rate }}%</td>
             </tr>
 

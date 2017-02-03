@@ -33,6 +33,7 @@ python ./manage.py loaddata .\dashboard\fixtures\vaccinecategory.json
 description: "HMIS FORM 105: HEALTH UNIT OUTPATIENT MONTHLY REPORT",
 python manage.py dhis2_03_find_data_elements tZvfVXqVIHy
 
+//Create Data_set in Django Admin.
 insert into dashboard_dataset (identifier, name, period_type) values ('tZvfVXqVIHy', 'HMIS FORM 105: HEALTH UNIT OUTPATIENT MONTHLY REPORT', 'monthly')
 
 

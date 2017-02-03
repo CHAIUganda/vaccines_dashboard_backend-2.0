@@ -18,9 +18,9 @@ dashboard.config(["$stateProvider", "$urlRouterProvider", function($stateProvide
                 templateUrl: "static/app/components/coverage/dropoutrate.html",
                 controller: "CoverageController"
             })
-            .state("coverage.underimmunized", {
-                url: "/underimmunized",
-                templateUrl: "static/app/components/coverage/underimmunized.html",
+            .state("coverage.redcategory", {
+                url: "/redcategory",
+                templateUrl: "static/app/components/coverage/redcategory.html",
                 controller: "CoverageController"
             })
             .state("coverage.notimmunized", {

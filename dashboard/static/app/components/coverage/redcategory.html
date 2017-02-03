@@ -17,9 +17,9 @@
         <table ng-table="vm.tableParamsDoses" class="row-border hover table table-condensed table-striped" show-filter="true">
             <tr ng-repeat="row in $data">
                 <td title="'District'" sortable="'district__name'" filter="{district__name: 'text'}"  >{{row.district__name}}</td>
-                <td title="'First Dose'" sortable="'first_dose'"  class="text-center">{{row.first_dose | number:0}}</td>
-                <td title="'Last Dose'" sortable="'last_dose'"  class="text-center">{{row.last_dose | number:0}}</td>
-                <td title="'Under Immunized'" sortable="'under_immunized'"  class="text-center">{{row.under_immunized}}</td>
+                <td title="'Access'" sortable="'access'"  class="text-center">{{row.access | number:0}}</td>
+                <td title="'Utilization'" sortable="'coverage_rate'"  class="text-center">{{row.coverage_rate | number:0}}</td>
+                <td title="'Red Categorization'" sortable="'Red_category'"  class="text-center">CAT{{row.Red_category}}</td>
             </tr>
 
         </table>

@@ -16,6 +16,13 @@ angular.module('dashboard')
         shell.selectedDistrict = "";
         shell.defaultPeriod = "";
 
+        FilterService.getMonths().then(function(data) {
+            shell.months = data;
+            shell.startMonth = shell.months[0];
+            //shell.endMonth = shell.months[defaultMonth];
+        });
+
+
         var date = new Date();
         FilterService.getLastPeriod().then(function(data) {
             shell.defaultPeriod = data;
@@ -26,11 +33,6 @@ angular.module('dashboard')
         shell.stockathand = 0;
 
 
-        FilterService.getMonths().then(function(data) {
-            shell.months = data;
-            shell.startMonth = shell.months[0];
-            //shell.endMonth = shell.months[defaultMonth];
-        });
 
         FilterService.getDistricts().then(function(data) {
             shell.districts = data;

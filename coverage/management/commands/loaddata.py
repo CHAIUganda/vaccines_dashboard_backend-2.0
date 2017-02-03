@@ -190,26 +190,6 @@ def save_vaccine_dose(period):
                 planned_consumption=bcgm_dose1.first().planned_consumption,
             )
 
-        # ====== MEASLES ===========================
-        bcgm_drop_out_rate = None
-        bcgm_dose1 = summary.filter(vaccine__name='BCG')
-        bcgm_dose2 = summary.filter(vaccine__name='MEASLES')
-        if bcgm_dose1 and bcgm_dose2 and bcgm_dose1.first().consumed > 0:
-            bcgm_drop_out_rate = float('%.2f' % (((bcgm_dose1.first().consumed
-                                                   - bcgm_dose2.first().consumed)
-                                                  / bcgm_dose1.first().consumed) * 100))
-            VaccineDose.objects.update_or_create(
-                vaccine=bcgm_dose1.first().vaccine,
-                district=d,
-                period=period,
-                drop_out_rate=bcgm_drop_out_rate,
-                under_immunized=bcgm_dose1.first().consumed-bcgm_dose2.first().consumed,
-                first_dose=bcgm_dose1.first().consumed,
-                last_dose=bcgm_dose2.first().consumed,
-                access=100 * (bcgm_dose1.first().consumed / bcgm_dose1.first().planned_consumption),
-                coverage_rate=float('%.1f' % (100*(bcgm_dose2.first().consumed / bcgm_dose2.first().planned_consumption))),
-                planned_consumption=bcgm_dose2.first().planned_consumption,
-            )
 
 
 
