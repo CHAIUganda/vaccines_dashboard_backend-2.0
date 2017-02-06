@@ -59,10 +59,11 @@ class VaccineDoses(APIView):
                       Not_immunized=ExpressionWrapper(F('planned_consumption')- F('consumed'), output_field=FloatField()),
 
                       Red_category = Case(
-                                        When(Q(access__gte=90) | Q(drop_out_rate__lte=10), then=Value(1)),
-                                        When(Q(access__gte=90) | Q(drop_out_rate__gt=10), then=Value(2)),
-                                        When(Q(access__lt=90) | Q(drop_out_rate__lte=10), then=Value(3)),
-                                        When(Q(access__lt=90) | Q(drop_out_rate__gt=10), then=Value(4)), output_field=IntegerField()),
+                                        When(Q(access__gte=90) & Q(drop_out_rate__lte=10), then=Value(1)),
+                                        When(Q(access__gte=90) & Q(drop_out_rate__gt=10), then=Value(2)),
+                                        When(Q(access__lt=90) & Q(drop_out_rate__lte=10), then=Value(3)),
+                                        When(Q(access__lt=90) & Q(drop_out_rate__gt=10), then=Value(4)),
+                                        output_field=IntegerField()),
 
                       )\
             .order_by('district__name')\

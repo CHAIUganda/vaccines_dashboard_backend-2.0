@@ -22,6 +22,15 @@ angular.module('services').service('CoverageService', ['$http',
                 }
             }).then(handleResponse);
         };
+        var getRedVaccineDoses = function(period, vaccine) {
+            return $http.get('coverage/api/vaccinedoses', {
+                params: {
+                    period: period,
+                    vaccine: vaccine
+                }
+            }).then(handleResponse);
+        };
+
 
         var getVaccineDosesByDistrict = function(period, district, vaccine) {
             return $http.get('coverage/api/vaccinedoses', {
@@ -41,7 +50,8 @@ angular.module('services').service('CoverageService', ['$http',
             "getDHIS2VaccineDoses": getDHIS2VaccineDoses,
             "getVaccineDoses": getVaccineDoses,
             "getVaccineDosesByDistrict": getVaccineDosesByDistrict,
-            "getDistrictMap": getDistrictMap
+            "getDistrictMap": getDistrictMap,
+            "getRedVaccineDoses":getRedVaccineDoses
         };
     }
 ])
