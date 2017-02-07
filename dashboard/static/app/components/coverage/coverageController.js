@@ -8,8 +8,15 @@ angular.module('dashboard')
         vm.path = $location.path();
         vm.endtxt="";
 
+        function periodDisplay(period)
+        {
+            var month = parseInt(period.slice(4,6));
+            return MonthService.getMonthName(month) + " " + period.slice(0,4)
+        }
+
         vm.getVaccineDoses = function(period, vaccine, district) {
 
+            vm.endMonth=period;
 
             //Todo: Temporarily disable filtering by district for the table
             district = ""
@@ -50,8 +57,9 @@ angular.module('dashboard')
             else if (vaccine=="TT"){
                 vm.vaccine="TT2";
             }
-            shellScope.child.district = vm.district;
-            shellScope.child.vaccine = vm.vaccine;
+            shellScope.child.periodMonth = periodDisplay(vm.endMonth);
+
+            shellScope.child.thedose = vm.vaccine;
 
 
             var valueFormat = d3.format(",");
@@ -73,8 +81,7 @@ angular.module('dashboard')
 
             var color = d3.scale.quantize()
                                 //.range(d3.range(9),map(function(i) { return 'q' + i + '-9';}));
-                            .range([    "#a50026",
-                                        "#d73027",
+                            .range([
                                         "#f46d43",
                                         "#fdae61",
                                         "#fee08b",
@@ -96,16 +103,10 @@ angular.module('dashboard')
                         d3.max(data, function(d) { return +d[field]; })
 
                         ]);
-
-                    // This maps the data of the CSV so it can be easily accessed by
-                    // the ID of the district, for example: dataById[2196]
-                    dataById = d3.nest()
-                      .key(function(d) { return d.id; })
-                      .rollup(function(d) { return d[0]; })
-                      .map(data);
                     var legend = d3.select('#gend')
 
                         .attr('class', 'list-inline');
+
 
                     var keys = legend.selectAll('li.key')
                         .data(color.range());
@@ -113,10 +114,43 @@ angular.module('dashboard')
                     keys.enter().append('li')
                         .attr('class', 'key')
                         .style('border-top-color', String)
-                        .text(function(d) {
-                            var r = color.invertExtent(d);
-                            return formats.percent(r[0]);
+                        .text(function(d){
+                            if (d=="#f46d43"){
+                                return '<70'
+                            }
+                            else if (d=="#fdae61"){
+                                return '70+'
+                            }
+                            else if (d=="#fee08b"){
+                                return '80+'
+                            }
+                            else if (d=="#ffffbf"){
+                                return '90+'
+                            }
+                            else if (d=="#d9ef8b"){
+                                return '100+'
+                            }
+                            else if (d=="#a6d96a"){
+                                return '110+'
+                            }
+                            else if (d=="#66bd63"){
+                                return '120+'
+                            }
+                            else if (d=="#1a9850"){
+                                return '140+'
+                            }
+                            else if (d=="#006837"){
+                                return '>150'
+                            }
                         });
+
+                    // This maps the data of the CSV so it can be easily accessed by
+                    // the ID of the district, for example: dataById[2196]
+                    dataById = d3.nest()
+                      .key(function(d) { return d.id; })
+                      .rollup(function(d) { return d[0]; })
+                      .map(data);
+
 
 
                     // Load features from GeoJSON
@@ -588,7 +622,7 @@ angular.module('dashboard')
                             shellScope.child.utilization = "Poor"
                         }
                         /* Red Categorization*/
-                        if((vm.data[0].access >= 90) && (vm.data[0].drop_out_rate <= 10)){
+                        if((vm.data[0].access >= 90) && (vm.data[0].drop_out_rate <=10)){
                             shellScope.redcategory = "CAT1"
                         }
                         else if(vm.data[0].access >= 90 && vm.data[0].drop_out_rate > 10){

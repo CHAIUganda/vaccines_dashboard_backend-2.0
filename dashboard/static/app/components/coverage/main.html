@@ -38,19 +38,19 @@
             <br>
             <div class="quality_test" ui-sref-active="quality_test_active">
                 <a ui-sref="coverage.home" ui-sref-opts="{reload: true}">
-                    <span class="quality_test__metric"> {{ child.coverage | number:0 }}% </span>
+                    <span class="quality_test__metric"> </span>
                     <span class="quality_test__description">{{"Coverage" | uppercase}}</span>
                 </a>
             </div>
             <div class="quality_test" ui-sref-active="quality_test_active">
                 <a ui-sref="coverage.dropoutrate" ui-sref-opts="{reload: true}">
-                    <span class="quality_test__metric"> {{ child.dropedout }}% </span>
+                    <span class="quality_test__metric"> </span>
                     <span class="quality_test__description">{{"Dropout Rate" | uppercase}}</span>
                 </a>
             </div>
             <div class="quality_test" ui-sref-active="quality_test_active">
                 <a ui-sref="coverage.redcategory" ui-sref-opts="{reload: true}">
-                    <span class="quality_test__metric"> {{ child.redcategory | number:0 }} </span>
+                    <span class="quality_test__metric"> </span>
                     <span class="quality_test__description">{{"Red Categorization" | uppercase}}</span>
                 </a>
             </div>
