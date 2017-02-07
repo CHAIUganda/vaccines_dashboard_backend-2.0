@@ -103,6 +103,21 @@ angular.module('dashboard')
                       .key(function(d) { return d.id; })
                       .rollup(function(d) { return d[0]; })
                       .map(data);
+                    var legend = d3.select('#gend')
+
+                        .attr('class', 'list-inline');
+
+                    var keys = legend.selectAll('li.key')
+                        .data(color.range());
+
+                    keys.enter().append('li')
+                        .attr('class', 'key')
+                        .style('border-top-color', String)
+                        .text(function(d) {
+                            var r = color.invertExtent(d);
+                            return formats.percent(r[0]);
+                        });
+
 
                     // Load features from GeoJSON
                     d3.json('static/app/components/coverage/data/ug_districts2.geojson', function(error, json) {
@@ -188,6 +203,7 @@ angular.module('dashboard')
 
 
                     }); // End d3.json
+
 
                     // Logic to handle hover event when its firedup
                         var hoveron = function(d) {
@@ -340,6 +356,32 @@ angular.module('dashboard')
                       .rollup(function(d) { return d[0]; })
                       .map(data);
 
+                    var legend = d3.select('#legend')
+
+                        .attr('class', 'list-inline');
+
+                    var keys = legend.selectAll('li.key')
+                        .data(color.range());
+
+                    keys.enter().append('li')
+                        .attr('class', 'key')
+                        .style('border-top-color', String)
+                        .text(function(d){
+                            if (d=="#008000"){
+                               return 'CAT1'
+                            }
+                            else if (d=="#FFFF00"){
+                                return 'CAT2'
+                            }
+                            else if (d=="#FFA500"){
+                                return 'CAT3'
+                            }
+                            if (d=="#FF0000"){
+                                return 'CAT4'
+                            }
+                         });
+
+
                     // Load features from GeoJSON
                     d3.json('static/app/components/coverage/data/ug_districts2.geojson', function(error, json) {
 
@@ -446,9 +488,16 @@ angular.module('dashboard')
                                 .text(d.properties.dist);
 
                             //Populate value in tooltip
-                            d3.select("#tooltip .value")
-                                .text('CAT' + (valueFormat(d.properties.field)));
-                        }
+                            if (!d.properties.field){
+                                d3.select("#tooltip .value")
+                                .text("No Data");
+
+                            }
+                            else {
+                                d3.select("#tooltip .value")
+                                    .text('CAT' + (valueFormat(d.properties.field)));
+                            }
+                            }
 
                         var hoverout = function(d) {
 

@@ -1,10 +1,11 @@
 <div ng-controller="CoverageController as vm">
 
-    <h4 class="text-left" >Under Immunized for {{child.vaccine }} for {{child.district }}</h4>
+     <div id="legend"></div>
+
     <br>
     <br>
 
-    <div class="col-md-7">
+    <div class="col-md-6">
 
 
         <div id="red"> <!-- Map container --> </div>
@@ -12,7 +13,7 @@
 
     </div>
 
-    <div class="col-md-5">
+    <div class="col-md-6">
 
         <table ng-table="vm.tableParamsDoses" class="row-border hover table table-condensed table-striped" show-filter="true">
             <tr ng-repeat="row in $data">
