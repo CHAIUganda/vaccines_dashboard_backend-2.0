@@ -99,62 +99,30 @@ angular.module('dashboard')
 
                     //Set input domain for color scale
                     color.domain([
-                        d3.min(data, function(d) { return +d[field]; }),
-                        d3.max(data, function(d) { return +d[field]; })
+                        d3.min(data, function (d) {
+                            return +d[field];
+                        }),
+                        d3.max(data, function (d) {
+                            return +d[field];
+                        })
 
-                        ]);
-                    var legend = d3.select('#gend')
+                    ]);
 
-                        .attr('class', 'list-inline');
-
-
-                    var keys = legend.selectAll('li.key')
-                        .data(color.range());
-
-                    keys.enter().append('li')
-                        .attr('class', 'key')
-                        .style('border-top-color', String)
-                        .text(function(d){
-                            if (d=="#f46d43"){
-                                return '<70'
-                            }
-                            else if (d=="#fdae61"){
-                                return '70+'
-                            }
-                            else if (d=="#fee08b"){
-                                return '80+'
-                            }
-                            else if (d=="#ffffbf"){
-                                return '90+'
-                            }
-                            else if (d=="#d9ef8b"){
-                                return '100+'
-                            }
-                            else if (d=="#a6d96a"){
-                                return '110+'
-                            }
-                            else if (d=="#66bd63"){
-                                return '120+'
-                            }
-                            else if (d=="#1a9850"){
-                                return '140+'
-                            }
-                            else if (d=="#006837"){
-                                return '>150'
-                            }
-                        });
 
                     // This maps the data of the CSV so it can be easily accessed by
                     // the ID of the district, for example: dataById[2196]
                     dataById = d3.nest()
-                      .key(function(d) { return d.id; })
-                      .rollup(function(d) { return d[0]; })
-                      .map(data);
-
+                        .key(function (d) {
+                            return d.id;
+                        })
+                        .rollup(function (d) {
+                            return d[0];
+                        })
+                        .map(data);
 
 
                     // Load features from GeoJSON
-                    d3.json('static/app/components/coverage/data/ug_districts2.geojson', function(error, json) {
+                    d3.json('static/app/components/coverage/data/ug_districts2.geojson', function (error, json) {
 
 
                         // Get the scale and center parameters from the features.
@@ -162,13 +130,13 @@ angular.module('dashboard')
 
                         // Apply scale, center and translate parameters.
                         projection.scale(scaleCenter.scale)
-                                .center(scaleCenter.center)
-                                .translate([width/2, height/2]);
+                            .center(scaleCenter.center)
+                            .translate([width / 2, height / 2]);
 
                         // Merge the coverage data amd GeoJSON into a single array
                         // Also loop through once for each coverage score data value
 
-                        for (var i=0; i < data.length ; i++ ) {
+                        for (var i = 0; i < data.length; i++) {
 
                             // Grab district name
                             var dist = data[i].district__name;
@@ -180,7 +148,7 @@ angular.module('dashboard')
                             var dataValue = +data[i][field];
 
                             //Find the corresponding district inside GeoJSON
-                            for (var j=0; j < json.features.length ; j++ ) {
+                            for (var j = 0; j < json.features.length; j++) {
 
                                 // Check the district reference in json
                                 var jsonDistrict = json.features[j].properties.dist;
@@ -195,7 +163,6 @@ angular.module('dashboard')
                                 }
                             }
                         }
-
 
 
                         // Create SVG inside map container and assign dimensions
@@ -219,7 +186,7 @@ angular.module('dashboard')
                             .on("mouseout", hoverout)
                             .style("cursor", "pointer")
                             .style("stroke", "#777")
-                            .style("fill", function(d) {
+                            .style("fill", function (d) {
 
                                 // Get data value
 
@@ -235,9 +202,46 @@ angular.module('dashboard')
                             });
 
 
+                    // End d3.json
+                        var legend = d3.select('#gend')
 
-                    }); // End d3.json
+                            .attr('class', 'list-inline');
+                        var def = svg.append('defs');
 
+                        //Append a linearGradient element to the defs and give it a unique id
+                        var linearGradient = def.append("linearGradient")
+                            .attr("id", "linear-gradient");
+
+
+                        //Set the color for the start (0%)
+                        //Append multiple color stops by using D3's data/enter step
+                        linearGradient.selectAll("stop")
+                            .data( color.range() )
+                            .enter().append("stop")
+                            .attr("offset", function(d,i) { return i/(color.range().length-1); })
+                            .attr("stop-color", function(d) { return d; })
+                            .append('text')
+                            //.text("#####")
+
+
+                        svg.append("rect")
+                            .attr("width", 300)
+                            .attr("height", 20)
+                            .style("fill", "url(#linear-gradient)")
+
+                        legend
+                            //.append('text')
+
+                            .text(function(d) {
+
+                                var dose = Math.round(color.domain()[0]) + "-------------------------------------------------------------------"+ Math.round(color.domain()[1]);
+
+                                return dose              })
+
+
+
+
+                    });
 
                     // Logic to handle hover event when its firedup
                         var hoveron = function(d) {
