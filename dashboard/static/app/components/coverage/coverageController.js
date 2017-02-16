@@ -7,6 +7,7 @@ angular.module('dashboard')
         shellScope.child = $scope;
         vm.path = $location.path();
         vm.endtxt="";
+        vm.isLoading = false;
 
         function periodDisplay(period)
         {
@@ -15,7 +16,7 @@ angular.module('dashboard')
         }
 
         vm.getVaccineDoses = function(period, vaccine, district) {
-
+            vm.isLoading = true;
             vm.endMonth=period;
 
             //Todo: Temporarily disable filtering by district for the table
@@ -94,6 +95,7 @@ angular.module('dashboard')
 
             CoverageService.getVaccineDoses(period, vaccine)
                 .then(function(data) {
+
 
                     vm.data = angular.copy(data);
 
@@ -287,6 +289,7 @@ angular.module('dashboard')
 
                         }
 
+
                     tabledataAlldoses = vm.data.filter(
                         function (value) {
                             return value;
@@ -300,8 +303,9 @@ angular.module('dashboard')
                         counts: [],
                         data: tabledataAlldoses,
                     });
-
+              vm.isLoading = false;
             });
+
 
             function calculateScaleCenter(features) {
                 // Get the bounding box of the paths (in pixels) and calculate a scale factor based on box and map size
@@ -327,7 +331,10 @@ angular.module('dashboard')
             function getIdOfFeature(f) {
               return f.properties.idug;
             }
+
+
         };
+
 
         vm.getRedVaccineDoses = function(period, vaccine, district) {
 
