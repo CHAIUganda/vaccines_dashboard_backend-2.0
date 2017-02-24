@@ -27,7 +27,7 @@ angular.module('dashboard')
         FilterService.getLastPeriod().then(function(data) {
             shell.defaultPeriod = data;
             shell.defaultMonth = parseInt(data.period.toString().substring(4, 6));
-            shell.endMonth = shell.months[shell.defaultMonth-1];
+            shell.endMonth = shell.months[shell.defaultMonth-2];
         });
 
         shell.stockathand = 0;
