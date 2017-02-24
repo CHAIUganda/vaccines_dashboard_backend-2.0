@@ -245,9 +245,8 @@ class StockMonthsLeftAPI(APIView):
 class LastPeriod(APIView):
     def get(self, request):
 
-        period_year = "%d%d%d" % (datetime.now().year, 0, 0)
 
-        summary = Stock.objects.filter(period__gt = period_year)\
+        summary = Stock.objects.all()\
             .order_by('period')\
             .values('period')\
             .distinct()

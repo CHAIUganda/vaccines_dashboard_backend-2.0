@@ -41,26 +41,37 @@ angular.module('dashboard')
             }
 
             if (vaccine=="PENTA"){
-                vm.vaccine="DPT3"
+                vm.vaccine="DPT3";
+                vm.vacdose="DPT1-DPT3";
             }
             else if (vaccine=="PCV"){
                 vm.vaccine="PCV3";
+                vm.vacdose="PCV1-PCV3";
             }
             else if (vaccine=="BCG"){
-                vm.vaccine="BCG-MEASLES";
+                vm.vaccine="BCG";
+                vm.vacdose="BCG-MEASLES";
             }
             else if (vaccine=="OPV"){
                 vm.vaccine="OPV4";
+                vm.vacdose="OPV1-OPV4";
             }
             else if (vaccine=="HPV"){
                 vm.vaccine="HPV2";
+                vm.vacdose="HPV1-HPV2";
+            }
+             else if (vaccine=="MEASLES"){
+                vm.vaccine="MEASLES";
+                vm.vacdose="BCG-MEASLES";
             }
             else if (vaccine=="TT"){
                 vm.vaccine="TT2";
+                vm.vacdose="TT1-TT2";
             }
             shellScope.child.periodMonth = periodDisplay(vm.endMonth);
 
             shellScope.child.thedose = vm.vaccine;
+            shellScope.child.thevacdose = vm.vacdose;
 
 
             var valueFormat = d3.format(",");
