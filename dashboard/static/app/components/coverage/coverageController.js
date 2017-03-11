@@ -53,8 +53,8 @@ angular.module('dashboard')
                 vm.vacdose="BCG-MEASLES";
             }
             else if (vaccine=="OPV"){
-                vm.vaccine="OPV4";
-                vm.vacdose="OPV1-OPV4";
+                vm.vaccine="OPV3";
+                vm.vacdose="OPV0-OPV3";
             }
             else if (vaccine=="HPV"){
                 vm.vaccine="HPV2";
@@ -111,17 +111,30 @@ angular.module('dashboard')
                     vm.data = angular.copy(data);
 
                     //Set input domain for color scale
-                    color.domain([
-                        d3.min(data, function (d) {
-                            return +d[field];
-                        }),
-                        d3.max(data, function (d) {
-                            return +d[field];
-                        })
+                    if (vm.path=="/coverage/dropoutrate") {
+                        color.domain([
+                            d3.max(data, function (d) {
+                                return +d[field];
+                            }),
+                            d3.min(data, function (d) {
+                                return +d[field];
+                            })
 
-                    ]);
+                        ]);
+                    }
 
+                    else if (vm.path=="/coverage/coverage"){
+                        color.domain([
+                            d3.min(data, function (d) {
+                                return +d[field];
+                            }),
+                            d3.max(data, function (d) {
+                                return +d[field];
+                            })
 
+                        ]);
+
+                    }
                     // This maps the data of the CSV so it can be easily accessed by
                     // the ID of the district, for example: dataById[2196]
                     dataById = d3.nest()
@@ -247,7 +260,8 @@ angular.module('dashboard')
 
                             .text(function(d) {
 
-                                var dose = Math.round(color.domain()[0]) + "-------------------------------------------------------------------"+ Math.round(color.domain()[1]);
+                                var dose = Math.round(color.domain()[0]) + "............................................................................"+ Math.round(color.domain()[1]);
+
 
                                 return dose              })
 
