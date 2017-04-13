@@ -1,5 +1,5 @@
 angular.module('dashboard')
-    .controller('SurveillanceController', ['$scope', 'StockService', '$rootScope', 'FilterService',
+    .controller('PlanningController', ['$scope', 'StockService', '$rootScope', 'FilterService',
     function($scope, StockService, $rootScope, FilterService)
     {
 

@@ -86,15 +86,15 @@ dashboard.config(["$stateProvider", "$urlRouterProvider", function($stateProvide
                 controller: "FridgeController"
             })
 
-            .state("surveillance", {
-                url: "/surveillance",
-                templateUrl: "static/app/components/surveillance/surveillance.html",
+            .state("planning", {
+                url: "/planning",
+                templateUrl: "static/app/components/planning/plan.html",
                 controller: "SurveillanceController"
             })
-            .state("surveillance.cases", {
-                url: "/cases",
-                templateUrl: "static/app/components/surveillance/cases.html",
-                controller: "SurveillanceController"
+            .state("planning.awp", {
+                url: "/awp",
+                templateUrl: "static/app/components/planning/awp.html",
+                controller: "PlanningController"
             })
         ;
     }

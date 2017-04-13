@@ -21,11 +21,11 @@ Menu.add_item("main", MenuItem("Cold Chain",
 Menu.add_item("main", MenuItem("Coverage",
                                "#/coverage/coverage",
                                weight=10))
-'''
-Menu.add_item("main", MenuItem("Surveillance",
-                               "#/surveillance/cases",
-                               weight=10))
 
+Menu.add_item("main", MenuItem("Planning",
+                               "#/planning/awp",
+                               weight=10))
+'''
 Menu.add_item("main", MenuItem("CVS",
                                "#",
                                weight=10))

@@ -27,7 +27,8 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'custom_user',
     'cold_chain',
-    'coverage'
+    'coverage',
+    'planning'
 )
 
 MIDDLEWARE_CLASSES = (
