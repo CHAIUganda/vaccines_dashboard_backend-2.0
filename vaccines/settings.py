@@ -28,7 +28,7 @@ INSTALLED_APPS = (
     'custom_user',
     'cold_chain',
     'coverage',
-    'planning'
+    'planning',
 )
 
 MIDDLEWARE_CLASSES = (

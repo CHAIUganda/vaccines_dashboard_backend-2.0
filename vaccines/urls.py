@@ -9,6 +9,7 @@ urlpatterns = [
     url(r'^admin/', include(admin_site.urls)),
     url(r'^coldchain/', include('cold_chain.urls')),
     url(r'^coverage/', include('coverage.urls')),
+    url(r'^planning/', include('planning.urls')),
     url(r'^', include(dashboard_urls)),
     url(r'^', include(auth_urls)),
     url(r'^', include('password_reset.urls'))
