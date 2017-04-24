@@ -3,14 +3,14 @@
     <div class="row range_filter">
 
         <div class="filter-title col-md-12">
-            <span class="filter-title h3">FILTERS</span>
+            <span class="filter-title h3">YEAR</span>
         </div>
 
         <div class="col-md-12 main-filters">
             <select name="name" class="form-control filter criteria-select" ng-model="shell.startMonth"
                 ng-options="month as month.name group by month.year for month in shell.months">
             </select>
-        <div class="spacer">
+        <!--<div class="spacer">
             <h5 class="text-center"> - </h5>
         </div>
             <select name="month" class="form-control filter criteria-select" ng-model="shell.endMonth"
@@ -28,7 +28,7 @@
             <select name="district" class="form-control filter criteria-select" ng-model="shell.selectedDistrict"
                     ng-options="district as district.name for district in shell.districts">
             </select>
-        </div>
+        </div>-->
     </div>
 
 

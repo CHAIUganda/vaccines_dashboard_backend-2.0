@@ -9,7 +9,7 @@ def import_PlannedActivities(excel_file, year):
     worksheet_name = "AWP 2017"
     workbook_results = workbook.get_sheet_by_name(worksheet_name)
 
-    for row in workbook_results.iter_rows('A%s:L%s' % (workbook_results.min_row + 4, workbook_results.max_row)):
+    for row in workbook_results.iter_rows('A%s:AC%s' % (workbook_results.min_row + 4, workbook_results.max_row)):
             pa = PlannedActivities()
             pa.area = row[0].value
             pa.description = row[2].value
@@ -18,8 +18,10 @@ def import_PlannedActivities(excel_file, year):
             else:
                 pa.fund = False
             pa.priority = row[5].value
-            pa.start = row[10].value
-            pa.end = row[11].value
+            pa.qtr1 = row[25].value
+            pa.qtr2 = row[26].value
+            pa.qtr3 = row[27].value
+            pa.qtr4 = row[28].value
             pa.year = year
             pa.save()
 
