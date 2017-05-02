@@ -89,7 +89,7 @@ dashboard.config(["$stateProvider", "$urlRouterProvider", function($stateProvide
             .state("planning", {
                 url: "/planning",
                 templateUrl: "static/app/components/planning/plan.html",
-                controller: "SurveillanceController"
+                controller: "PlanningController"
             })
             .state("planning.awp", {
                 url: "/awp",

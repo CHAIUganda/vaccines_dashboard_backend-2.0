@@ -46,6 +46,15 @@ angular.module('dashboard')
 
         //==== End Stock Management =====
 
+
+        //========Planning=========
+        shell.selectedYear = "";
+        FilterService.getFundActivities().then(function(data){
+            shell.year = data;
+            shell.selectedYear = shell.year[0];
+        });
+
+
         //=== Cold chain ======
         shell.startQuarter = shell.startQuarter ? shell.startQuarter.name : "201601";
         shell.endQuarter = shell.endQuarter ? shell.endQuarter.name : "201603";
@@ -99,6 +108,19 @@ angular.module('dashboard')
                 }
             }
         });
+        $scope.$watch('shell.year', function(){
+            if (shell.selectedYear){
+                $rootScope.$broadcast('refreshAwp', shell.selectedYear)
+            }
+        }, true);
+
+        $scope.$watchGroup(['shell.year'], function(data){
+            if(data[0]){
+                if (shell.selectedYear) {
+                    $rootScope.$broadcast('refreshAwp', shell.selectedYear);
+                }
+            }
+        });
 
         $scope.$watch('shell.coveragePeriod', function() {
             if (shell.coveragePeriod) {
@@ -113,5 +135,6 @@ angular.module('dashboard')
                 }
             }
         });
+
     }
 ]);

@@ -30,7 +30,15 @@ angular.module('services').service('FilterService', ['$http',
 
         var getLastPeriod = function() {
             return $http.get('/api/lastperiod').then(handleResponse);
-        }
+        };
+
+        var getAwpActivities= function(){
+            return $http.get('planning/api/awpactivities').then(handleResponse);
+        };
+
+        var getFundActivities= function(){
+            return $http.get('planning/api/fundactivities').then(handleResponse);
+        };
 
         return {
             "getMonths": getMonths,
@@ -40,6 +48,8 @@ angular.module('services').service('FilterService', ['$http',
             "getFridgeCareLevels": getFridgeCareLevels,
             "getFridgeQuarters": getFridgeQuarters,
             "getLastPeriod": getLastPeriod,
+            "getAwpActivities": getAwpActivities,
+            "getFundActivities": getFundActivities
         };
     }
 ])
