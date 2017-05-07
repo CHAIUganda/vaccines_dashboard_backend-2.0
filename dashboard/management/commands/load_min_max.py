@@ -8,10 +8,10 @@ from django.db.models import Count, Sum, Avg
 from openpyxl import load_workbook
 
 
-def import_min_max(excel_file):
+def import_min_max(excel_file, year):
     workbook = load_workbook(excel_file, read_only=True, use_iterators=True)
 
-    vaccines = ["MEASLES", "BCG", "TT", "OPV",  "PCV", "PENTA"]
+    vaccines = ["MEASLES", "BCG", "TT", "OPV",  "PCV", "PENTA", "HPV", "IPV"]
 
     for vaccine in vaccines:
         location_sheet = workbook.get_sheet_by_name(vaccine)
@@ -24,7 +24,7 @@ def import_min_max(excel_file):
                 if max_value:
                     stock_requirement = StockRequirement()
                     stock_requirement.district = district_object
-                    stock_requirement.year = 2016
+                    stock_requirement.year = int(year)
                     stock_requirement.vaccine = vaccine_object
                     stock_requirement.minimum = min_value
                     stock_requirement.maximum = max_value
@@ -36,4 +36,6 @@ class Command(BaseCommand):
     help = """ Import stock requirements data  """
 
     def handle(self, *args, **options):
-        import_min_max(*args)
+        excel_file = args[0]
+        year = args[1]
+        import_min_max(excel_file, year)
