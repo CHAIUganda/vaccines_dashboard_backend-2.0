@@ -1,6 +1,6 @@
 angular.module('dashboard')
-    .controller('MainController', ['$scope', 'FilterService', '$rootScope',
-    function($scope, FilterService, $rootScope)
+    .controller('MainController', ['$scope', 'FilterService', 'MonthService', '$rootScope',
+    function($scope, FilterService, MonthService, $rootScope)
     {
         $scope.sortType     = 'name'; // set the default sort type
         $scope.sortReverse  = false;  // set the default sort order
@@ -27,7 +27,23 @@ angular.module('dashboard')
         FilterService.getLastPeriod().then(function(data) {
             shell.defaultPeriod = data;
             shell.defaultMonth = parseInt(data.period.toString().substring(4, 6));
-            shell.endMonth = shell.months[14];
+            var period = data.period.toString();
+            var month_number = parseInt(period.substring(4,6));
+            var month_label = MonthService.getMonthName(month_number);
+            //shell.endMonth = {year:period.substring(0,4), period:period, name:month_label, month:month_number, "$$hashKey":"object:186"}
+            //shell.endMonth = shell.months[shell.defaultMonth-1];
+
+            for (var i in shell.months) {
+                if (shell.months[i].period == period) {
+                    shell.endMonth = shell.months[i];
+                    break;
+                }
+            }
+
+
+
+            //console.log("dere"+JSON.stringify(shell.months[13]));
+
         });
 
         shell.stockathand = 0;
