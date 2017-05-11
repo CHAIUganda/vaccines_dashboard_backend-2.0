@@ -18,7 +18,7 @@ angular.module('dashboard')
 
         FilterService.getMonths().then(function(data) {
             shell.months = data;
-            shell.startMonth = shell.months[0];
+            shell.startMonth = "";
             //shell.endMonth = shell.months[defaultMonth];
         });
 
@@ -39,6 +39,7 @@ angular.module('dashboard')
                     break;
                 }
             }
+            shell.startMonth = shell.months[i -6 ];
 
 
 
