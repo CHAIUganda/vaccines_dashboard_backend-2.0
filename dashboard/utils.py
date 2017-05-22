@@ -18,7 +18,7 @@ def dhis2_request(resource):
 def dhis2_request_to_file(resource, file_name):
     url = '%s/hmis2/api/%s' % (DHIS2_ADDRESS,resource)
     print 'Fetching [%s]' % url
-    result = requests.get(url, auth=(DHIS2_USER, DHIS2_PASS), stream=True)
+    result = requests.get(url, auth=(DHIS2_USER, DHIS2_PASS), stream=True, verify=False)
 
     with open(file_name, 'wb') as f:
         for chunk in result.iter_content(chunk_size=1024):
