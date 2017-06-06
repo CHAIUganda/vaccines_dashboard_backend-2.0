@@ -1,6 +1,6 @@
 angular.module('dashboard')
-    .controller('PlanningController', ['$scope', 'PlanService', '$rootScope', 'NgTableParams', 'FilterService',
-    function($scope, PlanService, $rootScope, NgTableParams, FilterService)
+    .controller('PlanningController', ['$scope', 'AnnualService', '$rootScope', 'NgTableParams', 'FilterService',
+    function($scope, AnnualService, $rootScope, NgTableParams, FilterService)
     {
         var vm = this;
         var shellScope = $scope.$parent;
@@ -10,7 +10,7 @@ angular.module('dashboard')
             year=""
             vm.year = vm.selectedYear.value;
 
-           PlanService.getFundActivities(year)
+           AnnualService.getFundActivities(year)
                .then(function(data){
                vm.data = angular.copy(data);
 
@@ -19,7 +19,8 @@ angular.module('dashboard')
                             return value;
                         });
                vm.tableParamsfunded = new NgTableParams({
-                    page: 1
+                    page: 1,
+                    count:10
                }, {
                     filterDelay: 0,
                     counts: [],
@@ -37,7 +38,4 @@ angular.module('dashboard')
             }
         });
 
-    }
-
-
-]);
+    }]);

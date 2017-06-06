@@ -1,4 +1,7 @@
-angular.module('services').service('PlanService', ['$http',
+/**
+ * Created by bwamala on 6/2/2017.
+ */
+angular.module('services').service('AnnualService', ['$http',
     function($http) {
         var handleResponse = function(response) {
             return response.data;
@@ -27,3 +30,4 @@ angular.module('services').service('PlanService', ['$http',
     }
 
 ])
+

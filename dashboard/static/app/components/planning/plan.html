@@ -1,14 +1,32 @@
 <div ng-controller="MainController as shell">
 
     <div class="row range_filter" style="align-content: center">
-        <br>
-        <div class="col-md-12 main-filters" style="align-content: stretch">
-            <span class="filter-title h3">YEAR<br></span>
-            <select name="year" class="form-control filter criteria-select" ng-model="shell.selectedYear"
-                    ng-options="year as year.value for year in shell.year">
-            </select>
+        <div class="filter-title col-md-12">
+            <span class="filter-title h3">YEAR</span>
         </div>
 
+        <div class="col-md-12 main-filters">
+            <select name="year" class="form-control filter criteria-select" ng-model="shell.selectedYear"
+                ng-options="year as shell.selectedYear group by year.value for year in shell.selectedYear ">
+            </select>
+
+        </div>
+
+    </div>
+
+    <div class="row">
+
+        <div class="col-md-12">
+
+            <div class="quality_test" ui-sref-active="quality_test_active">
+                <a ui-sref="planning.awp" ui-sref-opts="{reload: true}">
+                    <span class="quality_test__metric"> </span>
+                    <span class="quality_test__description">{{"Planned Activities" | uppercase}}</span>
+                </a>
+            </div>
+
+
+        </div>
     </div>
 
 
