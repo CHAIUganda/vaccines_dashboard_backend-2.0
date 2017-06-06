@@ -7,7 +7,7 @@
 
         <div class="col-md-12 main-filters">
             <select name="year" class="form-control filter criteria-select" ng-model="shell.selectedYear"
-                ng-options="year as shell.selectedYear group by year.value for year in shell.selectedYear ">
+                    ng-options="year as year.year for year in shell.years">
             </select>
 
         </div>

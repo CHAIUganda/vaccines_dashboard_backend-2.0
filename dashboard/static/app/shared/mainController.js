@@ -67,8 +67,8 @@ angular.module('dashboard')
         //========Planning=========
         shell.selectedYear = "";
         FilterService.getFundActivities().then(function(data){
-            shell.year = data;
-            shell.selectedYear = shell.year[0];
+            shell.years = data;
+            shell.selectedYear = shell.years[0];
         });
 
 
