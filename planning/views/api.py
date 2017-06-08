@@ -4,7 +4,15 @@ from django.db.models.expressions import F, Q, ExpressionWrapper
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from planning.models import *
+from dashboard.helpers import *
 
+class ActivityYear(APIView):
+    def get(self, request):
+        year = request.query_params.get('year', None)
+        summary = PlannedActivities.objects.filter()\
+                .values('year')\
+                .distinct('year')
+        return Response(summary)
 
 class AwpActivities(APIView):
     def get(self, request):

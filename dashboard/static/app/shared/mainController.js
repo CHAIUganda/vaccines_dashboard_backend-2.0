@@ -66,7 +66,7 @@ angular.module('dashboard')
 
         //========Planning=========
         shell.selectedYear = "";
-        FilterService.getFundActivities().then(function(data){
+        FilterService.getYear().then(function(data){
             shell.years = data;
             shell.selectedYear = shell.years[0];
         });
@@ -125,14 +125,14 @@ angular.module('dashboard')
                 }
             }
         });
-        $scope.$watch('shell.year', function(){
+        $scope.$watch('shell.years', function(){
             if (shell.selectedYear){
                 $rootScope.$broadcast('refreshAwp', shell.selectedYear)
             }
         }, true);
 
-        $scope.$watchGroup(['shell.year'], function(data){
-            if(data[0]){
+        $scope.$watchGroup(['shell.years'], function(data){
+            if(data[0] && data[1]){
                 if (shell.selectedYear) {
                     $rootScope.$broadcast('refreshAwp', shell.selectedYear);
                 }

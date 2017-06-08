@@ -18,7 +18,7 @@ angular.module('services').service('AnnualService', ['$http',
         var getFundActivities = function(year){
             return $http.get('planning/api/fundactivities', {
                 params: {
-                    year: year
+                    year: year,
                 }
             }).then(handleResponse);
         };

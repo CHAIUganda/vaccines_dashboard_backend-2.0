@@ -1,6 +1,9 @@
 <div ng-controller="PlanningController as vm">
-    <div class="col-md-6 text-left">
-        <div class="page_graph ">
+
+    <br>
+    <br>
+    <div class="col-md-6">
+        <div class="page_graph">
             <nvd3 options="vm.fundactivity" data="vm.graphfundedactivities"></nvd3>
         </div>
     </div>
@@ -14,7 +17,7 @@
 
     <div class="tab-content">
         <div id="funded" class="tab-pane fade in active">
-        <table ng-table="vm.tableParamsfunded" class="row-border hover table table-condensed table-striped"  show-filter="true">
+        <table ng-table="vm.tableParams_funded" class="row-border hover table table-condensed table-striped"  show-filter="true">
             <tr ng-repeat="row in $data">
                 <td title="'Area'" sortable="'area'" filter="{area: 'text'}"  >{{row.area}}</td>
                 <td title="'Qtr1'" sortable="'Q1'" class="text-center" >{{row.Q1 | number:0}}</td>
@@ -26,6 +29,21 @@
         </table>
 
         </div>
+
+        <div id="unfunded" class="tab-pane fade">
+        <table ng-table="vm.tableParams_unfunded" class="row-border hover table table-condensed table-striped"  show-filter="true">
+            <tr ng-repeat="row in $data">
+                <td title="'Area'" sortable="'area'" filter="{area: 'text'}"  >{{row.area}}</td>
+                <td title="'Qtr1'" sortable="'Q1'" class="text-center" >{{row.Q1 | number:0}}</td>
+                <td title="'Qtr2'" sortable="'Q2'" class="text-center" >{{row.Q2}}</td>
+                <td title="'Qtr3'" sortable="'Q3'" class="text-center" >{{row.Q3}}</td>
+                <td title="'Qtr4'" sortable="'Q4'" class="text-center" >{{row.Q4}}</td>
+            </tr>
+
+        </table>
+
+        </div>
+
     </div>
     </div>
 

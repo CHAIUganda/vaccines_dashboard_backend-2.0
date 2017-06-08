@@ -40,8 +40,14 @@ angular.module('services').service('FilterService', ['$http',
             return $http.get('planning/api/fundactivities').then(handleResponse);
         };
 
+        var getYear = function() {
+            return $http.get('planning/api/activityyear').then(handleResponse);
+        };
+
+
         return {
             "getMonths": getMonths,
+            "getYear": getYear,
             "getVaccines": getVaccines,
             "getDistricts": getDistricts,
             "getFridgeDistricts": getFridgeDistricts,
