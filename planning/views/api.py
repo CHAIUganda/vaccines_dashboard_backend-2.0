@@ -66,23 +66,29 @@ class PriorityActivities(APIView):
 
         summary = PlannedActivities.objects.filter()\
                 .values('area',
-                        'priority')\
+                        'fund')\
                 .annotate(
-                        Q1=Sum('qtr1'),
-                        Q2=Sum('qtr2'),
-                        Q3=Sum('qtr3'),
-                        Q4=Sum('qtr4'),
-
-        )\
+                        High=Count
+                        (Case(When(priority='High', then=1),output_field=IntegerField()),
+                         ),
+                        Medium=Count
+                        (Case(When(priority='Medium', then=1),output_field=IntegerField()),
+                         ),
+                        Low=Count
+                        (Case(When(priority='Low', then=1),output_field=IntegerField()),
+                         ),
+                        Total = Count('area')
+                )\
                 .order_by('area')\
                 .values(
                         'year',
                         'area',
-                        'Q1',
-                        'Q2',
-                        'Q3',
-                        'Q4',
-                        'priority')
+                        'High',
+                        'Medium',
+                        'Low',
+                        'fund',
+                        'Total'
+                        )
 
         return Response(summary)
 

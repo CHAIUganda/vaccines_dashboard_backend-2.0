@@ -23,9 +23,18 @@ angular.module('services').service('AnnualService', ['$http',
             }).then(handleResponse);
         };
 
+        var getPriorityActivities = function(year){
+            return $http.get('planning/api/priorityactivities', {
+                params: {
+                    year: year,
+                }
+            }).then(handleResponse);
+        };
+
         return{
             'getAwpActivities':getAwpActivities,
-            'getFundActivities': getFundActivities
+            'getFundActivities': getFundActivities,
+            'getPriorityActivities':getPriorityActivities
         };
     }
 

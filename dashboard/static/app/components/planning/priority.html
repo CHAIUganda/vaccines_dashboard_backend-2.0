@@ -1,0 +1,50 @@
+<div ng-controller="PlanningController as vm">
+
+    <br>
+    <br>
+    <div class="col-md-6">
+        <div class="page_graph">
+            <nvd3 options="vm.fundactivity" data="vm.graphfundedactivities"></nvd3>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <ul class="nav nav-tabs">
+          <li class="active"><a data-toggle="tab" href="#funded">Funded</a></li>
+          <li><a data-toggle="tab" href="#unfunded">UnFunded</a></li>
+        </ul>
+    <br>
+
+    <div class="tab-content">
+        <div id="funded" class="tab-pane fade in active">
+        <table ng-table="vm.tableParams_priorityfund" class="row-border hover table table-condensed table-striped"  show-filter="true">
+            <tr ng-repeat="row in $data">
+                <td title="'Area'" sortable="'area'" filter="{area: 'text'}"  >{{row.area}}</td>
+                <td title="'High'" sortable="'High'" class="text-center" >{{row.High | number:0}}</td>
+                <td title="'Medium'" sortable="'Medium'" class="text-center" >{{row.Medium}}</td>
+                <td title="'Low'" sortable="'Low'" class="text-center" >{{row.Low}}</td>
+                <td title="'Total'" sortable="'Total'" class="text-center" >{{row.Total}}</td>
+            </tr>
+
+        </table>
+
+        </div>
+
+        <div id="unfunded" class="tab-pane fade">
+        <table ng-table="vm.tableParams_priorityunfunded" class="row-border hover table table-condensed table-striped"  show-filter="true">
+            <tr ng-repeat="row in $data">
+                <td title="'Area'" sortable="'area'" filter="{area: 'text'}"  >{{row.area}}</td>
+                <td title="'High'" sortable="'High'" class="text-center" >{{row.High | number:0}}</td>
+                <td title="'Medium'" sortable="'Medium'" class="text-center" >{{row.Medium}}</td>
+                <td title="'Low'" sortable="'Low'" class="text-center" >{{row.Low}}</td>
+                <td title="'Total'" sortable="'Total'" class="text-center" >{{row.Total}}</td>
+            </tr>
+
+        </table>
+
+        </div>
+
+    </div>
+    </div>
+
+</div>

@@ -96,6 +96,11 @@ dashboard.config(["$stateProvider", "$urlRouterProvider", function($stateProvide
                 templateUrl: "static/app/components/planning/awp.html",
                 controller: "PlanningController"
             })
+            .state("planning.priority", {
+                url: "/priority",
+                templateUrl: "static/app/components/planning/priority.html",
+                controller: "PlanningController"
+            })
         ;
     }
 ]);
