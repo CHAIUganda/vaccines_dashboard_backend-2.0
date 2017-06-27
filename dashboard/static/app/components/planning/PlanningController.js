@@ -154,22 +154,12 @@ angular.module('dashboard')
                     );
 
 
-                    tabledata_priorityfund = vm.data.filter(
-                        function (value) {
-                            return value;
-                        });
+                    
 
 
                     if (funded == vm.data.length) {
                         vm.graphfundedactivities = [];
-                        vm.tableParams_priorityfund = new NgTableParams({
-                        page: 1,
-                        count: 15
-                        }, {
-                        filterDelay: 0,
-                        counts: [],
-                        data: tabledata_priorityfund,
-                        });
+
 
                     }
                     else {
