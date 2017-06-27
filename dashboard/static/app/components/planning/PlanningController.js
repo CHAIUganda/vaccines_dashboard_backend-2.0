@@ -135,94 +135,51 @@ angular.module('dashboard')
             AnnualService.getPriorityActivities(year)
                 .then(function (data) {
 
-                    var tabledata_funded = [];
-                    var tabledata_unfunded = [];
+                    var tabledata_priorityfund = [];
+                    var tabledata_priorityunfunded = [];
 
                     vm.data = angular.copy(data);
 
 
-                    tabledata_funded = vm.data.filter(
+                    tabledata_priorityfund = vm.data.filter(
                         function (value) {
                             return value.fund == true;
                         }
                     );
 
-                    tabledata_unfunded = vm.data.filter(
+                    tabledata_priorityunfunded = vm.data.filter(
                         function (value) {
                             return value.fund == false;
                         }
                     );
 
 
-                    tabledatafund = vm.data.filter(
+                    tabledata_priorityfund = vm.data.filter(
                         function (value) {
                             return value;
                         });
-                    vm.tableParamsfunded = new NgTableParams({
-                        page: 1,
-                        count: 15
-                    }, {
-                        filterDelay: 0,
-                        counts: [],
-                        data: tabledatafund,
-                    });
 
-                    // calculate totals
-
-                    var graphdatafund = [];
-                    var funded = 0;
-                    var unfunded = 0;
-
-                    for (var i = 0; i < vm.data.length; i++) {
-                        if (vm.data[i].fund == true) {
-                            funded++;
-                        }
-                        else if (vm.data[i].fund == false) {
-                            unfunded++;
-                        }
-
-                    }
-
-
-
-                    // update graph
-                    vm.fundactivity = {
-                        chart: {
-                            type: 'pieChart',
-                            height: 500,
-                            width: 500,
-                            x: function (d) {
-                                return d.key;
-                            },
-                            y: function (d) {
-                                return d.y;
-                            },
-                            showLabels: true,
-                            duration: 500,
-                            labelThreshold: 0.01,
-                            labelSunbeamLayout: true,
-                            legend: {
-                                margin: {
-                                    top: 5,
-                                    right: 35,
-                                    bottom: 5,
-                                    left: 0
-                                }
-                            }
-                        }
-                    };
 
                     if (funded == vm.data.length) {
                         vm.graphfundedactivities = [];
+                        vm.tableParams_priorityfund = new NgTableParams({
+                        page: 1,
+                        count: 15
+                        }, {
+                        filterDelay: 0,
+                        counts: [],
+                        data: tabledata_priorityfund,
+                        });
 
-                    } else {
+                    }
+                    else {
                         vm.tableParams_priorityfund= new NgTableParams({
                             page: 1,
                             count: 15
                         }, {
                             filterDelay: 0,
                             counts: [],
-                            data: tabledata_funded,
+                            data: tabledata_priorityfund,
                         });
 
                         vm.tableParams_priorityunfunded = new NgTableParams({
@@ -231,23 +188,67 @@ angular.module('dashboard')
                         }, {
                             filterDelay: 0,
                             counts: [],
-                            data: tabledata_unfunded,
+                            data: tabledata_priorityunfunded,
                         });
 
-
-                        vm.graphfundedactivities = [
-                            {
-                                key: "Funded",
-                                y: (funded / vm.data.length) * 100,
-                                color:'green'
-                            },
-                            {
-                                key: "Unfunded Activities",
-                                y: (unfunded / vm.data.length) * 100,
-                                color:'red'
-                            }
-                        ];
                     }
+
+                    // construct District graph data
+                    var prioritydata = [];
+                    var Highpriority = [];
+                    var Mediumpriority = [];
+                    var Lowpriority = [];
+
+                    for (var i = 0; i < vm.data.length ; i++) {
+                        if (vm.data[i].fund == true){
+                            Highpriority.push([vm.data[i].area, vm.data[i].High])
+                            Mediumpriority.push([vm.data[i].area, vm.data[i].Medium])
+                            Lowpriority.push([vm.data[i].area, vm.data[i].Low])
+                        }
+
+                    }
+
+                    prioritydata.push({
+                            key: "HIGH",
+                            values: Highpriority,
+                            color:'#2A448A'
+                    });
+                    prioritydata.push({
+                            key: "MEDIUM",
+                            values: Mediumpriority,
+                            color:'green'
+                    });
+                    prioritydata.push({
+                            key: "LOW",
+                            values: Lowpriority,
+                            color:'yellow'
+                    });
+
+                    vm.prioritygraph = prioritydata;
+
+
+                    // update graph
+                    vm.priorityoptions = {
+                            chart: {
+                                type: "multiBarChart",
+                                height: 450,
+                                margin: {
+                                  top: 20,
+                                  right: 20,
+                                  bottom: 45,
+                                  left: 45
+                                },
+                                clipEdge: true,
+                                stacked: true,
+                                x: function(d){ return d[0]; },
+                                y: function(d){ return d[1]; },
+                                showValues: true,
+                                showYAxis: true,
+                                showXAxis: true,
+                                rotateLabels: 55,
+
+                            },
+                    };
 
                 });
             };
