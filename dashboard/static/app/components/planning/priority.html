@@ -3,16 +3,16 @@
     <br>
     <br>
     <div class="col-md-12">
-        <div class="page_graph">
-            <nvd3 options="vm.priorityoptions" data="vm.prioritygraph"></nvd3>
-        </div>
-    </div>
-
-    <div class="col-md-12">
         <ul class="nav nav-tabs">
           <li class="active"><a data-toggle="tab" href="#funded">Funded</a></li>
           <li><a data-toggle="tab" href="#unfunded">UnFunded</a></li>
         </ul>
+
+        <div class="page_graph">
+
+            <nvd3 options="vm.priorityoptions" data="vm.prioritygraph" id="HorizontalBar"></nvd3>
+        </div>
+
     <br>
 
     <div class="tab-content">

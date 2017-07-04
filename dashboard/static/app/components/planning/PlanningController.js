@@ -222,12 +222,7 @@ angular.module('dashboard')
                             chart: {
                                 type: "multiBarChart",
                                 height: 450,
-                                margin: {
-                                  top: 20,
-                                  right: 20,
-                                  bottom: 45,
-                                  left: 45
-                                },
+
                                 clipEdge: true,
                                 stacked: true,
                                 x: function(d){ return d[0]; },
