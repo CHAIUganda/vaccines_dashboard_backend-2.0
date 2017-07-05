@@ -81,16 +81,16 @@ angular.module('dashboard')
                     for (var i = 0; i < vm.data.length; i++) {
                         if (vm.data[i].at_hand == 0)
                             nothing++,
-                            status="SO";
+                            status="Stocked Out";
                         else if ((vm.data[i].at_hand > vm.data[i].stock_requirement__minimum) && (vm.data[i].at_hand < vm.data[i].stock_requirement__maximum))
                             within++,
-                            status="WI";
+                            status="Within Range";
                         else if ((vm.data[i].at_hand < vm.data[i].stock_requirement__minimum) && (vm.data[i].at_hand > 0))
                             belowminimum++,
-                            status="BM";
+                            status="Below MIN";
                         else if (vm.data[i].at_hand > vm.data[i].stock_requirement__maximum)
                             abovemaximum++,
-                            status="AM";
+                            status="Above MAX";
                         vm.data[i].status=status;
                     }
 
@@ -177,19 +177,23 @@ angular.module('dashboard')
                         vm.graph = [
                             {
                                 key: "Stocked Out",
-                                y: (nothing / vm.data.length) * 100
+                                y: (nothing / vm.data.length) * 100,
+                                color:'#FF0000'
                             },
                             {
                                 key: "Within Range",
-                                y: (within / vm.data.length) * 100
+                                y: (within / vm.data.length) * 100,
+                                color:'#FFFF00'
                             },
                             {
                                 key: "Below MIN",
-                                y: (belowminimum / vm.data.length) * 100
+                                y: (belowminimum / vm.data.length) * 100,
+                                color:'#FFA500'
                             },
                             {
                                 key: "Above MAX",
-                                y: (abovemaximum / vm.data.length) * 100
+                                y: (abovemaximum / vm.data.length) * 100,
+                                color:'#008000'
                             }
                         ];
                     }

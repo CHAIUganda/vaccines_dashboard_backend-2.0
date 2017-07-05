@@ -406,13 +406,13 @@ svg.nvd3-svg {
 }
 
 .nvd3.nv-pie path {
-    stroke: #fff;
+    stroke: #2a2626;
     stroke-width: 1px;
     stroke-opacity: 1;
 }
 
 .nvd3.nv-pie path {
-    fill-opacity: .7;
+    fill-opacity: 1;
 }
 
 .nvd3.nv-pie .hover path {
