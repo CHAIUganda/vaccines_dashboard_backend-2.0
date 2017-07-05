@@ -30,6 +30,7 @@ angular.module('dashboard')
                     var tabledata_bm = [];
                     var tabledata_wr = [];
                     var tabledata_am = [];
+                    var tabledata_search =[];
 
                     vm.data = angular.copy(data);
 
@@ -52,6 +53,10 @@ angular.module('dashboard')
                         function (value) {
                             return ((value.at_hand < value.stock_requirement__minimum) && (value.at_hand > 0));
                         });
+                    tabledata_search = vm.data.filter(
+                        function (value) {
+                            return value;
+                        });
 
                     tabledataAlldistricts = vm.data.filter(
                         function (value) {
@@ -72,15 +77,21 @@ angular.module('dashboard')
                     var within = 0;
                     var belowminimum = 0;
                     var abovemaximum = 0;
+                    var status = "";
                     for (var i = 0; i < vm.data.length; i++) {
                         if (vm.data[i].at_hand == 0)
-                            nothing++;
-                        if ((vm.data[i].at_hand > vm.data[i].stock_requirement__minimum) && (vm.data[i].at_hand < vm.data[i].stock_requirement__maximum))
-                            within++;
-                        if ((vm.data[i].at_hand < vm.data[i].stock_requirement__minimum) && (vm.data[i].at_hand > 0))
-                            belowminimum++;
-                        if (vm.data[i].at_hand > vm.data[i].stock_requirement__maximum)
-                            abovemaximum++;
+                            nothing++,
+                            status="SO";
+                        else if ((vm.data[i].at_hand > vm.data[i].stock_requirement__minimum) && (vm.data[i].at_hand < vm.data[i].stock_requirement__maximum))
+                            within++,
+                            status="WI";
+                        else if ((vm.data[i].at_hand < vm.data[i].stock_requirement__minimum) && (vm.data[i].at_hand > 0))
+                            belowminimum++,
+                            status="BM";
+                        else if (vm.data[i].at_hand > vm.data[i].stock_requirement__maximum)
+                            abovemaximum++,
+                            status="AM";
+                        vm.data[i].status=status;
                     }
 
                     shellScope.child.stockedout = (nothing / vm.data.length) * 100;
@@ -153,6 +164,14 @@ angular.module('dashboard')
                             filterDelay: 0,
                             counts: [],
                             data: tabledata_am,
+                        });
+                        vm.tableParams_search = new NgTableParams({
+                            page: 1,
+                            count: 10
+                        }, {
+                            filterDelay: 0,
+                            counts: [],
+                            data: tabledata_search,
                         });
 
                         vm.graph = [

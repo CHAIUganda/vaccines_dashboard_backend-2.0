@@ -5,18 +5,19 @@
     <br>
     <br>
 
-    <div class="col-md-6">
+    <div class="col-md-5">
         <div class="page_graph">
             <nvd3 options="vm.options" data="vm.graph"></nvd3>
         </div>
     </div>
 
-    <div class="col-md-6">
+    <div class="col-md-7">
         <ul class="nav nav-tabs">
           <li class="active"><a data-toggle="tab" href="#stocked-out">Stocked Out</a></li>
           <li><a data-toggle="tab" href="#below-min">Below MIN</a></li>
           <li><a data-toggle="tab" href="#within-range">Within RANGE</a></li>
           <li><a data-toggle="tab" href="#above-max">Above MAX</a></li>
+          <li><a data-toggle="tab" href="#Search">Search</a></li>
         </ul>
     <br>
     <div class="tab-content">
@@ -26,7 +27,7 @@
        <table ng-table="vm.tableParams_so" class="row-border hover table table-condensed table-striped"  show-filter="true">
             <col align="right">
             <tr ng-repeat="row in $data">
-                <td title="'District'" sortable="'district_name'" filter="{district_name: 'text'}"  >{{row.district_name}}</td>
+                <td title="'District'" sortable="'district_name'">{{row.district_name}}</td>
                 <td title="'Balances'" sortable="'at_hand'" class="text-center" >{{row.at_hand | number:0}}</td>
                 <td title="'Min'" sortable="'stock_requirement__minimum'" class="text-center" >{{row.stock_requirement__minimum}}</td>
                 <td title="'Max'" sortable="'stock_requirement__maximum'" class="text-center" >{{row.stock_requirement__maximum}}</td>
@@ -42,7 +43,7 @@
        <table ng-table="vm.tableParams_bm" class="row-border hover table table-condensed table-striped"  show-filter="true">
             <col align="right">
             <tr ng-repeat="row in $data">
-                <td title="'District'" sortable="'district_name'" filter="{district_name: 'text'}"  >{{row.district_name}}</td>
+                <td title="'District'" sortable="'district_name'">{{row.district_name}}</td>
                 <td title="'Balances'" sortable="'at_hand'" class="text-center" >{{row.at_hand | number:0}}</td>
                 <td title="'Min'" sortable="'stock_requirement__minimum'" class="text-center" >{{row.stock_requirement__minimum}}</td>
                 <td title="'Max'" sortable="'stock_requirement__maximum'" class="text-center" >{{row.stock_requirement__maximum}}</td>
@@ -58,7 +59,7 @@
        <table ng-table="vm.tableParams_wr" class="row-border hover table table-condensed table-striped"  show-filter="true">
             <col align="right">
             <tr ng-repeat="row in $data">
-                <td title="'District'" sortable="'district_name'" filter="{district_name: 'text'}"  >{{row.district_name}}</td>
+                <td title="'District'" sortable="'district_name'">{{row.district_name}}</td>
                 <td title="'Balances'" sortable="'at_hand'" class="text-center" >{{row.at_hand | number:0}}</td>
                 <td title="'Min'" sortable="'stock_requirement__minimum'" class="text-center" >{{row.stock_requirement__minimum}}</td>
                 <td title="'Max'" sortable="'stock_requirement__maximum'" class="text-center" >{{row.stock_requirement__maximum}}</td>
@@ -74,10 +75,25 @@
        <table ng-table="vm.tableParams_am" class="row-border hover table table-condensed table-striped"  show-filter="true">
             <col align="right">
             <tr ng-repeat="row in $data">
+                <td title="'District'" sortable="'district_name'">{{row.district_name}}</td>
+                <td title="'Balances'" sortable="'at_hand'" class="text-center" >{{row.at_hand | number:0}}</td>
+                <td title="'Min'" sortable="'stock_requirement__minimum'" class="text-center" >{{row.stock_requirement__minimum}}</td>
+                <td title="'Max'" sortable="'stock_requirement__maximum'" class="text-center" >{{row.stock_requirement__maximum}}</td>
+            </tr>
+
+        </table>
+       </div>
+
+        <div id="Search" class="tab-pane fade">
+
+       <table ng-table="vm.tableParams_search" class="row-border hover table table-condensed table-striped"  show-filter="true">
+            <col align="right">
+            <tr ng-repeat="row in $data">
                 <td title="'District'" sortable="'district_name'" filter="{district_name: 'text'}"  >{{row.district_name}}</td>
                 <td title="'Balances'" sortable="'at_hand'" class="text-center" >{{row.at_hand | number:0}}</td>
                 <td title="'Min'" sortable="'stock_requirement__minimum'" class="text-center" >{{row.stock_requirement__minimum}}</td>
                 <td title="'Max'" sortable="'stock_requirement__maximum'" class="text-center" >{{row.stock_requirement__maximum}}</td>
+                <td title="'Status'" sortable="'status'" class="text-center" >{{ row.status }}</td>
             </tr>
 
         </table>
