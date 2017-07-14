@@ -8,15 +8,15 @@
           <li><a data-toggle="tab" href="#unfunded">UnFunded</a></li>
         </ul>
 
-        <div class="page_graph">
 
-            <nvd3 options="vm.priorityoptions" data="vm.prioritygraph" id="HorizontalBar"></nvd3>
-        </div>
 
     <br>
 
     <div class="tab-content">
         <div id="funded" class="tab-pane fade in active">
+        <div >
+            <nvd3 options="vm.priorityoptions" data="vm.prioritygraph"></nvd3>
+        </div>
         <table ng-table="vm.tableParams_priorityfund" class="row-border hover table table-condensed table-striped"  show-filter="true">
             <tr ng-repeat="row in $data">
                 <td title="'Area'" sortable="'area'" filter="{area: 'text'}"  >{{row.area}}</td>
@@ -30,7 +30,10 @@
 
         </div>
 
-        <div id="unfunded" class="tab-pane fade">
+        <div id="unfunded" class="tab-pane fade in">
+        <div>
+               <nvd3 options="vm.priorityoptionsun" data="vm.prioritygraphun" id="multiBarChart"></nvd3>
+            </div>
         <table ng-table="vm.tableParams_priorityunfunded" class="row-border hover table table-condensed table-striped"  show-filter="true">
             <tr ng-repeat="row in $data">
                 <td title="'Area'" sortable="'area'" filter="{area: 'text'}"  >{{row.area}}</td>
@@ -46,5 +49,6 @@
 
     </div>
     </div>
+
 
 </div>

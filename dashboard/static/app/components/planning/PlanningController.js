@@ -185,15 +185,24 @@ angular.module('dashboard')
 
                     // construct District graph data
                     var prioritydata = [];
+                    var prioritydataun = [];
                     var Highpriority = [];
                     var Mediumpriority = [];
                     var Lowpriority = [];
+                    var Highpriorityun = [];
+                    var Mediumpriorityun = [];
+                    var Lowpriorityun = [];
 
                     for (var i = 0; i < vm.data.length ; i++) {
                         if (vm.data[i].fund == true){
                             Highpriority.push([vm.data[i].area, vm.data[i].High])
                             Mediumpriority.push([vm.data[i].area, vm.data[i].Medium])
                             Lowpriority.push([vm.data[i].area, vm.data[i].Low])
+                        }
+                        else {
+                            Highpriorityun.push([vm.data[i].area, vm.data[i].High])
+                            Mediumpriorityun.push([vm.data[i].area, vm.data[i].Medium])
+                            Lowpriorityun.push([vm.data[i].area, vm.data[i].Low])
                         }
 
                     }
@@ -219,6 +228,40 @@ angular.module('dashboard')
 
                     // update graph
                     vm.priorityoptions = {
+                            chart: {
+                                type: "multiBarChart",
+                                height: 450,
+
+                                clipEdge: true,
+                                stacked: true,
+                                x: function(d){ return d[0]; },
+                                y: function(d){ return d[1]; },
+                                showValues: true,
+                                showYAxis: true,
+                                showXAxis: true,
+                                rotateLabels: 55,
+
+                            },
+                    };
+                    prioritydataun.push({
+                            key: "HIGH",
+                            values: Highpriorityun,
+                            color:'#2A448A'
+                    });
+                    prioritydataun.push({
+                            key: "MEDIUM",
+                            values: Mediumpriorityun,
+                            color:'green'
+                    });
+                    prioritydataun.push({
+                            key: "LOW",
+                            values: Lowpriorityun,
+                            color:'yellow'
+                    });
+
+                    vm.prioritygraphun = prioritydataun;
+
+                    vm.priorityoptionsun = {
                             chart: {
                                 type: "multiBarChart",
                                 height: 450,
