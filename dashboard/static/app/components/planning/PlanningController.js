@@ -231,7 +231,7 @@ angular.module('dashboard')
                             chart: {
                                 type: "multiBarChart",
                                 height: 450,
-                                width:1000,
+                                width:500,
 
                                 clipEdge: true,
                                 stacked: true,
@@ -241,7 +241,6 @@ angular.module('dashboard')
                                 showYAxis: true,
                                 showXAxis: true,
                                 rotateLabels: 55,
-
 
                             },
                     };
@@ -267,7 +266,7 @@ angular.module('dashboard')
                             chart: {
                                 type: "multiBarChart",
                                 height: 450,
-                                width:1000,
+                                width:500,
 
                                 clipEdge: true,
                                 stacked: true,

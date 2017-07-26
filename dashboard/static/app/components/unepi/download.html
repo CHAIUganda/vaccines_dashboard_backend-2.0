@@ -1,0 +1,83 @@
+<div ng-controller="UnepiController as vm">
+
+    <br>
+    <br>
+    <div class="col-md-6">
+        <h4 class="text-center">COVERAGE</h4>
+        <br>
+        <br>
+        <table ng-table="vm.tableParamsDoses" class="row-border hover table table-condensed table-striped" show-filter="true">
+
+            <tr ng-repeat="row in $data">
+                <td title="'ANTIGEN'">{{row.vaccine__name }}</td>
+                <td title="'Planned Immunisation'">{{row.planned_consumption }}</td>
+                <td title="'Monthly Coverage'">{{row.coverage_rate }}%</td>
+                <td title="'Annulised Coverage'">{{row.coverage_rate }}%</td>
+            </tr>
+        </table>
+
+    </div>
+
+    <div class="col-md-5">
+        <div>
+        <table ng-table="vm.tableParamsAlldistricts" class="row-border hover table table-condensed table-striped" show-filter="true">
+
+            <tr ng-repeat="row in $data">
+                <td title="'Drop Out Rate'"></td>
+
+            </tr>
+        </table>
+
+        </div>
+        <div>
+        <table ng-table="vm.tableParamsAlldistricts" class="row-border hover table table-condensed table-striped" show-filter="true">
+
+            <tr ng-repeat="row in $data">
+                <td title="'PCV-PENTA GAP'"></td>
+
+            </tr>
+        </table>
+
+        </div>
+        <div>
+        <table ng-table="vm.tableParamsAlldistricts" class="row-border hover table table-condensed table-striped" show-filter="true">
+
+            <tr ng-repeat="row in $data">
+                <td title="'RED CATEGORY'"></td>
+
+            </tr>
+        </table>
+
+        </div>
+
+    </div>
+
+    <div class="col-md-6">
+        <h4 class="text-center">STOCK MANAGEMENT</h4>
+        <br>
+        <br>
+        <table ng-table="vm.tableParamsAlldistricts" class="row-border hover table table-condensed table-striped" show-filter="true">
+
+            <tr ng-repeat="row in $data">
+                <td title="'ANTIGEN'"></td>
+                <td title="'Months Of Stock'"></td>
+                <td title="'Refill Rate By NMS'"></td>
+                <td title="'Vaccine Utilised'"></td>
+            </tr>
+        </table>
+
+    </div>
+
+    <div class="col-md-6">
+
+        <table ng-table="vm.tableParamsAlldistricts" class="row-border hover table table-condensed table-striped" show-filter="true">
+
+            <tr ng-repeat="row in $data">
+                <td title="'Number Of Antigens Stocked Out'"></td>
+
+            </tr>
+        </table>
+    </div>
+
+
+</div>

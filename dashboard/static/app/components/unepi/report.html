@@ -1,0 +1,33 @@
+<div ng-controller="MainController as shell">
+
+
+    <div class="col-md-12 main-filters">
+
+        <select name="month" class="form-control filter criteria-select" ng-model="shell.endMonth"
+                ng-options="month as month.name group by month.year for month in shell.months.slice(shell.months.indexOf(shell.startMonth))">
+        </select>
+        <div class="spacer">
+
+        </div>
+
+        <select name="district" class="form-control filter criteria-select" ng-model="shell.selectedDistrict"
+                    ng-options="district as district.name for district in shell.districts">
+        </select>
+        <div class="spacer">
+
+        </div>
+
+    </div>
+    <div class="filter-title col-md-12">
+    </div>
+
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="test-area clearfix">
+                <div ui-view></div>
+            </div>
+        </div>
+
+    </div>
+</div>
