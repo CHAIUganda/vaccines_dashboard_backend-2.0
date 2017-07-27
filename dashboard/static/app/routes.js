@@ -101,16 +101,6 @@ dashboard.config(["$stateProvider", "$urlRouterProvider", function($stateProvide
                 templateUrl: "static/app/components/planning/priority.html",
                 controller: "PlanningController"
             })
-            .state("unepi", {
-                url: "/unepi",
-                templateUrl: "static/app/components/unepi/report.html",
-                controller: "UnepiController"
-            })
-            .state("unepi.download", {
-                url: "/download",
-                templateUrl: "static/app/components/unepi/download.html",
-                controller: "UnepiController"
-            })
         ;
     }
 ]);

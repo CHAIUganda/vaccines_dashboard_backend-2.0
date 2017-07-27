@@ -10,7 +10,6 @@ urlpatterns = [
     url(r'^coldchain/', include('cold_chain.urls')),
     url(r'^coverage/', include('coverage.urls')),
     url(r'^planning/', include('planning.urls')),
-    url(r'^unepi/', include('unepi.urls')),
     url(r'^', include(dashboard_urls)),
     url(r'^', include(auth_urls)),
     url(r'^', include('password_reset.urls'))
