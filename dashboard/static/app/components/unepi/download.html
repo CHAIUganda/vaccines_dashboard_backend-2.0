@@ -9,8 +9,8 @@
         <table ng-table="vm.tableParamsDoses" class="row-border hover table table-condensed table-striped" show-filter="true">
 
             <tr ng-repeat="row in $data">
-                <td title="'ANTIGEN'">{{row.vaccine__name }}</td>
-                <td title="'Planned Immunisation'">{{row.planned_consumption }}</td>
+                <td title="'Antigen'">{{row.vaccine__name }}</td>
+                <td title="'Planned monthly immunisations'">{{row.planned_consumption }}</td>
                 <td title="'Monthly Coverage'">{{row.coverage_rate | number:0 }}%</td>
                 <td title="'Annulised Coverage'">{{}}%</td>
             </tr>
@@ -18,19 +18,28 @@
 
     </div>
 
-    <div class="col-md-5">
-        <div>
-        <table ng-table="vm.tableParamsDoses" class="row-border hover table table-condensed table-striped" show-filter="true">
+    <div class="col-md-6">
+        <div class="col-md-5">
+        <table ng-table="vm.tableParams_penta" class="row-border hover table table-condensed table-striped" show-filter="true">
 
             <tr ng-repeat="row in $data">
-                <td title="'Drop Out Rate'">{{ row.drop_out_rate }}%</td>
-
+                <td title="'Drop Out Rate DPT1-3'">{{ row.drop_out_rate | number:0 }}%</td>
             </tr>
+
+        </table>
+        </div>
+        <div class="col-md-5">
+        <table ng-table="vm.tableParams_HPV" class="row-border hover table table-condensed table-striped" show-filter="true">
+
+            <tr ng-repeat="row in $data">
+                <td title="'Drop Out Rate HPV1-2'">{{ row.drop_out_rate | number:0 }}%</td>
+            </tr>
+
         </table>
 
         </div>
         <div>
-        <table ng-table="vm.tableParamsDoses" class="row-border hover table table-condensed table-striped" show-filter="true">
+        <table ng-table="vm.tableParamsDoses1" class="row-border hover table table-condensed table-striped" show-filter="true">
 
             <tr ng-repeat="row in $data">
                 <td title="'PCV-PENTA GAP'">{{  }}%</td>
@@ -40,7 +49,7 @@
 
         </div>
         <div>
-        <table ng-table="vm.tableParamsDoses" class="row-border hover table table-condensed table-striped" show-filter="true">
+        <table ng-table="vm.tableParamsDoses2" class="row-border hover table table-condensed table-striped" show-filter="true">
 
             <tr ng-repeat="row in $data">
                 <td title="'RED CATEGORY'">{{ row.Red_category }}</td>

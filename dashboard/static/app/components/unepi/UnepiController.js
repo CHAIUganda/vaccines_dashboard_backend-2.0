@@ -14,7 +14,39 @@ angular.module('dashboard')
             CoverageService.getUnepiCoverage(period, district)
                 .then(function (data) {
 
+
+                    var tabledata_Penta = [];
+                    var tabledata_HPV = [];
+                    var tabledataAlldoses = [];
+
                     vm.data = angular.copy(data);
+
+                    tabledata_Penta = vm.data.filter(
+                        function (value) {
+                            return value.vaccine__name == "PENTA";
+                        }
+                    );
+                    vm.tableParams_penta= new NgTableParams({
+                            page: 1,
+                            count:1
+                        }, {
+                            filterDelay: 0,
+                            counts: [],
+                            data:tabledata_Penta,
+                        });
+                    tabledata_HPV = vm.data.filter(
+                        function (value) {
+                            return value.vaccine__name == "HPV";
+                        }
+                    );
+                    vm.tableParams_HPV= new NgTableParams({
+                            page: 1,
+                            count:1
+                        }, {
+                            filterDelay: 0,
+                            counts: [],
+                            data:tabledata_HPV,
+                        });
 
 
                     tabledataAlldoses = vm.data.filter(
