@@ -39,6 +39,9 @@ angular.module('services').service('FilterService', ['$http',
         var getFundActivities= function(){
             return $http.get('planning/api/fundactivities').then(handleResponse);
         };
+        var getUnepiCoverage=function(){
+            return $http.get('coverage/api/vaccinedose').then(handleResponse);
+        };
 
         var getYear = function() {
             return $http.get('planning/api/activityyear').then(handleResponse);
@@ -55,7 +58,8 @@ angular.module('services').service('FilterService', ['$http',
             "getFridgeQuarters": getFridgeQuarters,
             "getLastPeriod": getLastPeriod,
             "getAwpActivities": getAwpActivities,
-            "getFundActivities": getFundActivities
+            "getFundActivities": getFundActivities,
+            "getUnepiCoverage":getUnepiCoverage
         };
     }
 ])

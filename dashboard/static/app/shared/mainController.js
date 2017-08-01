@@ -153,5 +153,20 @@ angular.module('dashboard')
             }
         });
 
+        $scope.$watch('shell.coveragePeriod', function() {
+            if (shell.coveragePeriod && shell.selectedDistrict) {
+                $rootScope.$broadcast('refreshUnepi', shell.coveragePeriod, shell.selectedDistrict, shell.selectedVaccine);
+            }
+        }, true);
+
+        $scope.$watchGroup(['shell.coveragePeriod', 'shell.selectedDistrict', 'shell.selectedVaccine'], function(data){
+            if(data[0] && data[1] && data[2]){
+                if (shell.coveragePeriod && shell.selectedDistrict) {
+                    $rootScope.$broadcast('refreshUnepi', shell.coveragePeriod, shell.selectedDistrict, shell.selectedVaccine);
+                }
+            }
+        });
+
+
     }
 ]);

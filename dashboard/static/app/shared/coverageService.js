@@ -41,6 +41,15 @@ angular.module('services').service('CoverageService', ['$http',
                 }
             }).then(handleResponse);
         };
+        var getUnepiCoverage = function(period, district) {
+            return $http.get('coverage/api/vaccinedoses', {
+                params: {
+                    period: period,
+
+                    district: district
+                }
+            }).then(handleResponse);
+        };
 
         var getDistrictMap = function(){
             return $http.get('static/Uganda_admin.json').then(handleResponse);
@@ -50,6 +59,7 @@ angular.module('services').service('CoverageService', ['$http',
             "getDHIS2VaccineDoses": getDHIS2VaccineDoses,
             "getVaccineDoses": getVaccineDoses,
             "getVaccineDosesByDistrict": getVaccineDosesByDistrict,
+            "getUnepiCoverage":getUnepiCoverage,
             "getDistrictMap": getDistrictMap,
             "getRedVaccineDoses":getRedVaccineDoses
         };
