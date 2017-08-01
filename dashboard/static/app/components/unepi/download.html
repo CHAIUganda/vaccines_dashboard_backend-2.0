@@ -1,11 +1,8 @@
 <div ng-controller="UnepiController as vm">
 
-    <br>
-    <br>
-    <div class="col-md-6">
         <h4 class="text-center">COVERAGE</h4>
-        <br>
-        <br>
+    <div class="col-md-6">
+
         <table ng-table="vm.tableParamsDoses" class="row-border hover table table-condensed table-striped" show-filter="true">
 
             <tr ng-repeat="row in $data">
@@ -38,21 +35,25 @@
         </table>
 
         </div>
-        <div>
+        <div class="col-md-5">
+
+        </div>
+        <div  class="col-md-5">
         <table ng-table="vm.tableParamsDoses1" class="row-border hover table table-condensed table-striped" show-filter="true">
 
             <tr ng-repeat="row in $data">
-                <td title="'PCV-PENTA GAP'">{{  }}%</td>
+                <td title="'DPT3-PCV3 GAP'">{{  }}%</td>
 
             </tr>
         </table>
 
         </div>
         <div>
-        <table ng-table="vm.tableParamsDoses2" class="row-border hover table table-condensed table-striped" show-filter="true">
+        <table ng-table="vm.tableParamsDoses" class="row-border hover table table-condensed table-striped" show-filter="true">
 
             <tr ng-repeat="row in $data">
-                <td title="'RED CATEGORY'">{{ row.Red_category }}</td>
+                <td title="'Antigen'">{{row.vaccine__name }}</td>
+                <td title="'RED CATEGORY'">CAT{{ row.Red_category }}</td>
 
             </tr>
         </table>

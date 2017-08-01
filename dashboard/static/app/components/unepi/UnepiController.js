@@ -18,6 +18,7 @@ angular.module('dashboard')
                     var tabledata_Penta = [];
                     var tabledata_HPV = [];
                     var tabledataAlldoses = [];
+                    var tabledata_Category = [];
 
                     vm.data = angular.copy(data);
 
@@ -34,6 +35,8 @@ angular.module('dashboard')
                             counts: [],
                             data:tabledata_Penta,
                         });
+
+
                     tabledata_HPV = vm.data.filter(
                         function (value) {
                             return value.vaccine__name == "HPV";
@@ -47,6 +50,7 @@ angular.module('dashboard')
                             counts: [],
                             data:tabledata_HPV,
                         });
+
 
 
                     tabledataAlldoses = vm.data.filter(
