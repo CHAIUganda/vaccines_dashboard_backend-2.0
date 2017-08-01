@@ -1,6 +1,6 @@
 angular.module('dashboard')
-    .controller('UnepiController', ['$scope', 'CoverageService', '$rootScope', 'NgTableParams', 'FilterService',
-    function($scope, CoverageService, $rootScope, NgTableParams, FilterService)
+    .controller('UnepiController', ['$scope', 'CoverageService','StockService', '$rootScope', 'NgTableParams', 'FilterService',
+    function($scope, CoverageService, StockService, $rootScope, NgTableParams, FilterService)
     {
         var vm = this;
         var shellScope = $scope.$parent;
@@ -18,7 +18,7 @@ angular.module('dashboard')
                     var tabledata_Penta = [];
                     var tabledata_HPV = [];
                     var tabledataAlldoses = [];
-                    var tabledata_Category = [];
+                    
 
                     vm.data = angular.copy(data);
 
@@ -75,11 +75,13 @@ angular.module('dashboard')
                 });
             };
 
-            $scope.$on('refresh', function(e, startMonth, endMonth, district, vaccine) {
+
+        $scope.$on('refresh', function(e, startMonth, endMonth, district, vaccine) {
             if(startMonth.name && endMonth.name && district.name && vaccine.name)
                 {
 
                     vm.getUnepiCoverage(endMonth.period, district.name, vaccine.name);
+
 
                 }
             });

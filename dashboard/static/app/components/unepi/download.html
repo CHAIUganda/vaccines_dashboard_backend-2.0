@@ -18,61 +18,48 @@
     <div class="col-md-6">
         <div class="col-md-5">
         <table ng-table="vm.tableParams_penta" class="row-border hover table table-condensed table-striped" show-filter="true">
-
             <tr ng-repeat="row in $data">
                 <td title="'Drop Out Rate DPT1-3'">{{ row.drop_out_rate | number:0 }}%</td>
             </tr>
-
         </table>
         </div>
         <div class="col-md-5">
         <table ng-table="vm.tableParams_HPV" class="row-border hover table table-condensed table-striped" show-filter="true">
-
             <tr ng-repeat="row in $data">
                 <td title="'Drop Out Rate HPV1-2'">{{ row.drop_out_rate | number:0 }}%</td>
             </tr>
-
         </table>
-
         </div>
-        <div class="col-md-5">
-
-        </div>
-        <div  class="col-md-5">
-        <table ng-table="vm.tableParamsDoses1" class="row-border hover table table-condensed table-striped" show-filter="true">
+        <div>
+        <table ng-table="vm.tableParams_Gap" class="row-border hover table table-condensed table-striped" show-filter="true">
 
             <tr ng-repeat="row in $data">
-                <td title="'DPT3-PCV3 GAP'">{{  }}%</td>
+                <td title="'DPT3-PCV3 GAP'">{{}}%</td>
 
             </tr>
         </table>
 
         </div>
         <div>
-        <table ng-table="vm.tableParamsDoses" class="row-border hover table table-condensed table-striped" show-filter="true">
+        <table ng-table="vm.tableParams_penta" class="row-border hover table table-condensed table-striped" show-filter="true">
 
             <tr ng-repeat="row in $data">
-                <td title="'Antigen'">{{row.vaccine__name }}</td>
                 <td title="'RED CATEGORY'">CAT{{ row.Red_category }}</td>
-
             </tr>
         </table>
 
         </div>
 
     </div>
-
+    <h4 class="text-center">STOCK MANAGEMENT</h4>
     <div class="col-md-6">
-        <h4 class="text-center">STOCK MANAGEMENT</h4>
-        <br>
-        <br>
-        <table ng-table="vm.tableParamsAlldistricts" class="row-border hover table table-condensed table-striped" show-filter="true">
+        <table ng-table="vm.tableParamsStock" class="row-border hover table table-condensed table-striped" show-filter="true">
 
             <tr ng-repeat="row in $data">
-                <td title="'ANTIGEN'"></td>
-                <td title="'Months Of Stock'"></td>
-                <td title="'Refill Rate By NMS'"></td>
-                <td title="'Vaccine Utilised'"></td>
+                <td title="'ANTIGEN'">{{ row.vaccine }}</td>
+                <td title="'Months Of Stock'">{{  }}</td>
+                <td title="'Refill Rate By NMS'">{{((row.ordered/row.received)*100)| number:0  }}%</td>
+                <td title="'Vaccine Utilised'">{{ row.uptake_rate | number:0 }}%</td>
             </tr>
         </table>
 
@@ -88,6 +75,4 @@
             </tr>
         </table>
     </div>
-
-
 </div>
