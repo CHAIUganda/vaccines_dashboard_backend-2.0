@@ -6754,7 +6754,7 @@ th {
 .quality_test__metric {
   display: block;
   font-size: 18px;
-  color: #585858;
+  color: #00008b;
   margin: 0 auto 0 auto;
   text-align: center;
   height: 40px;
@@ -6763,7 +6763,7 @@ th {
   font-size: 12px;
   letter-spacing: 1.5px;
   margin: 0 auto 0 auto;
-  color: #585858;
+  color: #00008b;
   display: block;
   text-align: center;
 }

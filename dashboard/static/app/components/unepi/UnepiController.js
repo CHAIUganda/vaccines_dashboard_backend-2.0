@@ -14,44 +14,9 @@ angular.module('dashboard')
             CoverageService.getUnepiCoverage(period, district)
                 .then(function (data) {
 
-
-                    var tabledata_Penta = [];
-                    var tabledata_HPV = [];
                     var tabledataAlldoses = [];
-                    
 
                     vm.data = angular.copy(data);
-
-                    tabledata_Penta = vm.data.filter(
-                        function (value) {
-                            return value.vaccine__name == "PENTA";
-                        }
-                    );
-                    vm.tableParams_penta= new NgTableParams({
-                            page: 1,
-                            count:1
-                        }, {
-                            filterDelay: 0,
-                            counts: [],
-                            data:tabledata_Penta,
-                        });
-
-
-                    tabledata_HPV = vm.data.filter(
-                        function (value) {
-                            return value.vaccine__name == "HPV";
-                        }
-                    );
-                    vm.tableParams_HPV= new NgTableParams({
-                            page: 1,
-                            count:1
-                        }, {
-                            filterDelay: 0,
-                            counts: [],
-                            data:tabledata_HPV,
-                        });
-
-
 
                     tabledataAlldoses = vm.data.filter(
                         function (value) {
@@ -67,13 +32,31 @@ angular.module('dashboard')
                         data: tabledataAlldoses,
                     });
 
+                    var Pent3 =[];
+                    var pc3 = [];
+                    shellScope.child.Gap = 0;
+                    shellScope.child.dropout_Penta = 0;
+                    shellScope.child.dropout_hpv = 0;
+                    shellScope.child.category = 0;
 
-
-
+                    for (var i = 0; i < vm.data.length ; i++){
+                        if (vm.data[i].vaccine__name == "PENTA"){
+                            Pent3 = vm.data[i].coverage_rate
+                            shellScope.child.dropout_Penta = vm.data[i].drop_out_rate
+                            shellScope.child.category = vm.data[i].Red_category
+                        }
+                        else if (vm.data[i].vaccine__name == "PCV"){
+                            pc3 = vm.data[i].coverage_rate
+                        }
+                        else if (vm.data[i].vaccine__name == "HPV"){
+                            shellScope.child.dropout_hpv = vm.data[i].drop_out_rate
+                        }
+                        shellScope.child.Gap = Pent3 - pc3;
+                    }
 
 
                 });
-            };
+        };
 
 
         $scope.$on('refresh', function(e, startMonth, endMonth, district, vaccine) {

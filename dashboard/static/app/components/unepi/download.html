@@ -1,6 +1,8 @@
 <div ng-controller="UnepiController as vm">
 
         <h4 class="text-center">COVERAGE</h4>
+    <br>
+    <br>
     <div class="col-md-6">
 
         <table ng-table="vm.tableParamsDoses" class="row-border hover table table-condensed table-striped" show-filter="true">
@@ -14,44 +16,50 @@
         </table>
 
     </div>
-
+    <br>
     <div class="col-md-6">
-        <div class="col-md-5">
-        <table ng-table="vm.tableParams_penta" class="row-border hover table table-condensed table-striped" show-filter="true">
-            <tr ng-repeat="row in $data">
-                <td title="'Drop Out Rate DPT1-3'">{{ row.drop_out_rate | number:0 }}%</td>
-            </tr>
-        </table>
+        <div class="col-md-6">
+            <table class="row-border hover table table-condensed table-striped">
+                <td>
+                    <span class="quality_test__description">{{"Drop Out Rate DPT1-3"}}</span>
+                    <span class="quality_test__metric"> {{child.dropout_Penta | number:0 }}% </span>
+                </td>
+            </table>
         </div>
-        <div class="col-md-5">
-        <table ng-table="vm.tableParams_HPV" class="row-border hover table table-condensed table-striped" show-filter="true">
-            <tr ng-repeat="row in $data">
-                <td title="'Drop Out Rate HPV1-2'">{{ row.drop_out_rate | number:0 }}%</td>
-            </tr>
-        </table>
-        </div>
-        <div>
-        <table ng-table="vm.tableParams_Gap" class="row-border hover table table-condensed table-striped" show-filter="true">
-
-            <tr ng-repeat="row in $data">
-                <td title="'DPT3-PCV3 GAP'">{{}}%</td>
-
-            </tr>
-        </table>
-
+        <div class="col-md-6">
+        <table class="row-border hover table table-condensed table-striped">
+                <td>
+                    <span class="quality_test__description">{{"Drop Out Rate HPV1-2"}}</span>
+                    <span class="quality_test__metric"> {{child.dropout_hpv | number:0 }}% </span>
+                </td>
+            </table>
         </div>
         <div>
-        <table ng-table="vm.tableParams_penta" class="row-border hover table table-condensed table-striped" show-filter="true">
-
-            <tr ng-repeat="row in $data">
-                <td title="'RED CATEGORY'">CAT{{ row.Red_category }}</td>
-            </tr>
-        </table>
+            <table class="row-border hover table table-condensed table-striped">
+                <td>
+                    <span class="quality_test__description">{{"dpt3-pcv3 gap" | uppercase}}</span>
+                    <span class="quality_test__metric"> {{child.Gap | number:0 }}% </span>
+                </td>
+            </table>
 
         </div>
+        <div>
+            <table class="row-border hover table table-condensed table-striped">
+                <td>
+                    <span class="quality_test__description">{{"RED CATEGORY" }}</span>
+                    <span class="quality_test__metric"> CAT{{child.category}} </span>
+                </td>
+            </table>
+        </div>
+        <br>
+        <br>
 
     </div>
+
     <h4 class="text-center">STOCK MANAGEMENT</h4>
+    <br>
+    <br>
+
     <div class="col-md-6">
         <table ng-table="vm.tableParamsStock" class="row-border hover table table-condensed table-striped" show-filter="true">
 
