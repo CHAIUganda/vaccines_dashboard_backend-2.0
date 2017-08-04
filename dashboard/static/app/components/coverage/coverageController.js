@@ -28,16 +28,19 @@ angular.module('dashboard')
             var width = 500,
                 height = 500;
             var field = "";
+            var dose1 = "";
 
             if (vm.path=="/coverage/dropoutrate"){
                 field="drop_out_rate";
                 vm.endtxt="%";
+                dose1 = "HIGH" + "...................................................................."+ "LOW";
 
             }
 
             else if (vm.path=="/coverage/coverage"){
                 field="coverage_rate";
                 vm.endtxt="%"
+                dose1 = "LOW" + "...................................................................."+ "HIGH";
             }
 
             if (vaccine=="PENTA"){
@@ -260,10 +263,7 @@ angular.module('dashboard')
 
                             .text(function(d) {
 
-                                var dose = Math.round(color.domain()[0]) + "............................................................................"+ Math.round(color.domain()[1]);
-
-
-                                return dose              })
+                                   return dose1              })
 
 
 

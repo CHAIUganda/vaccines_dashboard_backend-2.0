@@ -1,0 +1,49 @@
+/* easytooltip container */
+.easytooltip {
+    position: relative;
+    display: inline-block;
+
+}
+
+/* easytooltip text */
+.easytooltip .easytooltiptext {
+    visibility: hidden;
+    width: 120px;
+    background-color: #ffffcc;
+    color: white;
+    text-decoration-color: #0b0b0b;
+    text-align: center;
+    padding: 5px 0;
+    border-radius: 6px;
+
+    /* Position the easytooltip text */
+    position: absolute;
+    z-index: 1;
+    right: 25%;
+    bottom: 50%;
+    margin-left: -60px;
+
+    /* Fade in easytooltip */
+    opacity: 0;
+    transition: opacity 1s;
+}
+
+/* easytooltip arrow */
+.easytooltip .easytooltiptext::after {
+    border-bottom: solid transparent 10px;
+    border-bottom: solid transparent 10px;
+    border-bottom: solid #00008b 10px;
+    bottom: 60px;
+    content: " ";
+    height: 0;
+    left: 104%;
+    margin-left: -13px;
+    position: absolute;
+    width: 0;
+}
+
+/* Show the easytooltip text when you mouse over the easytooltip container */
+.easytooltip:hover .easytooltiptext {
+    visibility: visible;
+    opacity: 1;
+}

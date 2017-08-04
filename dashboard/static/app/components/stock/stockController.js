@@ -96,7 +96,7 @@ angular.module('dashboard')
 
                     shellScope.child.stockedout = (nothing / vm.data.length) * 100;
                     var balanceMonth = new Date(MonthService.monthToDate(endMonth));
-                    balanceMonth.setMonth(balanceMonth.getMonth() - 2);
+                    balanceMonth.setMonth(balanceMonth.getMonth() - 1);
                     shellScope.child.themonth = balanceMonth;
                     shellScope.child.vaccine = vaccine;
 
