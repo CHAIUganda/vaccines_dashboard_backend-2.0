@@ -54,20 +54,26 @@
             <div class="quality_test" ui-sref-active="quality_test_active">
                 <a ui-sref="fridge.facilities" ui-sref-opts="{reload: true}">
                     <span class="quality_test__metric">{{ child.facility }} </span>
-                    <span class="quality_test__description">{{"IMMUNIZING FACILITIES" }}</span>
+                    <span class="quality_test__description easytooltip">{{"IMMUNIZING FACILITIES" }}
+                        <span class="easytooltiptext" >Number of facilities offering static and outreach services / Total number of <u><b>ELIGIBLE</b></u> facilities in the district</span>
+                    </span>
                 </a>
             </div>
 
             <div class="quality_test" ui-sref-active="quality_test_active">
                 <a ui-sref="fridge.workingstatus"  ui-sref-opts="{reload: true}">
                     <span class="quality_test__metric">{{ child.functionality | number:0}}%</span>
-                    <span class="quality_test__description">{{"FUNCTIONALITY" }}</span>
+                    <span class="quality_test__description easytooltip">{{"FUNCTIONALITY" }}
+                        <span class="easytooltiptext" >Proportion of functional Fridges & Freezers / Total number of Fridges & Freezers</span>
+                    </span>
                 </a>
             </div>
             <div class="quality_test" ui-sref-active="quality_test_active">
                 <a ui-sref="fridge.capacity"  ui-sref-opts="{reload: true}">
                     <span class="quality_test__metric">{{ child.available | number:0 }}</span>
-                    <span class="quality_test__description">{{"CAPACITY (L)"}}</span>
+                    <span class="quality_test__description easytooltip">{{"CAPACITY (L)"}}
+                        <span class="easytooltiptext" >Total sum of vaccine storage space of all <b><u>functional</u></b> fridges available at the site</span>
+                    </span>
                 </a>
             </div>
 

@@ -41,13 +41,17 @@
             <div class="quality_test" ui-sref-active="quality_test_active">
                 <a ui-sref="coverage.home" ui-sref-opts="{reload: true}">
                     <span class="quality_test__metric"> </span>
-                    <span class="quality_test__description">{{"Coverage" | uppercase}}</span>
+                    <span class="quality_test__description easytooltip">{{"Coverage" | uppercase}}
+                    <span class="easytooltiptext" ><b>Actual number of Children Immunized / Projected number to be Immunized expressed as a Percentage </b></span>
+                    </span>
                 </a>
             </div>
             <div class="quality_test" ui-sref-active="quality_test_active">
                 <a ui-sref="coverage.dropoutrate" ui-sref-opts="{reload: true}">
                     <span class="quality_test__metric"> </span>
-                    <span class="quality_test__description">{{"Dropout Rate" | uppercase}}</span>
+                    <span class="quality_test__description easytooltip">{{"Dropout Rate" | uppercase}}
+                        <span class="easytooltiptext" ><b>Percentage of Children that did not receive the last dose of scheduled Vaccine</b> (E.g total DPT3 = total DPT1 numbers)</span>
+                    </span>
                 </a>
             </div>
             <div class="quality_test" ui-sref-active="quality_test_active">

@@ -29,19 +29,28 @@ angular.module('dashboard')
                 height = 500;
             var field = "";
             var dose1 = "";
+            var color = []
 
             if (vm.path=="/coverage/dropoutrate"){
                 field="drop_out_rate";
                 vm.endtxt="%";
-                dose1 = "HIGH" + "...................................................................."+ "LOW";
+                 color = d3.scale.quantize()
+                        .domain([-10, 10, 10<=20, 30])
+                        .range(["#43d6f4", "#008000","#FFFF00", 'Red' ]);
+
 
             }
 
             else if (vm.path=="/coverage/coverage"){
                 field="coverage_rate";
-                vm.endtxt="%"
-                dose1 = "LOW" + "...................................................................."+ "HIGH";
+                vm.endtxt="%";
+                color = d3.scale.quantize()
+                        .domain([50, 50<=70, 70<=90, 90<=110, 110])
+                        .range(['Red', 'Orange' , "#FFFF00", "#008000", "#43d6f4"]);
+
             }
+
+            dose1 = "LOW" + "...................................................................."+ "HIGH";
 
             if (vaccine=="PENTA"){
                 vm.vaccine="DPT3";
@@ -94,18 +103,9 @@ angular.module('dashboard')
             //Define quantize scale to sort data values into buckets of color
             //Colors by Cynthia Brewer (colorbrewer2.org), 9-class YlGnBu
 
-            var color = d3.scale.quantize()
+
                                 //.range(d3.range(9),map(function(i) { return 'q' + i + '-9';}));
-                            .range([
-                                        "#f46d43",
-                                        "#fdae61",
-                                        "#fee08b",
-                                        "#ffffbf",
-                                        "#d9ef8b",
-                                        "#a6d96a",
-                                        "#66bd63",
-                                        "#1a9850",
-                                        "#006837" ]);
+
 
             CoverageService.getVaccineDoses(period, vaccine)
                 .then(function(data) {
@@ -113,31 +113,9 @@ angular.module('dashboard')
 
                     vm.data = angular.copy(data);
 
+
                     //Set input domain for color scale
-                    if (vm.path=="/coverage/dropoutrate") {
-                        color.domain([
-                            d3.max(data, function (d) {
-                                return +d[field];
-                            }),
-                            d3.min(data, function (d) {
-                                return +d[field];
-                            })
 
-                        ]);
-                    }
-
-                    else if (vm.path=="/coverage/coverage"){
-                        color.domain([
-                            d3.min(data, function (d) {
-                                return +d[field];
-                            }),
-                            d3.max(data, function (d) {
-                                return +d[field];
-                            })
-
-                        ]);
-
-                    }
                     // This maps the data of the CSV so it can be easily accessed by
                     // the ID of the district, for example: dataById[2196]
                     dataById = d3.nest()
@@ -250,7 +228,9 @@ angular.module('dashboard')
                             .attr("offset", function(d,i) { return i/(color.range().length-1); })
                             .attr("stop-color", function(d) { return d; })
                             .append('text')
+
                             //.text("#####")
+
 
 
                         svg.append("rect")
@@ -263,11 +243,7 @@ angular.module('dashboard')
 
                             .text(function(d) {
 
-                                   return dose1              })
-
-
-
-
+                               return  dose1})
                     });
 
                     // Logic to handle hover event when its firedup
