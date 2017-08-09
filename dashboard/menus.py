@@ -24,11 +24,13 @@ Menu.add_item("main", MenuItem("Coverage",
 '''
 Menu.add_item("main", MenuItem("Planning",
                                "#/planning/awp",
-                               weight=10))
+                              weight=10))
+                              '''
 
 Menu.add_item("main", MenuItem("Unepi",
                                "#/unepi/download",
-                               weight=10))
+                            weight=10))
+'''
 
 Menu.add_item("main", MenuItem("CVS",
                                "#",

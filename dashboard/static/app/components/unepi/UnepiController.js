@@ -58,12 +58,53 @@ angular.module('dashboard')
                 });
         };
 
+        vm.getUnepiStock = function(endMonth, district) {
+
+            vm.endMonth = vm.endMonth ? vm.endMonth : "";
+
+            StockService.getUnepiStock( endMonth, district)
+                .then(function(data) {
+
+                    var tabledataAllstock = [];
+                    vm.data = angular.copy(data);
+
+
+
+                    tabledataAllstock = vm.data.filter(
+                        function (value) {
+                            return value;
+                        });
+
+                    vm.tableParamsStock = new NgTableParams({
+                        page: 1,
+                        count: 10
+                    }, {
+                        filterDelay: 0,
+                        counts: [],
+                        data: tabledataAllstock,
+                    });
+
+                    shellScope.child.Antigen_stockedout = 0;
+
+                    for (var i = 0; i < vm.data.length ; i++){
+                        if (vm.data[i].Months_stock == 0){
+                            shellScope.child.Antigen_stockedout++;
+
+                        }
+
+
+                    }
+
+                });
+        };
+
 
         $scope.$on('refresh', function(e, startMonth, endMonth, district, vaccine) {
             if(startMonth.name && endMonth.name && district.name && vaccine.name)
                 {
 
                     vm.getUnepiCoverage(endMonth.period, district.name, vaccine.name);
+                    vm.getUnepiStock(endMonth.name, district.name, vaccine.name);
 
 
                 }

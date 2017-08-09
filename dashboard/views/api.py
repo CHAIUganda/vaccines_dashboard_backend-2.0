@@ -62,7 +62,7 @@ class StockAtHandByDistrictApi(APIView):
 
 
         startMonth, startYear = request.query_params.get('startMonth', 'Nov 2014').split(' ')
-        endMonth, endYear= request.query_params.get('endMonth', 'Jul 2016').split(' ')
+        endMonth, endYear= request.query_params.get('endMonth', 'Nov 2016').split(' ')
 
         # Create arguments for filtering
         args = {'month': int(MONTH_TO_NUM[endMonth])}
@@ -85,11 +85,17 @@ class StockAtHandByDistrictApi(APIView):
                       period_month=F('month'),
                       period_year=F('stock_requirement__year'),
                       ordered=F('ordered'),
+                      received=F('received'),
                       consumed=F('consumed'),
                       available_stock=ExpressionWrapper(F('received')+F('at_hand'), output_field=IntegerField()),
+                      Months_stock=ExpressionWrapper(F('at_hand')/F('stock_requirement__minimum'), output_field=IntegerField()),
                       uptake_rate=Case(
                           When(Q(available_stock=Value(0)), then=Value(0)),
-                          default=(ExpressionWrapper(100*F('consumed')/ (F('received')+F('at_hand')), output_field=IntegerField()))
+                          default=(ExpressionWrapper(100*F('consumed')/ F('available_stock'), output_field=IntegerField()))
+                      ),
+                      Refill_rate=Case(
+                          When(Q(ordered=Value(0)), then=Value(0)),
+                          default=(ExpressionWrapper(100*F('received')/ F('ordered'), output_field=IntegerField()))
                       ),
                       coverage_rate=Case(
                           When(Q(stock_requirement__target=Value(0)) | Q(consumed=Value(0)), then=Value(0)),
@@ -107,6 +113,8 @@ class StockAtHandByDistrictApi(APIView):
                     'stock_requirement__district__zone',
                     'at_hand',
                     'period',
+                    'Refill_rate',
+                    'Months_stock',
                     'period_month',
                     'period_year',
                     'ordered',

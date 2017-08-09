@@ -14,6 +14,14 @@ angular.module('services').service('StockService', ['$http',
                 }
             }).then(handleResponse);
         };
+        var getUnepiStock = function(endMonth, district) {
+            return $http.get('api/stock/athandbydistrict', {
+                params: {
+                    endMonth: endMonth,
+                    district: district
+                }
+            }).then(handleResponse);
+        };
 
         var getStockByMonth = function(startMonth, endMonth, district, vaccine) {
             return $http.get('api/stock/athandbymonth', {
@@ -58,7 +66,8 @@ angular.module('services').service('StockService', ['$http',
             "getStockByMonth": getStockByMonth,
             "getStockMonthsLeft": getStockMonthsLeft,
             "getStockByDistrictVaccine": getStockByDistrictVaccine,
-            "getStockedOut": getStockedOut
+            "getStockedOut": getStockedOut,
+            "getUnepiStock":getUnepiStock
         };
     }
 ])

@@ -52,29 +52,36 @@
         <br>
         <br>
 
+        <span class="quality_test__description">
+            <br>
+        <br>
+        </span>
+
+
     </div>
     <h4 class="text-center">STOCK MANAGEMENT</h4>
+
     <div class="col-md-6">
         <table ng-table="vm.tableParamsStock" class="row-border hover table table-condensed table-striped" show-filter="true">
 
             <tr ng-repeat="row in $data">
                 <td title="'ANTIGEN'">{{ row.vaccine }}</td>
-                <td title="'Months Of Stock'">{{  }}</td>
-                <td title="'Refill Rate By NMS'">{{((row.ordered/row.received)*100)| number:0  }}%</td>
+                <td title="'Months Of Stock'">{{ row.Months_stock }}</td>
+                <td title="'Refill Rate By NMS'">{{row.Refill_rate| number:0  }}%</td>
                 <td title="'Vaccine Utilised'">{{ row.uptake_rate | number:0 }}%</td>
             </tr>
         </table>
 
     </div>
 
+    <br>
     <div class="col-md-6">
 
-        <table ng-table="vm.tableParamsAlldistricts" class="row-border hover table table-condensed table-striped" show-filter="true">
-
-            <tr ng-repeat="row in $data">
-                <td title="'Number Of Antigens Stocked Out'"></td>
-
-            </tr>
-        </table>
+         <table class="row-border hover table table-condensed table-striped">
+                <td>
+                    <span class="quality_test__description">{{"Number Of Antigens Stocked Out" }}</span>
+                    <span class="quality_test__metric"> {{child.Antigen_stockedout}} </span>
+                </td>
+         </table>
     </div>
 </div>

@@ -325,7 +325,7 @@ angular.module('dashboard')
                     {seriesUptake.push([vm.data[i].month, 0])}
                     else
                     {
-                        var uptakeRate = Math.ceil(vm.data[i].consumed/vm.data[i].received*100);
+                        var uptakeRate = Math.ceil(vm.data[i].consumed/(vm.data[i].received+vm.data[i].at_hand)*100);
                         seriesUptake.push([vm.data[i].month, uptakeRate])
                     }
                     if (vm.data[i].month == MonthService.getMonthNumber(endMonth.split(" ")[0])){
