@@ -7,8 +7,15 @@ angular.module('dashboard')
         shellScope.child = $scope;
 
 
+
+
         vm.getUnepiCoverage = function(period, district) {
             vm.endMonth=period;
+
+            for (var i = 0; i <= period ; i++)
+            {
+
+            }
 
 
             CoverageService.getUnepiCoverage(period, district)
