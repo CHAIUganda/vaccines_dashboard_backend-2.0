@@ -29,3 +29,4 @@ class VaccineDose(models.Model):
     access = models.FloatField(default=0)
     coverage_rate = models.FloatField(null=True, blank=True)
     planned_consumption = models.FloatField(default=0)
+

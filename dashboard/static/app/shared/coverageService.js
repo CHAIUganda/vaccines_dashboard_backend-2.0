@@ -42,7 +42,7 @@ angular.module('services').service('CoverageService', ['$http',
             }).then(handleResponse);
         };
         var getUnepiCoverage = function(period, district) {
-            return $http.get('coverage/api/vaccinedoses', {
+            return $http.get('coverage/api/coverageannualized', {
                 params: {
                     period: period,
 

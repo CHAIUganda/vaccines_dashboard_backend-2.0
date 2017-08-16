@@ -1,15 +1,21 @@
 <div ng-controller="UnepiController as vm">
 
+    <table class="row-border hover table table-condensed table-striped">
+                <td>
+                    <h4 class="text-center">{{child.district }} Immunisation Performance Report for {{child.periodMonth}} </h4>
+                </td>
+            </table>
+
         <h4 class="text-center">COVERAGE</h4>
  <div class="col-md-6">
 
         <table ng-table="vm.tableParamsDoses" class="row-border hover table table-condensed table-striped" show-filter="true">
 
             <tr ng-repeat="row in $data">
-                <td title="'Antigen'">{{row.vaccine__name }}</td>
-                <td title="'Planned monthly immunisations'">{{row.planned_consumption }}</td>
-                <td title="'Monthly Coverage'">{{row.coverage_rate | number:0 }}%</td>
-                <td title="'Annulised Coverage'">{{}}%</td>
+                <td title="'Antigen'">{{row.vaccine }}</td>
+                <td title="'Planned monthly immunisations'" class="text-center" >{{row.planned_consumption }}</td>
+                <td title="'Monthly Coverage'" class="text-center" >{{row.coverage_rate | number:0 }}%</td>
+                <td title="'Annulised Coverage'" class="text-center" >{{row.avoc | number:0 }}%</td>
             </tr>
         </table>
 
@@ -66,9 +72,9 @@
 
             <tr ng-repeat="row in $data">
                 <td title="'ANTIGEN'">{{ row.vaccine }}</td>
-                <td title="'Months Of Stock'">{{ row.Months_stock }}</td>
-                <td title="'Refill Rate By NMS'">{{row.Refill_rate| number:0  }}%</td>
-                <td title="'Vaccine Utilised'">{{ row.uptake_rate | number:0 }}%</td>
+                <td title="'Months Of Stock'" class="text-center" >{{ row.Months_stock }}</td>
+                <td title="'Refill Rate By NMS'" class="text-center" >{{row.Refill_rate| number:0  }}%</td>
+                <td title="'Vaccine Utilised'" class="text-center" >{{ row.uptake_rate | number:0 }}%</td>
             </tr>
         </table>
 

@@ -1,13 +1,13 @@
 from django.core.serializers.json import Serializer
+from django.core import serializers
 from django.db.models import Sum, Case, Value, When, Avg, FloatField, IntegerField, Count
 from django.db.models.expressions import F, Q, ExpressionWrapper
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from cold_chain.helpers import *
 from coverage.models import *
-import itertools
-from collections import defaultdict
-from itertools import chain
+from django.db import connections
+
 
 class DHIS2VaccineDoses(APIView):
     def get(self, request):
@@ -44,10 +44,7 @@ class VaccineDoses(APIView):
         district = request.query_params.get('district', None)
         vaccine = request.query_params.get('vaccine', None)
         period = request.query_params.get('period', DHIS2VaccineDoseDataset.objects.all().order_by('period').last().period)
-        endPeriod = period
 
-        year = int(str(period)[0:4])
-        startPeriod = '%s%02d' % (year, 1)
         args = {}
 
         if district:
@@ -71,7 +68,7 @@ class VaccineDoses(APIView):
                                         output_field=IntegerField()),
 
                       )\
-            .order_by('district__name')\
+            .order_by('vaccine__name')\
             .values(
             'period',
             'vaccine__name',
@@ -85,73 +82,83 @@ class VaccineDoses(APIView):
             'planned_consumption',
             'Not_immunized',
             'access',
-            'Red_category'
+            'Red_category',
+
         )
 
-        args1 = {}
-
-        if district:
-            args1.update({'district__name': district})
-
-        if vaccine:
-            args1.update({'vaccine__name': vaccine})
-
-        if startPeriod:
-            args1.update({'period__gte': startPeriod})
-
-        if endPeriod:
-            args1.update({'period__lte': endPeriod})
+        return Response(summary)
 
 
-        #summary = VaccineDose.objects.filter(**args1)
-        temp = VaccineDose.objects.filter(**args1)\
-            .values('vaccine__name')\
-            .annotate(avoc=Avg('coverage_rate'))\
-            .order_by('district__name')\
+class CoverageAnnualized(APIView):
 
-
-
-        mylist = chain(summary, temp),
-        return Response(mylist)
-
-
-class AnnualizedCoverage(APIView):
     def get(self, request):
         district = request.query_params.get('district', None)
-        vaccine = request.query_params.get('vaccine', None)
         period = request.query_params.get('period', DHIS2VaccineDoseDataset.objects.all().order_by('period').last().period)
         endPeriod = period
 
         year = int(str(period)[0:4])
         startPeriod = '%s%02d' % (year, 1)
 
-        args = {}
+        def dictfetchall(cursor):
+
+         columns = [col[0] for col in cursor.description]
+         return [
+          dict(zip(columns, row))
+          for row in cursor.fetchall()
+         ]
+        cursor = connections['default'].cursor()
+
+        mysql= """ SELECT
+              a.id,
+              a.period,
+              a.drop_out_rate,
+              a.coverage_rate,
+              a.first_dose,
+              a.last_dose as consumed,
+              a.last_dose,
+              a.under_immunized,
+              a.planned_consumption,
+              a.access,
+              (a.planned_consumption - a.last_dose) as not_immunized,
+              (case
+                when (a.access >= 90) and (a.drop_out_rate between 0 and 10) then 1
+                when (a.access >= 90) and (a.drop_out_rate < 0) or (a.drop_out_rate > 10) then 2
+                when (a.access <= 90) and (a.drop_out_rate between 0 and 10) then 3
+                when (a.access <= 90) and (a.drop_out_rate < 0) or (a.drop_out_rate > 10) then 4
+               end
+              ) as red_category,
+              d.name AS district,
+              v.name AS vaccine,
+              (SELECT
+              AVG(x.coverage_rate) as avoc
+            FROM
+              public.coverage_vaccinedose x,
+              public.dashboard_district y,
+              public.dashboard_vaccine z
+            WHERE
+              x.district_id = y.id AND
+              x.vaccine_id = z.id AND
+              x.period BETWEEN %s AND %s AND
+              x.district_id = a.district_id AND
+              x.vaccine_id = a.vaccine_id
+            GROUP BY
+              z.name, y.name
+              ) AS avoc
+            FROM
+              public.coverage_vaccinedose a,
+              public.dashboard_district d,
+              public.dashboard_vaccine v
+            WHERE
+              a.vaccine_id = v.id AND
+              a.district_id = d.id AND
+              a.period = %s"""
 
         if district:
-            args.update({'district__name': district})
+            myquery = mysql + " AND d.name = '%s'" % district
+            cursor.execute(myquery, [startPeriod, endPeriod, period])
+        else:
+            cursor.execute(mysql, [startPeriod, endPeriod, period])
 
-        if vaccine:
-            args.update({'vaccine__name': vaccine})
+        result = dictfetchall(cursor)
+        return Response(result)
 
-        if startPeriod:
-            args.update({'period__gte': startPeriod})
-
-        if endPeriod:
-            args.update({'period__lte': endPeriod})
-
-
-        summary = VaccineDose.objects.filter(**args) \
-            .order_by('district__name')\
-            .values(
-            'period',
-            'vaccine__name',
-            'district__name',
-            'coverage_rate',
-
-        )
-
-        temp = summary.values('vaccine__name').annotate(avoc=Avg('coverage_rate'))
-
-
-
-        return Response(temp)

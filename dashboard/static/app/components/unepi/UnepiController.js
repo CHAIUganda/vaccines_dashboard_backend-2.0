@@ -1,22 +1,24 @@
 angular.module('dashboard')
-    .controller('UnepiController', ['$scope', 'CoverageService','StockService', '$rootScope', 'NgTableParams', 'FilterService',
-    function($scope, CoverageService, StockService, $rootScope, NgTableParams, FilterService)
+    .controller('UnepiController', ['$scope', 'CoverageService','StockService', 'MonthService', '$rootScope', 'NgTableParams', 'FilterService',
+    function($scope, CoverageService, StockService, MonthService, $rootScope, NgTableParams, FilterService)
     {
         var vm = this;
         var shellScope = $scope.$parent;
         shellScope.child = $scope;
 
-
+        function periodDisplay(period)
+        {
+            var month = parseInt(period.slice(4,6));
+            return MonthService.getMonthName(month) + " " + period.slice(0,4)
+        }
 
 
         vm.getUnepiCoverage = function(period, district) {
             vm.endMonth=period;
 
             for (var i = 0; i <= period ; i++)
-            {
-
-            }
-
+            {}
+            shellScope.child.periodMonth = periodDisplay(vm.endMonth);
 
             CoverageService.getUnepiCoverage(period, district)
                 .then(function (data) {
@@ -38,6 +40,7 @@ angular.module('dashboard')
                         counts: [],
                         data: tabledataAlldoses,
                     });
+                    shellScope.child.district = district;
 
                     var Pent3 =[];
                     var pc3 = [];
@@ -47,15 +50,15 @@ angular.module('dashboard')
                     shellScope.child.category = 0;
 
                     for (var i = 0; i < vm.data.length ; i++){
-                        if (vm.data[i].vaccine__name == "PENTA"){
+                        if (vm.data[i].vaccine == "PENTA"){
                             Pent3 = vm.data[i].coverage_rate
                             shellScope.child.dropout_Penta = vm.data[i].drop_out_rate
-                            shellScope.child.category = vm.data[i].Red_category
+                            shellScope.child.category = vm.data[i].red_category
                         }
-                        else if (vm.data[i].vaccine__name == "PCV"){
+                        else if (vm.data[i].vaccine == "PCV"){
                             pc3 = vm.data[i].coverage_rate
                         }
-                        else if (vm.data[i].vaccine__name == "HPV"){
+                        else if (vm.data[i].vaccine == "HPV"){
                             shellScope.child.dropout_hpv = vm.data[i].drop_out_rate
                         }
                         shellScope.child.Gap = Pent3 - pc3;

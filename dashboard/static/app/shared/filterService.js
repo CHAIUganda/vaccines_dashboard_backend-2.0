@@ -40,7 +40,7 @@ angular.module('services').service('FilterService', ['$http',
             return $http.get('planning/api/fundactivities').then(handleResponse);
         };
         var getUnepiCoverage=function(){
-            return $http.get('coverage/api/vaccinedose').then(handleResponse);
+            return $http.get('coverage/api/coverageannualized').then(handleResponse);
         };
         var getUnepiStock=function(){
             return $http.get('api/stock/athandbydistrict').then(handleResponse);
