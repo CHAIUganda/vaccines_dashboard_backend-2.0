@@ -1,12 +1,16 @@
 <div ng-controller="UnepiController as vm">
 
-    <table class="row-border hover table table-condensed table-striped">
-                <td>
-                    <h4 class="text-center">{{child.district }} Immunisation Performance Report for {{child.periodMonth}} </h4>
-                </td>
-            </table>
+    <td>
+        <h4 class="text-center"><b>{{child.district }} Immunisation Performance Report for {{child.periodMonth}} </b></h4>
+    </td>
+    <br>
 
-        <h4 class="text-center">COVERAGE</h4>
+    <table class="row-border hover table table-condensed table-striped">
+        <td>
+            <h4 class="text-center"><b>COVERAGE</b></h4>
+        </td>
+    </table>
+
  <div class="col-md-6">
 
         <table ng-table="vm.tableParamsDoses" class="row-border hover table table-condensed table-striped" show-filter="true">
@@ -55,17 +59,15 @@
                 </td>
             </table>
         </div>
-        <br>
-        <br>
-
-        <span class="quality_test__description">
-            <br>
-        <br>
-        </span>
-
 
     </div>
-    <h4 class="text-center">STOCK MANAGEMENT</h4>
+
+    <table class="row-border hover table table-condensed table-striped">
+        <td>
+            <h4 class="text-center"><b>STOCK MANAGEMENT</b></h4>
+        </td>
+    </table>
+
 
     <div class="col-md-6">
         <table ng-table="vm.tableParamsStock" class="row-border hover table table-condensed table-striped" show-filter="true">
@@ -90,4 +92,5 @@
                 </td>
          </table>
     </div>
+
 </div>

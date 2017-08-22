@@ -10,26 +10,26 @@ def user_is_super_user(request):
     return request.user and request.user.is_superuser
 
 
-Menu.add_item("main", MenuItem("Stock Management",
-                               reverse("home"),
-                               weight=10))
+Menu.add_item("main", MenuItem("UNEPI",
+                               "#/unepi/download",
+                                weight=1))
 
-Menu.add_item("main", MenuItem("Cold Chain",
-                               "#/fridge/facilities",
-                               weight=10))
-
-Menu.add_item("main", MenuItem("Coverage",
+Menu.add_item("main", MenuItem("Coverage".upper(),
                                "#/coverage/coverage",
-                               weight=10))
+                               weight=1))
+
+Menu.add_item("main", MenuItem("Stock Management".upper(),
+                               "#/stock/stockonhand",
+                               weight=1))
+
+Menu.add_item("main", MenuItem("Cold Chain".upper(),
+                               "#/fridge/facilities",
+                               weight=1))
+
 '''
 Menu.add_item("main", MenuItem("Planning",
                                "#/planning/awp",
                               weight=10))
-
-Menu.add_item("main", MenuItem("UNEPI",
-                               "#/unepi/download",
-                            weight=10))
-
 
 Menu.add_item("main", MenuItem("CVS",
                                "#",

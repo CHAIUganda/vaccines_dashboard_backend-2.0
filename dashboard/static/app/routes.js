@@ -1,6 +1,6 @@
 dashboard.config(["$stateProvider", "$urlRouterProvider", function($stateProvider, $urlRouterProvider) {
         $urlRouterProvider.otherwise("/");
-        $urlRouterProvider.when("", "stock/stockonhand");
+        $urlRouterProvider.when("", "unepi/download");
 
         $stateProvider
             .state("coverage", {
@@ -44,11 +44,6 @@ dashboard.config(["$stateProvider", "$urlRouterProvider", function($stateProvide
                 templateUrl: "static/app/components/stock/distribution.html",
                 controller: "StockController"
             })
-            //.state("stock.consumption", {
-            //    url: "/consumption",
-            //    templateUrl: "static/app/components/stock/consumption.html",
-            //    controller: "StockController"
-            //})
             .state("stock.monthsleft", {
                 url: "/monthsleft",
                 templateUrl: "static/app/components/stock/monthsstockleft.html",
