@@ -10,20 +10,15 @@ angular.module('dashboard')
         var shell = this;
 
         //=== Stock Management =======
-        shell.startMonth = shell.startMonth ? shell.startMonth.name : "Dec 2016";
-        shell.endMonth = shell.endMonth ? shell.endMonth.name : "Dec 2016";
+        shell.startMonth = shell.startMonth ? shell.startMonth.name : "Nov 2015";
+        shell.endMonth = shell.endMonth ? shell.endMonth.name : "Dec 2015";
         shell.selectedVaccine = "";
         shell.selectedDistrict = "";
         shell.defaultPeriod = "";
 
         FilterService.getMonths().then(function(data) {
             shell.months = data;
-            for (var i in shell.months){
-                if (shell.months[i].periodMonth == data.period){
-                    shell.startMonth = shell.months[i - 11];
-                }
-            }
-            //shell.startMonth = shell.months[0];
+            shell.startMonth = shell.months[0];
             //shell.endMonth = shell.months[defaultMonth];
         });
 
