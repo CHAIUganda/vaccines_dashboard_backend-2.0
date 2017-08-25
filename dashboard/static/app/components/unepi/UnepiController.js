@@ -23,9 +23,26 @@ angular.module('dashboard')
             CoverageService.getUnepiCoverage(period, district)
                 .then(function (data) {
 
+
+
                     var tabledataAlldoses = [];
 
                     vm.data = angular.copy(data);
+
+                    for (var j = 0; j < vm.data.length ; j++){
+                        if (vm.data[j].vaccine == "PENTA"){
+                            vm.data[j].vaccine="DPT3"
+                        }
+                        else if  (vm.data[j].vaccine == "HPV")  {
+                            vm.data[j].vaccine="HPV2"
+                        }
+                        else if  (vm.data[j].vaccine == "PCV")  {
+                            vm.data[j].vaccine="PCV3"
+                        }
+                        else if  (vm.data[j].vaccine == "TT")  {
+                            vm.data[j].vaccine="TT2+Pregnant"
+                        }
+                    }
 
                     tabledataAlldoses = vm.data.filter(
                         function (value) {
@@ -78,7 +95,11 @@ angular.module('dashboard')
                     var tabledataAllstock = [];
                     vm.data = angular.copy(data);
 
-
+                    for (var j = 0; j < vm.data.length ; j++){
+                        if (vm.data[j].vaccine == "PENTA"){
+                            vm.data[j].vaccine="DPT3"
+                        }
+                    }
 
                     tabledataAllstock = vm.data.filter(
                         function (value) {
@@ -107,6 +128,8 @@ angular.module('dashboard')
 
                 });
         };
+
+
 
 
         $scope.$on('refresh', function(e, startMonth, endMonth, district, vaccine) {
