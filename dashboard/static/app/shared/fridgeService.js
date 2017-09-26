@@ -90,6 +90,31 @@ angular.module('services').service('FridgeService', ['$http',
             }).then(handleResponse);
         };
 
+        var getFridgeCapacityMetrics = function(data) {
+            var surp = 0;
+            var sufficient = 0;
+            var shortage = 0;
+
+            for(var i=0; i < data.length; i++){
+                var surplusValue = data[i].surplus
+
+                if(surplusValue > 30) {
+                    surp++;
+                } else if(surplusValue <30 && surplusValue >= 0) {
+                    sufficient++;
+                } else if(surplusValue < 0) {
+                    shortage++;
+                }
+            }
+
+            return {
+                'surplus': surp,
+                'sufficient': sufficient,
+                'shortage': shortage,
+                'total': surp + sufficient + shortage
+            };
+        };
+
         return {
             "getFridgeCapacity": getFridgeCapacity,
             "getFridgeDistrictCapacity": getFridgeDistrictCapacity,
@@ -98,7 +123,8 @@ angular.module('services').service('FridgeService', ['$http',
             "getFridgeImmunizingFacility": getFridgeImmunizingFacility,
             "getFridgeDistrictRefrigerator":getFridgeDistrictRefrigerator,
             "getFridgeFacilityRefrigerator":getFridgeFacilityRefrigerator,
-            "getFridgeDistrictImmunizingFacility":getFridgeDistrictImmunizingFacility
+            "getFridgeDistrictImmunizingFacility":getFridgeDistrictImmunizingFacility,
+            "getFridgeCapacityMetrics": getFridgeCapacityMetrics
         };
     }
 ])

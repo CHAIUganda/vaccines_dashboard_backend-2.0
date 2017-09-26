@@ -1,6 +1,11 @@
 angular.module('dashboard')
-    .controller('UnepiController', ['$scope', 'CoverageService','StockService', 'MonthService', '$rootScope', 'NgTableParams', 'FilterService',
-    function($scope, CoverageService, StockService, MonthService, $rootScope, NgTableParams, FilterService)
+.controller('UnepiController', [
+    '$scope', 'CoverageService','StockService',
+    'MonthService', '$rootScope', 'NgTableParams',
+    'FilterService', 'FridgeService',
+    function($scope, CoverageService, StockService,
+        MonthService, $rootScope, NgTableParams,
+        FilterService, FridgeService)
     {
         var vm = this;
         var shellScope = $scope.$parent;
@@ -22,26 +27,26 @@ angular.module('dashboard')
             shellScope.child.periodMonth = periodDisplay(vm.endMonth);
 
             CoverageService.getUnepiCoverage(period, district, vaccine)
-                .then(function (data) {
+            .then(function (data) {
 
-                    vm.vaccine = "";
-
-
-                    if (vm.vaccine = "PENTA"){
-                        vaccine = 'DPT3'
-
-                        }
+                vm.vaccine = "";
 
 
-                    var tabledataAlldoses = [];
+                if (vm.vaccine = "PENTA"){
+                    vaccine = 'DPT3'
 
-                    vm.data = angular.copy(data);
+                }
 
 
-                    tabledataAlldoses = vm.data.filter(
-                        function (value) {
-                            return value;
-                        });
+                var tabledataAlldoses = [];
+
+                vm.data = angular.copy(data);
+
+
+                tabledataAlldoses = vm.data.filter(
+                    function (value) {
+                        return value;
+                    });
 
                     vm.tableParamsDoses = new NgTableParams({
                         page: 1,
@@ -77,13 +82,13 @@ angular.module('dashboard')
 
 
                 });
-        };
+            };
 
-        vm.getUnepiStock = function(endMonth, district) {
+            vm.getUnepiStock = function(endMonth, district) {
 
-            vm.endMonth = vm.endMonth ? vm.endMonth : "";
+                vm.endMonth = vm.endMonth ? vm.endMonth : "";
 
-            StockService.getUnepiStock( endMonth, district)
+                StockService.getUnepiStock( endMonth, district)
                 .then(function(data) {
 
                     var tabledataAllstock = [];
@@ -96,40 +101,55 @@ angular.module('dashboard')
                             return value;
                         });
 
-                    vm.tableParamsStock = new NgTableParams({
-                        page: 1,
-                        count: 10
-                    }, {
-                        filterDelay: 0,
-                        counts: [],
-                        data: tabledataAllstock,
-                    });
+                        vm.tableParamsStock = new NgTableParams({
+                            page: 1,
+                            count: 10
+                        }, {
+                            filterDelay: 0,
+                            counts: [],
+                            data: tabledataAllstock,
+                        });
 
-                    shellScope.child.Antigen_stockedout = 0;
+                        shellScope.child.Antigen_stockedout = 0;
 
-                    for (var i = 0; i < vm.data.length ; i++){
-                        if (vm.data[i].Months_stock == 0){
-                            shellScope.child.Antigen_stockedout++;
+                        for (var i = 0; i < vm.data.length ; i++){
+                            if (vm.data[i].Months_stock == 0){
+                                shellScope.child.Antigen_stockedout++;
+
+                            }
+
 
                         }
 
+                    });
+                };
+
+                vm.getUnepiColdChain = function(endMonth, district) {
+
+                    //Change the district name to match Cold Chain District filter
+                    //Probably a bug that can be solved in the future
+                    district = district.replace(" District", "").toUpperCase()
+                    FridgeService.getFridgeFacilityCapacity(undefined, endMonth, district, undefined)
+                    .then(function(data) {
+                        var metrics = FridgeService.getFridgeCapacityMetrics(data);
+
+                        vm.cold_chain_surplus = metrics.surplus;
+                        vm.cold_chain_sufficient = metrics.sufficient;
+                        vm.cold_chain_shortage = metrics.shortage;
+                    });
+                };
+
+
+                $scope.$on('refresh', function(e, startMonth, endMonth, district, vaccine) {
+                    if(startMonth.name && endMonth.name && district.name && vaccine.name)
+                    {
+
+                        vm.getUnepiCoverage(endMonth.period, district.name, vaccine.name);
+                        vm.getUnepiStock(endMonth.name, district.name, vaccine.name);
+                        vm.getUnepiColdChain(endMonth.name, district.name);
 
                     }
-
                 });
-        };
 
-
-        $scope.$on('refresh', function(e, startMonth, endMonth, district, vaccine) {
-            if(startMonth.name && endMonth.name && district.name && vaccine.name)
-                {
-
-                    vm.getUnepiCoverage(endMonth.period, district.name, vaccine.name);
-                    vm.getUnepiStock(endMonth.name, district.name, vaccine.name);
-
-
-                }
-            });
-
-        }
-    ]);
+            }
+        ]);
