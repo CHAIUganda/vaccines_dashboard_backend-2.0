@@ -124,16 +124,18 @@ angular.module('dashboard')
                     });
                 };
 
-                vm.getUnepiColdChain = function(endMonth, district) {
+                /*
+                Cold Chain & Unepi District filters used different data sources
+                For that reason to use the Cold Chain api, the district name
+                has to be reformatted to match the cold chain district filter.
+                @Todo: Standardize the district values
+                */
+                vm.parseDistrict = function(district) {
+                    return district.replace(" District", "").toUpperCase();
+                };
 
-                    //Change the district name to match Cold Chain District filter
-                    //Probably a bug that can be solved in the future
-                    district = district.replace(" District", "").toUpperCase()
-
-                    var per = function(value, total) {
-                        var percentage = (value/total) * 100;
-                        return Math.round(percentage * 10) / 10;
-                    }
+                vm.getUnepiColdChainCapacity = function(endMonth, district) {
+                    district = vm.parseDistrict(district);
 
                     FridgeService.getFridgeFacilityCapacity(undefined, endMonth, district, undefined)
                     .then(function(data) {
@@ -141,12 +143,30 @@ angular.module('dashboard')
 
                         shellScope.child.cold_chain_total = metrics.total;
 
-                        shellScope.child.cold_chain_surplus = per(metrics.surplus, metrics.total);
-                        shellScope.child.cold_chain_sufficient = per(metrics.sufficient, metrics.total);
-                        shellScope.child.cold_chain_shortage = per(metrics.shortage, metrics.total);
+                        shellScope.child.cold_chain_surplus =
+                            appHelpers.per(metrics.surplus, metrics.total);
+
+                        shellScope.child.cold_chain_sufficient =
+                            appHelpers.per(metrics.sufficient, metrics.total);
+
+                        shellScope.child.cold_chain_shortage =
+                            appHelpers.per(metrics.shortage, metrics.total);
                     });
                 };
 
+                vm.getUnepiColdChainFunctionality = function(endMonth, district) {
+                    district = vm.parseDistrict(district);
+
+                    FridgeService.getFridgeDistrictRefrigerator(undefined, endMonth, district, undefined)
+                    .then(function(data) {
+
+                        var total_working = data[0].number_existing - data[0].not_working;
+                        var total_existing = data[0].number_existing
+
+                        shellScope.child.cold_chain_functionality =
+                            appHelpers.per(total_working, total_existing);
+                    });
+                };
 
                 $scope.$on('refresh', function(e, startMonth, endMonth, district, vaccine) {
                     if(startMonth.name && endMonth.name && district.name && vaccine.name)
@@ -154,8 +174,8 @@ angular.module('dashboard')
 
                         vm.getUnepiCoverage(endMonth.period, district.name, vaccine.name);
                         vm.getUnepiStock(endMonth.name, district.name, vaccine.name);
-                        vm.getUnepiColdChain(endMonth.name, district.name);
-
+                        vm.getUnepiColdChainCapacity(endMonth.name, district.name);
+                        vm.getUnepiColdChainFunctionality(endMonth.name, district.name);
                     }
                 });
 
