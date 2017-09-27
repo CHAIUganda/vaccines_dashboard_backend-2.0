@@ -1,186 +1,205 @@
-
+<button class="pull-right" ng-click="downloadPDF()">Download Pdf</button>
+<div style="clear:both"></div>
 <div ng-controller="UnepiController as vm">
+    <div id="unepiReport" style="background-color:#ffffff;">
+        <div class="text-center">
+                <p>
+                    <br>
+                    <h4><b>{{child.district }} Immunisation Performance Report for {{child.periodMonth}} </b></h4>
+                <br>
+                </p>
+            </div>
 
-    <td>
-        <h4 class="text-center"><b>{{child.district }} Immunisation Performance Report for {{child.periodMonth}} </b></h4>
-    </td>
-    <br>
-
-    <table class="row-border hover table table-condensed table-striped">
-        <td>
-            <h4 class="text-center"><b>COVERAGE</b></h4>
-        </td>
-    </table>
-
- <div class="col-md-6">
-
-        <table ng-table="vm.tableParamsDoses" class="row-border hover table table-condensed table-striped" show-filter="true">
-            <thead>
-                <tr>
-                    <th>Antigen</th>
-                    <th>Planned monthly immunisations</th>
-                    <th>Monthly Coverage</th>
-                    <th>Annulised Coverage</th>
-                </tr>
-            </thead>
-            <tbody>
-            <tr ng-repeat="row in $data">
-                <td title="'Antigen'">{{row.vaccine }}</td>
-                <td title="'Planned monthly immunisations'" class="text-center" >{{row.planned_consumption }}</td>
-                <td title="'Monthly Coverage'" class="text-center" ng-if="row.coverage_rate >= 90" ng-style="{'background-color':'green'} ">{{row.coverage_rate | number:0 }}%</td>
-                <td title="'Monthly Coverage'" class="text-center" ng-if="row.coverage_rate >= 50 && row.coverage_rate <=70" ng-style="{'background-color':'yellow'}">{{row.coverage_rate | number:0 }}%</td>
-                <td title="'Monthly Coverage'" class="text-center" ng-if="row.coverage_rate >= 70 && row.coverage_rate <= 90 " ng-style="{'background-color':'#C3FDB8'}">{{row.coverage_rate | number:0 }}%</td>
-                <td title="'Monthly Coverage'" class="text-center" ng-if="row.coverage_rate <= 50" ng-style="{'background-color':'red'}">{{row.coverage_rate | number:0 }}%</td>
-
-                <td title="'Annulised Coverage'" class="text-center" ng-if="row.avoc >= 90" ng-style="{'background-color':'green'}">{{row.avoc | number:0 }}%</td>
-                <td title="'Annulised Coverage'" class="text-center" ng-if="row.avoc >= 50 && row.avoc <=70" ng-style="{'background-color':'yellow'}">{{row.avoc | number:0 }}%</td>
-                <td title="'Annulised Coverage'" class="text-center" ng-if="row.avoc >= 70 && row.avoc <= 90 " ng-style="{'background-color':'#C3FDB8'}">{{row.avoc | number:0 }}%</td>
-                <td title="'Annulised Coverage'" class="text-center" ng-if="row.avoc <= 50" ng-style="{'background-color':'red'}">{{row.avoc | number:0 }}%</td>
+        <table class="row-border hover table table-condensed table-striped ">
+            <tr>
+                <td>
+                    <h4 class="text-center"><b>COVERAGE</b></h4>
+                </td>
             </tr>
-            </tbody>
         </table>
 
-    </div>
-    <br>
-    <div class="col-md-6">
         <div class="col-md-6">
-            <table class="row-border hover table table-condensed table-striped">
-                <td ng-if="child.dropout_Penta >= 0 && child.dropout_Penta <= 10" ng-style="{'background-color':'green'}">
-                    <span class="quality_test__description">{{"Drop Out Rate DPT1-3"}}</span>
-                    <span class="quality_test__metric"> {{child.dropout_Penta | number:0 }}% </span>
-                </td>
-                <td ng-if="child.dropout_Penta <0 || child.dropout_Penta >10" ng-style="{'background-color':'red'}">
-                    <span class="quality_test__description">{{"Drop Out Rate DPT1-3"}}</span>
-                    <span class="quality_test__metric"> {{child.dropout_Penta | number:0 }}% </span>
-                </td>
+
+            <table ng-table="vm.tableParamsDoses" class="row-border hover table table-condensed table-striped" show-filter="true">
+                <thead>
+                    <tr>
+                        <th>Antigen</th>
+                        <th>Planned monthly immunisations</th>
+                        <th>Monthly Coverage</th>
+                        <th>Annulised Coverage</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="row in $data">
+                        <td title="'Antigen'">{{row.vaccine }}</td>
+                        <td title="'Planned monthly immunisations'" class="text-center" >{{row.planned_consumption }}</td>
+                        <td title="'Monthly Coverage'" class="text-center" ng-if="row.coverage_rate >= 90" ng-style="{'background-color':'green'} ">{{row.coverage_rate | number:0 }}%</td>
+                        <td title="'Monthly Coverage'" class="text-center" ng-if="row.coverage_rate >= 50 && row.coverage_rate <=70" ng-style="{'background-color':'yellow'}">{{row.coverage_rate | number:0 }}%</td>
+                        <td title="'Monthly Coverage'" class="text-center" ng-if="row.coverage_rate >= 70 && row.coverage_rate <= 90 " ng-style="{'background-color':'#C3FDB8'}">{{row.coverage_rate | number:0 }}%</td>
+                        <td title="'Monthly Coverage'" class="text-center" ng-if="row.coverage_rate <= 50" ng-style="{'background-color':'red'}">{{row.coverage_rate | number:0 }}%</td>
+
+                        <td title="'Annulised Coverage'" class="text-center" ng-if="row.avoc >= 90" ng-style="{'background-color':'green'}">{{row.avoc | number:0 }}%</td>
+                        <td title="'Annulised Coverage'" class="text-center" ng-if="row.avoc >= 50 && row.avoc <=70" ng-style="{'background-color':'yellow'}">{{row.avoc | number:0 }}%</td>
+                        <td title="'Annulised Coverage'" class="text-center" ng-if="row.avoc >= 70 && row.avoc <= 90 " ng-style="{'background-color':'#C3FDB8'}">{{row.avoc | number:0 }}%</td>
+                        <td title="'Annulised Coverage'" class="text-center" ng-if="row.avoc <= 50" ng-style="{'background-color':'red'}">{{row.avoc | number:0 }}%</td>
+                    </tr>
+                </tbody>
             </table>
+
         </div>
+        <br>
         <div class="col-md-6">
+            <div class="col-md-6">
+                <table class="row-border hover table table-condensed table-striped">
+                    <td ng-if="child.dropout_Penta >= 0 && child.dropout_Penta <= 10" ng-style="{'background-color':'green'}">
+                        <span class="quality_test__description">{{"Drop Out Rate DPT1-3"}}</span>
+                        <span class="quality_test__metric"> {{child.dropout_Penta | number:0 }}% </span>
+                    </td>
+                    <td ng-if="child.dropout_Penta <0 || child.dropout_Penta >10" ng-style="{'background-color':'red'}">
+                        <span class="quality_test__description">{{"Drop Out Rate DPT1-3"}}</span>
+                        <span class="quality_test__metric"> {{child.dropout_Penta | number:0 }}% </span>
+                    </td>
+                </table>
+            </div>
+            <div class="col-md-6">
+                <table class="row-border hover table table-condensed table-striped">
+                    <td>
+                        <span class="quality_test__description">{{"Drop Out Rate HPV1-2"}}</span>
+                        <span class="quality_test__metric"> {{child.dropout_hpv | number:0 }}% </span>
+                    </td>
+                </table>
+            </div>
+            <div>
+                <table class="row-border hover table table-condensed table-striped">
+                    <td>
+                        <span class="quality_test__description">{{"dpt3-pcv3 gap" | uppercase}}</span>
+                        <span class="quality_test__metric"> {{child.Gap | number:0 }}% </span>
+                    </td>
+                </table>
+
+            </div>
+            <div>
+                <table class="row-border hover table table-condensed table-striped">
+                    <tr>
+                    <td ng-if="child.category == 1" ng-style="{'background-color':'green'}">
+                        <span class="quality_test__description">{{"RED CATEGORY" }}</span>
+                        <span class="quality_test__metric"> CAT{{child.category}} </span>
+                    </td>
+                    <td ng-if="child.category == 2" ng-style="{'background-color':'#C3FDB8'}">
+                        <span class="quality_test__description">{{"RED CATEGORY" }}</span>
+                        <span class="quality_test__metric"> CAT{{child.category}} </span>
+                    </td>
+                    <td ng-if="child.category == 3" ng-style="{'background-color':'yellow'}">
+                        <span class="quality_test__description">{{"RED CATEGORY" }}</span>
+                        <span class="quality_test__metric"> CAT{{child.category}} </span>
+                    </td>
+                    <td ng-if="child.category == 4" ng-style="{'background-color':'red'}">
+                        <span class="quality_test__description">{{"RED CATEGORY" }}</span>
+                        <span class="quality_test__metric"> CAT{{child.category}} </span>
+                    </td>
+                </tr>
+                </table>
+            </div>
+
+        </div>
+
         <table class="row-border hover table table-condensed table-striped">
-                <td>
-                    <span class="quality_test__description">{{"Drop Out Rate HPV1-2"}}</span>
-                    <span class="quality_test__metric"> {{child.dropout_hpv | number:0 }}% </span>
-                </td>
-            </table>
-        </div>
-        <div>
-            <table class="row-border hover table table-condensed table-striped">
-                <td>
-                    <span class="quality_test__description">{{"dpt3-pcv3 gap" | uppercase}}</span>
-                    <span class="quality_test__metric"> {{child.Gap | number:0 }}% </span>
-                </td>
-            </table>
-
-        </div>
-        <div>
-            <table class="row-border hover table table-condensed table-striped">
-                <td ng-if="child.category == 1" ng-style="{'background-color':'green'}">
-                    <span class="quality_test__description">{{"RED CATEGORY" }}</span>
-                    <span class="quality_test__metric"> CAT{{child.category}} </span>
-                </td>
-                <td ng-if="child.category == 2" ng-style="{'background-color':'#C3FDB8'}">
-                    <span class="quality_test__description">{{"RED CATEGORY" }}</span>
-                    <span class="quality_test__metric"> CAT{{child.category}} </span>
-                </td>
-                <td ng-if="child.category == 3" ng-style="{'background-color':'yellow'}">
-                    <span class="quality_test__description">{{"RED CATEGORY" }}</span>
-                    <span class="quality_test__metric"> CAT{{child.category}} </span>
-                </td>
-                <td ng-if="child.category == 4" ng-style="{'background-color':'red'}">
-                    <span class="quality_test__description">{{"RED CATEGORY" }}</span>
-                    <span class="quality_test__metric"> CAT{{child.category}} </span>
-                </td>
-
-            </table>
-        </div>
-
-    </div>
-
-    <table class="row-border hover table table-condensed table-striped">
-        <td>
-            <h4 class="text-center"><b>STOCK MANAGEMENT</b></h4>
-        </td>
-    </table>
-
-
-    <div class="col-md-6">
-        <table ng-table="vm.tableParamsStock" class="row-border hover table table-condensed table-striped" show-filter="true">
-            <thead>
-                <tr>
-                    <th>Antigen</th>
-                    <th>Months Of Stock</th>
-                    <th>Refill Rate By NMS</th>
-                    <th>Vaccine Utilised</th>
-                </tr>
-            </thead>
-            <tbody>
-            <tr ng-repeat="row in $data">
-                <td title="'ANTIGEN'">{{ row.vaccine }}</td>
-                <td title="'Months Of Stock'" class="text-center" ng-if="row.Months_stock >= 7" ng-style="{'background-color':'green'} ">{{row.Months_stock }}</td>
-                <td title="'Months Of Stock'" class="text-center" ng-if="row.Months_stock >= 3 && row.Months_stock <7" ng-style="{'background-color':'#C3FDB8'}">{{row.Months_stock}}</td>
-                <td title="'Months Of Stock'" class="text-center" ng-if="row.Months_stock >= 1 && row.Months_stock <3 " ng-style="{'background-color':'yellow'}">{{row.Months_stock}}</td>
-                <td title="'Months Of Stock'" class="text-center" ng-if="row.Months_stock == 0" ng-style="{'background-color':'red'}">{{row.Months_stock}}</td>
-
-
-                <td title="'Refill Rate By NMS'" class="text-center" ng-if="row.Refill_rate >= 90" ng-style="{'background-color':'green'} ">{{row.Refill_rate | number:0 }}%</td>
-                <td title="'Refill Rate By NMS'" class="text-center" ng-if="row.Refill_rate >= 50 && row.Refill_rate <=70" ng-style="{'background-color':'yellow'}">{{row.Refill_rate | number:0 }}%</td>
-                <td title="'Refill Rate By NMS'" class="text-center" ng-if="row.Refill_rate >= 70 && row.Refill_rate <= 90 " ng-style="{'background-color':'#C3FDB8'}">{{row.Refill_rate | number:0 }}%</td>
-                <td title="'Refill Rate By NMS'" class="text-center" ng-if="row.Refill_rate <= 50" ng-style="{'background-color':'red'}">{{row.Refill_rate | number:0 }}%</td>
-
-                <td title="'Vaccine Utilised'" class="text-center" ng-if="row.uptake_rate >= 90" ng-style="{'background-color':'green'} ">{{row.uptake_rate | number:0 }}%</td>
-                <td title="'Vaccine Utilised'" class="text-center" ng-if="row.uptake_rate >= 50 && row.uptake_rate <=70" ng-style="{'background-color':'yellow'}">{{row.uptake_rate | number:0 }}%</td>
-                <td title="'Vaccine Utilised'" class="text-center" ng-if="row.uptake_rate >= 70 && row.uptake_rate <= 90 " ng-style="{'background-color':'#C3FDB8'}">{{row.uptake_rate | number:0 }}%</td>
-                <td title="'Vaccine Utilised'" class="text-center" ng-if="row.uptake_rate <= 50" ng-style="{'background-color':'red'}">{{row.uptake_rate | number:0 }}%</td>
-            </tr>
-            </tbody>
+            <tr>
+            <td>
+                <h4 class="text-center"><b>STOCK MANAGEMENT</b></h4>
+            </td>
+        </tr>
         </table>
 
-    </div>
 
-    <br>
-    <div class="col-md-6">
+        <div class="col-md-6">
+            <table ng-table="vm.tableParamsStock" class="row-border hover table table-condensed table-striped" show-filter="true">
+                <thead>
+                    <tr>
+                        <th>Antigen</th>
+                        <th>Months Of Stock</th>
+                        <th>Refill Rate By NMS</th>
+                        <th>Vaccine Utilised</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="row in $data">
+                        <td title="'ANTIGEN'">{{ row.vaccine }}</td>
+                        <td title="'Months Of Stock'" class="text-center" ng-if="row.Months_stock >= 7" ng-style="{'background-color':'green'} ">{{row.Months_stock }}</td>
+                        <td title="'Months Of Stock'" class="text-center" ng-if="row.Months_stock >= 3 && row.Months_stock <7" ng-style="{'background-color':'#C3FDB8'}">{{row.Months_stock}}</td>
+                        <td title="'Months Of Stock'" class="text-center" ng-if="row.Months_stock >= 1 && row.Months_stock <3 " ng-style="{'background-color':'yellow'}">{{row.Months_stock}}</td>
+                            <td title="'Months Of Stock'" class="text-center" ng-if="row.Months_stock == 0" ng-style="{'background-color':'red'}">{{row.Months_stock}}</td>
 
-         <table class="row-border hover table table-condensed table-striped">
+
+                            <td title="'Refill Rate By NMS'" class="text-center" ng-if="row.Refill_rate >= 90" ng-style="{'background-color':'green'} ">{{row.Refill_rate | number:0 }}%</td>
+                            <td title="'Refill Rate By NMS'" class="text-center" ng-if="row.Refill_rate >= 50 && row.Refill_rate <=70" ng-style="{'background-color':'yellow'}">{{row.Refill_rate | number:0 }}%</td>
+                            <td title="'Refill Rate By NMS'" class="text-center" ng-if="row.Refill_rate >= 70 && row.Refill_rate <= 90 " ng-style="{'background-color':'#C3FDB8'}">{{row.Refill_rate | number:0 }}%</td>
+                            <td title="'Refill Rate By NMS'" class="text-center" ng-if="row.Refill_rate <= 50" ng-style="{'background-color':'red'}">{{row.Refill_rate | number:0 }}%</td>
+
+                            <td title="'Vaccine Utilised'" class="text-center" ng-if="row.uptake_rate >= 90" ng-style="{'background-color':'green'} ">{{row.uptake_rate | number:0 }}%</td>
+                            <td title="'Vaccine Utilised'" class="text-center" ng-if="row.uptake_rate >= 50 && row.uptake_rate <=70" ng-style="{'background-color':'yellow'}">{{row.uptake_rate | number:0 }}%</td>
+                            <td title="'Vaccine Utilised'" class="text-center" ng-if="row.uptake_rate >= 70 && row.uptake_rate <= 90 " ng-style="{'background-color':'#C3FDB8'}">{{row.uptake_rate | number:0 }}%</td>
+                            <td title="'Vaccine Utilised'" class="text-center" ng-if="row.uptake_rate <= 50" ng-style="{'background-color':'red'}">{{row.uptake_rate | number:0 }}%</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+            </div>
+
+            <br>
+            <div class="col-md-6">
+
+                <table class="row-border hover table table-condensed table-striped">
+                    <tr>
+                    <td>
+                        <span class="quality_test__description">{{"Number Of Antigens Stocked Out" }}</span>
+                        <span class="quality_test__metric"> {{child.Antigen_stockedout}} </span>
+                    </td>
+                </tr>
+                </table>
+            </div>
+
+            <table class="row-border hover table table-condensed table-striped">
+                <tr>
                 <td>
-                    <span class="quality_test__description">{{"Number Of Antigens Stocked Out" }}</span>
-                    <span class="quality_test__metric"> {{child.Antigen_stockedout}} </span>
+                    <h4 class="text-center"><b>COLD CHAIN</b></h4>
                 </td>
-         </table>
+            </tr>
+            </table>
+
+            <div class="col-md-6">
+
+                <table class="row-border hover table table-condensed table-striped">
+                    <tr>
+                    <td>
+                        <span class="quality_test__description">{{"Cold Chain Equipment Functionality (DVS & Facilities)" }}</span>
+                        <span class="quality_test__metric"><br> {{ cold_chain_functionality }}% </span>
+                    </td>
+                </tr>
+                </table>
+            </div>
+
+            <div class="col-md-6">
+
+                <table class="row-border hover table table-condensed table-striped">
+                    <tr>
+                    <td>
+                        <div class="quality_test__description">
+                            Cold Chain Capacity:(DVS & Facilities)
+                            (n={{ child.cold_chain_total }})
+                        </div>
+                        <div><br>Shortage: <strong>{{child.cold_chain_shortage}}%</strong> </div>
+                        <div>Sufficient: <strong>{{child.cold_chain_sufficient}}%</strong> </div>
+                        <div>Surplus: <strong>{{child.cold_chain_surplus}}%</strong> </div>
+                    </td>
+                </tr>
+                </table>
+            </div>
+            <div style="clear:both;"></div>
+        </div>
     </div>
 
-    <table class="row-border hover table table-condensed table-striped">
-        <td>
-            <h4 class="text-center"><b>COLD CHAIN</b></h4>
-        </td>
-    </table>
 
-    <div class="col-md-6">
-
-         <table class="row-border hover table table-condensed table-striped">
-                <td>
-                    <span class="quality_test__description">{{"Cold Chain Equipment Functionality (DVS & Facilities)" }}</span>
-                    <span class="quality_test__metric"><br> {{ cold_chain_functionality }}% </span>
-                </td>
-         </table>
-    </div>
-
-    <div class="col-md-6">
-
-         <table class="row-border hover table table-condensed table-striped">
-                <td>
-                    <div class="quality_test__description">
-                        Cold Chain Capacity:(DVS & Facilities)
-                        (n={{ child.cold_chain_total }})
-                    </div>
-                    <div><br>Shortage: <strong>{{child.cold_chain_shortage}}%</strong> </div>
-                    <div>Sufficient: <strong>{{child.cold_chain_sufficient}}%</strong> </div>
-                    <div>Surplus: <strong>{{child.cold_chain_surplus}}%</strong> </div>
-                </td>
-         </table>
-    </div>
-
-</div>
-
-<!--<div class="wrapper" ng-controller="UnepiController">
+    <!--<div class="wrapper" ng-controller="UnepiController">
     <ng-pdf template-url="/partials/viewer.html">download</ng-pdf>
 </div>

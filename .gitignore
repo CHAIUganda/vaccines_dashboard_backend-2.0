@@ -148,3 +148,6 @@ tmp
 node_modules/
 .ropeproject
 *.sublime-workspace
+
+# Don't push the vendor scripts, load with bower
+dashboard/static/vendor/*

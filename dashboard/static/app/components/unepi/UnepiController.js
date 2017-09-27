@@ -168,6 +168,15 @@ angular.module('dashboard')
                     });
                 };
 
+                vm.enablePDFDownload = function() {
+                        shellScope.child.downloadPDF = function() {
+                            var pdf = new jsPDF('p', 'mm');
+                            pdf.addHTML(document.getElementById("unepiReport"), function() {
+                              pdf.save('unepi-report.pdf');
+                            });
+                        }
+                };
+
                 $scope.$on('refresh', function(e, startMonth, endMonth, district, vaccine) {
                     if(startMonth.name && endMonth.name && district.name && vaccine.name)
                     {
@@ -176,6 +185,7 @@ angular.module('dashboard')
                         vm.getUnepiStock(endMonth.name, district.name, vaccine.name);
                         vm.getUnepiColdChainCapacity(endMonth.name, district.name);
                         vm.getUnepiColdChainFunctionality(endMonth.name, district.name);
+                        vm.enablePDFDownload();
                     }
                 });
 
