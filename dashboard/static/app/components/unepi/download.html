@@ -167,8 +167,13 @@
 
          <table class="row-border hover table table-condensed table-striped">
                 <td>
-                    <span class="quality_test__description">{{"Cold Chain Capacity:(DVS & Facilities)" }}</span>
-                    <span class="quality_test__metric"> {{child.cold_chain_surplus}} </span>
+                    <div class="quality_test__description">
+                        Cold Chain Capacity:(DVS & Facilities)
+                        (n={{ child.cold_chain_total }})
+                    </div>
+                    <div><br>Shortage: <strong>{{child.cold_chain_shortage}}%</strong> </div>
+                    <div>Sufficient: <strong>{{child.cold_chain_sufficient}}%</strong> </div>
+                    <div>Surplus: <strong>{{child.cold_chain_surplus}}%</strong> </div>
                 </td>
          </table>
     </div>

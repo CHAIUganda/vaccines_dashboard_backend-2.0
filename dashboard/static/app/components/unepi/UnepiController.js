@@ -129,13 +129,21 @@ angular.module('dashboard')
                     //Change the district name to match Cold Chain District filter
                     //Probably a bug that can be solved in the future
                     district = district.replace(" District", "").toUpperCase()
+
+                    var per = function(value, total) {
+                        var percentage = (value/total) * 100;
+                        return Math.round(percentage * 10) / 10;
+                    }
+
                     FridgeService.getFridgeFacilityCapacity(undefined, endMonth, district, undefined)
                     .then(function(data) {
                         var metrics = FridgeService.getFridgeCapacityMetrics(data);
 
-                        vm.cold_chain_surplus = metrics.surplus;
-                        vm.cold_chain_sufficient = metrics.sufficient;
-                        vm.cold_chain_shortage = metrics.shortage;
+                        shellScope.child.cold_chain_total = metrics.total;
+
+                        shellScope.child.cold_chain_surplus = per(metrics.surplus, metrics.total);
+                        shellScope.child.cold_chain_sufficient = per(metrics.sufficient, metrics.total);
+                        shellScope.child.cold_chain_shortage = per(metrics.shortage, metrics.total);
                     });
                 };
 
