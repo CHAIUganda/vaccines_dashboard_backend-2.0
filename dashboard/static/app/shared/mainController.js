@@ -33,12 +33,25 @@ angular.module('dashboard')
             //shell.endMonth = {year:period.substring(0,4), period:period, name:month_label, month:month_number, "$$hashKey":"object:186"}
             //shell.endMonth = shell.months[shell.defaultMonth-1];
 
+            var endMonthIndex = 0;
+
             for (var i in shell.months) {
                 if (shell.months[i].period == period) {
                     shell.endMonth = shell.months[i];
+                    endMonthIndex = i;
                     break;
                 }
             }
+
+            //set the start period to 6 months back by default
+            var startMonthIndex = (endMonthIndex - 6) + 1;
+
+            if (startMonthIndex < 0) {
+                startMonthIndex = 0;
+            }
+
+            shell.startMonth = shell.months[startMonthIndex];
+
 
 
 
