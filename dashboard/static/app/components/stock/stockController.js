@@ -1,10 +1,14 @@
 angular.module('dashboard')
-    .controller('StockController', ['$scope', 'StockService', '$rootScope', 'NgTableParams', 'FilterService', 'MonthService',
-    function($scope, StockService, $rootScope, NgTableParams, FilterService, MonthService)
+    .controller('StockController', ['$scope', 'StockService', '$rootScope', 'NgTableParams', 'FilterService', 'MonthService', '$location',
+    function($scope, StockService, $rootScope, NgTableParams, FilterService, MonthService, $location)
     {
         var vm = this;
         var shellScope = $scope.$parent;
         shellScope.child = $scope;
+
+        shellScope.child.isActive = function(viewLocation) {
+            return viewLocation === $location.path();
+        };
 
         // Todo: Use this to sort by performance (Malisa)
         vm.SortByKey = function(array, key) {
