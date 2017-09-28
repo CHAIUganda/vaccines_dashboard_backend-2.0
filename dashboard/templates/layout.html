@@ -23,7 +23,8 @@
     <link rel="stylesheet" href='{% static "vendor/angular-datatables/dist/css/angular-datatables.min.css"%}'>
     <link rel="stylesheet" href='{% static "vendor/leaflet/dist/leaflet.css"%}' />
     <link rel="stylesheet" href='{% static "css/tooltipstyle.css"%}' />
-    
+    <link rel="stylesheet" href='{% static "css/additional-styles.css"%}' />
+
     <style>
         #tooltip {
             position: absolute;
@@ -54,12 +55,8 @@
 </head>
 
 <body>
-    <nav class="navbar navbar-inverse with-flag">
-    <div class="container">
-        <nav>
-            <div class=container>
-                <div class="container">
-                    <br>
+<div class="container" id="main-container">
+    <div class="row" id="header">
                 <div class="col-md-2" id="coart-of-arms" align="left"><img src='{% static "images/coart-of-arms.png" %}'></div>
                 <div class="col-md-8" id="site-name">
                     <div class="major"><h3 class="text-center"><b>MINISTRY OF HEALTH: UNEPI EPI DASHBOARD </b></h3></div>
@@ -68,17 +65,19 @@
 
                 </div>
                 <div class="col-md-2" id="ug-flag" align="right"><img src='{% static "images/ug-flag.png" %}'></div>
-                </div>
             </div>
 
-        <div id="navbar" class="navbar-collapse collapse">
+    <div class="row" id="main-nav">
+
+
+        <div id="navbar">
             <ul class="nav navbar-nav">
                 {% with menu=menus.main %}{% include "bootstrap-navbar.html" %}{% endwith %}
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li><span style="font-size: 30px;vertical-align: middle;margin-right:25px;"></span></li>
             </ul>
-            <ul class=" nav navbar-nav">
+            <ul class=" nav navbar-nav navbar-right">
                 {% if user.is_authenticated %}
                 <li><a class="logout" href="{% url 'logout' %}">Logout</a></li>
                 {% else %}
@@ -86,20 +85,12 @@
                 {% endif %}
             </ul>
         </div><!--/.nav-collapse -->
-        </nav>
+    </div>
 
 
-    <br>
-    <br>
-
-
-
-<div class="container">
     {% bootstrap_messages %}
     {% block content %}
     {% endblock content %}
-</div>
-</div>
 <!-- Tooltip div -->
 		<div id="tooltip">
 		<p class="name"></p>
@@ -149,6 +140,6 @@
 
 {% block js %}
 {% endblock js %}
-    </nav>
+    </div>
 </body>
 </html>

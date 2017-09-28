@@ -1,15 +1,17 @@
 <div ng-controller="MainController as shell">
 
+    <div class="row">
+    <div class="filter-title col-md-12 heading">
+        <h5 class="filter-title">FILTERS</h5>
+    </div>
+    </div>
+
     <div class="row range_filter">
 
-        <div class="filter-title col-md-12">
-            <span class="filter-title h3">FILTERS</span>
-        </div>
-        <br>
 
         <div class="col-md-12 main-filters">
-            <div>
-                Start Quarter<br>
+            <div class="filter-field">
+                Start Quarter
                 <select name="name" class="form-control filter criteria-select" ng-model="shell.startQuarter"
                     ng-options="quarter.value as quarter.name for quarter in shell.fridgeQuarters">
                 </select>
@@ -17,8 +19,8 @@
         <div class="spacer">
             <h5 class="text-center">  </h5>
         </div>
-            <div>
-                End Quarter<br>
+            <div class="filter-field">
+                End Quarter
                 <select name="quarter" class="form-control filter criteria-select" ng-model="shell.endQuarter"
                     ng-options="quarter.value as quarter.name for quarter in shell.fridgeQuarters">
                 </select>
@@ -26,8 +28,8 @@
         <div class="spacer">
             <h5 class="text-center">  </h5>
         </div>
-            <div>
-                District<br>
+            <div class="filter-field">
+                District
                 <select name="fridgeDistrict" class="form-control filter criteria-select" ng-model="shell.selectedFridgeDistrict"
                     ng-options="fridgeDistrict as fridgeDistrict.district for fridgeDistrict in shell.fridgeDistricts">
                 </select>
@@ -35,8 +37,8 @@
         <div class="spacer">
             <h5 class="text-center">  </h5>
         </div>
-            <div>
-                Care Level<br>
+            <div class="filter-field">
+                Care Level
                 <select name="CARE LEVEL" class="form-control filter criteria-select" ng-model="shell.selectedFridgeCareLevel"
                     ng-options="carelevel as carelevel.group for carelevel in shell.fridgeCareLevels">
                 </select>
@@ -46,11 +48,17 @@
 
 
     </div>
+
+    <div class="row">
+        <div class="filter-title col-md-12 heading">
+            <h5 class="filter-title">KEY METRICS</h5>
+        </div>
+    </div>
+
     <div class="row">
 
         <div class="col-md-12">
-         <h3>KEY METRICS</h3>
-            <br>
+         
             <div class="quality_test" ui-sref-active="quality_test_active">
                 <a ui-sref="fridge.facilities" ui-sref-opts="{reload: true}">
                     <span class="quality_test__metric">{{ child.facility }} </span>
