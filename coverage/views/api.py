@@ -39,6 +39,27 @@ class DHIS2VaccineDoses(APIView):
                         )
         return Response(summary)
 
+
+class AvailableYears(APIView):
+    def get(self, request):
+        results = VaccineDose.objects.values_list('period', flat=True)\
+            .order_by("period")\
+            .distinct()
+
+        periods = list(results)
+        start_period = str(periods[0])
+        end_period = str(periods[-1])
+
+        start_year = start_period[0:4]
+        end_year = end_period[0:4]
+
+        return Response({
+            'start': {'year': start_year, 'month': start_period[4:]},
+            'end': {'year': end_year, 'month': end_period[4:]},
+            'years': range(int(start_year), int(end_year)+1)
+        })
+
+
 class VaccineDoses(APIView):
     def get(self, request):
         district = request.query_params.get('district', None)
@@ -54,6 +75,7 @@ class VaccineDoses(APIView):
             args.update({'vaccine__name': vaccine})
 
         if period:
+
             args.update({'period': period})
 
         summary = VaccineDose.objects.filter(**args) \

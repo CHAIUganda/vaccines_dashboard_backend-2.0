@@ -22,6 +22,31 @@ angular.module('dashboard')
             //shell.endMonth = shell.months[defaultMonth];
         });
 
+        // Add Antigen filters values
+        var antigens = {
+            "HPV": ["HPV1", "HPV2"],
+            "DPT": ["DPT1", "DPT2", "DPT3"],
+            "PCV": ["PCV1", "PCV2", "PCV3"],
+            "IPV": [],
+            "OPV": ["OPV1", "OPV2", "OPV3"],
+            "BCG": [],
+            "MEASLES": [],
+            "TT": ["TT1", "TT2"]
+        }
+
+        shell.updateDoses = function() {
+            shell.dose = undefined;
+            shell.doses = antigens[shell.antigen]
+        };
+
+        shell.antigens = Object.keys(antigens);
+        shell.antigen = "PCV";
+        shell.updateDoses();
+
+        FilterService.getPeriodRanges().then(function(data) {
+            shell.coverageYears = data.years
+        });
+
 
         var date = new Date();
         FilterService.getLastPeriod().then(function(data) {
@@ -45,7 +70,6 @@ angular.module('dashboard')
 
             //set the start period to 6 months back by default
             var startMonthIndex = (endMonthIndex - 6) + 1;
-
             if (startMonthIndex < 0) {
                 startMonthIndex = 0;
             }
