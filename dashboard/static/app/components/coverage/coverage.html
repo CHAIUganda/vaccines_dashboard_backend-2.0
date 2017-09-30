@@ -1,7 +1,8 @@
 <div ng-controller="CoverageController as vm">
 
+    <div report-year-toggles></div>
 
-    <h4 class="text-left" >National {{child.thedose}} Coverage for {{child.periodMonth }} </h4>
+    <h4 class="text-center" >National {{child.thedose}} Coverage for {{child.periodMonth }} </h4>
 
 
     <br>
@@ -10,16 +11,10 @@
 
 
     <div class="col-md-6">
-        <div class="left" >
-<span  ng-show="vm.isLoading"  >
-    <span class="map-loading">Loading...</span>
-</div>
 
         <div id="gend"><!-- Details container --></div>
         <div id="map"> <!-- Map container --> </div>
         <div id="details"><!-- Details container --></div>
-
-
 
     </div>
 

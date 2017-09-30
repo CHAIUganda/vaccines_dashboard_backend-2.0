@@ -149,6 +149,17 @@ angular.module('dashboard')
             }
         });
 
+        $scope.$watchGroup(
+            ['shell.antigen', 'shell.dose', 'shell.startYear', 'shell.endYear', 'shell.district'],
+            function(data){
+                console.log(data);
+                if(data[0]){
+                    if (shell.endMonth) {
+                        $rootScope.$broadcast('refresh', shell.startMonth, shell.endMonth, shell.selectedDistrict, shell.selectedVaccine);
+                    }
+                }
+        }, true);
+
         $scope.$watch('shell.endQuarter', function() {
             if (shell.endQuarter) {
                 $rootScope.$broadcast('refreshCapacity', shell.startQuarter, shell.endQuarter, shell.selectedFridgeDistrict, shell.selectedFridgeCareLevel);

@@ -8,6 +8,8 @@ angular.module('dashboard')
         vm.path = $location.path();
         vm.endtxt="";
         vm.isLoading = false;
+        vm.activeReportYear = "MCY";
+
 
         function periodDisplay(period)
         {
@@ -15,8 +17,16 @@ angular.module('dashboard')
             return MonthService.getMonthName(month) + " " + period.slice(0,4)
         }
 
+        $scope.updateReportYear = function(value) {
+            vm.activeReportYear = value;
+        };
+
+        $scope.isActiveReportYear = function(value) {
+            return vm.activeReportYear == value;
+        }
+
         vm.getVaccineDoses = function(period, vaccine, district) {
-            $('#spinner-modal').modal('show');
+            // $('#spinner-modal').modal('show');
 
             vm.endMonth=period;
 
@@ -676,4 +686,9 @@ angular.module('dashboard')
 
     }
 
-]);
+])
+    .directive("reportYearToggles", function() {
+        return {
+            templateUrl: 'static/app/components/coverage/report-year-toggles.html'
+        }
+    });

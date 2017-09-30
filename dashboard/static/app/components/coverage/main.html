@@ -45,8 +45,8 @@
             <div class="filter-field">
                 Antigen
                 <select class="form-control filter criteria-select" ng-model="shell.antigen"
-                    ng-change="shell.updateDoses()"
-                    ng-options="antigen for antigen in shell.antigens ">
+                    ng-change="shell.updateDoses()">
+                    <option ng-repeat="antigen in shell.antigens" ng-value="antigen">{{antigen}}</option>
                 </select>
             </div>
 

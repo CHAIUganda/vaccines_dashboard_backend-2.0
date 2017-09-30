@@ -1,0 +1,19 @@
+<div class="row toggle-row" >
+    <span class='reg_toggle'>
+        <span class='toggle-option'
+            ng-class='{active: isActiveReportYear("MCY")}'
+            ng-click="updateReportYear('MCY')">Monthly (CY)</span>
+
+        <span class=' toggle-option'
+            ng-class='{active: isActiveReportYear("ACY")}'
+            ng-click="updateReportYear('ACY')">Annualized (CY)</span>
+
+        <span class=' toggle-option'
+            ng-class='{active: isActiveReportYear("MFY")}'
+            ng-click="updateReportYear('MFY')">Monthly (FY)</span>
+
+        <span class=' toggle-option'
+            ng-class='{active: isActiveReportYear("AFY")}'
+            ng-click="updateReportYear('AFY')">Annualized (FY)</span>
+    </span>
+</div>
