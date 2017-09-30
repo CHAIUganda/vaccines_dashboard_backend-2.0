@@ -20,16 +20,7 @@
 
     <div class="col-md-6">
 
-        <table ng-table="vm.tableParamsDoses" class="row-border hover table table-condensed table-striped" show-filter="true">
-            <tr ng-repeat="row in $data">
-                <td title="'District'" sortable="'district__name'" filter="{district__name: 'text'}"  >{{row.district__name}}</td>
-                <td title="'Planned'" sortable="'planned_consumption'" class="text-center">{{row.planned_consumption }}</td>
-                <td title="'Actual'" sortable="'consumed'"  class="text-center">{{row.consumed | number:0}}</td>
-                <td title="'Not Immunized'" sortable="'not_immunized'" class="text-center">{{row.Not_immunized }}</td>
-                <td title="'Coverage'" sortable="'coverage_rate'" class="text-center">{{row.coverage_rate }}%</td>
-            </tr>
-
-        </table>
+        
     </div>
 
     <div class="row">

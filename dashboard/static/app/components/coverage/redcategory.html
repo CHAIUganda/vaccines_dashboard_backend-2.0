@@ -1,5 +1,6 @@
 <div ng-controller="CoverageController as vm">
-
+    <div report-year-toggles></div>
+    
      <div id="legend"></div>
 
     <br>
@@ -15,15 +16,7 @@
 
     <div class="col-md-6">
 
-        <table ng-table="vm.tableParamsDoses" class="row-border hover table table-condensed table-striped" show-filter="true">
-            <tr ng-repeat="row in $data">
-                <td title="'District'" sortable="'district__name'" filter="{district__name: 'text'}"  >{{row.district__name}}</td>
-                <td title="'Access'" sortable="'access'"  class="text-center">{{row.access | number:0}}%</td>
-                <td title="'Utilization'" sortable="'drop_out_rate'"  class="text-center">{{row.drop_out_rate | number:0}}%</td>
-                <td title="'Red Categorization'" sortable="'Red_category'"  class="text-center">CAT{{row.Red_category}}</td>
-            </tr>
 
-        </table>
     </div>
 
 
