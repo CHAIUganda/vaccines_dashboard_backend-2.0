@@ -1,7 +1,7 @@
 <div ng-controller="CoverageController as vm">
 
 
-    <h4 class="text-left" > National {{child.thedose}} Coverage for {{child.periodMonth }} </h4>
+    <h4 class="text-left" >National {{child.thedose}} Coverage for {{child.periodMonth }} </h4>
 
 
     <br>
@@ -12,19 +12,7 @@
     <div class="col-md-6">
         <div class="left" >
 <span  ng-show="vm.isLoading"  >
-    <h4 class="text-center " style='color:green;
-font-size: 20px;
-
-background-image:url("/dashboard/static/images/ajax-loader.gif");
-background-size: 20px 20px;
-background-repeat:no-repeat;
-background-position:2px;
-padding: 5px;
-
-border: 10px solid lightblue;
-padding-left: 25px;
-position:relative;'>LOADING....</h4>
-</span>
+    <span class="map-loading">Loading...</span>
 </div>
 
         <div id="gend"><!-- Details container --></div>
@@ -51,9 +39,7 @@ position:relative;'>LOADING....</h4>
 
     <div class="row">
         <div class="col-md-12 text-center">
-            <div class="test-area clearfix text-center">
-
-
+            <div class="clearfix text-center">
                 <span class="text-center"><u><b>Planned:</b></u>Targeted number of Children to be vaccinated in the specified period as per <b>MOH</b> forecast<br></span>
                 <br>
                 <span class="text-center"><u><b>Actual:</b></u>Number of children vaccinated in the specified period as per <b>DHIS2</b><br></span>

@@ -78,6 +78,7 @@ h1, h2, h3, h4, h5, h6, th {
 
 .test-area {
     border-width: 1px;
+    min-height: 620px;
 }
 
 .range_filter .filter-field {

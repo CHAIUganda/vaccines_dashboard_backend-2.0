@@ -16,7 +16,8 @@ angular.module('dashboard')
         }
 
         vm.getVaccineDoses = function(period, vaccine, district) {
-            vm.isLoading = true;
+            $('#spinner-modal').modal('show');
+
             vm.endMonth=period;
 
             //Todo: Temporarily disable filtering by district for the table
@@ -208,6 +209,8 @@ angular.module('dashboard')
                                 }
                             });
 
+                    $('#spinner-modal').modal('hide');
+
 
                     // End d3.json
                         var legend = d3.select('#gend')
@@ -304,7 +307,6 @@ angular.module('dashboard')
                         counts: [],
                         data: tabledataAlldoses,
                     });
-              vm.isLoading = false;
             });
 
 
@@ -652,15 +654,23 @@ angular.module('dashboard')
         };
 
         $scope.$on('refresh', function(e, startMonth, endMonth, district, vaccine) {
-            if(startMonth.name && endMonth.name && district.name && vaccine.name)
-            {
-                //vm.getStockByDistrict(startMonth.name, endMonth.name, district.name, vaccine.name);
-                //vm.getStockByDistrictVaccine(startMonth.name, endMonth.name, district.name, vaccine.name);
-                vm.getVaccineDosesByDistrict(endMonth.period, district.name, vaccine.name);
-                vm.getVaccineDoses(endMonth.period, vaccine.name);
-                vm.getRedVaccineDoses(endMonth.period, vaccine.name);
-                //vm.getDHIS2VaccineDoses(endMonth.period, district.name, vaccine.name);
+            if(startMonth.name && endMonth.name && district.name && vaccine.name) {
 
+                /* by Felix; Multiple GeoJson requests were being sent,
+                traced the problem to multiple CoverageController calls.
+                Found solution by checking currentScope as shown
+                */
+                if ('vm' in e.currentScope) {
+                    //vm.getStockByDistrict(startMonth.name, endMonth.name, district.name, vaccine.name);
+                    //vm.getStockByDistrictVaccine(startMonth.name, endMonth.name, district.name, vaccine.name);
+                    //vm.getDHIS2VaccineDoses(endMonth.period, district.name, vaccine.name);
+
+                    vm.getVaccineDosesByDistrict(endMonth.period, district.name, vaccine.name);
+
+                    vm.getVaccineDoses(endMonth.period, vaccine.name);
+                    vm.getRedVaccineDoses(endMonth.period, vaccine.name);
+
+                }
             }
         });
 

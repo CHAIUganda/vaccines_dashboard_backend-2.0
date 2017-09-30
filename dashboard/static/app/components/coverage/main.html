@@ -1,5 +1,19 @@
 <div ng-controller="MainController as shell">
 
+<div class="modal fade" tabindex="-1" role="dialog" id="spinner-modal">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header text-center">
+                <h4 class="modal-title">LOADING</h4>
+            </div>
+            <div class="modal-body text-center">
+                <p><i class="fa fa-circle-o-notch fa-spin" aria-hidden="true"></i></p>
+                <p>Please wait...</p>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
     <div class="row">
     <div class="filter-title col-md-12 heading">
         <h5 class="filter-title">FILTERS</h5>
@@ -94,19 +108,21 @@
         <div class="col-md-12">
 
             <div class="quality_test" ui-sref-active="quality_test_active">
-                <a ui-sref="coverage.home" ui-sref-opts="{reload: true}">
+                <a ui-sref="coverage.home" ui-sref-opts="{reload: true}"
+                    tooltip-placement="bottom" uib-tooltip="Actual number of Children Immunized / Projected number to be Immunized expressed as a Percentage ">
                     <span class="quality_test__metric"> </span>
                     <span class="quality_test__description easytooltip">{{"Coverage" | uppercase}}
-                    <span class="easytooltiptext" ><b>Actual number of Children Immunized / Projected number to be Immunized expressed as a Percentage </b></span>
+                    <!-- <span class="easytooltiptext" ><b>Actual number of Children Immunized / Projected number to be Immunized expressed as a Percentage </b></span> -->
                     </span>
                 </a>
             </div>
             <div class="quality_test" ui-sref-active="quality_test_active">
-                <a ui-sref="coverage.dropoutrate" ui-sref-opts="{reload: true}">
+                <a ui-sref="coverage.dropoutrate" ui-sref-opts="{reload: true}"
+                    tooltip-placement="bottom" uib-tooltip="Percentage of Children that did not receive the last dose of scheduled Vaccine (E.g total DPT3 = total DPT1 numbers)">
                     <span class="quality_test__metric"> </span>
                     <span class="quality_test__description easytooltip">{{"Dropout Rate" | uppercase}}
-                        <span class="easytooltiptext" ><b>Percentage of Children that did not receive the last dose of scheduled Vaccine</b> (E.g total DPT3 = total DPT1 numbers)</span>
                     </span>
+                    <!-- <span class="easytooltiptext" ><b>Percentage of Children that did not receive the last dose of scheduled Vaccine</b> (E.g total DPT3 = total DPT1 numbers)</span> -->
                 </a>
             </div>
             <div class="quality_test" ui-sref-active="quality_test_active">
