@@ -8,21 +8,27 @@ angular.module('dashboard')
         vm.path = $location.path();
         vm.endtxt="";
         vm.isLoading = false;
-        vm.activeReportYear = "MCY";
+        vm.activeReportToggle = "MCY";
+        vm.activeReportYear = "FY";
 
 
         function periodDisplay(period)
         {
+            if (period == undefined) {
+                return "";
+            }
             var month = parseInt(period.slice(4,6));
             return MonthService.getMonthName(month) + " " + period.slice(0,4)
         }
 
-        $scope.updateReportYear = function(value) {
-            vm.activeReportYear = value;
+        $scope.updateReportToggle = function(value) {
+            vm.activeReportToggle = value;
+            vm.activeReportYear = vm.activeReportToggle.substr(1,2);
+            setTimeout(function(){window.dispatchEvent(new Event('resize'))}, 3000);
         };
 
-        $scope.isActiveReportYear = function(value) {
-            return vm.activeReportYear == value;
+        $scope.isActiveReportToggle = function(value) {
+            return vm.activeReportToggle == value;
         }
 
         vm.getVaccineDoses = function(period, vaccine, district) {
@@ -317,6 +323,9 @@ angular.module('dashboard')
                         counts: [],
                         data: tabledataAlldoses,
                     });
+
+
+
             });
 
 
@@ -663,9 +672,133 @@ angular.module('dashboard')
                 });
         };
 
-        $scope.$on('refresh', function(e, startMonth, endMonth, district, vaccine) {
-            if(startMonth.name && endMonth.name && district.name && vaccine.name) {
+        vm.getChartData = function(params, data, reportYear, cumulative) {
 
+            var periodValues = {};
+            var totals = {};
+            var rate;
+
+            for (var i in data) {
+                var period = data[i].period;
+                var actual = data[i].total_actual;
+                var planned = data[i].total_planned;
+                var vaccine = data[i].vaccine__name;
+
+                var dataMonth = appHelpers.getMonthFromPeriod(period, reportYear);
+                var dataYear = appHelpers.getYearFromPeriod(period, reportYear);
+
+                var yearLabel = appHelpers.getYearLabelFromPeriod(period, reportYear);
+                var monthIndex = appHelpers.getMonthIndexFromPeriod(period, reportYear);
+
+                /* The view returns extra data to cater for the financial year
+                Since its ignorant of the periods, we do the filters ourselves
+                Didn't want to create a new API call for a change in report year
+                */
+                if ((reportYear == "CY") && (dataYear > params.endYear)) continue;
+                // if ((reportYear == "FY") && (dataYear == params.endYear) && (dataMonth > 6)) continue;
+                if ((reportYear == "FY") && (dataYear == params.startYear) && (dataMonth <= 6)) continue;
+
+                if (! (yearLabel in periodValues)) {
+                    periodValues[yearLabel] = {};
+                    totals[yearLabel] = {};
+                }
+
+                if (! (vaccine in periodValues[yearLabel])) {
+                    periodValues[yearLabel][vaccine] = [];
+                    totals[yearLabel][vaccine] = {actual: 0, planned: 0};
+                }
+
+                if (cumulative) {
+                    var combinedActual = totals[yearLabel][vaccine].actual + actual;
+                    var combinedPlanned = totals[yearLabel][vaccine].planned + planned;
+
+                    totals[yearLabel][vaccine].actual = combinedActual;
+                    totals[yearLabel][vaccine].planned = combinedPlanned;
+
+                    rate = (combinedActual / combinedPlanned) * 100;
+                } else {
+                    rate = (actual / planned) * 100;
+                }
+
+                periodValues[yearLabel][vaccine].push({x: monthIndex, y: d3.format('.01f')(rate)});
+            }
+
+            console.log("Period values");
+            console.log(periodValues);
+            var chartData = [];
+            for (var yearLabel in periodValues) {
+                for (var vaccine in periodValues[yearLabel]) {
+                    var key = vaccine + " (" + yearLabel + ")";
+                    chartData.push({key: key, values: periodValues[yearLabel][vaccine]})
+                }
+            }
+
+            /* Necessary to get the graph tooltip to work */
+            /*window.setTimeout(function () {
+                // $scope.api.refresh();
+                $scope.api.update();
+            }, 2000);*/
+
+            console.log(chartData);
+            return chartData;
+        };
+
+        vm.getChartOptions = function(reportYear) {
+            return {
+                chart: {
+                    type: 'lineChart',
+                    height: 450,
+                    width: 450,
+                    useInteractiveGuideline: true,
+                    interactiveLayer: {
+                        gravity: 's'
+                    },
+                    x: function(d){ return d.x; },
+                    y: function(d){ return d.y; },
+                    forceY: [0,150],
+                    dispatch: {
+                        stateChange: function(e){ console.log("stateChange"); },
+                        changeState: function(e){ console.log("changeState"); },
+                        tooltipShow: function(e){ console.log("tooltipShow"); },
+                        tooltipHide: function(e){ console.log("tooltipHide"); }
+                    },
+                    xAxis: {
+                        tickFormat: function(d){
+                            return appHelpers.getMonthFromNumber(d, reportYear);
+                        }
+                    },
+                    yAxis: {},
+                    callback: function(chart){
+                        console.log("!!! lineChart callback !!!");
+                    }
+                }
+            };
+        };
+
+        vm.getVaccineDosesByPeriod = function(params) {
+
+            CoverageService.getVaccineDosesByPeriod(params)
+                .then(function(data) {
+
+                    $scope.optionsMCY = vm.getChartOptions("CY");
+                    $scope.optionsACY = vm.getChartOptions("CY");
+                    $scope.optionsMFY = vm.getChartOptions("FY");
+                    $scope.optionsAFY = vm.getChartOptions("FY");
+
+                    $scope.dataMCY = vm.getChartData(params, data, "CY", false);
+                    $scope.dataACY = vm.getChartData(params, data, "CY", true);
+                    $scope.dataMFY = vm.getChartData(params, data, "FY", false);
+                    $scope.dataAFY = vm.getChartData(params, data, "FY", true);
+
+                });
+        };
+
+
+        // $scope.$on('refresh', function(e, startMonth, endMonth, district, vaccine) {
+        //     if(startMonth.name && endMonth.name && district.name && vaccine.name) {
+        $scope.$on(
+            'refreshCoverage2',
+            function(e, endMonth, startYear, endYear, antigen, dose, district) {
                 /* by Felix; Multiple GeoJson requests were being sent,
                 traced the problem to multiple CoverageController calls.
                 Found solution by checking currentScope as shown
@@ -674,15 +807,23 @@ angular.module('dashboard')
                     //vm.getStockByDistrict(startMonth.name, endMonth.name, district.name, vaccine.name);
                     //vm.getStockByDistrictVaccine(startMonth.name, endMonth.name, district.name, vaccine.name);
                     //vm.getDHIS2VaccineDoses(endMonth.period, district.name, vaccine.name);
+                    console.log(startYear);
+                    console.log(endYear)
 
-                    vm.getVaccineDosesByDistrict(endMonth.period, district.name, vaccine.name);
+                    vm.getVaccineDosesByDistrict(endMonth.period, district, antigen);
+                    vm.getVaccineDosesByPeriod({
+                        startYear: startYear,
+                        endYear: endYear,
+                        antigen: antigen,
+                        dose: dose,
+                        district: district
+                    });
 
-                    vm.getVaccineDoses(endMonth.period, vaccine.name);
-                    vm.getRedVaccineDoses(endMonth.period, vaccine.name);
-
+                    vm.getVaccineDoses(endMonth.period, antigen);
+                    vm.getRedVaccineDoses(endMonth.period, antigen);
                 }
             }
-        });
+        );
 
     }
 

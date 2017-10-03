@@ -42,6 +42,7 @@ class DHIS2VaccineDoses(APIView):
 
 class AvailableYears(APIView):
     def get(self, request):
+
         results = VaccineDose.objects.values_list('period', flat=True)\
             .order_by("period")\
             .distinct()
@@ -107,6 +108,56 @@ class VaccineDoses(APIView):
             'Red_category',
 
         )
+
+        return Response(summary)
+
+
+class VaccineDosesByPeriod(APIView):
+
+    def get_db_last_year(self):
+        period = DHIS2VaccineDoseDataset.objects.all().order_by('period').last().period
+        year = int(str(period)[0:4])
+
+        return year - 1, year
+
+    def get_ranges_from_years(self, start_year, end_year):
+        # Extend end year to cater for Financial year (Upto June)
+        end_year = int(end_year) + 1
+
+        start_period = int("%s01" % start_year)
+        end_period = int("%s06" % end_year)
+
+        return start_period, end_period
+
+    def get(self, request):
+        filters = {}
+
+        default_start, default_end = self.get_db_last_year()
+
+        district = request.query_params.get('district', None)
+        vaccine = request.query_params.get('vaccine', None)
+        start_year = request.query_params.get('startYear', default_start)
+        end_year = request.query_params.get('endYear', default_end)
+
+        if district:
+            filters.update({'district__name': district})
+
+        if vaccine and vaccine.lower() != "all":
+            filters.update({'vaccine__name': vaccine})
+
+            start_period, end_period = self.get_ranges_from_years(start_year, end_year)
+            filters.update({'period__gte': start_period, 'period__lte': end_period})
+
+        else:
+            # Group by vaccines
+            start_period, end_period = self.get_ranges_from_years(end_year, end_year)
+            filters.update({'period__gte': start_period, 'period__lte': end_period})
+
+        summary = VaccineDose.objects.filter(**filters)\
+            .values('period', 'vaccine__name') \
+            .annotate(total_actual=Sum('first_dose'), total_planned=Sum('planned_consumption')) \
+            .order_by('period') \
+            .all()
 
         return Response(summary)
 
@@ -183,4 +234,5 @@ class CoverageAnnualized(APIView):
 
         result = dictfetchall(cursor)
         return Response(result)
+
 

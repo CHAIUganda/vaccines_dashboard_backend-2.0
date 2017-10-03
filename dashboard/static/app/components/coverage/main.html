@@ -63,8 +63,8 @@
 
             <div class="filter-field">
                 District
-                <select name="name" class="form-control filter criteria-select" ng-model="shell.district"
-                    ng-options="district as district.name for district in shell.districts">
+                <select class="form-control filter criteria-select" ng-model="shell.district">
+                    <option ng-repeat="district in shell.districts" ng-value="district.name">{{district.name}}</option>
                 </select>
             </div>
             <!--<select name="name" class="form-control filter criteria-select" ng-model="shell.startMonth"

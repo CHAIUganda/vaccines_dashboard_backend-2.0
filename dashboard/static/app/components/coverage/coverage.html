@@ -18,9 +18,21 @@
 
     </div>
 
-    <div class="col-md-6">
+    <div class="col-md-6" id="chart-container">
 
-        
+        <!-- <div id="chart-mcy">
+            <svg></svg>
+        </div> -->
+        <nvd3 ng-show="isActiveReportToggle('MCY')"
+            options="optionsMCY"
+            data="dataMCY"
+            api="apiMCY">
+        </nvd3>
+
+        <nvd3 ng-show="isActiveReportToggle('ACY')" options="optionsACY" data="dataACY" api="apiACY"></nvd3>
+        <nvd3 ng-show="isActiveReportToggle('MFY')" options="optionsMFY" data="dataMFY" api="apiMFY"></nvd3>
+        <nvd3 ng-show="isActiveReportToggle('AFY')" options="optionsAFY" data="dataAFY" api="apiAFY"></nvd3>
+
     </div>
 
     <div class="row">
@@ -41,6 +53,6 @@
     </div>
 
     <!-- JS Libraries -->
-    <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+    <!-- <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script> -->
     <script src="http://cdnjs.cloudflare.com/ajax/libs/mustache.js/2.2.1/mustache.min.js"></script>
 </div>

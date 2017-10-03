@@ -3,13 +3,13 @@ var dashboard = angular.module('dashboard',
   [
     //Shared
     "ui.router",
-    "chart.js",
+    // "chart.js",
     "ui.bootstrap",
     "checklist-model",
-    "angularChart",
+    // "angularChart",
     "ngTable",
     "services",
     "nvd3",
-    "leaflet-directive"
+    // "leaflet-directive"
   ]
 );

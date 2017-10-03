@@ -140,3 +140,9 @@ h1, h2, h3, h4, h5, h6, th {
 .reg_toggle>.active{
     /*margin-right: -5px;*/
 }
+
+
+#chart-container {
+    position: relative;
+    height: 450px;
+}

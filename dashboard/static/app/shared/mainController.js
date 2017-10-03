@@ -24,6 +24,7 @@ angular.module('dashboard')
 
         // Add Antigen filters values
         var antigens = {
+            "ALL": [],
             "HPV": ["HPV1", "HPV2"],
             "DPT": ["DPT1", "DPT2", "DPT3"],
             "PCV": ["PCV1", "PCV2", "PCV3"],
@@ -40,11 +41,13 @@ angular.module('dashboard')
         };
 
         shell.antigens = Object.keys(antigens);
-        shell.antigen = "PCV";
-        shell.updateDoses();
+        // shell.antigen = "PCV";
+        // shell.updateDoses();
 
         FilterService.getPeriodRanges().then(function(data) {
             shell.coverageYears = data.years
+            shell.startYear = data.years[data.years.length-1]
+            shell.endYear = data.years[data.years.length-1]
         });
 
 
@@ -150,15 +153,30 @@ angular.module('dashboard')
         });
 
         $scope.$watchGroup(
-            ['shell.antigen', 'shell.dose', 'shell.startYear', 'shell.endYear', 'shell.district'],
+            [
+                // 'shell.startYear',
+                'shell.endYear',
+                'shell.antigen',
+                'shell.dose',
+                'shell.district'
+            ],
             function(data){
-                console.log(data);
                 if(data[0]){
                     if (shell.endMonth) {
-                        $rootScope.$broadcast('refresh', shell.startMonth, shell.endMonth, shell.selectedDistrict, shell.selectedVaccine);
+                        $rootScope.$broadcast(
+                            'refreshCoverage2',
+                            shell.endMonth, //Backwards compatibility
+                            shell.startYear,
+                            shell.endYear,
+                            shell.antigen,
+                            shell.dose,
+                            shell.district
+                        );
                     }
                 }
-        }, true);
+            },
+            true
+        );
 
         $scope.$watch('shell.endQuarter', function() {
             if (shell.endQuarter) {

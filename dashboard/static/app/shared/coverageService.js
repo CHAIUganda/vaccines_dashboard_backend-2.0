@@ -41,6 +41,19 @@ angular.module('services').service('CoverageService', ['$http',
                 }
             }).then(handleResponse);
         };
+
+        var getVaccineDosesByPeriod = function(params) {
+            return $http.get('coverage/api/vaccinedoses_by_period', {
+                params: {
+                    startYear: params.startYear,
+                    endYear: params.endYear,
+                    vaccine: params.antigen,
+                    dose: params.dose,
+                    district: params.district
+                }
+            }).then(handleResponse);
+        };
+
         var getUnepiCoverage = function(period, district) {
             return $http.get('coverage/api/coverageannualized', {
                 params: {
@@ -59,6 +72,7 @@ angular.module('services').service('CoverageService', ['$http',
             "getDHIS2VaccineDoses": getDHIS2VaccineDoses,
             "getVaccineDoses": getVaccineDoses,
             "getVaccineDosesByDistrict": getVaccineDosesByDistrict,
+            "getVaccineDosesByPeriod": getVaccineDosesByPeriod,
             "getUnepiCoverage":getUnepiCoverage,
             "getDistrictMap": getDistrictMap,
             "getRedVaccineDoses":getRedVaccineDoses
