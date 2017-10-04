@@ -185,11 +185,7 @@ angular.module('dashboard')
                             .style("stroke", "#777")
                             .style("fill", function (d) {
                                 var value = d.properties.field;
-                                if (value) {
-                                    return color(value);
-                                } else {
-                                    return "#ccc";
-                                }
+                                return value ? color(value) : "#ccc";
                             });
 
                         shellScope.child.hideMap = false;
@@ -237,11 +233,7 @@ angular.module('dashboard')
                         d3.select(this)
                             .style("fill", function(d) {
                                 var value = d.properties.field;
-                                if (value) {
-                                    return color(value);
-                                } else {
-                                    return "#ccc";
-                                }
+                                return value ? color(value) : "#ccc";
                             });
 
                         d3.select("#tooltip").style("opacity", 0);
