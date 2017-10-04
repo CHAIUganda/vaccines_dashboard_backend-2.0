@@ -41,7 +41,7 @@ angular.module('dashboard')
         };
 
         shell.antigens = Object.keys(antigens);
-        // shell.antigen = "PCV";
+        shell.antigen = "ALL";
         // shell.updateDoses();
 
         FilterService.getPeriodRanges().then(function(data) {
@@ -92,6 +92,7 @@ angular.module('dashboard')
 
 
         FilterService.getDistricts().then(function(data) {
+            data.unshift({'name': 'ALL'});
             shell.districts = data;
             shell.selectedDistrict = shell.districts[0];
         });

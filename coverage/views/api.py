@@ -139,7 +139,7 @@ class VaccineDosesByPeriod(APIView):
         start_year = request.query_params.get('startYear', default_start)
         end_year = request.query_params.get('endYear', default_end)
 
-        if district:
+        if district and district.lower() != 'all':
             filters.update({'district__name': district})
 
         if vaccine and vaccine.lower() != "all":

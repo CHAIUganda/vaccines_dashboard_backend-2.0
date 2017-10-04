@@ -36,6 +36,15 @@ angular.module('dashboard')
 
             vm.endMonth=period;
 
+            shellScope.child.hideMap = true;
+
+            if (district != undefined && district != "ALL") {
+                shellScope.child.mapPlaceholderMessage = "No map available.";
+                return;
+            }
+
+            shellScope.child.mapPlaceholderMessage = "Map loading. Please wait...";
+
             //Todo: Temporarily disable filtering by district for the table
             district = ""
             vm.district = district;
@@ -225,8 +234,8 @@ angular.module('dashboard')
                                 }
                             });
 
-                    $('#spinner-modal').modal('hide');
-
+                    shellScope.child.hideMap = false;
+                    shellScope.child.$apply();
 
                     // End d3.json
                         var legend = d3.select('#gend')
@@ -807,9 +816,7 @@ angular.module('dashboard')
                     //vm.getStockByDistrict(startMonth.name, endMonth.name, district.name, vaccine.name);
                     //vm.getStockByDistrictVaccine(startMonth.name, endMonth.name, district.name, vaccine.name);
                     //vm.getDHIS2VaccineDoses(endMonth.period, district.name, vaccine.name);
-                    console.log(startYear);
-                    console.log(endYear)
-
+                    console.log(endMonth.period);
                     vm.getVaccineDosesByDistrict(endMonth.period, district, antigen);
                     vm.getVaccineDosesByPeriod({
                         startYear: startYear,
@@ -819,7 +826,7 @@ angular.module('dashboard')
                         district: district
                     });
 
-                    vm.getVaccineDoses(endMonth.period, antigen);
+                    vm.getVaccineDoses(endMonth.period, antigen, district);
                     vm.getRedVaccineDoses(endMonth.period, antigen);
                 }
             }
