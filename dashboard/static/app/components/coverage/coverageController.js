@@ -135,81 +135,45 @@ angular.module('dashboard')
 
             CoverageService.getVaccineDoses(period, vaccine)
                 .then(function(data) {
-
-
                     vm.data = angular.copy(data);
-
-
-                    //Set input domain for color scale
-
                     // This maps the data of the CSV so it can be easily accessed by
                     // the ID of the district, for example: dataById[2196]
                     dataById = d3.nest()
-                        .key(function (d) {
-                            return d.id;
-                        })
-                        .rollup(function (d) {
-                            return d[0];
-                        })
+                        .key(function (d) { return d.id; })
+                        .rollup(function (d) { return d[0]; })
                         .map(data);
-
 
                     // Load features from GeoJSON
                     d3.json('static/app/components/coverage/data/ug_districts2.geojson', function (error, json) {
-
-
-                        // Get the scale and center parameters from the features.
                         var scaleCenter = calculateScaleCenter(json);
-
-                        // Apply scale, center and translate parameters.
                         projection.scale(scaleCenter.scale)
                             .center(scaleCenter.center)
                             .translate([width / 2, height / 2]);
 
-                        // Merge the coverage data amd GeoJSON into a single array
-                        // Also loop through once for each coverage score data value
-
                         for (var i = 0; i < data.length; i++) {
-
-                            // Grab district name
                             var dist = data[i].district__name;
                             var pos = dist.indexOf(" ");
                             var dataDistrict = dist.substring(0, pos).toUpperCase();
-                            //var dataDistrict = data[i].district;
-
-                            //Grab data value, and convert from string to float
                             var dataValue = +data[i][field];
 
-                            //Find the corresponding district inside GeoJSON
                             for (var j = 0; j < json.features.length; j++) {
-
-                                // Check the district reference in json
                                 var jsonDistrict = json.features[j].properties.dist;
-
                                 if (dataDistrict == jsonDistrict) {
-
-                                    //Copy the data value into the GeoJSON
                                     json.features[j].properties.field = dataValue;
-
-                                    //Stop looking through JSON
                                     break;
                                 }
                             }
                         }
 
-
-                        // Create SVG inside map container and assign dimensions
-                        //svg.selectAll("*").remove();
                         d3.select("#map").selectAll("*").remove();
                         var svg = d3.select("#map")
                             .append('svg')
                             .attr("width", width)
                             .attr("height", height);
 
-                        // Add a <g> element to the SVG element and give a class to style later
                         svg.append('g')
-                            .attr('class', 'features')
-                        // Bind data and create one path per GeoJSON feature
+                            .attr('class', 'features');
+
                         svg.selectAll("path")
                             .data(json.features)
                             .enter()
@@ -220,33 +184,24 @@ angular.module('dashboard')
                             .style("cursor", "pointer")
                             .style("stroke", "#777")
                             .style("fill", function (d) {
-
-                                // Get data value
-
                                 var value = d.properties.field;
-
                                 if (value) {
-                                    // If value exists ...
                                     return color(value);
                                 } else {
-                                    // If value is undefines ...
                                     return "#ccc";
                                 }
                             });
 
-                    shellScope.child.hideMap = false;
-                    shellScope.child.$apply();
+                        shellScope.child.hideMap = false;
+                        shellScope.child.$apply();
 
-                    // End d3.json
                         var legend = d3.select('#gend')
-
                             .attr('class', 'list-inline');
+
                         var def = svg.append('defs');
 
-                        //Append a linearGradient element to the defs and give it a unique id
                         var linearGradient = def.append("linearGradient")
                             .attr("id", "linear-gradient");
-
 
                         //Set the color for the start (0%)
                         //Append multiple color stops by using D3's data/enter step
@@ -257,84 +212,40 @@ angular.module('dashboard')
                             .attr("stop-color", function(d) { return d; })
                             .append('text')
 
-                            //.text("#####")
-
-
-
                         svg.append("rect")
                             .attr("width", 300)
                             .attr("height", 20)
                             .style("fill", "url(#linear-gradient)")
 
-                        legend
-                            //.append('text')
-
-                            .text(function(d) {
-
-                               return  dose1})
+                        legend.text(function(d) { return  dose1});
                     });
 
-                    // Logic to handle hover event when its firedup
-                        var hoveron = function(d) {
-                            console.log('d', d, 'event', event);
-                            var div = document.getElementById('tooltip');
-                            div.style.left = event.pageX + 'px';
-                            div.style.top = event.pageY + 'px';
+                    var hoveron = function(d) {
+                        var div = document.getElementById('tooltip');
+                        div.style.left = event.pageX + 'px';
+                        div.style.top = event.pageY + 'px';
 
+                        d3.select(this).style("fill", "white");
+                        d3.select("#tooltip").style("opacity", 1);
+                        d3.select("#tooltip .name").text(d.properties.dist);
 
-                            //Fill yellow to highlight
-                            d3.select(this)
-                                .style("fill", "white");
+                        d3.select("#tooltip .value")
+                            .text (valueFormat(d.properties.field)+ vm.endtxt);
+                    }
 
-                            //Show the tooltip
-                            d3.select("#tooltip")
-                                .style("opacity", 1);
+                    var hoverout = function(d) {
+                        d3.select(this)
+                            .style("fill", function(d) {
+                                var value = d.properties.field;
+                                if (value) {
+                                    return color(value);
+                                } else {
+                                    return "#ccc";
+                                }
+                            });
 
-                            //Populate name in tooltip
-                            d3.select("#tooltip .name")
-                                .text(d.properties.dist);
-
-                            //Populate value in tooltip
-                            d3.select("#tooltip .value")
-                                .text (valueFormat(d.properties.field)+ vm.endtxt);
-                        }
-
-                        var hoverout = function(d) {
-
-                            //Restore original choropleth fill
-                            d3.select(this)
-                                .style("fill", function(d) {
-                                    var value = d.properties.field;
-                                    if (value) {
-                                        return color(value);
-                                    } else {
-                                        return "#ccc";
-                                    }
-                                });
-
-                            //Hide the tooltip
-                            d3.select("#tooltip")
-                                .style("opacity", 0);
-
-                        }
-
-
-                    tabledataAlldoses = vm.data.filter(
-                        function (value) {
-                            return value;
-                        });
-
-                    vm.tableParamsDoses = new NgTableParams({
-                        page: 1,
-                        count: 10
-                    }, {
-                        filterDelay: 0,
-                        counts: [],
-                        data: tabledataAlldoses,
-                    });
-
-
-
+                        d3.select("#tooltip").style("opacity", 0);
+                    }
             });
 
 
