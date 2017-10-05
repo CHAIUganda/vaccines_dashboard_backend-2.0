@@ -145,7 +145,7 @@ angular.module('dashboard')
 //        }, true);
 
         $scope.$watchGroup(['shell.endMonth', 'shell.selectedVaccine', 'shell.selectedDistrict'], function(data){
-            console.log(data);
+            // console.log(data);
             if(data[0] && data[1] && data[2]){
                 if (shell.endMonth) {
                     $rootScope.$broadcast('refresh', shell.startMonth, shell.endMonth, shell.selectedDistrict, shell.selectedVaccine);

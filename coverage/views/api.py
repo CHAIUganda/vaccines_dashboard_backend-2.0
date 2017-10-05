@@ -129,6 +129,13 @@ class VaccineDosesByPeriod(APIView):
 
         return start_period, end_period
 
+    def get_last_available_period(self, last_period):
+        period = DHIS2VaccineDoseDataset.objects\
+            .filter(period__lte=last_period)\
+            .all().order_by('period').last().period
+
+        return period
+
     def get(self, request):
         filters = {}
 
@@ -138,6 +145,9 @@ class VaccineDosesByPeriod(APIView):
         vaccine = request.query_params.get('vaccine', None)
         start_year = request.query_params.get('startYear', default_start)
         end_year = request.query_params.get('endYear', default_end)
+        data_type = request.query_params.get('dataType', None)
+
+        grouping_fields = ['period', 'vaccine__name']
 
         if district and district.lower() != 'all':
             filters.update({'district__name': district})
@@ -147,15 +157,29 @@ class VaccineDosesByPeriod(APIView):
 
             start_period, end_period = self.get_ranges_from_years(start_year, end_year)
             filters.update({'period__gte': start_period, 'period__lte': end_period})
-
         else:
-            # Group by vaccines
             start_period, end_period = self.get_ranges_from_years(end_year, end_year)
             filters.update({'period__gte': start_period, 'period__lte': end_period})
 
+        if data_type and data_type == 'map':
+            grouping_fields.append('district__name')
+
+            # Get possible last periods
+            last_calendar_year_period = self.get_last_available_period(int("%s12" % end_year))
+
+            last_fy_period = int("%s06" % (int(end_year) + 1))
+            last_financial_year_period = self.get_last_available_period(last_fy_period)
+
+            start_period = int("%s01" % int(end_year))
+
+            filters.update({'period__gte': start_period, 'period__lte': last_financial_year_period})
+            # filters.update({
+            #     'period__in': [last_calendar_year_period, last_financial_year_period]
+            # })
+
         summary = VaccineDose.objects.filter(**filters)\
-            .values('period', 'vaccine__name') \
-            .annotate(total_actual=Sum('first_dose'), total_planned=Sum('planned_consumption')) \
+            .values(*grouping_fields) \
+            .annotate(total_actual=Sum('last_dose'), total_planned=Sum('planned_consumption')) \
             .order_by('period') \
             .all()
 

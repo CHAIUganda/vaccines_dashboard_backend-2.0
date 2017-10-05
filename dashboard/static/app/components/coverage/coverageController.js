@@ -1,6 +1,9 @@
 angular.module('dashboard')
-    .controller('CoverageController', ['$scope','$location', 'StockService', '$rootScope', 'NgTableParams', 'FilterService', 'MonthService', 'CoverageService',
-    function($scope,$location, StockService, $rootScope, NgTableParams, FilterService, MonthService, CoverageService)
+    .controller('CoverageController', [
+        '$scope','$location', 'StockService', '$rootScope', 'NgTableParams',
+        'FilterService', 'MonthService', 'CoverageService', 'MapSupportService',
+    function($scope,$location, StockService, $rootScope, NgTableParams,
+        FilterService, MonthService, CoverageService, MapSupportService)
     {
         var vm = this;
         var shellScope = $scope.$parent;
@@ -9,8 +12,7 @@ angular.module('dashboard')
         vm.endtxt="";
         vm.isLoading = false;
         vm.activeReportToggle = "MCY";
-        vm.activeReportYear = "FY";
-
+        vm.activeReportYear = "CY";
 
         function periodDisplay(period)
         {
@@ -24,6 +26,7 @@ angular.module('dashboard')
         $scope.updateReportToggle = function(value) {
             vm.activeReportToggle = value;
             vm.activeReportYear = vm.activeReportToggle.substr(1,2);
+            vm.updateMapWithVaccine(vm.activeVaccine);
             setTimeout(function(){window.dispatchEvent(new Event('resize'))}, 3000);
         };
 
@@ -31,10 +34,10 @@ angular.module('dashboard')
             return vm.activeReportToggle == value;
         }
 
-        vm.getVaccineDoses = function(period, vaccine, district) {
+        vm.getVaccineDoses = function(endYear, vaccine, district) {
             // $('#spinner-modal').modal('show');
 
-            vm.endMonth=period;
+            // vm.endMonth=period;
 
             shellScope.child.hideMap = true;
 
@@ -49,6 +52,7 @@ angular.module('dashboard')
             district = ""
             vm.district = district;
             vm.vaccine = vaccine;//vm.selectedVaccine ? vm.selectedVaccine.name : "va";
+            vm.activeVaccine = vaccine;
 
             // Assign dimensions for map container
             var width = 500,
@@ -133,9 +137,18 @@ angular.module('dashboard')
                                 //.range(d3.range(9),map(function(i) { return 'q' + i + '-9';}));
 
 
-            CoverageService.getVaccineDoses(period, vaccine)
+            // CoverageService.getVaccineDoses(period, vaccine)
+            var params = {
+                endYear: endYear,
+                dataType: 'map'
+            };
+
+            CoverageService.getVaccineDosesByPeriod(params)
                 .then(function(data) {
-                    vm.data = angular.copy(data);
+
+                    var dataDistrictMap = MapSupportService.createDistrictDataMap(data);
+
+                    // vm.data = angular.copy(data);
                     // This maps the data of the CSV so it can be easily accessed by
                     // the ID of the district, for example: dataById[2196]
                     dataById = d3.nest()
@@ -150,16 +163,14 @@ angular.module('dashboard')
                             .center(scaleCenter.center)
                             .translate([width / 2, height / 2]);
 
-                        for (var i = 0; i < data.length; i++) {
-                            var dist = data[i].district__name;
+                        for (var dist in dataDistrictMap) {
                             var pos = dist.indexOf(" ");
                             var dataDistrict = dist.substring(0, pos).toUpperCase();
-                            var dataValue = +data[i][field];
 
                             for (var j = 0; j < json.features.length; j++) {
                                 var jsonDistrict = json.features[j].properties.dist;
                                 if (dataDistrict == jsonDistrict) {
-                                    json.features[j].properties.field = dataValue;
+                                    json.features[j].properties.field = dataDistrictMap[dist];
                                     break;
                                 }
                             }
@@ -182,11 +193,9 @@ angular.module('dashboard')
                             .on("mouseover", hoveron)
                             .on("mouseout", hoverout)
                             .style("cursor", "pointer")
-                            .style("stroke", "#777")
-                            .style("fill", function (d) {
-                                var value = d.properties.field;
-                                return value ? color(value) : "#ccc";
-                            });
+                            .style("stroke", "#777");
+
+                        vm.updateMapWithVaccine(vm.activeVaccine);
 
                         shellScope.child.hideMap = false;
                         shellScope.child.$apply();
@@ -239,6 +248,33 @@ angular.module('dashboard')
                         d3.select("#tooltip").style("opacity", 0);
                     }
             });
+
+            vm.updateMapWithVaccine = function(vaccine) {
+                vm.activeVaccine = vaccine;
+
+                var paths = d3.select("#map svg").selectAll("path");
+                paths.style("fill", function (d) {
+                    var districtData = d.properties.field;
+                    if (districtData == undefined) return;
+
+                    if (! (vm.activeVaccine in districtData)) return;
+
+                    var vaccineData = districtData[vm.activeVaccine];
+
+                    var periodList = MapSupportService.getPeriodList(
+                        vaccineData,
+                        endYear,
+                        vm.activeReportToggle
+                    );
+
+                    var value = MapSupportService.calculateCoverageRate(
+                        vaccineData,
+                        periodList
+                    );
+
+                    return value ? color(value) : "#ccc";
+                });
+            };
 
 
             function calculateScaleCenter(features) {
@@ -635,8 +671,6 @@ angular.module('dashboard')
                 periodValues[yearLabel][vaccine].push({x: monthIndex, y: d3.format('.01f')(rate)});
             }
 
-            console.log("Period values");
-            console.log(periodValues);
             var chartData = [];
             for (var yearLabel in periodValues) {
                 for (var vaccine in periodValues[yearLabel]) {
@@ -645,13 +679,6 @@ angular.module('dashboard')
                 }
             }
 
-            /* Necessary to get the graph tooltip to work */
-            /*window.setTimeout(function () {
-                // $scope.api.refresh();
-                $scope.api.update();
-            }, 2000);*/
-
-            console.log(chartData);
             return chartData;
         };
 
@@ -681,7 +708,7 @@ angular.module('dashboard')
                     },
                     yAxis: {},
                     callback: function(chart){
-                        console.log("!!! lineChart callback !!!");
+                        //console.log("!!! lineChart callback !!!");
                     }
                 }
             };
@@ -719,7 +746,6 @@ angular.module('dashboard')
                     //vm.getStockByDistrict(startMonth.name, endMonth.name, district.name, vaccine.name);
                     //vm.getStockByDistrictVaccine(startMonth.name, endMonth.name, district.name, vaccine.name);
                     //vm.getDHIS2VaccineDoses(endMonth.period, district.name, vaccine.name);
-                    console.log(endMonth.period);
                     vm.getVaccineDosesByDistrict(endMonth.period, district, antigen);
                     vm.getVaccineDosesByPeriod({
                         startYear: startYear,
@@ -729,8 +755,15 @@ angular.module('dashboard')
                         district: district
                     });
 
-                    vm.getVaccineDoses(endMonth.period, antigen, district);
-                    vm.getRedVaccineDoses(endMonth.period, antigen);
+                    // vm.getVaccineDoses(endMonth.period, antigen, district);
+                    if (endYear != vm.lastEndYear) {
+                        vm.getVaccineDoses(endYear, antigen, district);
+                        vm.getRedVaccineDoses(endMonth.period, antigen);
+                    } else {
+                        vm.updateMapWithVaccine(antigen);
+                    }
+
+                    vm.lastEndYear = endYear;
                 }
             }
         );

@@ -49,7 +49,8 @@ angular.module('services').service('CoverageService', ['$http',
                     endYear: params.endYear,
                     vaccine: params.antigen,
                     dose: params.dose,
-                    district: params.district
+                    district: params.district,
+                    dataType: params.dataType
                 }
             }).then(handleResponse);
         };
