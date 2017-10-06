@@ -157,3 +157,23 @@ h1, h2, h3, h4, h5, h6, th {
 #map #tooltip {
     text-align: center;
 }
+
+#gend .swatch {
+    border: #333 1px solid;
+}
+
+#gend .legendCells .cell {
+    font-size: 14px;
+}
+
+.map-container {
+    position: relative;
+}
+
+.map-container #gend {
+    position: absolute;
+    width: 150px;
+    left: -30px;
+    top: 130px;
+    overflow: hidden;
+}

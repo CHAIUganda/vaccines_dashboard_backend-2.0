@@ -59,25 +59,27 @@ angular.module('dashboard')
                 height = 500;
             var field = "";
             var dose1 = "";
-            var color = []
+
+            var color = d3.scale.linear()
+                .domain([0, 100])
+                .interpolate(function(start, end) {
+                    return function(t) {
+                        t = t * 100;
+                        if (t == 0) return 'LightGray';
+                        if (t < 50) return 'Red';
+                        if (t>= 50 && t<90) return 'Yellow';
+                        if (t >= 90) return 'DarkGreen';
+                    };
+                });
 
             if (vm.path=="/coverage/dropoutrate"){
                 field="drop_out_rate";
                 vm.endtxt="%";
-                 color = d3.scale.quantize()
-                        .domain([-10, 10, 10<=20, 30])
-                        .range(["#43d6f4", "#008000","#FFFF00", 'Red' ]);
-
-
             }
 
             else if (vm.path=="/coverage/coverage"){
                 field="coverage_rate";
                 vm.endtxt="%";
-                color = d3.scale.quantize()
-                        .domain([50, 50<=70, 70<=90, 90<=110, 110])
-                        .range(['Red', 'Orange' , "#FFFF00", "#008000", "#43d6f4"]);
-
             }
 
             dose1 = "LOW" + "...................................................................."+ "HIGH";
@@ -200,29 +202,6 @@ angular.module('dashboard')
                         shellScope.child.hideMap = false;
                         shellScope.child.$apply();
 
-                        var legend = d3.select('#gend')
-                            .attr('class', 'list-inline');
-
-                        var def = svg.append('defs');
-
-                        var linearGradient = def.append("linearGradient")
-                            .attr("id", "linear-gradient");
-
-                        //Set the color for the start (0%)
-                        //Append multiple color stops by using D3's data/enter step
-                        linearGradient.selectAll("stop")
-                            .data( color.range() )
-                            .enter().append("stop")
-                            .attr("offset", function(d,i) { return i/(color.range().length-1); })
-                            .attr("stop-color", function(d) { return d; })
-                            .append('text')
-
-                        svg.append("rect")
-                            .attr("width", 300)
-                            .attr("height", 20)
-                            .style("fill", "url(#linear-gradient)")
-
-                        legend.text(function(d) { return  dose1});
                     });
 
                     var hoveron = function(d) {
@@ -235,45 +214,89 @@ angular.module('dashboard')
                         d3.select("#tooltip .name").text(d.properties.dist);
 
                         d3.select("#tooltip .value")
-                            .text (valueFormat(d.properties.field)+ vm.endtxt);
+                            .text (d3.format('.01f')(vm.getDistrictValue(d))+ vm.endtxt);
                     }
 
                     var hoverout = function(d) {
                         d3.select(this)
-                            .style("fill", function(d) {
-                                var value = d.properties.field;
-                                return value ? color(value) : "#ccc";
-                            });
+                            .style("fill", vm.getFillColor);
 
                         d3.select("#tooltip").style("opacity", 0);
                     }
             });
 
+            vm.drawLegend = function(colorCounts) {
+                // Setup Legend
+                d3.select("#gend").selectAll("*").remove();
+                var legendSvg = d3.select('#gend').append('svg');
+
+                legendSvg.append("g")
+                  .attr("class", "legendQuant")
+                  .attr("transform", "translate(20,20)");
+
+                var legend = d3.legend.color()
+                  .labelFormat(d3.format(".2f"))
+                  .cells(4)
+                  .shapeWidth(40)
+                  .shapeHeight(20)
+                  .labels([
+                      'No data ('+colorCounts.LightGray+')',
+                      '<50% ('+colorCounts.Red+')',
+                      '50-89% ('+colorCounts.Yellow+')',
+                       '>=90% ('+colorCounts.DarkGreen+')'
+                   ])
+                  .scale(color);
+
+                legendSvg.select(".legendQuant")
+                  .call(legend);
+            };
+
             vm.updateMapWithVaccine = function(vaccine) {
                 vm.activeVaccine = vaccine;
 
+                colorCounts = {Red: 0, Yellow: 0, DarkGreen: 0, LightGray: 0};
+
                 var paths = d3.select("#map svg").selectAll("path");
-                paths.style("fill", function (d) {
-                    var districtData = d.properties.field;
-                    if (districtData == undefined) return;
+                paths.style("fill", vm.getFillColor);
 
-                    if (! (vm.activeVaccine in districtData)) return;
+                setTimeout(function() {vm.drawLegend(colorCounts); }, 10);
+            };
 
-                    var vaccineData = districtData[vm.activeVaccine];
+            vm.getFillColor = function(d) {
 
-                    var periodList = MapSupportService.getPeriodList(
-                        vaccineData,
-                        endYear,
-                        vm.activeReportToggle
-                    );
+                var value = vm.getDistrictValue(d);
 
-                    var value = MapSupportService.calculateCoverageRate(
-                        vaccineData,
-                        periodList
-                    );
+                var colorValue = color(value);
+                if (colorValue) {
+                    if (colorValue in colorCounts) {
+                        colorCounts[colorValue] += 1;
+                    }
+                    return colorValue;
+                } else {
+                    return "LightGray";
+                }
+            };
 
-                    return value ? color(value) : "#ccc";
-                });
+            vm.getDistrictValue = function(d) {
+                var districtData = d.properties.field;
+
+                if (districtData == undefined || (! (vm.activeVaccine in districtData)) ) {
+                    colorCounts['LightGray'] += 1;
+                    return 'LightGray';
+                }
+
+                var vaccineData = districtData[vm.activeVaccine];
+
+                var periodList = MapSupportService.getPeriodList(
+                    vaccineData,
+                    endYear,
+                    vm.activeReportToggle
+                );
+
+                return MapSupportService.calculateCoverageRate(
+                    vaccineData,
+                    periodList
+                );
             };
 
 
