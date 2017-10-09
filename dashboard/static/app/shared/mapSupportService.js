@@ -6,7 +6,8 @@ angular.module('services').service('MapSupportService', [
 
             for (var i in data) {
                 var period = data[i].period;
-                var actual = data[i].total_actual;
+                var first_dose = data[i].total_first_dose;
+                var last_dose = data[i].total_last_dose;
                 var planned = data[i].total_planned;
                 var vaccine = data[i].vaccine__name;
                 var district = data[i].district__name;
@@ -29,7 +30,8 @@ angular.module('services').service('MapSupportService', [
                     dataDistrictMap[district][vaccine][periodYear][periodMonth] = {};
                 }
 
-                dataDistrictMap[district][vaccine][periodYear][periodMonth].actual = actual;
+                dataDistrictMap[district][vaccine][periodYear][periodMonth].first_dose = first_dose;
+                dataDistrictMap[district][vaccine][periodYear][periodMonth].last_dose = last_dose;
                 dataDistrictMap[district][vaccine][periodYear][periodMonth].planned = planned;
             }
 
@@ -102,11 +104,27 @@ angular.module('services').service('MapSupportService', [
                 return total + data[v[0]][v[1]].planned;
             }, 0);
 
-            var totalActual = periodList.reduce(function(total, v) {
-                return total + data[v[0]][v[1]].actual;
+            var totalLastDose = periodList.reduce(function(total, v) {
+                return total + data[v[0]][v[1]].last_dose;
             }, 0);
 
-            return (totalActual / totalPlanned) * 100;
+            return (totalLastDose / totalPlanned) * 100;
+        };
+
+        var calculateDropoutRate = function(data, periodList) {
+            var totalPlanned = periodList.reduce(function(total, v) {
+                return total + data[v[0]][v[1]].planned;
+            }, 0);
+
+            var totalLastDose = periodList.reduce(function(total, v) {
+                return total + data[v[0]][v[1]].last_dose;
+            }, 0);
+
+            var totalFirstDose = periodList.reduce(function(total, v) {
+                return total + data[v[0]][v[1]].first_dose;
+            }, 0);
+
+            return ((totalFirstDose - totalLastDose) / totalFirstDose) * 100;
         };
 
         var getLastValue = function(d, defaultValue) {
@@ -144,7 +162,8 @@ angular.module('services').service('MapSupportService', [
         return {
             "createDistrictDataMap": createDistrictDataMap,
             "getPeriodList": getPeriodList,
-            "calculateCoverageRate": calculateCoverageRate
+            "calculateCoverageRate": calculateCoverageRate,
+            "calculateDropoutRate": calculateDropoutRate
         };
     }
 ])

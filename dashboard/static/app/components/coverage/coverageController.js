@@ -293,10 +293,20 @@ angular.module('dashboard')
                     vm.activeReportToggle
                 );
 
-                return MapSupportService.calculateCoverageRate(
-                    vaccineData,
-                    periodList
-                );
+                if (vm.path=="/coverage/coverage"){
+                    return MapSupportService.calculateCoverageRate(
+                        vaccineData,
+                        periodList
+                    );
+
+                } else if (vm.path=="/coverage/dropoutrate"){
+                    return MapSupportService.calculateDropoutRate(
+                        vaccineData,
+                        periodList
+                    );
+
+                }
+
             };
 
 
@@ -347,7 +357,7 @@ angular.module('dashboard')
             //}
 
             shellScope.child.district = vm.district;
-            shellScope.child.vaccine = vm.vaccine;
+            shellScope.child.vaccine =   vm.vaccine;
 
             var valueFormat = d3.format(",");
 
@@ -643,6 +653,14 @@ angular.module('dashboard')
                 });
         };
 
+        vm.computeRate = function(first_dose, last_dose, planned) {
+            if (vm.path=="/coverage/coverage"){
+                return (last_dose / planned) * 100;
+            } else if (vm.path=="/coverage/dropoutrate"){
+                return ((first_dose - last_dose) / first_dose) * 100;
+            }
+        };
+
         vm.getChartData = function(params, data, reportYear, cumulative) {
 
             var periodValues = {};
@@ -651,7 +669,8 @@ angular.module('dashboard')
 
             for (var i in data) {
                 var period = data[i].period;
-                var actual = data[i].total_actual;
+                var last_dose = data[i].total_last_dose;
+                var first_dose = data[i].total_first_dose;
                 var planned = data[i].total_planned;
                 var vaccine = data[i].vaccine__name;
 
@@ -676,19 +695,21 @@ angular.module('dashboard')
 
                 if (! (vaccine in periodValues[yearLabel])) {
                     periodValues[yearLabel][vaccine] = [];
-                    totals[yearLabel][vaccine] = {actual: 0, planned: 0};
+                    totals[yearLabel][vaccine] = {first_dose: 0, last_dose: 0, planned: 0};
                 }
 
                 if (cumulative) {
-                    var combinedActual = totals[yearLabel][vaccine].actual + actual;
+                    var combinedFirstDose = totals[yearLabel][vaccine].first_dose + first_dose;
+                    var combinedLastDose = totals[yearLabel][vaccine].last_dose + last_dose;
                     var combinedPlanned = totals[yearLabel][vaccine].planned + planned;
 
-                    totals[yearLabel][vaccine].actual = combinedActual;
+                    totals[yearLabel][vaccine].first_dose = combinedFirstDose;
+                    totals[yearLabel][vaccine].last_dose = combinedLastDose;
                     totals[yearLabel][vaccine].planned = combinedPlanned;
 
-                    rate = (combinedActual / combinedPlanned) * 100;
+                    rate = vm.computeRate(combinedFirstDose, combinedLastDose, combinedPlanned);
                 } else {
-                    rate = (actual / planned) * 100;
+                    rate = vm.computeRate(first_dose, last_dose, planned);
                 }
 
                 periodValues[yearLabel][vaccine].push({x: monthIndex, y: d3.format('.01f')(rate)});
@@ -755,6 +776,16 @@ angular.module('dashboard')
                 });
         };
 
+        vm.enablePDFDownload = function() {
+                shellScope.child.downloadPDF = function() {
+                    var pdf = new jsPDF('l', 'mm');
+                    var options = { format : 'PNG' };
+
+                    pdf.addHTML(document.getElementById("pdfReport"), 0, 0, options, function() {
+                      pdf.save('coverage-report.pdf');
+                    });
+                }
+        };
 
         // $scope.$on('refresh', function(e, startMonth, endMonth, district, vaccine) {
         //     if(startMonth.name && endMonth.name && district.name && vaccine.name) {
@@ -769,6 +800,7 @@ angular.module('dashboard')
                     //vm.getStockByDistrict(startMonth.name, endMonth.name, district.name, vaccine.name);
                     //vm.getStockByDistrictVaccine(startMonth.name, endMonth.name, district.name, vaccine.name);
                     //vm.getDHIS2VaccineDoses(endMonth.period, district.name, vaccine.name);
+                    vm.enablePDFDownload();
                     vm.getVaccineDosesByDistrict(endMonth.period, district, antigen);
                     vm.getVaccineDosesByPeriod({
                         startYear: startYear,
@@ -781,10 +813,12 @@ angular.module('dashboard')
                     // vm.getVaccineDoses(endMonth.period, antigen, district);
                     if (endYear != vm.lastEndYear) {
                         vm.getVaccineDoses(endYear, antigen, district);
-                        vm.getRedVaccineDoses(endMonth.period, antigen);
                     } else {
                         vm.updateMapWithVaccine(antigen);
                     }
+
+                    vm.getRedVaccineDoses(endMonth.period, antigen);
+
 
                     vm.lastEndYear = endYear;
                 }

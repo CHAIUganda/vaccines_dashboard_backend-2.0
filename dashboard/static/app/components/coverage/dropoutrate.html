@@ -3,19 +3,24 @@
     <div report-year-toggles></div>
 
     <h4 class="text-center" >{{child.thevacdose}} National DropOut Rate {{child.district__name }}</h4>
-    <br>
-    <br>
+    <br><br>
 
     <div class="col-md-6">
-
-        <div id="gend"><!-- Details container --></div>
-        <div id="map"> <!-- Map container --> </div>
-        <div id="details"><!-- Details container --></div>
-
+        <div ng-hide="child.hideMap" class="map-container">
+            <div id="gend"><!-- Details container --></div>
+            <div id="map"> <!-- Map container --> </div>
+            <div id="details"><!-- Details container --></div>
+        </div>
+        <div ng-show="child.hideMap" class="text-center map-placeholder">
+            {{child.mapPlaceholderMessage}}
+        </div>
     </div>
-    <div class="col-md-6">
 
-
+    <div class="col-md-6" id="chart-container">
+        <nvd3 ng-show="isActiveReportToggle('MCY')" options="optionsMCY" data="dataMCY" api="apiMCY"></nvd3>
+        <nvd3 ng-show="isActiveReportToggle('ACY')" options="optionsACY" data="dataACY" api="apiACY"></nvd3>
+        <nvd3 ng-show="isActiveReportToggle('MFY')" options="optionsMFY" data="dataMFY" api="apiMFY"></nvd3>
+        <nvd3 ng-show="isActiveReportToggle('AFY')" options="optionsAFY" data="dataAFY" api="apiAFY"></nvd3>
     </div>
 
 

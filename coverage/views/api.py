@@ -179,7 +179,10 @@ class VaccineDosesByPeriod(APIView):
 
         summary = VaccineDose.objects.filter(**filters)\
             .values(*grouping_fields) \
-            .annotate(total_actual=Sum('last_dose'), total_planned=Sum('planned_consumption')) \
+            .annotate(total_actual=Sum('last_dose'),
+                      total_last_dose=Sum('last_dose'),
+                      total_first_dose=Sum('first_dose'),
+                      total_planned=Sum('planned_consumption')) \
             .order_by('period') \
             .all()
 
