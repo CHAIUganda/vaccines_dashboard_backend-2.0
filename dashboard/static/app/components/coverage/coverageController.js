@@ -13,6 +13,7 @@ angular.module('dashboard')
         vm.isLoading = false;
         vm.activeReportToggle = "MCY";
         vm.activeReportYear = "CY";
+        vm.activeDistrict = undefined;
 
         function periodDisplay(period)
         {
@@ -40,7 +41,6 @@ angular.module('dashboard')
             // vm.endMonth=period;
 
             shellScope.child.hideMap = true;
-
             if (district != undefined && district != "ALL") {
                 shellScope.child.mapPlaceholderMessage = "No map available.";
                 return;
@@ -292,6 +292,17 @@ angular.module('dashboard')
             };
 
             vm.updateMapWithVaccine = function(vaccine) {
+
+                if (vm.activeDistrict != undefined
+                    && vm.activeDistrict != "ALL"
+                    && vm.activeDistrict != "") {
+                        shellScope.child.hideMap = true;
+                        shellScope.child.mapPlaceholderMessage = "No map available.";
+                        return;
+                } else {
+                    shellScope.child.hideMap = false;
+                }
+
                 vm.activeVaccine = vaccine;
 
                 colorCounts = {
@@ -960,6 +971,7 @@ angular.module('dashboard')
                     //vm.getStockByDistrict(startMonth.name, endMonth.name, district.name, vaccine.name);
                     //vm.getStockByDistrictVaccine(startMonth.name, endMonth.name, district.name, vaccine.name);
                     //vm.getDHIS2VaccineDoses(endMonth.period, district.name, vaccine.name);
+                    vm.activeDistrict = district;
 
                     var enableDistrictGrouping = 0;
                     if (vm.path == '/coverage/redcategory') {
