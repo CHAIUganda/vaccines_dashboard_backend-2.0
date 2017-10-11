@@ -60,9 +60,23 @@ angular.module('dashboard')
             var field = "";
             var dose1 = "";
 
-            var color = d3.scale.linear()
-                .domain([0, 100])
-                .interpolate(function(start, end) {
+            var interpolateFunction;
+
+            if (vm.path=="/coverage/redcategory"){
+                interpolateFunction = function(start, end) {
+                    return function(t) {
+                        // console.log(t);
+                        t = (t * 100);
+                        if (t == 0 ) return 'LightGray';
+                        if (t == 1) return 'DarkGreen';
+                        if (t == 2) return 'Yellow';
+                        if (t == 3) return 'Orange';
+                        if (t == 4) return 'Red';
+                    };
+                };
+
+            } else {
+                interpolateFunction = function(start, end) {
                     return function(t) {
                         t = t * 100;
                         if (t == 0) return 'LightGray';
@@ -70,7 +84,11 @@ angular.module('dashboard')
                         if (t>= 50 && t<90) return 'Yellow';
                         if (t >= 90) return 'DarkGreen';
                     };
-                });
+                };
+            }
+            var color = d3.scale.linear()
+                .domain([0, 100])
+                .interpolate(interpolateFunction);
 
             if (vm.path=="/coverage/dropoutrate"){
                 field="drop_out_rate";
@@ -236,16 +254,38 @@ angular.module('dashboard')
 
                 var legend = d3.legend.color()
                   .labelFormat(d3.format(".2f"))
-                  .cells(4)
                   .shapeWidth(40)
-                  .shapeHeight(20)
-                  .labels([
-                      'No data ('+colorCounts.LightGray+')',
-                      '<50% ('+colorCounts.Red+')',
-                      '50-89% ('+colorCounts.Yellow+')',
-                       '>=90% ('+colorCounts.DarkGreen+')'
-                   ])
-                  .scale(color);
+                  .shapeHeight(20);
+
+                if (vm.path=="/coverage/redcategory"){
+                    var getLabel = function(name, value, total) {
+                        var percentage = (value/total) * 100;
+
+                        return name + ' ('+value+') (' + percentage.toFixed() + '%)';
+                    };
+
+                    var totals = colorCounts.LightGray + colorCounts.DarkGreen +
+                        colorCounts.Yellow + colorCounts.Orange + colorCounts.Red;
+
+                    legend.cells([0, 1, 2, 3, 4])
+                        .labels([
+                            getLabel('No data', colorCounts.LightGray, totals),
+                            getLabel('CAT1', colorCounts.DarkGreen, totals),
+                            getLabel('CAT2', colorCounts.Yellow, totals),
+                            getLabel('CAT3', colorCounts.Orange, totals),
+                            getLabel('CAT4', colorCounts.Red, totals)
+                        ]);
+                } else {
+                    legend.cells(4)
+                        .labels([
+                            'No data ('+colorCounts.LightGray+')',
+                            '<50% ('+colorCounts.Red+')',
+                            '50-89% ('+colorCounts.Yellow+')',
+                            '>=90% ('+colorCounts.DarkGreen+')'
+                        ]);
+                }
+
+                legend.scale(color);
 
                 legendSvg.select(".legendQuant")
                   .call(legend);
@@ -254,7 +294,13 @@ angular.module('dashboard')
             vm.updateMapWithVaccine = function(vaccine) {
                 vm.activeVaccine = vaccine;
 
-                colorCounts = {Red: 0, Yellow: 0, DarkGreen: 0, LightGray: 0};
+                colorCounts = {
+                    Red: 0,
+                    Yellow: 0,
+                    DarkGreen: 0,
+                    LightGray: 0,
+                    Orange: 0
+                };
 
                 var paths = d3.select("#map svg").selectAll("path");
                 paths.style("fill", vm.getFillColor);
@@ -301,6 +347,12 @@ angular.module('dashboard')
 
                 } else if (vm.path=="/coverage/dropoutrate"){
                     return MapSupportService.calculateDropoutRate(
+                        vaccineData,
+                        periodList
+                    );
+
+                } else if (vm.path=="/coverage/redcategory"){
+                    return MapSupportService.calculateRedCategoryValue(
                         vaccineData,
                         periodList
                     );
@@ -658,13 +710,30 @@ angular.module('dashboard')
                 return (last_dose / planned) * 100;
             } else if (vm.path=="/coverage/dropoutrate"){
                 return ((first_dose - last_dose) / first_dose) * 100;
+            } else if (vm.path=="/coverage/redcategory"){
+                var access = (first_dose/planned) * 100;
+                var dropoutRate = ((first_dose - last_dose) / first_dose) * 100;
+
+                if (access >= 90 && dropoutRate >= 0 && dropoutRate <= 10) {
+                    return 1;
+                } else if (access >= 90 && (dropoutRate < 0 || dropoutRate > 10)) {
+                    return 2;
+                } else if (access < 90 && dropoutRate >= 0 && dropoutRate <= 10) {
+                    return 3;
+                } else if (access < 90 && (dropoutRate < 0 || dropoutRate > 10)) {
+                    return 4;
+                } else {
+                    return 0;
+                }
             }
         };
 
         vm.getChartData = function(params, data, reportYear, cumulative) {
 
             var periodValues = {};
+            var redCategoryValues = {};
             var totals = {};
+            var redCategoryTotals = {};
             var rate;
 
             for (var i in data) {
@@ -673,6 +742,7 @@ angular.module('dashboard')
                 var first_dose = data[i].total_first_dose;
                 var planned = data[i].total_planned;
                 var vaccine = data[i].vaccine__name;
+                var district = data[i].district__name;
 
                 var dataMonth = appHelpers.getMonthFromPeriod(period, reportYear);
                 var dataYear = appHelpers.getYearFromPeriod(period, reportYear);
@@ -690,39 +760,129 @@ angular.module('dashboard')
 
                 if (! (yearLabel in periodValues)) {
                     periodValues[yearLabel] = {};
+                    redCategoryValues[yearLabel] = {};
                     totals[yearLabel] = {};
+                    redCategoryTotals[yearLabel] = {};
                 }
 
                 if (! (vaccine in periodValues[yearLabel])) {
                     periodValues[yearLabel][vaccine] = [];
+                    redCategoryValues[yearLabel][vaccine] = {};
                     totals[yearLabel][vaccine] = {first_dose: 0, last_dose: 0, planned: 0};
+                    redCategoryTotals[yearLabel][vaccine] = {};
+                }
+
+                if (district != undefined && !(district in redCategoryTotals[yearLabel][vaccine])) {
+                    redCategoryTotals[yearLabel][vaccine][district] = {first_dose: 0, last_dose: 0, planned: 0};
                 }
 
                 if (cumulative) {
-                    var combinedFirstDose = totals[yearLabel][vaccine].first_dose + first_dose;
-                    var combinedLastDose = totals[yearLabel][vaccine].last_dose + last_dose;
-                    var combinedPlanned = totals[yearLabel][vaccine].planned + planned;
+                    if (vm.path == '/coverage/redcategory') {
+                        var combinedFirstDose =
+                            redCategoryTotals[yearLabel][vaccine][district].first_dose + first_dose;
+                        var combinedLastDose =
+                            redCategoryTotals[yearLabel][vaccine][district].last_dose + last_dose;
+                        var combinedPlanned =
+                            redCategoryTotals[yearLabel][vaccine][district].planned + planned;
 
-                    totals[yearLabel][vaccine].first_dose = combinedFirstDose;
-                    totals[yearLabel][vaccine].last_dose = combinedLastDose;
-                    totals[yearLabel][vaccine].planned = combinedPlanned;
+                        redCategoryTotals[yearLabel][vaccine][district].first_dose = combinedFirstDose;
+                        redCategoryTotals[yearLabel][vaccine][district].last_dose = combinedLastDose;
+                        redCategoryTotals[yearLabel][vaccine][district].planned = combinedPlanned;
+                    } else {
+                        var combinedFirstDose = totals[yearLabel][vaccine].first_dose + first_dose;
+                        var combinedLastDose = totals[yearLabel][vaccine].last_dose + last_dose;
+                        var combinedPlanned = totals[yearLabel][vaccine].planned + planned;
+
+                        totals[yearLabel][vaccine].first_dose = combinedFirstDose;
+                        totals[yearLabel][vaccine].last_dose = combinedLastDose;
+                        totals[yearLabel][vaccine].planned = combinedPlanned;
+                    }
 
                     rate = vm.computeRate(combinedFirstDose, combinedLastDose, combinedPlanned);
                 } else {
                     rate = vm.computeRate(first_dose, last_dose, planned);
                 }
 
-                periodValues[yearLabel][vaccine].push({x: monthIndex, y: d3.format('.01f')(rate)});
-            }
+                if (vm.path == '/coverage/redcategory') {
+                    var category = rate;
 
-            var chartData = [];
-            for (var yearLabel in periodValues) {
-                for (var vaccine in periodValues[yearLabel]) {
-                    var key = vaccine + " (" + yearLabel + ")";
-                    chartData.push({key: key, values: periodValues[yearLabel][vaccine]})
+                    if (! (monthIndex in redCategoryValues[yearLabel][vaccine])) {
+                        redCategoryValues[yearLabel][vaccine][monthIndex] = {};
+                    }
+
+                    if (! (category in redCategoryValues[yearLabel][vaccine][monthIndex])) {
+                        redCategoryValues[yearLabel][vaccine][monthIndex][category] = [];
+                    }
+
+                    redCategoryValues[yearLabel][vaccine][monthIndex][category].push(district);
+
+                } else {
+                    periodValues[yearLabel][vaccine].push({x: monthIndex, y: d3.format('.01f')(rate)});
                 }
             }
 
+            // console.log(redCategoryValues);
+
+            var chartData = [];
+
+            if (vm.path == '/coverage/redcategory') {
+                var getRedCategoryValues = function(monthIndex, catDistricts, totalDistricts) {
+                    return {
+                            // x: monthIndex, y: d3.format('.01f')((catDistricts / totalDistricts) * 100)
+                            x: Number(monthIndex), y: d3.format('.01f')(catDistricts)
+                    };
+                };
+
+                var getTotalRedCategoryDistricts = function(cat, data) {
+                    if (cat in data) {
+                        return data[cat].length;
+                    }
+                    return 0;
+                };
+
+                var categoryValues = {
+                    1: [], 2: [], 3: [], 4: []
+                };
+
+                for (var yearLabel in redCategoryValues) {
+                    for (var vaccine in redCategoryValues[yearLabel]) {
+                        for (var monthIndex in redCategoryValues[yearLabel][vaccine]) {
+
+                            var vaccineData = redCategoryValues[yearLabel][vaccine][monthIndex];
+
+                            // console.log(yearLabel + "-" + monthIndex + "-" + vaccine );
+                            // console.log(vaccineData);
+
+                            var cat1Districts = getTotalRedCategoryDistricts(1, vaccineData);
+                            var cat2Districts = getTotalRedCategoryDistricts(2, vaccineData);
+                            var cat3Districts = getTotalRedCategoryDistricts(3, vaccineData);
+                            var cat4Districts = getTotalRedCategoryDistricts(4, vaccineData);
+
+                            var totalDistricts = cat1Districts + cat2Districts + cat3Districts + cat4Districts;
+
+                            categoryValues[1].push(getRedCategoryValues(monthIndex, cat1Districts, totalDistricts));
+                            categoryValues[2].push(getRedCategoryValues(monthIndex, cat2Districts, totalDistricts));
+                            categoryValues[3].push(getRedCategoryValues(monthIndex, cat3Districts, totalDistricts));
+                            categoryValues[4].push(getRedCategoryValues(monthIndex, cat4Districts, totalDistricts));
+                        }
+                    }
+                }
+
+                chartData.push({key: 'CAT1', color: 'DarkGreen', values: categoryValues[1]});
+                chartData.push({key: 'CAT2', color: 'Yellow', values: categoryValues[2]});
+                chartData.push({key: 'CAT3', color: 'Orange', values: categoryValues[3]});
+                chartData.push({key: 'CAT4', color: 'Red', values: categoryValues[4]});
+
+            } else {
+                for (var yearLabel in periodValues) {
+                    for (var vaccine in periodValues[yearLabel]) {
+                        var key = vaccine + " (" + yearLabel + ")";
+                        chartData.push({key: key, values: periodValues[yearLabel][vaccine]})
+                    }
+                }
+            }
+
+            // console.log(chartData);
             return chartData;
         };
 
@@ -800,6 +960,12 @@ angular.module('dashboard')
                     //vm.getStockByDistrict(startMonth.name, endMonth.name, district.name, vaccine.name);
                     //vm.getStockByDistrictVaccine(startMonth.name, endMonth.name, district.name, vaccine.name);
                     //vm.getDHIS2VaccineDoses(endMonth.period, district.name, vaccine.name);
+
+                    var enableDistrictGrouping = 0;
+                    if (vm.path == '/coverage/redcategory') {
+                        enableDistrictGrouping = 1;
+                    }
+
                     vm.enablePDFDownload();
                     vm.getVaccineDosesByDistrict(endMonth.period, district, antigen);
                     vm.getVaccineDosesByPeriod({
@@ -807,7 +973,8 @@ angular.module('dashboard')
                         endYear: endYear,
                         antigen: antigen,
                         dose: dose,
-                        district: district
+                        district: district,
+                        enableDistrictGrouping: enableDistrictGrouping
                     });
 
                     // vm.getVaccineDoses(endMonth.period, antigen, district);
@@ -817,7 +984,7 @@ angular.module('dashboard')
                         vm.updateMapWithVaccine(antigen);
                     }
 
-                    vm.getRedVaccineDoses(endMonth.period, antigen);
+                    // vm.getRedVaccineDoses(endMonth.period, antigen);
 
 
                     vm.lastEndYear = endYear;

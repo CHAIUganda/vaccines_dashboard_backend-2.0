@@ -1,6 +1,6 @@
 angular.module('dashboard')
-    .controller('MainController', ['$scope', 'FilterService', 'MonthService', '$rootScope',
-    function($scope, FilterService, MonthService, $rootScope)
+    .controller('MainController', ['$scope', 'FilterService', 'MonthService', '$rootScope', '$location',
+    function($scope, FilterService, MonthService, $rootScope, $location)
     {
         $scope.sortType     = 'name'; // set the default sort type
         $scope.sortReverse  = false;  // set the default sort order
@@ -41,7 +41,12 @@ angular.module('dashboard')
         };
 
         shell.antigens = Object.keys(antigens);
-        shell.antigen = "ALL";
+
+        if ($location.path() == '/coverage/redcategory') {
+            shell.antigen = "MEASLES";
+        } else {
+            shell.antigen = "ALL";
+        }
         // shell.updateDoses();
 
         FilterService.getPeriodRanges().then(function(data) {

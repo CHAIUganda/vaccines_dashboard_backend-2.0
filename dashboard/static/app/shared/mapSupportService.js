@@ -127,6 +127,35 @@ angular.module('services').service('MapSupportService', [
             return ((totalFirstDose - totalLastDose) / totalFirstDose) * 100;
         };
 
+        var calculateRedCategoryValue = function(data, periodList) {
+            var totalPlanned = periodList.reduce(function(total, v) {
+                return total + data[v[0]][v[1]].planned;
+            }, 0);
+
+            var totalLastDose = periodList.reduce(function(total, v) {
+                return total + data[v[0]][v[1]].last_dose;
+            }, 0);
+
+            var totalFirstDose = periodList.reduce(function(total, v) {
+                return total + data[v[0]][v[1]].first_dose;
+            }, 0);
+
+            var access = (totalFirstDose / totalPlanned) * 100;
+            var dropoutRate = ((totalFirstDose - totalLastDose) / totalFirstDose) * 100;
+
+            if (access >= 90 && dropoutRate >= 0 && dropoutRate <= 10) {
+                return 1;
+            } else if (access >= 90 && (dropoutRate < 0 || dropoutRate > 10)) {
+                return 2;
+            } else if (access < 90 && dropoutRate >= 0 && dropoutRate <= 10) {
+                return 3;
+            } else if (access < 90 && (dropoutRate < 0 || dropoutRate > 10)) {
+                return 4;
+            } else {
+                return 0;
+            }
+        };
+
         var getLastValue = function(d, defaultValue) {
             if (defaultValue in d) return defaultValue;
 
@@ -163,7 +192,8 @@ angular.module('services').service('MapSupportService', [
             "createDistrictDataMap": createDistrictDataMap,
             "getPeriodList": getPeriodList,
             "calculateCoverageRate": calculateCoverageRate,
-            "calculateDropoutRate": calculateDropoutRate
+            "calculateDropoutRate": calculateDropoutRate,
+            "calculateRedCategoryValue": calculateRedCategoryValue
         };
     }
 ])

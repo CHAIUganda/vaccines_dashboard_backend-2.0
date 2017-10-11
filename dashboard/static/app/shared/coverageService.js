@@ -50,7 +50,8 @@ angular.module('services').service('CoverageService', ['$http',
                     vaccine: params.antigen,
                     dose: params.dose,
                     district: params.district,
-                    dataType: params.dataType
+                    dataType: params.dataType,
+                    enableDistrictGrouping: params.enableDistrictGrouping
                 }
             }).then(handleResponse);
         };
