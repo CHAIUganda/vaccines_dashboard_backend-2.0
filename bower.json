@@ -39,7 +39,9 @@
     "angular-nvd3": "^1.0.6",
     "angular-datatables": "^0.5.4",
     "html2canvas": "^0.4.1",
-    "jspdf": "^1.3.5"
+    "jspdf": "^1.3.5",
+    "canvg": "^1.3.0",
+    "rgbcolor": "^1.0.1"
   },
   "resolutions": {
     "jquery": ">=1.7.0",
