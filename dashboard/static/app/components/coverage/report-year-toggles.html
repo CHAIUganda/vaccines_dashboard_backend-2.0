@@ -1,19 +1,21 @@
 <div class="row toggle-row" >
     <span class='reg_toggle'>
-        <span class='toggle-option'
-            ng-class='{active: isActiveReportToggle("MCY")}'
-            ng-click="updateReportToggle('MCY')">Monthly (CY)</span>
 
         <span class=' toggle-option'
             ng-class='{active: isActiveReportToggle("ACY")}'
             ng-click="updateReportToggle('ACY')">Annualized (CY)</span>
 
-        <span class=' toggle-option'
-            ng-class='{active: isActiveReportToggle("MFY")}'
-            ng-click="updateReportToggle('MFY')">Monthly (FY)</span>
+        <span class='toggle-option'
+            ng-class='{active: isActiveReportToggle("MCY")}'
+            ng-click="updateReportToggle('MCY')">Monthly (CY)</span>
 
         <span class=' toggle-option'
             ng-class='{active: isActiveReportToggle("AFY")}'
             ng-click="updateReportToggle('AFY')">Annualized (FY)</span>
+
+        <span class=' toggle-option'
+            ng-class='{active: isActiveReportToggle("MFY")}'
+            ng-click="updateReportToggle('MFY')">Monthly (FY)</span>
+
     </span>
 </div>

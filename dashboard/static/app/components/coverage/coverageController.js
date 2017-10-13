@@ -11,7 +11,7 @@ angular.module('dashboard')
         vm.path = $location.path();
         vm.endtxt="";
         vm.isLoading = false;
-        vm.activeReportToggle = "MCY";
+        vm.activeReportToggle = "ACY";
         vm.activeReportYear = "CY";
         vm.activeDistrict = undefined;
 
