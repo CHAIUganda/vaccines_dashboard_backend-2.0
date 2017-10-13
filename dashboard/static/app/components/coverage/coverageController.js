@@ -15,6 +15,10 @@ angular.module('dashboard')
         vm.activeReportYear = "CY";
         vm.activeDistrict = undefined;
 
+        $scope.isActive = function(viewLocation) {
+            return viewLocation === $location.path();
+        };
+
         function periodDisplay(period)
         {
             if (period == undefined) {
@@ -54,6 +58,10 @@ angular.module('dashboard')
             vm.vaccine = vaccine;//vm.selectedVaccine ? vm.selectedVaccine.name : "va";
             vm.activeVaccine = vaccine;
 
+            if (vaccine == "DPT") {
+                vm.activeVaccine = "PENTA";
+            }
+
             // Assign dimensions for map container
             var width = 500,
                 height = 500;
@@ -74,7 +82,16 @@ angular.module('dashboard')
                         if (t == 4) return 'Red';
                     };
                 };
-
+            } else if (vm.path=="/coverage/dropoutrate"){
+                interpolateFunction = function(start, end) {
+                    return function(t) {
+                        t = t * 100;
+                        if (t == 0) return 'LightGray';
+                        if (t < 50) return 'Red';
+                        if (t>= 50 && t<90) return 'Yellow';
+                        if (t >= 90) return 'DarkGreen';
+                    };
+                };
             } else {
                 interpolateFunction = function(start, end) {
                     return function(t) {
@@ -292,7 +309,6 @@ angular.module('dashboard')
             };
 
             vm.updateMapWithVaccine = function(vaccine) {
-
                 if (vm.activeDistrict != undefined
                     && vm.activeDistrict != "ALL"
                     && vm.activeDistrict != "") {
@@ -301,6 +317,10 @@ angular.module('dashboard')
                         return;
                 } else {
                     shellScope.child.hideMap = false;
+                }
+
+                if (vaccine == "DPT") {
+                    vaccine = "PENTA";
                 }
 
                 vm.activeVaccine = vaccine;
@@ -353,7 +373,8 @@ angular.module('dashboard')
                 if (vm.path=="/coverage/coverage"){
                     return MapSupportService.calculateCoverageRate(
                         vaccineData,
-                        periodList
+                        periodList,
+                        vm.getActiveDoseNumber()
                     );
 
                 } else if (vm.path=="/coverage/dropoutrate"){
@@ -580,7 +601,6 @@ angular.module('dashboard')
 
                     // Logic to handle hover event when its firedup
                         var hoveron = function(d) {
-                            console.log('d', d, 'event', event);
                             var div = document.getElementById('tooltip');
                             div.style.left = event.pageX + 'px';
                             div.style.top = event.pageY + 'px';
@@ -716,9 +736,28 @@ angular.module('dashboard')
                 });
         };
 
-        vm.computeRate = function(first_dose, last_dose, planned) {
+        vm.getActiveDoseNumber = function() {
+            var dose = 0;
+            if (vm.activeDose != undefined) {
+                dose = Number(vm.activeDose.substr(vm.activeDose.length-1, 1));
+            }
+            return dose;
+        };
+
+        vm.computeRate = function(first_dose, second_dose, last_dose, planned) {
             if (vm.path=="/coverage/coverage"){
-                return (last_dose / planned) * 100;
+
+                var activeDoseNumber = vm.getActiveDoseNumber();
+
+                var doseValue = last_dose;
+
+                if (activeDoseNumber == 1) {
+                    doseValue = first_dose;
+                } else if (activeDoseNumber == 2) {
+                    doseValue = second_dose;
+                }
+
+                return (doseValue / planned) * 100;
             } else if (vm.path=="/coverage/dropoutrate"){
                 return ((first_dose - last_dose) / first_dose) * 100;
             } else if (vm.path=="/coverage/redcategory"){
@@ -751,6 +790,7 @@ angular.module('dashboard')
                 var period = data[i].period;
                 var last_dose = data[i].total_last_dose;
                 var first_dose = data[i].total_first_dose;
+                var second_dose = data[i].total_second_dose;
                 var planned = data[i].total_planned;
                 var vaccine = data[i].vaccine__name;
                 var district = data[i].district__name;
@@ -779,7 +819,7 @@ angular.module('dashboard')
                 if (! (vaccine in periodValues[yearLabel])) {
                     periodValues[yearLabel][vaccine] = [];
                     redCategoryValues[yearLabel][vaccine] = {};
-                    totals[yearLabel][vaccine] = {first_dose: 0, last_dose: 0, planned: 0};
+                    totals[yearLabel][vaccine] = {first_dose: 0, second_dose:0, last_dose: 0, planned: 0};
                     redCategoryTotals[yearLabel][vaccine] = {};
                 }
 
@@ -802,16 +842,18 @@ angular.module('dashboard')
                     } else {
                         var combinedFirstDose = totals[yearLabel][vaccine].first_dose + first_dose;
                         var combinedLastDose = totals[yearLabel][vaccine].last_dose + last_dose;
+                        var combinedSecondDose = totals[yearLabel][vaccine].second_dose + second_dose;
                         var combinedPlanned = totals[yearLabel][vaccine].planned + planned;
 
                         totals[yearLabel][vaccine].first_dose = combinedFirstDose;
                         totals[yearLabel][vaccine].last_dose = combinedLastDose;
+                        totals[yearLabel][vaccine].second_dose = combinedSecondDose;
                         totals[yearLabel][vaccine].planned = combinedPlanned;
                     }
 
-                    rate = vm.computeRate(combinedFirstDose, combinedLastDose, combinedPlanned);
+                    rate = vm.computeRate(combinedFirstDose, combinedSecondDose, combinedLastDose, combinedPlanned);
                 } else {
-                    rate = vm.computeRate(first_dose, last_dose, planned);
+                    rate = vm.computeRate(first_dose, second_dose, last_dose, planned);
                 }
 
                 if (vm.path == '/coverage/redcategory') {
@@ -887,7 +929,11 @@ angular.module('dashboard')
             } else {
                 for (var yearLabel in periodValues) {
                     for (var vaccine in periodValues[yearLabel]) {
-                        var key = vaccine + " (" + yearLabel + ")";
+                        if (vm.activeDose != undefined) {
+                            var key = vm.activeDose + " (" + yearLabel + ")";
+                        } else {
+                            var key = vaccine + " (" + yearLabel + ")";
+                        }
                         chartData.push({key: key, values: periodValues[yearLabel][vaccine]})
                     }
                 }
@@ -917,11 +963,14 @@ angular.module('dashboard')
                         tooltipHide: function(e){ console.log("tooltipHide"); }
                     },
                     xAxis: {
+                        axisLabel: 'Months',
                         tickFormat: function(d){
                             return appHelpers.getMonthFromNumber(d, reportYear);
                         }
                     },
-                    yAxis: {},
+                    yAxis: {
+                        axisLabel: 'Percentage (%)'
+                    },
                     callback: function(chart){
                         //console.log("!!! lineChart callback !!!");
                     }
@@ -1000,6 +1049,7 @@ angular.module('dashboard')
                     //vm.getStockByDistrictVaccine(startMonth.name, endMonth.name, district.name, vaccine.name);
                     //vm.getDHIS2VaccineDoses(endMonth.period, district.name, vaccine.name);
                     vm.activeDistrict = district;
+                    vm.activeDose = dose;
 
                     var enableDistrictGrouping = 0;
                     if (vm.path == '/coverage/redcategory') {

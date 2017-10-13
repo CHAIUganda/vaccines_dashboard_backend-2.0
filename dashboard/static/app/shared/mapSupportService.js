@@ -7,6 +7,7 @@ angular.module('services').service('MapSupportService', [
             for (var i in data) {
                 var period = data[i].period;
                 var first_dose = data[i].total_first_dose;
+                var second_dose = data[i].total_second_dose;
                 var last_dose = data[i].total_last_dose;
                 var planned = data[i].total_planned;
                 var vaccine = data[i].vaccine__name;
@@ -32,6 +33,7 @@ angular.module('services').service('MapSupportService', [
 
                 dataDistrictMap[district][vaccine][periodYear][periodMonth].first_dose = first_dose;
                 dataDistrictMap[district][vaccine][periodYear][periodMonth].last_dose = last_dose;
+                dataDistrictMap[district][vaccine][periodYear][periodMonth].second_dose = second_dose;
                 dataDistrictMap[district][vaccine][periodYear][periodMonth].planned = planned;
             }
 
@@ -99,16 +101,33 @@ angular.module('services').service('MapSupportService', [
             return periodList;
         };
 
-        var calculateCoverageRate = function(data, periodList) {
+        var calculateCoverageRate = function(data, periodList, doseNumber) {
+            
             var totalPlanned = periodList.reduce(function(total, v) {
                 return total + data[v[0]][v[1]].planned;
+            }, 0);
+
+            var totalFirstDose = periodList.reduce(function(total, v) {
+                return total + data[v[0]][v[1]].first_dose;
+            }, 0);
+
+            var totalSecondDose = periodList.reduce(function(total, v) {
+                return total + data[v[0]][v[1]].second_dose;
             }, 0);
 
             var totalLastDose = periodList.reduce(function(total, v) {
                 return total + data[v[0]][v[1]].last_dose;
             }, 0);
 
-            return (totalLastDose / totalPlanned) * 100;
+            var doseValue = totalLastDose;
+
+            if (doseNumber == 1) {
+                doseValue = totalFirstDose;
+            } else if (doseNumber == 2) {
+                doseValue = totalSecondDose;
+            }
+
+            return (doseValue / totalPlanned) * 100;
         };
 
         var calculateDropoutRate = function(data, periodList) {

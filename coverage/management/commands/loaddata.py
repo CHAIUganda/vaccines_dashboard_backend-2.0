@@ -66,6 +66,7 @@ def save_vaccine_dose(period):
         # ====== OPV ===========================
         opv_drop_out_rate = None
         opv_dose1 = summary.filter(vaccine__name='OPV', dose='105-2.11 Polio 1')
+        opv_dose2 = summary.filter(vaccine__name='OPV', dose='105-2.11 Polio 2')
         opv_dose3 = summary.filter(vaccine__name='OPV', dose='105-2.11 Polio 3')
         if opv_dose1 and opv_dose3 and opv_dose1.first().consumed > 0:
             opv_drop_out_rate = float('%.2f' % (((opv_dose1.first().consumed
@@ -78,6 +79,7 @@ def save_vaccine_dose(period):
                 drop_out_rate=opv_drop_out_rate,
                 under_immunized=opv_dose1.first().consumed-opv_dose3.first().consumed,
                 first_dose=opv_dose1.first().consumed,
+                second_dose=opv_dose2.first().consumed,
                 last_dose=opv_dose3.first().consumed,
                 access=100*(opv_dose1.first().consumed / opv_dose1.first().planned_consumption),
                 coverage_rate=float('%.1f' % (100*(opv_dose3.first().consumed / opv_dose3.first().planned_consumption))),
@@ -87,6 +89,7 @@ def save_vaccine_dose(period):
         # ====== PCV ===========================
         pcv_drop_out_rate = None
         pcv_dose1 = summary.filter(vaccine__name='PCV', dose='105-2.11 PCV 1')
+        pcv_dose2 = summary.filter(vaccine__name='PCV', dose='105-2.11 PCV 2')
         pcv_dose3 = summary.filter(vaccine__name='PCV', dose='105-2.11 PCV 3')
         if pcv_dose1 and pcv_dose3 and pcv_dose1.first().consumed > 0:
             pcv_drop_out_rate = float('%.2f' % (((pcv_dose1.first().consumed
@@ -99,6 +102,7 @@ def save_vaccine_dose(period):
                 drop_out_rate=pcv_drop_out_rate,
                 under_immunized=pcv_dose1.first().consumed-pcv_dose3.first().consumed,
                 first_dose=pcv_dose1.first().consumed,
+                second_dose=pcv_dose2.first().consumed,
                 last_dose=pcv_dose3.first().consumed,
                 access=100 * (pcv_dose1.first().consumed / pcv_dose1.first().planned_consumption),
                 coverage_rate=float('%.1f' % (100*(pcv_dose3.first().consumed / pcv_dose3.first().planned_consumption))),
@@ -108,6 +112,7 @@ def save_vaccine_dose(period):
         # ====== PENTA ===========================
         penta_drop_out_rate = None
         penta_dose1 = summary.filter(vaccine__name='PENTA', dose='105-2.11 DPT-HepB+Hib 1')
+        penta_dose2 = summary.filter(vaccine__name='PENTA', dose='105-2.11 DPT-HepB+Hib 2')
         penta_dose3 = summary.filter(vaccine__name='PENTA', dose='105-2.11 DPT-HepB+Hib 3')
         if penta_dose1 and penta_dose3 and penta_dose1.first().consumed > 0:
             penta_drop_out_rate = float('%.2f' % (((penta_dose1.first().consumed
@@ -121,6 +126,7 @@ def save_vaccine_dose(period):
                 drop_out_rate=penta_drop_out_rate,
                 under_immunized=penta_dose1.first().consumed-penta_dose3.first().consumed,
                 first_dose=penta_dose1.first().consumed,
+                second_dose=penta_dose2.first().consumed,
                 last_dose=penta_dose3.first().consumed,
                 access=100 * (penta_dose1.first().consumed / penta_dose1.first().planned_consumption),
                 coverage_rate=float('%.1f' % (100*(penta_dose3.first().consumed / penta_dose3.first().planned_consumption))),
@@ -142,6 +148,7 @@ def save_vaccine_dose(period):
                 drop_out_rate=tt_drop_out_rate,
                 under_immunized=tt_dose1.first().consumed-tt_dose2.first().consumed,
                 first_dose=tt_dose1.first().consumed,
+                second_dose=tt_dose2.first().consumed,
                 last_dose=tt_dose2.first().consumed,
                 access=100 * (tt_dose1.first().consumed / tt_dose1.first().planned_consumption),
                 coverage_rate=float('%.1f' % (100*(tt_dose2.first().consumed / tt_dose2.first().planned_consumption))),
@@ -163,6 +170,7 @@ def save_vaccine_dose(period):
                 drop_out_rate=hpv_drop_out_rate,
                 under_immunized=hpv_dose1.first().consumed-hpv_dose2.first().consumed,
                 first_dose=hpv_dose1.first().consumed,
+                second_dose=hpv_dose2.first().consumed,
                 last_dose=hpv_dose2.first().consumed,
                 access=100 * (hpv_dose1.first().consumed / hpv_dose1.first().planned_consumption),
                 coverage_rate=float('%.1f' % (100*(hpv_dose2.first().consumed / hpv_dose2.first().planned_consumption))),

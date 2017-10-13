@@ -52,7 +52,7 @@
 
             <div class="spacer"></div>
 
-            <div class="filter-field">
+            <div class="filter-field" ng-show="isActive('/coverage/coverage')">
                 Dose
                 <select class="form-control filter criteria-select" ng-model="shell.dose">
                     <option ng-repeat="dose in shell.doses" ng-value="dose">{{dose}}</option>

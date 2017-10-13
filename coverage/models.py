@@ -25,6 +25,7 @@ class VaccineDose(models.Model):
     drop_out_rate = models.FloatField(null=True, blank=True)
     under_immunized = models.FloatField(default=0)
     first_dose = models.IntegerField()
+    second_dose = models.IntegerField(default=0)
     last_dose = models.IntegerField()
     access = models.FloatField(default=0)
     coverage_rate = models.FloatField(null=True, blank=True)

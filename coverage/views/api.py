@@ -154,6 +154,9 @@ class VaccineDosesByPeriod(APIView):
             filters.update({'district__name': district})
 
         if vaccine and vaccine.lower() != "all":
+            if vaccine.strip() == 'DPT':
+                vaccine = "PENTA"
+
             filters.update({'vaccine__name': vaccine})
 
             start_period, end_period = self.get_ranges_from_years(start_year, end_year)
@@ -185,6 +188,7 @@ class VaccineDosesByPeriod(APIView):
             .annotate(total_actual=Sum('last_dose'),
                       total_last_dose=Sum('last_dose'),
                       total_first_dose=Sum('first_dose'),
+                      total_second_dose=Sum('second_dose'),
                       total_planned=Sum('planned_consumption')) \
             .order_by('period') \
             .all()
