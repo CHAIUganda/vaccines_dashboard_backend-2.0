@@ -58,7 +58,7 @@ angular.module('dashboard')
             vm.vaccine = vaccine;//vm.selectedVaccine ? vm.selectedVaccine.name : "va";
             vm.activeVaccine = vaccine;
 
-            if (vaccine == "DPT") {
+            if (vaccine == "DPT" || vaccine == "ALL") {
                 vm.activeVaccine = "PENTA";
             }
 
@@ -327,7 +327,7 @@ angular.module('dashboard')
                     shellScope.child.hideMap = false;
                 }
 
-                if (vaccine == "DPT") {
+                if (vaccine == "DPT" || vaccine == "ALL") {
                     vaccine = "PENTA";
                 }
 
