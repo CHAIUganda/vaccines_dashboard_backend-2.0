@@ -64,6 +64,9 @@ angular.module('dashboard')
         FilterService.getLastPeriod().then(function(data) {
             shell.defaultPeriod = data;
             shell.defaultMonth = parseInt(data.period.toString().substring(4, 6));
+            $scope.defaultMonth = shell.defaultMonth;
+            $scope.defaultPeriod = data.period.toString();
+
             var period = data.period.toString();
             var month_number = parseInt(period.substring(4,6));
             var month_label = MonthService.getMonthName(month_number);

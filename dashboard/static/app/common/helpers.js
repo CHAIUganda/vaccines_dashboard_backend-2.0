@@ -17,6 +17,16 @@
          return months[month] + "'"+year;
     };
 
+    var generateFullLabelFromPeriod = function(period) {
+        period = period.toString();
+        var year = period.substr(0,4);
+        var month = Number(period.substr(4,2));
+
+        var months = ['', 'January', 'February', 'March', 'April', 'May', 'June',
+            'July', 'August', 'September', 'October', 'November', 'December'];
+        return months[month] + " "+year;
+   };
+
     var getMonthFromNumber = function(value, yearType) {
         var months = ['', 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'];
         var monthsFY = ['', 'Jul', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec', 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'];
@@ -85,6 +95,7 @@
          angular.extend(appHelpers, {
              'per': per,
              'generateLabelFromPeriod': generateLabelFromPeriod,
+             'generateFullLabelFromPeriod': generateFullLabelFromPeriod,
              'getPeriodString': getPeriodString,
              'getYearLabelFromPeriod': getYearLabelFromPeriod,
              'getMonthFromPeriod': getMonthFromPeriod,

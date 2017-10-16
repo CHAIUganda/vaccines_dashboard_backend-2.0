@@ -145,7 +145,7 @@ h1, h2, h3, h4, h5, h6, th {
 
 #chart-container {
     position: relative;
-    height: 450px;
+    min-height: 450px;
 }
 
 .map-placeholder {
@@ -185,4 +185,9 @@ h1, h2, h3, h4, h5, h6, th {
 
 #pdfReport {
     background-color: #fff;
+}
+
+#chart-container h4, #map-container h4 {
+    line-height:20px;
+    width: 450px;
 }

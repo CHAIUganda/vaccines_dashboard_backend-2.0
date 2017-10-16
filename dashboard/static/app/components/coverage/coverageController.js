@@ -33,6 +33,8 @@ angular.module('dashboard')
             vm.activeReportYear = vm.activeReportToggle.substr(1,2);
             vm.updateMapWithVaccine(vm.activeVaccine);
             setTimeout(function(){window.dispatchEvent(new Event('resize'))}, 3000);
+
+            shellScope.child.chartTitle = vm.getChartTitle(vm.selectedAntigen);
         };
 
         $scope.isActiveReportToggle = function(value) {
@@ -316,6 +318,21 @@ angular.module('dashboard')
                   .call(legend);
             };
 
+            vm.getMapTitle = function(vaccine) {
+                var duration = vm.activeReportToggle[0] == 'A' ? "Annualized" : "Monthly";
+                var period = appHelpers.generateFullLabelFromPeriod(shellScope.defaultPeriod);
+                var antigenLabel = vm.activeDose != undefined ? vm.activeDose : vaccine;
+                var tab = "Coverage";
+
+                if (vm.path=="/coverage/dropoutrate"){
+                    tab = "Dropout Rate";
+                } else if (vm.path=="/coverage/redcategory") {
+                    tab = "Red Categorization";
+                }
+
+                return duration + " " + tab + " of " + antigenLabel + " for " + period;
+            };
+
             vm.updateMapWithVaccine = function(vaccine) {
                 // if (vm.activeDistrict != undefined
                 //     && vm.activeDistrict != "ALL"
@@ -334,6 +351,7 @@ angular.module('dashboard')
                 }
 
                 vm.activeVaccine = vaccine;
+                shellScope.child.mapTitle = vm.getMapTitle(vaccine);
 
                 colorCounts = {
                     Red: 0,
@@ -891,8 +909,8 @@ angular.module('dashboard')
             if (vm.path == '/coverage/redcategory') {
                 var getRedCategoryValues = function(monthIndex, catDistricts, totalDistricts) {
                     return {
-                            // x: monthIndex, y: d3.format('.01f')((catDistricts / totalDistricts) * 100)
-                            x: Number(monthIndex), y: d3.format('.01f')(catDistricts)
+                            x: monthIndex, y: d3.format('.01f')((catDistricts / totalDistricts) * 100)
+                            // x: Number(monthIndex), y: d3.format('.01f')(catDistricts)
                     };
                 };
 
@@ -988,6 +1006,32 @@ angular.module('dashboard')
             };
         };
 
+        vm.getChartTitle = function(vaccine) {
+            var duration = vm.activeReportToggle[0] == 'A' ? "Annualized" : "Monthly";
+            var antigenLabel = vm.activeDose != undefined ? vm.activeDose : vaccine;
+            antigenLabel = (vaccine == "ALL") ? "antigens" : antigenLabel;
+            var yearType = vm.activeReportYear == 'CY' ? 'Calendar Year' : 'Financial year';
+
+            var period;
+
+            if (vm.activeStartYear == vm.activeEndYear) {
+                period = vm.activeEndYear;
+            } else {
+                period = vm.activeStartYear + "-" + vm.activeEndYear;
+            }
+
+            var tab = "Coverage";
+
+            if (vm.path=="/coverage/dropoutrate"){
+                tab = "Dropout Rate";
+            } else if (vm.path=="/coverage/redcategory") {
+                tab = "Red Categorization";
+            }
+
+            return "Trend of " + duration + " " + tab + " of " +
+                antigenLabel + " for " + period + " " + yearType;
+        };
+
         vm.getVaccineDosesByPeriod = function(params) {
 
             CoverageService.getVaccineDosesByPeriod(params)
@@ -1002,6 +1046,8 @@ angular.module('dashboard')
                     $scope.dataACY = vm.getChartData(params, data, "CY", true);
                     $scope.dataMFY = vm.getChartData(params, data, "FY", false);
                     $scope.dataAFY = vm.getChartData(params, data, "FY", true);
+
+                    shellScope.child.chartTitle = vm.getChartTitle(vm.selectedAntigen);
 
                 });
         };
@@ -1060,6 +1106,9 @@ angular.module('dashboard')
                     //vm.getDHIS2VaccineDoses(endMonth.period, district.name, vaccine.name);
                     vm.activeDistrict = district;
                     vm.activeDose = dose;
+                    vm.activeStartYear = startYear;
+                    vm.activeEndYear = endYear;
+                    vm.selectedAntigen = antigen;
 
                     var enableDistrictGrouping = 0;
                     if (vm.path == '/coverage/redcategory') {
