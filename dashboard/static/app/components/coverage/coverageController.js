@@ -86,10 +86,10 @@ angular.module('dashboard')
                 interpolateFunction = function(start, end) {
                     return function(t) {
                         t = t * 100;
-                        if (t == 0) return 'LightGray';
-                        if (t < 50) return 'Red';
-                        if (t>= 50 && t<90) return 'Yellow';
-                        if (t >= 90) return 'DarkGreen';
+                        if (t == 0 ) return 'LightGray';
+                        if ((t >= 0) && (t <= 10)) return 'Green';
+                        if ((t >= -10 && t < 0) || (t > 10 && t <= 20)) return 'Yellow';
+                        if ((t < -10) || (t > 20)) return 'Red';
                     };
                 };
             } else {
@@ -291,6 +291,14 @@ angular.module('dashboard')
                             getLabel('CAT2', colorCounts.Yellow, totals),
                             getLabel('CAT3', colorCounts.Orange, totals),
                             getLabel('CAT4', colorCounts.Red, totals)
+                        ]);
+                } else if (vm.path=="/coverage/dropoutrate"){
+                    legend.cells([0, 30, 15, 5])
+                        .labels([
+                            'No data ('+colorCounts.LightGray+')',
+                            '<-10 & >20 ('+colorCounts.Red+')',
+                            '(-10-0) & (10-20) ('+colorCounts.Yellow+')',
+                            '0-10 ('+colorCounts.DarkGreen+')'
                         ]);
                 } else {
                     legend.cells(4)
