@@ -34,14 +34,14 @@
                         <td title="'Antigen'">{{row.vaccine }}</td>
                         <td title="'Planned monthly immunisations'" class="text-center" >{{row.planned_consumption }}</td>
                         <td title="'Monthly Coverage'" class="text-center" ng-if="row.coverage_rate >= 90" ng-style="{'background-color':'green'} ">{{row.coverage_rate | number:0 }}%</td>
-                        <td title="'Monthly Coverage'" class="text-center" ng-if="row.coverage_rate >= 50 && row.coverage_rate <=70" ng-style="{'background-color':'yellow'}">{{row.coverage_rate | number:0 }}%</td>
-                        <td title="'Monthly Coverage'" class="text-center" ng-if="row.coverage_rate >= 70 && row.coverage_rate <= 90 " ng-style="{'background-color':'#C3FDB8'}">{{row.coverage_rate | number:0 }}%</td>
-                        <td title="'Monthly Coverage'" class="text-center" ng-if="row.coverage_rate <= 50" ng-style="{'background-color':'red'}">{{row.coverage_rate | number:0 }}%</td>
+                        <td title="'Monthly Coverage'" class="text-center" ng-if="row.coverage_rate >= 50 && row.coverage_rate <=89" ng-style="{'background-color':'yellow'}">{{row.coverage_rate | number:0 }}%</td>
+                        <!-- <td title="'Monthly Coverage'" class="text-center" ng-if="row.coverage_rate >= 70 && row.coverage_rate <= 90 " ng-style="{'background-color':'#C3FDB8'}">{{row.coverage_rate | number:0 }}%</td> -->
+                        <td title="'Monthly Coverage'" class="text-center" ng-if="row.coverage_rate < 50" ng-style="{'background-color':'red'}">{{row.coverage_rate | number:0 }}%</td>
 
                         <td title="'Annulised Coverage'" class="text-center" ng-if="row.avoc >= 90" ng-style="{'background-color':'green'}">{{row.avoc | number:0 }}%</td>
-                        <td title="'Annulised Coverage'" class="text-center" ng-if="row.avoc >= 50 && row.avoc <=70" ng-style="{'background-color':'yellow'}">{{row.avoc | number:0 }}%</td>
-                        <td title="'Annulised Coverage'" class="text-center" ng-if="row.avoc >= 70 && row.avoc <= 90 " ng-style="{'background-color':'#C3FDB8'}">{{row.avoc | number:0 }}%</td>
-                        <td title="'Annulised Coverage'" class="text-center" ng-if="row.avoc <= 50" ng-style="{'background-color':'red'}">{{row.avoc | number:0 }}%</td>
+                        <td title="'Annulised Coverage'" class="text-center" ng-if="row.avoc >= 50 && row.avoc <=89" ng-style="{'background-color':'yellow'}">{{row.avoc | number:0 }}%</td>
+                        <!-- <td title="'Annulised Coverage'" class="text-center" ng-if="row.avoc >= 70 && row.avoc <= 90 " ng-style="{'background-color':'#C3FDB8'}">{{row.avoc | number:0 }}%</td> -->
+                        <td title="'Annulised Coverage'" class="text-center" ng-if="row.avoc < 50" ng-style="{'background-color':'red'}">{{row.avoc | number:0 }}%</td>
                     </tr>
                 </tbody>
             </table>
@@ -175,7 +175,7 @@
                         <span class="quality_test__description">{{"Cold Chain Equipment Functionality (DVS & Facilities)" }}</span>
                         <span class="quality_test__metric"><br> {{ cold_chain_functionality }}% </span>
                     </td>
-                
+
                     <td>
                         <div class="quality_test__description">
                             Cold Chain Capacity:(DVS & Facilities)

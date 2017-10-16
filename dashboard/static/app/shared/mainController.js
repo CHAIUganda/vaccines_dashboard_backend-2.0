@@ -38,6 +38,10 @@ angular.module('dashboard')
         shell.updateDoses = function() {
             shell.dose = undefined;
             shell.doses = antigens[shell.antigen]
+
+            if (shell.doses.length != 0) {
+                shell.dose = shell.doses[shell.doses.length-1];
+            }
         };
 
         shell.antigens = Object.keys(antigens);

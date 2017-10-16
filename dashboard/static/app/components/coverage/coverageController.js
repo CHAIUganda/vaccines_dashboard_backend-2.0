@@ -963,7 +963,7 @@ angular.module('dashboard')
                     },
                     x: function(d){ return d.x; },
                     y: function(d){ return d.y; },
-                    forceY: [0,150],
+                    forceY: [-10,150],
                     dispatch: {
                         stateChange: function(e){ console.log("stateChange"); },
                         changeState: function(e){ console.log("changeState"); },
