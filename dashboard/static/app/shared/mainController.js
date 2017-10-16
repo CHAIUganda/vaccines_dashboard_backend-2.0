@@ -173,7 +173,7 @@ angular.module('dashboard')
 
         $scope.$watchGroup(
             [
-                // 'shell.startYear',
+                'shell.startYear',
                 'shell.endYear',
                 'shell.antigen',
                 'shell.dose',
