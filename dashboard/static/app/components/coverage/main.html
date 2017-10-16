@@ -61,7 +61,7 @@
 
             <div class="spacer"></div>
 
-            <div class="filter-field">
+            <div class="filter-field" ng-hide="isActive('/coverage/redcategory')">
                 District
                 <select class="form-control filter criteria-select" ng-model="shell.district">
                     <option ng-repeat="district in shell.districts" ng-value="district.name">{{district.name}}</option>
