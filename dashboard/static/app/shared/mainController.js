@@ -113,6 +113,7 @@ angular.module('dashboard')
 
             shell.districts = data;
             shell.selectedDistrict = shell.districts[0];
+            shell.district = shell.districts[0].name;
         });
 
         FilterService.getVaccines().then(function(data) {
