@@ -86,7 +86,9 @@ angular.module('dashboard')
                 startMonthIndex = 0;
             }
 
-            shell.startMonth = shell.months[startMonthIndex];
+            if (shell.months != undefined) {
+                shell.startMonth = shell.months[startMonthIndex];
+            }
 
 
 
@@ -101,7 +103,14 @@ angular.module('dashboard')
 
 
         FilterService.getDistricts().then(function(data) {
-            data.unshift({'name': 'ALL'});
+            var districtSpecificPaths = [
+                '/stock/distribution',
+                '/stock/uptakerate'
+            ];
+            if (districtSpecificPaths.indexOf($location.path()) == -1) {
+                data.unshift({'name': 'ALL'});
+            }
+
             shell.districts = data;
             shell.selectedDistrict = shell.districts[0];
         });
