@@ -44,12 +44,12 @@ angular.module('dashboard')
 
             // vm.endMonth=period;
 
-            shellScope.child.hideMap = true;
             if (district != undefined && district != "ALL") {
-                shellScope.child.mapPlaceholderMessage = "No map available.";
+                // shellScope.child.mapPlaceholderMessage = "No map available.";
                 return;
             }
 
+            shellScope.child.hideMap = true;
             shellScope.child.mapPlaceholderMessage = "Map loading. Please wait...";
 
             //Todo: Temporarily disable filtering by district for the table
@@ -317,15 +317,17 @@ angular.module('dashboard')
             };
 
             vm.updateMapWithVaccine = function(vaccine) {
-                if (vm.activeDistrict != undefined
-                    && vm.activeDistrict != "ALL"
-                    && vm.activeDistrict != "") {
-                        shellScope.child.hideMap = true;
-                        shellScope.child.mapPlaceholderMessage = "No map available.";
-                        return;
-                } else {
-                    shellScope.child.hideMap = false;
-                }
+                // if (vm.activeDistrict != undefined
+                //     && vm.activeDistrict != "ALL"
+                //     && vm.activeDistrict != "") {
+                //         shellScope.child.hideMap = true;
+                //         shellScope.child.mapPlaceholderMessage = "No map available.";
+                //         return;
+                // } else {
+                //     shellScope.child.hideMap = false;
+                // }
+
+                shellScope.child.hideMap = false;
 
                 if (vaccine == "DPT" || vaccine == "ALL") {
                     vaccine = "PENTA";
