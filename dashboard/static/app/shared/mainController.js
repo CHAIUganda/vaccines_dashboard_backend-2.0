@@ -47,7 +47,7 @@ angular.module('dashboard')
         shell.antigens = Object.keys(antigens);
 
         if ($location.path() == '/coverage/redcategory') {
-            shell.antigen = "MEASLES";
+            shell.antigen = "DPT";
         } else {
             shell.antigen = "ALL";
         }
