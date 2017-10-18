@@ -126,19 +126,19 @@
                     <tr ng-repeat="row in $data">
                         <td title="'ANTIGEN'">{{ row.vaccine }}</td>
                         <td title="'Months Of Stock'" class="text-center" ng-if="row.Months_stock >= 7" ng-style="{'background-color':'green'} ">{{row.Months_stock }}</td>
-                        <td title="'Months Of Stock'" class="text-center" ng-if="row.Months_stock >= 3 && row.Months_stock <7" ng-style="{'background-color':'#C3FDB8'}">{{row.Months_stock}}</td>
+                        <td title="'Months Of Stock'" class="text-center" ng-if="row.Months_stock >= 3 && row.Months_stock <7" ng-style="{'background-color':'yellow'}">{{row.Months_stock}}</td>
                         <td title="'Months Of Stock'" class="text-center" ng-if="row.Months_stock >= 1 && row.Months_stock <3 " ng-style="{'background-color':'yellow'}">{{row.Months_stock}}</td>
                             <td title="'Months Of Stock'" class="text-center" ng-if="row.Months_stock == 0" ng-style="{'background-color':'red'}">{{row.Months_stock}}</td>
 
 
                             <td title="'Refill Rate By NMS'" class="text-center" ng-if="row.Refill_rate >= 90" ng-style="{'background-color':'green'} ">{{row.Refill_rate | number:0 }}%</td>
                             <td title="'Refill Rate By NMS'" class="text-center" ng-if="row.Refill_rate >= 50 && row.Refill_rate <=70" ng-style="{'background-color':'yellow'}">{{row.Refill_rate | number:0 }}%</td>
-                            <td title="'Refill Rate By NMS'" class="text-center" ng-if="row.Refill_rate >= 70 && row.Refill_rate <= 90 " ng-style="{'background-color':'#C3FDB8'}">{{row.Refill_rate | number:0 }}%</td>
+                            <td title="'Refill Rate By NMS'" class="text-center" ng-if="row.Refill_rate >= 70 && row.Refill_rate <= 90 " ng-style="{'background-color':'yellow'}">{{row.Refill_rate | number:0 }}%</td>
                             <td title="'Refill Rate By NMS'" class="text-center" ng-if="row.Refill_rate <= 50" ng-style="{'background-color':'red'}">{{row.Refill_rate | number:0 }}%</td>
 
                             <td title="'Vaccine Utilised'" class="text-center" ng-if="row.uptake_rate >= 90" ng-style="{'background-color':'green'} ">{{row.uptake_rate | number:0 }}%</td>
                             <td title="'Vaccine Utilised'" class="text-center" ng-if="row.uptake_rate >= 50 && row.uptake_rate <=70" ng-style="{'background-color':'yellow'}">{{row.uptake_rate | number:0 }}%</td>
-                            <td title="'Vaccine Utilised'" class="text-center" ng-if="row.uptake_rate >= 70 && row.uptake_rate <= 90 " ng-style="{'background-color':'#C3FDB8'}">{{row.uptake_rate | number:0 }}%</td>
+                            <td title="'Vaccine Utilised'" class="text-center" ng-if="row.uptake_rate >= 70 && row.uptake_rate <= 90 " ng-style="{'background-color':'yellow'}">{{row.uptake_rate | number:0 }}%</td>
                             <td title="'Vaccine Utilised'" class="text-center" ng-if="row.uptake_rate <= 50" ng-style="{'background-color':'red'}">{{row.uptake_rate | number:0 }}%</td>
                         </tr>
                     </tbody>
@@ -175,6 +175,7 @@
                         <span class="quality_test__description">{{"Cold Chain Equipment Functionality (DVS & Facilities)" }}</span>
                         <span class="quality_test__metric"><br> {{ cold_chain_functionality }}% </span>
                     </td>
+
 
                     <td>
                         <div class="quality_test__description">
