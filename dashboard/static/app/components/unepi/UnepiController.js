@@ -180,11 +180,6 @@ angular.module('dashboard')
                 $scope.$on('refresh', function(e, startMonth, endMonth, district, vaccine) {
                     if(startMonth.name && endMonth.name && district.name && vaccine.name)
                     {
-                        /* Quick hack should be fixed in the future.
-                        Coverage needs to default to ALL and yet this requires a district*/
-                        if (district.name == 'ALL') {
-                            district.name = 'Abim District';
-                        }
                         vm.getUnepiCoverage(endMonth.period, district.name, vaccine.name);
                         vm.getUnepiStock(endMonth.name, district.name, vaccine.name);
                         vm.getUnepiColdChainCapacity(endMonth.name, district.name);
