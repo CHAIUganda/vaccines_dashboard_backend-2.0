@@ -177,6 +177,29 @@ def save_vaccine_dose(period):
                 planned_consumption=hpv_dose2.first().planned_consumption,
             )
 
+        # ====== IPV ===========================
+        ipv_drop_out_rate = None
+        ipv_dose1 = summary.filter(vaccine__name='IPV', dose='105-2.11 IPV')
+        ipv_dose2 = summary.filter(vaccine__name='IPV', dose='105-2.11 IPV')
+        if ipv_dose1 and ipv_dose2 and ipv_dose1.first().consumed > 0:
+            ipv_drop_out_rate = float('%.2f' % (((ipv_dose1.first().consumed
+                                                  - ipv_dose2.first().consumed)
+                                                 / ipv_dose1.first().consumed) * 100))
+            VaccineDose.objects.update_or_create(
+                vaccine=ipv_dose1.first().vaccine,
+                district=d,
+                period=period,
+                drop_out_rate=ipv_drop_out_rate,
+                under_immunized=ipv_dose1.first().consumed - ipv_dose2.first().consumed,
+                first_dose=ipv_dose1.first().consumed,
+                second_dose=ipv_dose2.first().consumed,
+                last_dose=ipv_dose2.first().consumed,
+                access=100 * (ipv_dose1.first().consumed / ipv_dose1.first().planned_consumption),
+                coverage_rate=float(
+                    '%.1f' % (100 * (ipv_dose2.first().consumed / ipv_dose2.first().planned_consumption))),
+                planned_consumption=ipv_dose2.first().planned_consumption,
+            )
+
 
 
         # ====== MEASLES ===========================
