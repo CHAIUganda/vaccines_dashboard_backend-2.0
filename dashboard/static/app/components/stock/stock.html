@@ -10,7 +10,8 @@
 
 
         <div class="col-md-12 main-filters">
-            <div class="filter-field" ng-hide="isActive('/stock/stockonhand')">
+            <div class="filter-field"
+            ng-show="isActive('/stock/distribution') || isActive('/stock/uptakerate')">
             Start Month
             <select name="name" class="form-control filter criteria-select" ng-model="shell.startMonth"
                 ng-options="month as month.name group by month.year for month in shell.months ">
@@ -37,7 +38,8 @@
         <div class="spacer">
             <h5 class="text-center">  </h5>
         </div>
-            <div class="filter-field" ng-hide="isActive('/stock/stockonhand')">
+            <div class="filter-field"
+            ng-show="isActive('/stock/distribution') || isActive('/stock/uptakerate')">
             District<br>
             <select name="district" class="form-control filter criteria-select" ng-model="shell.selectedDistrict"
                     ng-options="district as district.name for district in shell.districts">
