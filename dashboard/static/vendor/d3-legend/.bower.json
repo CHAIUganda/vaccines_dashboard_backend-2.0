@@ -1,0 +1,36 @@
+{
+  "name": "d3-legend",
+  "main": "d3-legend.min.js",
+  "version": "1.13.0",
+  "homepage": "https://github.com/susielu/d3-legend",
+  "keywords": [
+    "d3",
+    "legend",
+    "data",
+    "visualization"
+  ],
+  "authors": [
+    "Susie Lu"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "d3": "~3.5.6"
+  },
+  "_release": "1.13.0",
+  "_resolution": {
+    "type": "version",
+    "tag": "v1.13.0",
+    "commit": "5fbd3646abf64b7f910a628c63758cc57d51571a"
+  },
+  "_source": "https://github.com/susielu/d3-legend.git",
+  "_target": "1.13.0",
+  "_originalSource": "d3-legend",
+  "_direct": true
+}
