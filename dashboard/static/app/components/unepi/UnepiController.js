@@ -2,10 +2,10 @@ angular.module('dashboard')
 .controller('UnepiController', [
     '$scope', 'CoverageService','StockService',
     'MonthService', '$rootScope', 'NgTableParams',
-    'FilterService', 'FridgeService', 'CoverageCalculator',
+    'FilterService', 'FridgeService', 'CoverageCalculator', '$timeout',
     function($scope, CoverageService, StockService,
         MonthService, $rootScope, NgTableParams,
-        FilterService, FridgeService, CoverageCalculator)
+        FilterService, FridgeService, CoverageCalculator, $timeout)
     {
         var vm = this;
         var shellScope = $scope.$parent;
@@ -228,17 +228,23 @@ angular.module('dashboard')
                         shellScope.child.numberNeedMaintenance = aggregates.totalNeedMaintenance;
                         shellScope.child.per = appHelpers.per;
                         shellScope.child.numberWorking = aggregates.totalEquipment - aggregates.totalNotWorkingWell;
-
-                        console.log(data);
                     });
                 };
 
                 vm.enablePDFDownload = function() {
                         shellScope.child.downloadPDF = function() {
-                            var pdf = new jsPDF('p', 'mm');
-                            pdf.addHTML(document.getElementById("unepiReport"), function() {
-                              pdf.save('unepi-report.pdf');
-                            });
+                            shellScope.child.printView = true;
+                            $timeout(function() {
+                                var pdf = new jsPDF('p', 'mm');
+                                pdf.addHTML(document.getElementById("unepiReport"), function() {
+                                  pdf.save('unepi-report.pdf');
+
+                                });
+                            }, 100);
+
+                            $timeout(function() {
+                                shellScope.child.printView = false;
+                            }, 1000);
                         }
                 };
 

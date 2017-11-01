@@ -1,14 +1,22 @@
 <button class="pull-right" ng-click="downloadPDF()">Download Pdf</button>
 <div style="clear:both"></div>
 <div ng-controller="UnepiController as vm">
-    <div id="unepiReport" style="background-color:#ffffff;">
-        <div class="text-center">
+    <div id="unepiReport" ng-class="child.printView ? 'unepiPrint' : ''" style="background-color:#ffffff;">
+        <div class="text-center" ng-hide="child.printView">
                 <p>
                     <br>
                     <h4><b>{{child.district }} Immunisation Performance Report for {{child.periodMonth}} </b></h4>
                 <br>
                 </p>
             </div>
+
+        <div class="row" id="unepi-print-header" ng-show="child.printView">
+            <div class="col-md-2" id="coart-of-arms" align="left"><img src="static/images/coart-of-arms.png"></div>
+            <div class="col-md-8" id="site-name">
+                <h4><b>{{child.district }} Immunisation Performance Report for {{child.periodMonth}} </b></h4>
+            </div>
+            <div class="col-md-2" id="ug-flag" align="right"><img src="static/images/ug-flag.png"></div>
+        </div>
 
         <table class="row-border hover table table-condensed table-striped ">
             <tr>
@@ -24,9 +32,9 @@
                 <thead>
                     <tr>
                         <th>Antigen</th>
-                        <th>Planned monthly immunisations</th>
+                        <th>Monthly Coverage Targets</th>
                         <th>Monthly Coverage</th>
-                        <th>Annulised Coverage</th>
+                        <th>Annualized Coverage</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -119,7 +127,7 @@
                         <th>Antigen</th>
                         <th>Months Of Stock</th>
                         <th>Refill Rate By NMS</th>
-                        <th>Vaccine Utilised</th>
+                        <th>Vaccines uptake<br>(Utilized)</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -144,6 +152,7 @@
                     </tbody>
                 </table>
 
+
             </div>
 
             <br>
@@ -157,6 +166,12 @@
                     </td>
                 </tr>
                 </table>
+
+                <div class="small">
+                    <strong>Months of stock:</strong> The duration (in months) for which the available stock will last<br>
+                    <br><strong>Refill rate:</strong> The quantity of stock that NMS has fulfilled compared to the quantity of stock ordered for that month<br>
+                    <br><strong>Vaccines uptake (utilized):</strong> The number of children immunized (converted to equivalent doses) compared to the quantity of stock available ( stock balance plus quantity delivered by NMS)<br>
+                </div>
             </div>
 
             <table class="row-border hover table table-condensed table-striped">
@@ -245,6 +260,10 @@
                 </table>
             </div>
             <div style="clear:both;"></div>
+
+            <div class="text-center unepi-print-footer" ng-show="child.printView">
+                <i>This report has been extracted from the Ministry of health UNEPI dashboard.</i>
+            </div>
         </div>
     </div>
 

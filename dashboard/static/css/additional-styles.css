@@ -191,3 +191,21 @@ h1, h2, h3, h4, h5, h6, th {
     line-height:20px;
     width: 450px;
 }
+
+.unepiPrint {
+    background: #fff url(../images/flag-ug.png) repeat-x scroll bottom;
+}
+
+#unepi-print-header {
+    padding-top: 20px;
+    margin-bottom: 20px;
+}
+
+.unepi-print-footer {
+    padding: 20px;
+    margin: 20px;
+}
+
+.unepiPrint img {
+    width: 80px;
+}
