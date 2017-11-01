@@ -169,22 +169,77 @@
 
             <div class="col-md-12">
 
-                <table class="row-border hover table table-condensed table-striped">
+
+
+                <table class="row-border hover table table-condensed">
                     <tr>
-                    <td>
+                    <td style="border-top:0px;">
                         <span class="quality_test__description">{{"Cold Chain Equipment Functionality (DVS & Facilities)" }}</span>
-                        <span class="quality_test__metric"><br> {{ cold_chain_functionality }}% </span>
+                        <span class="quality_test__metric">
+                            {{ child.per(child.numberWorking, child.numberOfColdchainEquipment)}}%
+                         </span>
+
+                         <table class="row-border hover table table-condensed">
+                             <tr>
+                                 <td>Number of facilities ({{ child.numberOfFacilities }})</td>
+                                 <td>Number of coldchain equipment ({{ child.numberOfColdchainEquipment }})</td>
+                             </tr>
+                         </table>
+
+                         <table class="row-border hover table table-condensed">
+                             <tr>
+                                 <th>Category</th>
+                                 <th># of Equipment</th>
+                                 <th>% of Equipment</th>
+                             </tr>
+                             <tr>
+                                 <td>Working well</td>
+                                 <td>{{ child.numberWorkingWell }}</td>
+                                 <td>
+                                     {{ child.numberWorkingWell }}/{{child.numberOfColdchainEquipment}}
+                                     ({{ child.per(child.numberWorkingWell, child.numberOfColdchainEquipment)}}%)
+                                 </td>
+                             </tr>
+                             <tr>
+                                 <td>Not working well</td>
+                                 <td>{{ child.numberNotWorkingWell }}</td>
+                                 <td>
+                                     {{ child.numberNotWorkingWell}}/ {{child.numberOfColdchainEquipment}}
+                                     ({{ child.per(child.numberNotWorkingWell, child.numberOfColdchainEquipment)}}%)
+                                 </td>
+                             </tr>
+                             <tr>
+                                 <td>Working but need fixing</td>
+                                 <td>{{ child.numberNeedMaintenance }}</td>
+                                 <td>
+                                     {{ child.numberNeedMaintenance}}/{{child.numberOfColdchainEquipment}}
+                                     ({{ child.per(child.numberNeedMaintenance, child.numberOfColdchainEquipment)}}%)
+                                 </td>
+                             </tr>
+                         </table>
                     </td>
 
 
-                    <td>
+                    <td style="border-top:0px;">
                         <div class="quality_test__description">
                             Cold Chain Capacity:(DVS & Facilities)
-                            (n={{ child.cold_chain_total }})
+                            (n={{ child.metrics.total }})
                         </div>
-                        <div><br>Shortage: <strong>{{child.cold_chain_shortage}}%</strong> </div>
-                        <div>Sufficient: <strong>{{child.cold_chain_sufficient}}%</strong> </div>
-                        <div>Surplus: <strong>{{child.cold_chain_surplus}}%</strong> </div>
+
+                        <table class="row-border hover table table-condensed">
+                            <tr>
+                                <td>Shortage</td>
+                                <td>{{child.per(child.metrics.shortage, child.metrics.total)}}%</td>
+                            </tr>
+                            <tr>
+                                <td>Sufficient</td>
+                                <td>{{child.per(child.metrics.sufficient, child.metrics.total)}}%</td>
+                            </tr>
+                            <tr>
+                                <td>Surplus</td>
+                                <td>{{child.per(child.metrics.surplus, child.metrics.total)}}%</td>
+                            </tr>
+                        </table>
                     </td>
                 </tr>
                 </table>

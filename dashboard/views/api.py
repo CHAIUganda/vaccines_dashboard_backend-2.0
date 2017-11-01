@@ -66,9 +66,9 @@ class StockAtHandByDistrictApi(APIView):
 
         # Create arguments for filtering
         args = {'month': int(MONTH_TO_NUM[endMonth])}
-        args.update({'stock_requirement__year': int(endYear)});
+        args.update({'stock_requirement__year': int(endYear)})
 
-        if district:
+        if district and district.lower() != "national":
             args.update({'stock_requirement__district__name': district})
 
         if vaccine:

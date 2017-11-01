@@ -109,10 +109,10 @@ angular.module('dashboard')
             var districtSpecificPaths = [
                 '/stock/distribution',
                 '/stock/uptakerate',
-                '/unepi/download'
+                // '/unepi/download'
             ];
             if (districtSpecificPaths.indexOf($location.path()) == -1) {
-                data.unshift({'name': 'ALL'});
+                data.unshift({'name': 'National'});
             }
 
             shell.districts = data;

@@ -15,6 +15,7 @@ class ApiParams(Serializer):
     district = models.CharField(blank=True, default=None)
     vaccine = models.CharField(blank=True, default=None)
 
+
 class Quarters(APIView):
     def get(self, request):
         quarters = generate_quarters()
@@ -52,17 +53,17 @@ class ImmunizingFacilities(APIView):
         if endQuarter:
             args.update({'quarter__lte': endQuarter})
 
-        summary = ImmunizingFacility.objects.filter(**args)\
-                .values(
-                        'quarter',
-                        'static',
-                        'outreach',
-                        'ficc_storage',
-                        'facility',
-                        'facility__district',
-                        'facility__name',
-                        'facility__type__group',
-                        'facility__code')
+        summary = ImmunizingFacility.objects.filter(**args) \
+            .values(
+            'quarter',
+            'static',
+            'outreach',
+            'ficc_storage',
+            'facility',
+            'facility__district',
+            'facility__name',
+            'facility__type__group',
+            'facility__code')
         return Response(summary)
 
 
@@ -76,8 +77,6 @@ class DistrictImmunizingFacilities(APIView):
         # Create arguments for filtering
         args = {'quarter__gte': startQuarter}
 
-
-
         if district:
             args.update({'facility__district': district})
 
@@ -87,20 +86,21 @@ class DistrictImmunizingFacilities(APIView):
         if endQuarter:
             args.update({'quarter__lte': endQuarter})
 
-        summary = ImmunizingFacility.objects.filter (**args)\
-                .values('facility__district')\
-                .annotate(immunizing=(Count(Q(static='True') | Q(outreach='True'))),
-                          immunizing_with_fridge=(Count(Q(static='True') & Q(outreach='True') & Q(ficc_storage='False'))),
-                          Total_facilities=(Count('facility__code')))\
-                .order_by('facility__district')\
-                .values(
-                        'facility__district',
-                        'immunizing',
-                        'Total_facilities',
-                        'quarter',
-                        'immunizing_with_fridge'
-                        )
+        summary = ImmunizingFacility.objects.filter(**args) \
+            .values('facility__district') \
+            .annotate(immunizing=(Count(Q(static='True') | Q(outreach='True'))),
+                      immunizing_with_fridge=(Count(Q(static='True') & Q(outreach='True') & Q(ficc_storage='False'))),
+                      Total_facilities=(Count('facility__code'))) \
+            .order_by('facility__district') \
+            .values(
+            'facility__district',
+            'immunizing',
+            'Total_facilities',
+            'quarter',
+            'immunizing_with_fridge'
+        )
         return Response(summary)
+
 
 class Refrigerators(APIView):
     def get(self, request):
@@ -121,15 +121,15 @@ class Refrigerators(APIView):
         if endQuarter:
             args.update({'quarter__lte': endQuarter})
 
-        summary = Functionality.objects.filter()\
-                .values(
-                        'number_existing',
-                        'working_well',
-                        'needs_maintenance',
-                        'not_working',
-                        'facility__district',
-                        'facility__name',
-                        'quarter')
+        summary = Functionality.objects.filter() \
+            .values(
+            'number_existing',
+            'working_well',
+            'needs_maintenance',
+            'not_working',
+            'facility__district',
+            'facility__name',
+            'quarter')
         return Response(summary)
 
 
@@ -143,7 +143,7 @@ class DistrictRefrigerators(APIView):
         # Create arguments for filtering
         args = {'quarter__gte': startQuarter}
 
-        if district:
+        if district and district.lower() != 'national':
             args.update({'facility__district': district})
 
         if carelevel:
@@ -152,20 +152,22 @@ class DistrictRefrigerators(APIView):
         if endQuarter:
             args.update({'quarter__lte': endQuarter})
 
-        summary = Functionality.objects.filter(**args)\
-                .values('facility__district')\
-                .annotate(working_well = Sum('working_well'),
-                          needs_maintenance = Sum('needs_maintenance'),
-                          not_working = Sum('not_working'),
-                          number_existing = Sum('number_existing'))\
-                .order_by('-not_working')\
-                .values(
-                        'working_well',
-                        'needs_maintenance',
-                        'not_working',
-                        'quarter',
-                        'number_existing',
-                        'facility__district')
+        summary = Functionality.objects.filter(**args) \
+            .values('facility__district') \
+            .annotate(working_well=Sum('working_well'),
+                      needs_maintenance=Sum('needs_maintenance'),
+                      not_working=Sum('not_working'),
+                      total_facilities=Count('facility__code'),
+                      number_existing=Sum('number_existing')) \
+            .order_by('-not_working') \
+            .values(
+            'working_well',
+            'needs_maintenance',
+            'not_working',
+            'quarter',
+            'number_existing',
+            'total_facilities',
+            'facility__district')
         return Response(summary)
 
 
@@ -188,20 +190,20 @@ class FacilityRefrigerators(APIView):
         if endQuarter:
             args.update({'quarter__lte': endQuarter})
 
-        summary = Functionality.objects.filter(**args)\
-                .values('facility__name')\
-                .annotate(working_well = Sum('working_well'),
-                          needs_maintenance = Sum('needs_maintenance'),
-                          not_working = Sum('not_working'),
-                          number_existing = Sum('number_existing'))\
-                .order_by('-not_working')\
-                .values(
-                        'working_well',
-                        'needs_maintenance',
-                        'not_working',
-                        'quarter',
-                        'number_existing',
-                        'facility__name')
+        summary = Functionality.objects.filter(**args) \
+            .values('facility__name') \
+            .annotate(working_well=Sum('working_well'),
+                      needs_maintenance=Sum('needs_maintenance'),
+                      not_working=Sum('not_working'),
+                      number_existing=Sum('number_existing')) \
+            .order_by('-not_working') \
+            .values(
+            'working_well',
+            'needs_maintenance',
+            'not_working',
+            'quarter',
+            'number_existing',
+            'facility__name')
         return Response(summary)
 
 
@@ -227,15 +229,16 @@ class Capacities(APIView):
         summary = Capacity.objects.filter(**args) \
             .order_by('facility__district') \
             .values(
-                        'actual',
-                        'required',
-                        'difference',
-                        'quarter',
-                        'facility',
-                        'facility__district',
-                        'facility__name',
-                        'facility__type__group')
+            'actual',
+            'required',
+            'difference',
+            'quarter',
+            'facility',
+            'facility__district',
+            'facility__name',
+            'facility__type__group')
         return Response(summary)
+
 
 class DistrictCapacities(APIView):
     def get(self, request):
@@ -256,26 +259,28 @@ class DistrictCapacities(APIView):
         if endQuarter:
             args.update({'quarter__lte': endQuarter})
 
-        summary = Capacity.objects.filter(**args)\
-                .values('facility__district')\
-                .annotate(required = Sum(F('required')),
-                          available = Sum(F('actual')),
-                          difference =Sum(F('required')-F('actual')),
+        summary = Capacity.objects.filter(**args) \
+            .values('facility__district') \
+            .annotate(required=Sum(F('required')),
+                      available=Sum(F('actual')),
+                      difference=Sum(F('required') - F('actual')),
 
-                         surplus = Case(
-                             When(Q(difference=Value(0))| Q(required=Value(0)), then=Value(0)),
-                             default=(ExpressionWrapper( 100*F('difference') / F('required'), output_field=IntegerField()))
-                         )
-                         )\
-                .order_by('difference')\
-                .values(
-                        'available',
-                        'required',
-                        'difference',
-                        'surplus',
-                        'quarter',
-                        'facility__district')
+                      surplus=Case(
+                          When(Q(difference=Value(0)) | Q(required=Value(0)), then=Value(0)),
+                          default=(
+                          ExpressionWrapper(100 * F('difference') / F('required'), output_field=IntegerField()))
+                      )
+                      ) \
+            .order_by('difference') \
+            .values(
+            'available',
+            'required',
+            'difference',
+            'surplus',
+            'quarter',
+            'facility__district')
         return Response(summary)
+
 
 class FacilityCapacities(APIView):
     def get(self, request):
@@ -287,7 +292,7 @@ class FacilityCapacities(APIView):
         # Create arguments for filtering
         args = {'quarter__gte': startQuarter}
 
-        if district:
+        if district and district.lower() != "national":
             args.update({'facility__district': district})
 
         if carelevel:
@@ -296,23 +301,23 @@ class FacilityCapacities(APIView):
         if endQuarter:
             args.update({'quarter__lte': endQuarter})
 
-        summary = Capacity.objects.filter(**args)\
-                .values('facility__name')\
-                .annotate(required = F('required'),
-                          actual = F('actual'),
-                          difference = (F('required')-F('actual')),
-                          adequate = (F('actual')-F('required')),
-                          surplus = Case(
-                             When(Q(adequate=Value(0))| Q(required=Value(0)), then=Value(0)),
-                             default=(ExpressionWrapper( 100*F('adequate') / F('required'), output_field=IntegerField()))
-                         ))\
-                .order_by('-difference')\
-                .values(
-                        'actual',
-                        'adequate',
-                        'required',
-                        'difference',
-                        'surplus',
-                        'quarter',
-                        'facility__name')
+        summary = Capacity.objects.filter(**args) \
+            .values('facility__name') \
+            .annotate(required=F('required'),
+                      actual=F('actual'),
+                      difference=(F('required') - F('actual')),
+                      adequate=(F('actual') - F('required')),
+                      surplus=Case(
+                          When(Q(adequate=Value(0)) | Q(required=Value(0)), then=Value(0)),
+                          default=(ExpressionWrapper(100 * F('adequate') / F('required'), output_field=IntegerField()))
+                      )) \
+            .order_by('-difference') \
+            .values(
+            'actual',
+            'adequate',
+            'required',
+            'difference',
+            'surplus',
+            'quarter',
+            'facility__name')
         return Response(summary)

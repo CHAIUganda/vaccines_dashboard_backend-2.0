@@ -145,12 +145,13 @@ class VaccineDosesByPeriod(APIView):
         vaccine = request.query_params.get('vaccine', None)
         start_year = request.query_params.get('startYear', default_start)
         end_year = request.query_params.get('endYear', default_end)
+        period = request.query_params.get('period', None)
         data_type = request.query_params.get('dataType', None)
         enable_district_grouping = request.query_params.get('enableDistrictGrouping', None)
 
         grouping_fields = ['period', 'vaccine__name']
 
-        if district and district.lower() != 'all':
+        if district and district.lower() != 'national':
             filters.update({'district__name': district})
 
         if vaccine and vaccine.lower() != "all":
@@ -182,6 +183,10 @@ class VaccineDosesByPeriod(APIView):
             # })
         elif enable_district_grouping and int(enable_district_grouping) == 1:
             grouping_fields.append('district__name')
+
+        if period is not None:
+            start_period = "%s01" % period[0:4]
+            filters.update({'period__gte': int(start_period), 'period__lte': int(period)})
 
         summary = VaccineDose.objects.filter(**filters)\
             .values(*grouping_fields) \

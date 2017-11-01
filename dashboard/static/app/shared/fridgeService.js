@@ -97,14 +97,9 @@ angular.module('services').service('FridgeService', ['$http',
 
             for(var i=0; i < data.length; i++){
                 var surplusValue = data[i].surplus
-
-                if(surplusValue > 30) {
-                    surp++;
-                } else if(surplusValue <30 && surplusValue >= 0) {
-                    sufficient++;
-                } else if(surplusValue < 0) {
-                    shortage++;
-                }
+                if (surplusValue > 30) surp++;
+                else if(surplusValue <30 && surplusValue >= 0) sufficient++;
+                else if(surplusValue < 0) shortage++;
             }
 
             return {

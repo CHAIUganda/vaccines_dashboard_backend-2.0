@@ -2,10 +2,10 @@ angular.module('dashboard')
 .controller('UnepiController', [
     '$scope', 'CoverageService','StockService',
     'MonthService', '$rootScope', 'NgTableParams',
-    'FilterService', 'FridgeService',
+    'FilterService', 'FridgeService', 'CoverageCalculator',
     function($scope, CoverageService, StockService,
         MonthService, $rootScope, NgTableParams,
-        FilterService, FridgeService)
+        FilterService, FridgeService, CoverageCalculator)
     {
         var vm = this;
         var shellScope = $scope.$parent;
@@ -17,72 +17,132 @@ angular.module('dashboard')
             return MonthService.getMonthName(month) + " " + period.slice(0,4)
         }
 
-
         vm.getUnepiCoverage = function(period, district, vaccine) {
-            vm.endMonth=period;
+            var params = {period, district};
 
+            var getValueSum = function(data, name, vaccine) {
+                return data.reduce(function(accumulator, value) {
+                    if (value.vaccine__name == vaccine) return accumulator + value[name]
+                    return accumulator;
+                }, 0);
+            };
 
-            for (var i = 0; i <= period ; i++)
-            {}
-            shellScope.child.periodMonth = periodDisplay(vm.endMonth);
+            CoverageService.getVaccineDosesByPeriod(params).then(function(data) {
+                var tableData = [];
+                var pentaCR = 0,
+                    pcvCR = 0;
 
-            CoverageService.getUnepiCoverage(period, district, vaccine)
-            .then(function (data) {
+                shellScope.child.district = district;
+                shellScope.child.Gap = 0;
+                shellScope.child.dropout_Penta = 0;
+                shellScope.child.dropout_hpv = 0;
+                shellScope.child.category = 0;
+                shellScope.child.periodMonth = periodDisplay(period);
 
-                vm.vaccine = "";
+                for (var i in data) {
+                    var dataPeriod = data[i].period
+                    var lastDose = data[i].total_last_dose;
+                    var firstDose = data[i].total_first_dose;
+                    var secondDose = data[i].total_second_dose;
+                    var planned = data[i].total_planned;
+                    var vaccine = data[i].vaccine__name;
 
+                    if (dataPeriod != period) continue;
 
-                if (vm.vaccine = "PENTA"){
-                    vaccine = 'DPT3'
+                    /* Sum up the values from start of year to selected period
+                     to calculate Annualized Coverage (avoc) */
+                    var totalLastDose = getValueSum(data, 'total_last_dose', vaccine);
+                    var totalPlanned = getValueSum(data, 'total_planned', vaccine);
 
+                    var coverageRate = CoverageCalculator.calculateCoverageRate(lastDose, planned);
+                    var dropoutRate = CoverageCalculator.calculateDropoutRate(firstDose, lastDose);
+                    var redCategory = CoverageCalculator.calculateRedCategory(firstDose, lastDose, planned);
+                    var avoc = CoverageCalculator.calculateCoverageRate(totalLastDose, totalPlanned);
+
+                    tableData.push({
+                        'vaccine': vaccine,
+                        'planned_consumption': planned,
+                        'coverage_rate': coverageRate,
+                        'avoc': avoc
+                    });
+
+                    switch (vaccine) {
+                        case "PENTA":
+                            pentaCR = coverageRate;
+                            shellScope.child.dropout_Penta = dropoutRate;
+                            shellScope.child.category = redCategory;
+                            break;
+                        case "PCV":
+                            pcvCR = coverageRate;
+                            break;
+                        case "HPV":
+                            shellScope.child.dropout_hpv = dropoutRate;
+                            break;
+                    }
                 }
 
+                shellScope.child.Gap = pentaCR - pcvCR;
 
-                var tabledataAlldoses = [];
+                var params = {page: 1, count: 10};
+                var settings = {filterDelay: 0, counts: [], data: tableData};
+                vm.tableParamsDoses = new NgTableParams(params, settings);
+            });
+        }
 
-                vm.data = angular.copy(data);
+        vm.getUnepiNationalStock = function(endMonth, district) {
+            StockService.getUnepiStock(endMonth, district).then(function(data) {
+                var tabledataAllstock = [];
+                var stockedOutAntigens = 0;
 
+                /* Turn the district based data into aggregated
+                vaccine based data */
+                var vaccineData = data.reduce(function(acc, item) {
+                    if (! (item.vaccine in acc))
+                        acc[item.vaccine] = {
+                            at_hand: 0,
+                            stock_requirement__minimum: 0,
+                            received: 0,
+                            ordered: 0,
+                            consumed: 0,
+                            available_stock: 0
+                        };
 
-                tabledataAlldoses = vm.data.filter(
-                    function (value) {
-                        return value;
+                    acc[item.vaccine].at_hand += item.at_hand;
+                    acc[item.vaccine].stock_requirement__minimum += item.stock_requirement__minimum;
+                    acc[item.vaccine].received += item.received;
+                    acc[item.vaccine].ordered += item.ordered;
+                    acc[item.vaccine].consumed += item.consumed;
+                    acc[item.vaccine].available_stock += item.available_stock;
+
+                    return acc;
+                }, {});
+
+                for (vaccine in vaccineData) {
+                    var atHand = vaccineData[vaccine].at_hand;
+                    var minStock = vaccineData[vaccine].stock_requirement__minimum;
+                    var ordered = vaccineData[vaccine].ordered;
+                    var received = vaccineData[vaccine].received;
+                    var consumed = vaccineData[vaccine].consumed;
+                    var availableStock = atHand + received;
+                    var monthsStock = Math.round(atHand / minStock);
+
+                    if (monthsStock == 0) stockedOutAntigens++;
+
+                    tabledataAllstock.push({
+                        vaccine: vaccine,
+                        Months_stock: monthsStock,
+                        Refill_rate: (ordered == 0) ? 0 : Math.round((received / ordered) * 100),
+                        uptake_rate: (availableStock == 0) ? 0 : Math.round((consumed / availableStock) * 100)
                     });
+                }
 
-                    vm.tableParamsDoses = new NgTableParams({
-                        page: 1,
-                        count: 10
-                    }, {
-                        filterDelay: 0,
-                        counts: [],
-                        data: tabledataAlldoses,
-                    });
-                    shellScope.child.district = district;
+                shellScope.child.Antigen_stockedout = stockedOutAntigens;
 
-                    var Pent3 =[];
-                    var pc3 = [];
-                    shellScope.child.Gap = 0;
-                    shellScope.child.dropout_Penta = 0;
-                    shellScope.child.dropout_hpv = 0;
-                    shellScope.child.category = 0;
-
-                    for (var i = 0; i < vm.data.length ; i++){
-                        if (vm.data[i].vaccine == "PENTA"){
-                            Pent3 = vm.data[i].coverage_rate
-                            shellScope.child.dropout_Penta = vm.data[i].drop_out_rate
-                            shellScope.child.category = vm.data[i].red_category
-                        }
-                        else if (vm.data[i].vaccine == "PCV"){
-                            pc3 = vm.data[i].coverage_rate
-                        }
-                        else if (vm.data[i].vaccine == "HPV"){
-                            shellScope.child.dropout_hpv = vm.data[i].drop_out_rate
-                        }
-                        shellScope.child.Gap = Pent3 - pc3;
-                    }
-
-
-                });
-            };
+                var params = {page: 1, count: 10};
+                var settings = {filterDelay: 0, counts: [], data: tabledataAllstock};
+                vm.tableParamsStock = new NgTableParams(params, settings);
+            });
+        };
 
             vm.getUnepiStock = function(endMonth, district) {
 
@@ -140,17 +200,8 @@ angular.module('dashboard')
                     FridgeService.getFridgeFacilityCapacity(undefined, endMonth, district, undefined)
                     .then(function(data) {
                         var metrics = FridgeService.getFridgeCapacityMetrics(data);
-
-                        shellScope.child.cold_chain_total = metrics.total;
-
-                        shellScope.child.cold_chain_surplus =
-                            appHelpers.per(metrics.surplus, metrics.total);
-
-                        shellScope.child.cold_chain_sufficient =
-                            appHelpers.per(metrics.sufficient, metrics.total);
-
-                        shellScope.child.cold_chain_shortage =
-                            appHelpers.per(metrics.shortage, metrics.total);
+                        shellScope.child.metrics = metrics;
+                        shellScope.child.per = appHelpers.per;
                     });
                 };
 
@@ -160,11 +211,25 @@ angular.module('dashboard')
                     FridgeService.getFridgeDistrictRefrigerator(undefined, endMonth, district, undefined)
                     .then(function(data) {
 
-                        var total_working = data[0].number_existing - data[0].not_working;
-                        var total_existing = data[0].number_existing
+                        var aggregates = data.reduce(function(acc, item) {
+                            acc.totalEquipment += item.number_existing;
+                            acc.totalWorkingWell += item.working_well;
+                            acc.totalNotWorkingWell += item.not_working;
+                            acc.totalNeedMaintenance += item.needs_maintenance;
+                            acc.totalFacilities += item.total_facilities;
+                            return acc;
+                        }, {totalEquipment:0, totalFacilities:0, totalWorkingWell: 0,
+                            totalNotWorkingWell:0, totalNeedMaintenance: 0});
 
-                        shellScope.child.cold_chain_functionality =
-                            appHelpers.per(total_working, total_existing);
+                        shellScope.child.numberOfColdchainEquipment = aggregates.totalEquipment;
+                        shellScope.child.numberOfFacilities = aggregates.totalFacilities;
+                        shellScope.child.numberWorkingWell = aggregates.totalWorkingWell;
+                        shellScope.child.numberNotWorkingWell = aggregates.totalNotWorkingWell;
+                        shellScope.child.numberNeedMaintenance = aggregates.totalNeedMaintenance;
+                        shellScope.child.per = appHelpers.per;
+                        shellScope.child.numberWorking = aggregates.totalEquipment - aggregates.totalNotWorkingWell;
+
+                        console.log(data);
                     });
                 };
 
@@ -181,7 +246,12 @@ angular.module('dashboard')
                     if(startMonth.name && endMonth.name && district.name && vaccine.name)
                     {
                         vm.getUnepiCoverage(endMonth.period, district.name, vaccine.name);
-                        vm.getUnepiStock(endMonth.name, district.name, vaccine.name);
+
+                        if (district.name == "National") {
+                            vm.getUnepiNationalStock(endMonth.name, district.name, vaccine.name);
+                        } else {
+                            vm.getUnepiStock(endMonth.name, district.name, vaccine.name);
+                        }
                         vm.getUnepiColdChainCapacity(endMonth.name, district.name);
                         vm.getUnepiColdChainFunctionality(endMonth.name, district.name);
                         vm.enablePDFDownload();
