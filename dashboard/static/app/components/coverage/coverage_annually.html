@@ -1,0 +1,18 @@
+<div ng-controller="AnnualCoverageController as vm">
+    <button class="pull-right" ng-click="vm.exportPDF('annual-coverage-report.pdf')">Download Pdf</button>
+    <div style="clear:both;"></div>
+
+    <div id="pdfReport">
+        <div class="text-center" id="chart-container">
+            <br><br>
+            <h4 style="width: 100%;">{{ vm.chartTitle }} </h4>
+            <br><br>
+            <nvd3
+                options="vm.chartOptions"
+                data="vm.chartData"
+                id="annualCoverageChart"
+                >
+            </nvd3>
+        </div>
+    </div>
+</div>

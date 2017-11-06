@@ -13,6 +13,10 @@ dashboard.config(["$stateProvider", "$urlRouterProvider", function($stateProvide
                 templateUrl: "static/app/components/coverage/coverage.html",
                 controller: "CoverageController"
             })
+            .state("coverage.annually", {
+                url: "/coverage/annually",
+                templateUrl: "static/app/components/coverage/coverage_annually.html",
+            })
             .state("coverage.dropoutrate", {
                 url: "/dropoutrate",
                 templateUrl: "static/app/components/coverage/dropoutrate.html",

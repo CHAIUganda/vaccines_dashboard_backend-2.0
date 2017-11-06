@@ -37,7 +37,7 @@ angular.module('dashboard')
 
         shell.updateDoses = function() {
             shell.dose = undefined;
-            shell.doses = antigens[shell.antigen]
+            shell.doses = ['Dose 1', 'Dose 2', 'Dose 3'];//antigens[shell.antigen]
 
             if (shell.doses.length != 0) {
                 shell.dose = shell.doses[shell.doses.length-1];
@@ -51,12 +51,13 @@ angular.module('dashboard')
         } else {
             shell.antigen = "ALL";
         }
-        // shell.updateDoses();
+        shell.updateDoses();
 
         FilterService.getPeriodRanges().then(function(data) {
             shell.coverageYears = data.years
             shell.startYear = data.years[data.years.length-1]
             shell.endYear = data.years[data.years.length-1]
+            shell.activeCoverageYear = data.years[data.years.length-1]
         });
 
 
@@ -180,6 +181,7 @@ angular.module('dashboard')
             [
                 'shell.startYear',
                 'shell.endYear',
+                'shell.activeCoverageYear',
                 'shell.antigen',
                 'shell.dose',
                 'shell.district'
@@ -192,10 +194,21 @@ angular.module('dashboard')
                             shell.endMonth, //Backwards compatibility
                             shell.startYear,
                             shell.endYear,
+                            shell.activeCoverageYear,
                             shell.antigen,
                             shell.dose,
                             shell.district
                         );
+
+                        $rootScope.$broadcast('refreshCoverage3', {
+                            endMonth: shell.endMonth, //Backwards compatibility
+                            startYear: shell.startYear,
+                            endYear: shell.endYear,
+                            activeCoverageYear: shell.activeCoverageYear,
+                            antigen: shell.antigen,
+                            dose: shell.dose,
+                            district: shell.district
+                        });
                     }
                 }
             },

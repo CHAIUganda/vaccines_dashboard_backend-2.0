@@ -160,11 +160,14 @@ class VaccineDosesByPeriod(APIView):
 
             filters.update({'vaccine__name': vaccine})
 
-            start_period, end_period = self.get_ranges_from_years(start_year, end_year)
-            filters.update({'period__gte': start_period, 'period__lte': end_period})
-        else:
-            start_period, end_period = self.get_ranges_from_years(end_year, end_year)
-            filters.update({'period__gte': start_period, 'period__lte': end_period})
+        #     start_period, end_period = self.get_ranges_from_years(start_year, end_year)
+        #     filters.update({'period__gte': start_period, 'period__lte': end_period})
+        # else:
+        #     start_period, end_period = self.get_ranges_from_years(end_year, end_year)
+        #     filters.update({'period__gte': start_period, 'period__lte': end_period})
+
+        start_period, end_period = self.get_ranges_from_years(start_year, end_year)
+        filters.update({'period__gte': start_period, 'period__lte': end_period})
 
         if data_type and data_type == 'map':
             grouping_fields.append('district__name')

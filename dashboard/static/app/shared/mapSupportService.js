@@ -101,111 +101,66 @@ angular.module('services').service('MapSupportService', [
             return periodList;
         };
 
+        function getAggregates(data, periodList) {
+            return periodList.reduce(function(acc, period) {
+                if (data == undefined || data[period[0]] == undefined || data[period[0]][period[1]] == undefined)
+                    return acc;
+                var item = data[period[0]][period[1]];
+                acc.totalPlanned += item.planned;
+                acc.totalFirstDose += item.first_dose;
+                acc.totalSecondDose += item.second_dose;
+                acc.totalLastDose += item.last_dose;
+                return acc;
+            }, {totalPlanned: 0, totalFirstDose:0, totalSecondDose:0, totalLastDose:0});
+        }
+
         var calculateCoverageRate = function(data, periodList, doseNumber) {
-            
-            var totalPlanned = periodList.reduce(function(total, v) {
-                return total + data[v[0]][v[1]].planned;
-            }, 0);
-
-            var totalFirstDose = periodList.reduce(function(total, v) {
-                return total + data[v[0]][v[1]].first_dose;
-            }, 0);
-
-            var totalSecondDose = periodList.reduce(function(total, v) {
-                return total + data[v[0]][v[1]].second_dose;
-            }, 0);
-
-            var totalLastDose = periodList.reduce(function(total, v) {
-                return total + data[v[0]][v[1]].last_dose;
-            }, 0);
-
-            var doseValue = totalLastDose;
-
-            if (doseNumber == 1) {
-                doseValue = totalFirstDose;
-            } else if (doseNumber == 2) {
-                doseValue = totalSecondDose;
-            }
-
-            return (doseValue / totalPlanned) * 100;
+            var result = getAggregates(data, periodList);
+            var doseValue = result.totalLastDose;
+            if (doseNumber == 1)
+                doseValue = result.totalFirstDose;
+            else if (doseNumber == 2)
+                doseValue = result.totalSecondDose;
+            return (doseValue / result.totalPlanned) * 100;
         };
 
         var calculateDropoutRate = function(data, periodList) {
-            var totalPlanned = periodList.reduce(function(total, v) {
-                return total + data[v[0]][v[1]].planned;
-            }, 0);
-
-            var totalLastDose = periodList.reduce(function(total, v) {
-                return total + data[v[0]][v[1]].last_dose;
-            }, 0);
-
-            var totalFirstDose = periodList.reduce(function(total, v) {
-                return total + data[v[0]][v[1]].first_dose;
-            }, 0);
-
-            return ((totalFirstDose - totalLastDose) / totalFirstDose) * 100;
+            var result = getAggregates(data, periodList);
+            return ((result.totalFirstDose - result.totalLastDose) / result.totalFirstDose) * 100;
         };
 
         var calculateRedCategoryValue = function(data, periodList) {
-            var totalPlanned = periodList.reduce(function(total, v) {
-                return total + data[v[0]][v[1]].planned;
-            }, 0);
+            var r = getAggregates(data, periodList);
+            var access = (r.totalFirstDose / r.totalPlanned) * 100;
+            var dropoutRate = ((r.totalFirstDose - r.totalLastDose) / r.totalFirstDose) * 100;
 
-            var totalLastDose = periodList.reduce(function(total, v) {
-                return total + data[v[0]][v[1]].last_dose;
-            }, 0);
-
-            var totalFirstDose = periodList.reduce(function(total, v) {
-                return total + data[v[0]][v[1]].first_dose;
-            }, 0);
-
-            var access = (totalFirstDose / totalPlanned) * 100;
-            var dropoutRate = ((totalFirstDose - totalLastDose) / totalFirstDose) * 100;
-
-            if (access >= 90 && dropoutRate >= 0 && dropoutRate <= 10) {
-                return 1;
-            } else if (access >= 90 && (dropoutRate < 0 || dropoutRate > 10)) {
-                return 2;
-            } else if (access < 90 && dropoutRate >= 0 && dropoutRate <= 10) {
-                return 3;
-            } else if (access < 90 && (dropoutRate < 0 || dropoutRate > 10)) {
-                return 4;
-            } else {
-                return 0;
-            }
+            if (access >= 90 && dropoutRate >= 0 && dropoutRate <= 10) return 1;
+            else if (access >= 90 && (dropoutRate < 0 || dropoutRate > 10)) return 2;
+            else if (access < 90 && dropoutRate >= 0 && dropoutRate <= 10) return 3;
+            else if (access < 90 && (dropoutRate < 0 || dropoutRate > 10)) return 4;
+            else return 0;
         };
 
         var getLastValue = function(d, defaultValue) {
+            if (d == undefined) return;
             if (defaultValue in d) return defaultValue;
-
             var keys = Object.keys(d);
             return keys[keys.length-1];
         };
 
         var getValuesInRange = function(data, startYear, startMonth, endYear, endMonth) {
             var values = [];
-
             for (yearIndex in data) {
-                if (yearIndex < startYear || yearIndex > endYear) {
-                    continue;
-                }
+                if (yearIndex < startYear || yearIndex > endYear) continue;
 
                 for (monthIndex in data[yearIndex]) {
-                    if (yearIndex == startYear && monthIndex < startMonth) {
-                        continue;
-                    }
-
-                    if (yearIndex == endYear && monthIndex > endMonth) {
-                        continue;
-                    }
-
+                    if (yearIndex == startYear && monthIndex < startMonth) continue;
+                    if (yearIndex == endYear && monthIndex > endMonth) continue;
                     values.push([yearIndex, monthIndex]);
                 }
             }
-
             return values;
         };
-
 
         return {
             "createDistrictDataMap": createDistrictDataMap,

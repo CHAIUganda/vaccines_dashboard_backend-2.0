@@ -14,6 +14,7 @@ angular.module('dashboard')
         vm.activeReportToggle = "ACY";
         vm.activeReportYear = "CY";
         vm.activeDistrict = undefined;
+        vm.sampleDistrictData = {};
 
         $scope.isActive = function(viewLocation) {
             return viewLocation === $location.path();
@@ -46,12 +47,13 @@ angular.module('dashboard')
 
             // vm.endMonth=period;
 
-            if (district != undefined && district != "ALL") {
-                // shellScope.child.mapPlaceholderMessage = "No map available.";
-                return;
-            }
-
             shellScope.child.hideMap = true;
+            // if (district != undefined && district != "National") {
+            //     shellScope.child.mapPlaceholderMessage = "No map available.";
+            //     return;
+            // }
+
+
             shellScope.child.mapPlaceholderMessage = "Map loading. Please wait...";
 
             //Todo: Temporarily disable filtering by district for the table
@@ -184,9 +186,8 @@ angular.module('dashboard')
 
             CoverageService.getVaccineDosesByPeriod(params)
                 .then(function(data) {
-
                     var dataDistrictMap = MapSupportService.createDistrictDataMap(data);
-
+                    vm.sampleDistrictData = dataDistrictMap[Object.keys(dataDistrictMap)[0]];
                     // vm.data = angular.copy(data);
                     // This maps the data of the CSV so it can be easily accessed by
                     // the ID of the district, for example: dataById[2196]
@@ -320,17 +321,15 @@ angular.module('dashboard')
 
             vm.getMapTitle = function(vaccine) {
                 var duration = vm.activeReportToggle[0] == 'A' ? "Annualized" : "Monthly";
-                var period = appHelpers.generateFullLabelFromPeriod(shellScope.defaultPeriod);
+                var period = vm.getLastMapPeriod();
+                var fullPeriod = appHelpers.generateFullLabelFromPeriod(period[0]+period[1]);
                 var antigenLabel = vm.activeDose != undefined ? vm.activeDose : vaccine;
+
                 var tab = "Coverage";
+                if (vm.path=="/coverage/dropoutrate") tab = "Dropout Rate";
+                else if (vm.path=="/coverage/redcategory") tab = "Red Categorization";
 
-                if (vm.path=="/coverage/dropoutrate"){
-                    tab = "Dropout Rate";
-                } else if (vm.path=="/coverage/redcategory") {
-                    tab = "Red Categorization";
-                }
-
-                return duration + " " + tab + " of " + antigenLabel + " for " + period;
+                return `${duration} ${tab} of ${antigenLabel} for ${fullPeriod}`;
             };
 
             vm.updateMapWithVaccine = function(vaccine) {
@@ -344,7 +343,7 @@ angular.module('dashboard')
                 //     shellScope.child.hideMap = false;
                 // }
 
-                shellScope.child.hideMap = false;
+                // shellScope.child.hideMap = false;
 
                 if (vaccine == "DPT" || vaccine == "ALL") {
                     vaccine = "PENTA";
@@ -380,6 +379,16 @@ angular.module('dashboard')
                 } else {
                     return "LightGray";
                 }
+            };
+
+            vm.getLastMapPeriod = function() {
+                var vaccineData = vm.sampleDistrictData[vm.activeVaccine];
+                var periodList = MapSupportService.getPeriodList(
+                    vaccineData,
+                    endYear,
+                    vm.activeReportToggle
+                );
+                return periodList[periodList.length-1];
             };
 
             vm.getDistrictValue = function(d) {
@@ -765,25 +774,18 @@ angular.module('dashboard')
         };
 
         vm.getActiveDoseNumber = function() {
-            var dose = 0;
-            if (vm.activeDose != undefined) {
-                dose = Number(vm.activeDose.substr(vm.activeDose.length-1, 1));
-            }
-            return dose;
+            if (vm.activeDose != undefined)
+                return Number(vm.activeDose.substr(vm.activeDose.length-1, 1));
+            return 0;
         };
 
         vm.computeRate = function(first_dose, second_dose, last_dose, planned) {
             if (vm.path=="/coverage/coverage"){
-
                 var activeDoseNumber = vm.getActiveDoseNumber();
-
                 var doseValue = last_dose;
 
-                if (activeDoseNumber == 1) {
-                    doseValue = first_dose;
-                } else if (activeDoseNumber == 2) {
-                    doseValue = second_dose;
-                }
+                if (activeDoseNumber == 1) doseValue = first_dose;
+                else if (activeDoseNumber == 2) doseValue = second_dose;
 
                 return (doseValue / planned) * 100;
             } else if (vm.path=="/coverage/dropoutrate"){
@@ -792,17 +794,11 @@ angular.module('dashboard')
                 var access = (first_dose/planned) * 100;
                 var dropoutRate = ((first_dose - last_dose) / first_dose) * 100;
 
-                if (access >= 90 && dropoutRate >= 0 && dropoutRate <= 10) {
-                    return 1;
-                } else if (access >= 90 && (dropoutRate < 0 || dropoutRate > 10)) {
-                    return 2;
-                } else if (access < 90 && dropoutRate >= 0 && dropoutRate <= 10) {
-                    return 3;
-                } else if (access < 90 && (dropoutRate < 0 || dropoutRate > 10)) {
-                    return 4;
-                } else {
-                    return 0;
-                }
+                if (access >= 90 && dropoutRate >= 0 && dropoutRate <= 10) return 1;
+                else if (access >= 90 && (dropoutRate < 0 || dropoutRate > 10)) return 2;
+                else if (access < 90 && dropoutRate >= 0 && dropoutRate <= 10) return 3;
+                else if (access < 90 && (dropoutRate < 0 || dropoutRate > 10)) return 4;
+                else return 0;
             }
         };
 
@@ -909,7 +905,7 @@ angular.module('dashboard')
             if (vm.path == '/coverage/redcategory') {
                 var getRedCategoryValues = function(monthIndex, catDistricts, totalDistricts) {
                     return {
-                            x: monthIndex, y: d3.format('.01f')((catDistricts / totalDistricts) * 100)
+                            x: Number(monthIndex), y: d3.format('.01f')((catDistricts / totalDistricts) * 100)
                             // x: Number(monthIndex), y: d3.format('.01f')(catDistricts)
                     };
                 };
@@ -949,26 +945,35 @@ angular.module('dashboard')
                     }
                 }
 
-                chartData.push({key: 'CAT1', color: 'DarkGreen', values: categoryValues[1]});
-                chartData.push({key: 'CAT2', color: 'Yellow', values: categoryValues[2]});
-                chartData.push({key: 'CAT3', color: 'Orange', values: categoryValues[3]});
-                chartData.push({key: 'CAT4', color: 'Red', values: categoryValues[4]});
+                chartData.push({key: 'CAT1', color: 'DarkGreen', values: vm.fillMissingValues(categoryValues[1])});
+                chartData.push({key: 'CAT2', color: 'Yellow', values: vm.fillMissingValues(categoryValues[2])});
+                chartData.push({key: 'CAT3', color: 'Orange', values: vm.fillMissingValues(categoryValues[3])});
+                chartData.push({key: 'CAT4', color: 'Red', values: vm.fillMissingValues(categoryValues[4])});
 
             } else {
                 for (var yearLabel in periodValues) {
                     for (var vaccine in periodValues[yearLabel]) {
-                        if (vm.activeDose != undefined) {
-                            var key = vm.activeDose + " (" + yearLabel + ")";
-                        } else {
-                            var key = vaccine + " (" + yearLabel + ")";
-                        }
-                        chartData.push({key: key, values: periodValues[yearLabel][vaccine]})
+                        var key = vaccine;
+                        // if (vm.activeDose != undefined)
+                            // key = vm.activeDose ;
+                        var values = vm.fillMissingValues(periodValues[yearLabel][vaccine]);
+                        chartData.push({key: key, values: values})
                     }
                 }
             }
-
-            // console.log(chartData);
             return chartData;
+        };
+
+        vm.fillMissingValues = function(values) {
+            var monthIndexes = _.range(1, 13);
+            var existingIndexes = values.map(function(item) { return item.x; });
+            var newIndexes = monthIndexes.filter(function(v) {
+                return existingIndexes.indexOf(v) < 0;
+            });
+            newIndexes.forEach(function(monthIndex) {
+                values.push({x: monthIndex, y: 0});
+            });
+            return values.sort(function(a, b) {return a.x - b.x});
         };
 
         vm.getChartOptions = function(reportYear) {
@@ -1012,24 +1017,16 @@ angular.module('dashboard')
             antigenLabel = (vaccine == "ALL") ? "antigens" : antigenLabel;
             var yearType = vm.activeReportYear == 'CY' ? 'Calendar Year' : 'Financial year';
 
-            var period;
-
-            if (vm.activeStartYear == vm.activeEndYear) {
-                period = vm.activeEndYear;
-            } else {
-                period = vm.activeStartYear + "-" + vm.activeEndYear;
-            }
-
-            var tab = "Coverage";
-
-            if (vm.path=="/coverage/dropoutrate"){
+            var tab = undefined;
+            if (vm.path=="/coverage/dropoutrate")
                 tab = "Dropout Rate";
-            } else if (vm.path=="/coverage/redcategory") {
+            else if (vm.path=="/coverage/redcategory")
                 tab = "Red Categorization";
-            }
+            else
+                tab = "Coverage";
 
             return "Trend of " + duration + " " + tab + " of " +
-                antigenLabel + " for " + period + " " + yearType;
+                antigenLabel + " for " + vm.activeCoverageYear + " " + yearType;
         };
 
         vm.getVaccineDosesByPeriod = function(params) {
@@ -1095,7 +1092,7 @@ angular.module('dashboard')
         //     if(startMonth.name && endMonth.name && district.name && vaccine.name) {
         $scope.$on(
             'refreshCoverage2',
-            function(e, endMonth, startYear, endYear, antigen, dose, district) {
+            function(e, endMonth, startYear, endYear, activeCoverageYear, antigen, dose, district) {
                 /* by Felix; Multiple GeoJson requests were being sent,
                 traced the problem to multiple CoverageController calls.
                 Found solution by checking currentScope as shown
@@ -1109,17 +1106,17 @@ angular.module('dashboard')
                     vm.activeStartYear = startYear;
                     vm.activeEndYear = endYear;
                     vm.selectedAntigen = antigen;
+                    vm.activeCoverageYear = activeCoverageYear;
 
                     var enableDistrictGrouping = 0;
-                    if (vm.path == '/coverage/redcategory') {
+                    if (vm.path == '/coverage/redcategory')
                         enableDistrictGrouping = 1;
-                    }
 
                     vm.enablePDFDownload();
                     vm.getVaccineDosesByDistrict(endMonth.period, district, antigen);
                     vm.getVaccineDosesByPeriod({
-                        startYear: startYear,
-                        endYear: endYear,
+                        startYear: activeCoverageYear,
+                        endYear: activeCoverageYear,
                         antigen: antigen,
                         dose: dose,
                         district: district,
@@ -1127,8 +1124,8 @@ angular.module('dashboard')
                     });
 
                     // vm.getVaccineDoses(endMonth.period, antigen, district);
-                    if (endYear != vm.lastEndYear) {
-                        vm.getVaccineDoses(endYear, antigen, district);
+                    if (activeCoverageYear != vm.lastEndYear) {
+                        vm.getVaccineDoses(activeCoverageYear, antigen, district);
                     } else {
                         vm.updateMapWithVaccine(antigen);
                     }
@@ -1136,7 +1133,7 @@ angular.module('dashboard')
                     // vm.getRedVaccineDoses(endMonth.period, antigen);
 
 
-                    vm.lastEndYear = endYear;
+                    vm.lastEndYear = activeCoverageYear;
                 }
             }
         );

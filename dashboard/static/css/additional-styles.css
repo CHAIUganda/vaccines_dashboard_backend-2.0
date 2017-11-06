@@ -192,6 +192,15 @@ h1, h2, h3, h4, h5, h6, th {
     width: 450px;
 }
 
+#annualCoverageChart svg {
+    margin: auto;
+}
+
+/* Remove the dark tick on the x-axis */
+/*.nvd3 .tick line {
+    stroke: none;
+}*/
+
 .unepiPrint {
     background: #fff url(../images/flag-ug.png) repeat-x scroll bottom;
 }

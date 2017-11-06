@@ -24,7 +24,14 @@
 
 
         <div class="col-md-12 main-filters">
-            <div class="filter-field">
+            <div class="filter-field" ng-hide="isActive('/coverage/coverage/annually')">
+                Year
+                <select name="name" class="form-control filter criteria-select" ng-model="shell.activeCoverageYear"
+                    ng-options="year for year in shell.coverageYears">
+                </select>
+            </div>
+
+            <div class="filter-field" ng-show="isActive('/coverage/coverage/annually')">
                 Start Year
                 <select name="name" class="form-control filter criteria-select" ng-model="shell.startYear"
                     ng-options="year for year in shell.coverageYears">
@@ -33,7 +40,7 @@
 
             <div class="spacer"></div>
 
-            <div class="filter-field">
+            <div class="filter-field" ng-show="isActive('/coverage/coverage/annually')">
                 End Year
                 <select name="name" class="form-control filter criteria-select" ng-model="shell.endYear"
                     ng-options="year for year in shell.coverageYears">
@@ -111,11 +118,22 @@
                 <a ui-sref="coverage.home" ui-sref-opts="{reload: true}"
                     tooltip-placement="bottom" uib-tooltip="Actual number of Children Immunized / Projected number to be Immunized expressed as a Percentage ">
                     <span class="quality_test__metric"> </span>
-                    <span class="quality_test__description easytooltip">{{"Coverage" | uppercase}}
+                    <span class="quality_test__description easytooltip">{{"Coverage (BY MONTH)" | uppercase}}
                     <!-- <span class="easytooltiptext" ><b>Actual number of Children Immunized / Projected number to be Immunized expressed as a Percentage </b></span> -->
                     </span>
                 </a>
             </div>
+
+            <div class="quality_test" ui-sref-active="quality_test_active">
+                <a ui-sref="coverage.annually" ui-sref-opts="{reload: true}"
+                    tooltip-placement="bottom" uib-tooltip="Actual number of Children Immunized / Projected number to be Immunized expressed as a Percentage ">
+                    <span class="quality_test__metric"> </span>
+                    <span class="quality_test__description easytooltip">{{"Coverage (by Year)" | uppercase}}
+                    <!-- <span class="easytooltiptext" ><b>Actual number of Children Immunized / Projected number to be Immunized expressed as a Percentage </b></span> -->
+                    </span>
+                </a>
+            </div>
+
             <div class="quality_test" ui-sref-active="quality_test_active">
                 <a ui-sref="coverage.dropoutrate" ui-sref-opts="{reload: true}"
                     tooltip-placement="bottom" uib-tooltip="Percentage of Children that did not receive the last dose of scheduled Vaccine (E.g total DPT3 = total DPT1 numbers)">
