@@ -1,0 +1,34 @@
+<div ng-controller="StockoutTrendController as vm">
+    <button class="pull-right" ng-click="vm.exportPDF('stock-out-trend-report.pdf')">Download Pdf</button>
+    <div style="clear:both;"></div>
+
+    <div id="pdfReport">
+        <div class="text-center">
+            <br><br>
+            <h4 style="width: 100%;">{{child.district }} Stock Out Trend of {{child.vaccine }}</h4>
+            <br><br>
+            <nvd3
+                options="vm.graphOptions"
+                data="vm.graphData"
+                api="api"
+                class="center-chart"
+                >
+            </nvd3>
+            
+        </div>
+    </div>
+    <!-- <div class="col-md-5">
+
+      <table ng-table="vm.tableParamsAlldistricts" class="row-border hover table table-condensed table-striped" show-filter="true">
+          <tr ng-repeat="row in $data">
+              <td title="'District'" sortable="'district_name'" filter="{district_name: 'text'}" >{{row.district_name}}</td>
+              <td title="'Children Immunized'" sortable="'consumed'" class="text-center" >{{row.consumed | number:0}}</td>
+              <td title="' Available Stock'" sortable="'available_stock'" class="text-center" >{{row.available_stock | number:0}}</td>
+              <td title="'Uptake'" sortable="'uptake_rate'"  >{{row.uptake_rate}}%</td>
+           </tr>
+
+      </table>
+    </div> -->
+
+
+</div>

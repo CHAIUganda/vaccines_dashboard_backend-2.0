@@ -11,7 +11,7 @@
 
         <div class="col-md-12 main-filters">
             <div class="filter-field"
-            ng-show="isActive('/stock/distribution') || isActive('/stock/uptakerate')">
+            ng-show="isActive('/stock/distribution') || isActive('/stock/uptakerate') || isActive('/stock/stockouttrend')">
             Start Month
             <select name="name" class="form-control filter criteria-select" ng-model="shell.startMonth"
                 ng-options="month as month.name group by month.year for month in shell.months ">
@@ -39,7 +39,7 @@
             <h5 class="text-center">  </h5>
         </div>
             <div class="filter-field"
-            ng-show="isActive('/stock/distribution') || isActive('/stock/uptakerate')">
+            ng-show="isActive('/stock/distribution') || isActive('/stock/uptakerate') || isActive('/stock/stockouttrend')">
             District<br>
             <select name="district" class="form-control filter criteria-select" ng-model="shell.selectedDistrict"
                     ng-options="district as district.name for district in shell.districts">
@@ -93,7 +93,15 @@
                     <span class="quality_test__description easytooltip " >{{"Uptake Rate" | uppercase}}
                     <span class="easytooltiptext" ><b>Doses consumed /Available Doses </b>expressed as a percentage</span>
                     </span>
+                </a>
+            </div>
 
+            <div class="quality_test text-center" ui-sref-active="quality_test_active">
+                <a ui-sref="stock.stockouttrend" ui-sref-opts="{reload: true}">
+                    <span class="quality_test__metric"></span>
+                    <span class="quality_test__description easytooltip">STOCK OUT TREND
+                    <span class="easytooltiptext" ><b>Doses consumed /Available Doses </b>expressed as a percentage</span>
+                    </span>
                 </a>
             </div>
 
