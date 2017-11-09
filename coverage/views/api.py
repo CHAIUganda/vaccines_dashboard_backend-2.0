@@ -197,6 +197,7 @@ class VaccineDosesByPeriod(APIView):
                       total_last_dose=Sum('last_dose'),
                       total_first_dose=Sum('first_dose'),
                       total_second_dose=Sum('second_dose'),
+                      total_third_dose=Sum('third_dose'),
                       total_planned=Sum('planned_consumption')) \
             .order_by('period') \
             .all()

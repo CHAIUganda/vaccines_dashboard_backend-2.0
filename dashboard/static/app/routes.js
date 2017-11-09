@@ -56,7 +56,7 @@ dashboard.config(["$stateProvider", "$urlRouterProvider", function($stateProvide
             .state("stock.uptakerate", {
                 url: "/uptakerate",
                 templateUrl: "static/app/components/stock/uptakerate.html",
-                controller: "StockController"
+                controller: "StockUptakeController"
             })
 
             .state("fridge", {

@@ -779,20 +779,21 @@ angular.module('dashboard')
             return 0;
         };
 
-        vm.computeRate = function(first_dose, second_dose, last_dose, planned) {
+        vm.computeRate = function(doses, planned) {
             if (vm.path=="/coverage/coverage"){
                 var activeDoseNumber = vm.getActiveDoseNumber();
-                var doseValue = last_dose;
+                var doseValue = doses.last;
 
-                if (activeDoseNumber == 1) doseValue = first_dose;
-                else if (activeDoseNumber == 2) doseValue = second_dose;
+                if (activeDoseNumber == 1) doseValue = doses.first;
+                else if (activeDoseNumber == 2) doseValue = doses.second;
+                else if (activeDoseNumber == 3) doseValue = doses.third;
 
                 return (doseValue / planned) * 100;
             } else if (vm.path=="/coverage/dropoutrate"){
-                return ((first_dose - last_dose) / first_dose) * 100;
+                return ((doses.first - doses.last) / doses.first) * 100;
             } else if (vm.path=="/coverage/redcategory"){
-                var access = (first_dose/planned) * 100;
-                var dropoutRate = ((first_dose - last_dose) / first_dose) * 100;
+                var access = (doses.first/planned) * 100;
+                var dropoutRate = ((doses.first - doses.last) / doses.first) * 100;
 
                 if (access >= 90 && dropoutRate >= 0 && dropoutRate <= 10) return 1;
                 else if (access >= 90 && (dropoutRate < 0 || dropoutRate > 10)) return 2;
@@ -815,6 +816,7 @@ angular.module('dashboard')
                 var last_dose = data[i].total_last_dose;
                 var first_dose = data[i].total_first_dose;
                 var second_dose = data[i].total_second_dose;
+                var third_dose = data[i].total_third_dose;
                 var planned = data[i].total_planned;
                 var vaccine = data[i].vaccine__name;
                 var district = data[i].district__name;
@@ -843,7 +845,7 @@ angular.module('dashboard')
                 if (! (vaccine in periodValues[yearLabel])) {
                     periodValues[yearLabel][vaccine] = [];
                     redCategoryValues[yearLabel][vaccine] = {};
-                    totals[yearLabel][vaccine] = {first_dose: 0, second_dose:0, last_dose: 0, planned: 0};
+                    totals[yearLabel][vaccine] = {first_dose: 0, second_dose:0, third_dose:0, last_dose: 0, planned: 0};
                     redCategoryTotals[yearLabel][vaccine] = {};
                 }
 
@@ -867,38 +869,44 @@ angular.module('dashboard')
                         var combinedFirstDose = totals[yearLabel][vaccine].first_dose + first_dose;
                         var combinedLastDose = totals[yearLabel][vaccine].last_dose + last_dose;
                         var combinedSecondDose = totals[yearLabel][vaccine].second_dose + second_dose;
+                        var combinedThirdDose = totals[yearLabel][vaccine].third_dose + third_dose;
                         var combinedPlanned = totals[yearLabel][vaccine].planned + planned;
 
                         totals[yearLabel][vaccine].first_dose = combinedFirstDose;
                         totals[yearLabel][vaccine].last_dose = combinedLastDose;
                         totals[yearLabel][vaccine].second_dose = combinedSecondDose;
+                        totals[yearLabel][vaccine].third_dose = combinedThirdDose;
                         totals[yearLabel][vaccine].planned = combinedPlanned;
                     }
 
-                    rate = vm.computeRate(combinedFirstDose, combinedSecondDose, combinedLastDose, combinedPlanned);
+                    rate = vm.computeRate({
+                        first: combinedFirstDose,
+                        second: combinedSecondDose,
+                        third: combinedThirdDose,
+                        last: combinedLastDose
+                    }, combinedPlanned);
                 } else {
-                    rate = vm.computeRate(first_dose, second_dose, last_dose, planned);
+                    rate = vm.computeRate({
+                        first:first_dose,
+                        second:second_dose,
+                        third: third_dose,
+                        last: last_dose}
+                    , planned);
                 }
 
                 if (vm.path == '/coverage/redcategory') {
                     var category = rate;
-
-                    if (! (monthIndex in redCategoryValues[yearLabel][vaccine])) {
+                    if (! (monthIndex in redCategoryValues[yearLabel][vaccine]))
                         redCategoryValues[yearLabel][vaccine][monthIndex] = {};
-                    }
 
-                    if (! (category in redCategoryValues[yearLabel][vaccine][monthIndex])) {
+                    if (! (category in redCategoryValues[yearLabel][vaccine][monthIndex]))
                         redCategoryValues[yearLabel][vaccine][monthIndex][category] = [];
-                    }
 
                     redCategoryValues[yearLabel][vaccine][monthIndex][category].push(district);
-
                 } else {
                     periodValues[yearLabel][vaccine].push({x: monthIndex, y: d3.format('.01f')(rate)});
                 }
             }
-
-            // console.log(redCategoryValues);
 
             var chartData = [];
 

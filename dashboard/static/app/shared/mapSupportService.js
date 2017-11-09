@@ -8,6 +8,7 @@ angular.module('services').service('MapSupportService', [
                 var period = data[i].period;
                 var first_dose = data[i].total_first_dose;
                 var second_dose = data[i].total_second_dose;
+                var third_dose = data[i].total_third_dose;
                 var last_dose = data[i].total_last_dose;
                 var planned = data[i].total_planned;
                 var vaccine = data[i].vaccine__name;
@@ -34,6 +35,7 @@ angular.module('services').service('MapSupportService', [
                 dataDistrictMap[district][vaccine][periodYear][periodMonth].first_dose = first_dose;
                 dataDistrictMap[district][vaccine][periodYear][periodMonth].last_dose = last_dose;
                 dataDistrictMap[district][vaccine][periodYear][periodMonth].second_dose = second_dose;
+                dataDistrictMap[district][vaccine][periodYear][periodMonth].third_dose = third_dose;
                 dataDistrictMap[district][vaccine][periodYear][periodMonth].planned = planned;
             }
 
@@ -109,18 +111,18 @@ angular.module('services').service('MapSupportService', [
                 acc.totalPlanned += item.planned;
                 acc.totalFirstDose += item.first_dose;
                 acc.totalSecondDose += item.second_dose;
+                acc.totalThirdDose += item.third_dose;
                 acc.totalLastDose += item.last_dose;
                 return acc;
-            }, {totalPlanned: 0, totalFirstDose:0, totalSecondDose:0, totalLastDose:0});
+            }, {totalPlanned: 0, totalFirstDose:0, totalSecondDose:0, totalThirdDose:0, totalLastDose:0});
         }
 
         var calculateCoverageRate = function(data, periodList, doseNumber) {
             var result = getAggregates(data, periodList);
             var doseValue = result.totalLastDose;
-            if (doseNumber == 1)
-                doseValue = result.totalFirstDose;
-            else if (doseNumber == 2)
-                doseValue = result.totalSecondDose;
+            if (doseNumber == 1) doseValue = result.totalFirstDose;
+            else if (doseNumber == 2) doseValue = result.totalSecondDose;
+            else if (doseNumber == 3) doseValue = result.totalThirdDose;
             return (doseValue / result.totalPlanned) * 100;
         };
 

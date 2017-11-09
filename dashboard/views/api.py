@@ -188,7 +188,7 @@ class StockAtHandByMonthApi(APIView):
 
 class StockByDistrictVaccineApi(APIView):
     def get(self, request):
-        district = request.query_params.get('district', "Abim District")
+        district = request.query_params.get('district', None)
         vaccine = request.query_params.get('vaccine', "PENTA")
         #month = request.query_params.get('month', None)
 
@@ -201,26 +201,41 @@ class StockByDistrictVaccineApi(APIView):
         args.update({'stock_requirement__year': int(endYear)})
 
         if vaccine:
-            args.update({'stock_requirement__district__name': district})
             args.update({'stock_requirement__vaccine__name': vaccine})
 
-        summary = Stock.objects.filter(**args) \
-            .order_by('period', ) \
-            .values('stock_requirement__district__name',
-                    'stock_requirement__vaccine__name',
-                    'stock_requirement__minimum',
-                    'stock_requirement__maximum',
-                    'month',
-                    'stock_requirement__target',
-                    'stock_requirement__coverage_target',
-                    'consumed',
-                    'stock_requirement__district__zone',
-                    'at_hand',
-                    'period',
-                    'ordered',
-                    'received')
+        grouping_fields = None
+        if district and district.lower() != "national":
+            args.update({'stock_requirement__district__name': district})
+        else:
+            grouping_fields = ['period']
+
+        summary = Stock.objects.filter(**args)
+
+        if grouping_fields is not None:
+            print "grouping [%s]" % grouping_fields
+            summary = summary.order_by('period', ).values(*grouping_fields) \
+                .annotate(total_consumed=Sum('consumed'),
+                          total_received=Sum('received'),
+                          total_at_hand=Sum('at_hand'),
+                          total_target=Sum('stock_requirement__target'))
+        else:
+            summary = summary.order_by('period', ) \
+                .values('stock_requirement__district__name',
+                        'stock_requirement__vaccine__name',
+                        'stock_requirement__minimum',
+                        'stock_requirement__maximum',
+                        'month',
+                        'stock_requirement__target',
+                        'stock_requirement__coverage_target',
+                        'consumed',
+                        'stock_requirement__district__zone',
+                        'at_hand',
+                        'period',
+                        'ordered',
+                        'received')
 
         return Response(summary)
+
 
 class StockMonthsLeftAPI(APIView):
     def get(self, request):

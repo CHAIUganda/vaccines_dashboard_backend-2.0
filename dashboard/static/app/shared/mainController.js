@@ -109,7 +109,7 @@ angular.module('dashboard')
         FilterService.getDistricts().then(function(data) {
             var districtSpecificPaths = [
                 '/stock/distribution',
-                '/stock/uptakerate',
+                // '/stock/uptakerate',
                 // '/unepi/download'
             ];
             if (districtSpecificPaths.indexOf($location.path()) == -1) {

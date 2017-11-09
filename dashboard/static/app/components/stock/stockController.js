@@ -1,10 +1,13 @@
 angular.module('dashboard')
-    .controller('StockController', ['$scope', 'StockService', '$rootScope', 'NgTableParams', 'FilterService', 'MonthService', '$location',
-    function($scope, StockService, $rootScope, NgTableParams, FilterService, MonthService, $location)
+    .controller('StockController', ['$scope', 'StockService', '$rootScope', 'NgTableParams',
+    'FilterService', 'MonthService', '$location', 'ChartSupportService', 'ChartPDFExport', '$timeout',
+    function($scope, StockService, $rootScope, NgTableParams, FilterService, MonthService,
+        $location, ChartSupportService, ChartPDFExport, $timeout)
     {
         var vm = this;
         var shellScope = $scope.$parent;
         shellScope.child = $scope;
+        vm.exportPDF = ChartPDFExport.export;
 
         shellScope.child.isActive = function(viewLocation) {
             return viewLocation === $location.path();
@@ -320,78 +323,7 @@ angular.module('dashboard')
                 };
 
                 // construct Uptake graph data
-                var graphdataUptake = [];
-                var seriesUptake = [];
-                shellScope.child.uptake = 0;
 
-                for (var i = 0; i < vm.data.length ; i++) {
-                    if (vm.data[i].received == 0)
-                    {seriesUptake.push([vm.data[i].month, 0])}
-                    else
-                    {
-                        var uptakeRate = Math.ceil(vm.data[i].consumed/(vm.data[i].received+vm.data[i].at_hand)*100);
-                        seriesUptake.push([vm.data[i].month, uptakeRate])
-                    }
-                    if (vm.data[i].month == MonthService.getMonthNumber(endMonth.split(" ")[0])){
-                        shellScope.child.uptake = vm.data[i].received == 0 ?
-                            0 :vm.data[i].consumed/(vm.data[i].received+vm.data[i].at_hand)*100;
-                    }
-
-                }
-
-                graphdataUptake.push({
-                        key: "Uptake Rate",
-                        values: seriesUptake
-                });
-
-
-                vm.graphUptake = graphdataUptake;
-
-
-                // update Uptake graph
-                vm.optionsUptake = {
-                        chart: {
-                            type: 'lineChart',
-                            height: 500,
-                            width : 550,
-                            title: {
-                                enable: true,
-                                text: 'Abim'
-                            },
-                            showLegend: false,
-                            stacked: true,
-                            showControls: true,
-                            margin : {
-                                top: 20,
-                                right: 20,
-                                bottom: 85,
-                                left: 65
-                            },
-                            forceY: ([0,100]),
-                            staggerLabels: true,
-                            x: function(d){ return d[0]; },
-                            y: function(d){ return d[1]; },
-                            xAxis: {
-                                axisLabel: 'Months',
-                                tickFormat: function(d){
-                                                return MonthService.getMonthName(d);
-                                            },
-                                axisLabelDistance: 10
-                            },
-                            useInteractiveGuideline: true,
-                            dispatch: {
-                            stateChange: function(e){ console.log("stateChange"); },
-                            changeState: function(e){ console.log("changeState"); },
-                            tooltipShow: function(e){ console.log("tooltipShow"); },
-                            tooltipHide: function(e){ console.log("tooltipHide"); }
-                            },
-                            showValues: true,
-                            valueFormat: function(d){
-                                return tickFormat(d3.format(',.1f'));
-                            },
-                            transitionDuration: 500,
-                        }
-                };
 
                 // construct Consumption graph data
                 var graphdataConsumption = [];
@@ -399,7 +331,6 @@ angular.module('dashboard')
                 var target_seriesConsumption = [];
                 shellScope.child.coverage = 0;
 
-                console.log(endMonth);
                 for (var i = 0; i < vm.data.length ; i++) {
                     seriesConsumption.push([vm.data[i].month, vm.data[i].consumed])
                     target_seriesConsumption.push([vm.data[i].month, vm.data[i].stock_requirement__target])

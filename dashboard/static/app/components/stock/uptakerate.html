@@ -1,13 +1,25 @@
-<div ng-controller="StockController as vm">
+<div ng-controller="StockUptakeController as vm">
+    <button class="pull-right" ng-click="vm.exportPDF('uptake-rate-report.pdf')">Download Pdf</button>
+    <div style="clear:both;"></div>
 
-    <h4 class="text-left" >Uptake Rate of {{child.vaccine }} for {{child.district }}</h4>
-
-    <div class="col-md-7">
-        <div class="page_graph">
-            <nvd3 options="vm.optionsUptake" data="vm.graphUptake"></nvd3>
+    <div id="pdfReport">
+        <div class="text-center">
+            <br><br>
+            <h4 style="width: 100%;">Uptake Rate of {{child.vaccine }} for {{child.district }}</h4>
+            <br><br>
+            <nvd3
+                options="vm.optionsUptake"
+                data="vm.graphUptake"
+                api="uptakeApi"
+                class="center-chart"
+                >
+            </nvd3>
+            <br>
+            Monthly Target: {{ vm.maxMonthlyTarget }}
+            <br><br>
         </div>
     </div>
-    <div class="col-md-5">
+    <!-- <div class="col-md-5">
 
       <table ng-table="vm.tableParamsAlldistricts" class="row-border hover table table-condensed table-striped" show-filter="true">
           <tr ng-repeat="row in $data">
@@ -18,7 +30,7 @@
            </tr>
 
       </table>
-    </div>
+    </div> -->
 
 
 </div>
