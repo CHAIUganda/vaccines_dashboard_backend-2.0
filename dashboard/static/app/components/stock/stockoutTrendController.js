@@ -1,3 +1,5 @@
+(function (angular) {
+    // 'use strict';
 angular.module('dashboard').controller('StockoutTrendController', StockoutTrendController);
 
 StockoutTrendController.$inject = [
@@ -63,3 +65,4 @@ function StockoutTrendController($scope, StockService, MonthService, ChartSuppor
     }
 
 }
+})(window.angular);

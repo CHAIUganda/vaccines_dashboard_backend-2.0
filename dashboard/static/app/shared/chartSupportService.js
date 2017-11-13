@@ -1,3 +1,5 @@
+(function (angular) {
+    // 'use strict';
 angular
     .module('services')
     .service('ChartSupportService', ChartSupportService);
@@ -98,3 +100,4 @@ function ChartSupportService() {
       });
     }
 }
+})(window.angular);

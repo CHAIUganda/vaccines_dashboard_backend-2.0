@@ -1,3 +1,5 @@
+(function (angular) {
+    // 'use strict';
 angular.module('dashboard')
 .controller('FridgeController', ['$scope', 'FridgeService', '$rootScope', 'NgTableParams', 'FilterService',
 function($scope, FridgeService, $rootScope, NgTableParams, FilterService)
@@ -482,3 +484,4 @@ function($scope, FridgeService, $rootScope, NgTableParams, FilterService)
                         }
 
                     ]);
+})(window.angular);

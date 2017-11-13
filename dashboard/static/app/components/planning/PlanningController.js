@@ -1,3 +1,5 @@
+(function (angular) {
+    // 'use strict';
 angular.module('dashboard')
     .controller('PlanningController', ['$scope', 'AnnualService', '$rootScope', 'NgTableParams', 'FilterService',
     function($scope, AnnualService, $rootScope, NgTableParams, FilterService)
@@ -154,7 +156,7 @@ angular.module('dashboard')
                     );
 
 
-                    
+
 
 
                     if (funded == vm.data.length) {
@@ -294,3 +296,4 @@ angular.module('dashboard')
 
         }
     ]);
+})(window.angular);

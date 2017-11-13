@@ -1,3 +1,5 @@
+(function (angular) {
+    // 'use strict';
 angular.module('services').service('MapSupportService', [
     function() {
 
@@ -173,3 +175,4 @@ angular.module('services').service('MapSupportService', [
         };
     }
 ])
+})(window.angular);

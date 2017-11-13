@@ -1,3 +1,5 @@
+(function (angular) {
+    'use strict';
 angular.module('dashboard').controller('AnnualCoverageController', AnnualCoverageController);
 
 AnnualCoverageController.$inject = [
@@ -51,9 +53,9 @@ function AnnualCoverageController($scope, CoverageService, CoverageCalculator, C
 
             /* Calculate Rates for the results */
             var chartData = [];
-            for (vaccine in result) {
+            for (var vaccine in result) {
                 var vaccineData = [];
-                for (year in result[vaccine]) {
+                for (var year in result[vaccine]) {
                     var coverageRate = CoverageCalculator.calculateCoverageRate(
                         result[vaccine][year].totalLastDose,
                         result[vaccine][year].totalPlanned
@@ -146,3 +148,4 @@ function AnnualCoverageController($scope, CoverageService, CoverageCalculator, C
       });
     }
 }
+})(window.angular);

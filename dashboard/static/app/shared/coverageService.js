@@ -1,3 +1,5 @@
+(function (angular) {
+    // 'use strict';
 angular.module('services').service('CoverageService', ['$http',
     function($http) {
         var handleResponse = function(response) {
@@ -82,3 +84,4 @@ angular.module('services').service('CoverageService', ['$http',
         };
     }
 ])
+})(window.angular);

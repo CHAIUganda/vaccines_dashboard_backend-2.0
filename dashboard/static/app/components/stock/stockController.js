@@ -1,3 +1,5 @@
+(function (angular) {
+    // 'use strict';
 angular.module('dashboard')
     .controller('StockController', ['$scope', 'StockService', '$rootScope', 'NgTableParams',
     'FilterService', 'MonthService', '$location', 'ChartSupportService', 'ChartPDFExport', '$timeout',
@@ -413,3 +415,4 @@ angular.module('dashboard')
     }
 
 ]);
+})(window.angular);

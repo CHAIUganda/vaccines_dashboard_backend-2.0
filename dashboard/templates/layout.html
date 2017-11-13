@@ -122,31 +122,15 @@
 <script type="text/javascript" src='{% static "vendor/d3-legend/d3-legend.min.js"%}'></script>
 <script type="text/javascript" src='{% static "vendor/rgbcolor/index.js"%}'></script>
 <script type="text/javascript" src='{% static "vendor/canvg/dist/canvg.min.js"%}'></script>
-<script type="text/javascript" src='{% static "app/app.js" %}'></script>
-<script type="text/javascript" src='{% static "app/routes.js" %}'></script>
-<script type="text/javascript" src='{% static "app/shared/filterService.js" %}'></script>
-<script type="text/javascript" src='{% static "app/shared/stockService.js" %}'></script>
-<script type="text/javascript" src='{% static "app/shared/fridgeService.js" %}'></script>
-<script type="text/javascript" src='{% static "app/shared/coverageService.js" %}'></script>
-<script type="text/javascript" src='{% static "app/shared/annualService.js" %}'></script>
-<script type="text/javascript" src='{% static "app/shared/mapSupportService.js" %}'></script>
-<script type="text/javascript" src='{% static "app/shared/coverageCalculatorService.js" %}'></script>
-<script type="text/javascript" src='{% static "app/shared/chartPDFExportService.js" %}'></script>
-<script type="text/javascript" src='{% static "app/shared/chartSupportService.js" %}'></script>
-<script type="text/javascript" src='{% static "app/shared/mainController.js" %}'></script>
-<script type="text/javascript" src='{% static "app/common/helpers.js" %}'></script>
-<script type="text/javascript" src='{% static "app/components/coverage/coverageController.js" %}'></script>
-<script type="text/javascript" src='{% static "app/components/coverage/annualCoverageController.js" %}'></script>
-<script type="text/javascript" src='{% static "app/components/stock/stockUptakeController.js" %}'></script>
-<script type="text/javascript" src='{% static "app/components/stock/stockoutTrendController.js" %}'></script>
-<script type="text/javascript" src='{% static "app/components/fridge/fridgeController.js" %}'></script>
-<script type="text/javascript" src='{% static "app/components/stock/stockController.js" %}'></script>
-<script type="text/javascript" src='{% static "app/components/unepi/UnepiController.js" %}'></script>
-<script type="text/javascript" src='{% static "app/components/planning/planningController.js" %}'></script>
 <script type="text/javascript" src='{% static "vendor/leaflet/dist/leaflet.js" %}'></script>
 <script type="text/javascript" src='{% static "vendor/angular-leaflet-directive/dist/angular-leaflet-directive.js" %}'></script>
 <script type="text/javascript" src='{% static "vendor/leaflet/dist/leaflet.shpfile.js" %}'></script>
 <script type="text/javascript" src='{% static "vendor/shp/dist/shp.js" %}'></script>
+
+    <!--angular app specific files-->
+    <script type="text/javascript" src='{% static "app/app.js" %}'></script>
+    <script type="text/javascript" src='{% static "app/routes.js" %}'></script>
+    <script type="text/javascript" src='{% static "app/bundle.js" %}'></script>
 
 {% block js %}
 {% endblock js %}

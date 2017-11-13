@@ -1,3 +1,5 @@
+(function (angular) {
+    'use strict';
 angular.module('dashboard').controller('StockUptakeController', StockUptakeController);
 
 StockUptakeController.$inject = [
@@ -101,3 +103,4 @@ function StockUptakeController($scope, StockService, MonthService, ChartSupportS
         }, 1000);
     }
 }
+})(window.angular);

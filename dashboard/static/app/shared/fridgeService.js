@@ -1,3 +1,5 @@
+(function (angular) {
+    // 'use strict';
 angular.module('services').service('FridgeService', ['$http',
     function($http) {
         var handleResponse = function(response) {
@@ -123,3 +125,4 @@ angular.module('services').service('FridgeService', ['$http',
         };
     }
 ])
+})(window.angular);

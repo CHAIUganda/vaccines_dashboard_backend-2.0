@@ -1,3 +1,5 @@
+(function (angular) {
+    // 'use strict';
 angular
     .module('services')
     .service('CoverageCalculator', CoverageCalculator);
@@ -31,3 +33,4 @@ function CoverageCalculator() {
         else return 0;
     }
 }
+})(window.angular);

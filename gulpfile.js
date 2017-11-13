@@ -9,6 +9,14 @@ var autoprefixer = require("gulp-autoprefixer");
 var nightwatch = require("gulp-nightwatch");
 var lessSrc = "dashboard/static/css/app.less";
 var lessDest = "dashboard/static/css";
+var sourcemaps = require('gulp-sourcemaps')
+var ngAnnotate = require('gulp-ng-annotate')
+var uglify = require('gulp-uglify')
+var gutil = require('gulp-util')
+var babel = require('gulp-babel')
+
+
+
 
 gulp.task("server", bg("python", "manage.py", "runserver", "0.0.0.0:8000"));
 gulp.task("worker", bg("celery", "-A", "vaccines.celery", "worker", "--loglevel=INFO", "--concurrency=6"));
@@ -75,3 +83,24 @@ gulp.task("ft", function() {
             })
         );
 });
+
+gulp.task('js', function () {
+//  gulp.src(['dashboard/static/app/**/module.js', 'dashboard/static/app/*.js', 'dashboard/static/app/**/*.js'])
+  gulp.src([
+    'dashboard/static/app/**/*.js',
+    '!dashboard/static/app/bundle.js',
+    '!dashboard/static/app/app.js',
+    '!dashboard/static/app/routes.js'])
+    .pipe(sourcemaps.init())
+      .pipe(concat('bundle.js'))
+//      .pipe(ngAnnotate())
+      .pipe(babel({presets: ['es2015-without-strict']}))
+      .pipe(uglify())
+      .on('error', function (err) { gutil.log(gutil.colors.red('[Error]'), err.toString()); })
+    .pipe(sourcemaps.write())
+    .pipe(gulp.dest('dashboard/static/app/'))
+})
+
+gulp.task('watch', ['js'], function () {
+  gulp.watch('dashboard/static/app/**/*.js', ['js'])
+})

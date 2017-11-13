@@ -1,3 +1,5 @@
+(function (angular) {
+    // 'use strict';
 /**
  * Created by bwamala on 6/2/2017.
  */
@@ -39,4 +41,4 @@ angular.module('services').service('AnnualService', ['$http',
     }
 
 ])
-
+})(window.angular);

@@ -1,3 +1,5 @@
+(function (angular) {
+    // 'use strict';
 angular.module('dashboard')
 .controller('UnepiController', [
     '$scope', 'CoverageService','StockService',
@@ -117,7 +119,7 @@ angular.module('dashboard')
                     return acc;
                 }, {});
 
-                for (vaccine in vaccineData) {
+                for (var vaccine in vaccineData) {
                     var atHand = vaccineData[vaccine].at_hand;
                     var minStock = vaccineData[vaccine].stock_requirement__minimum;
                     var ordered = vaccineData[vaccine].ordered;
@@ -266,3 +268,4 @@ angular.module('dashboard')
 
             }
         ]);
+})(window.angular);

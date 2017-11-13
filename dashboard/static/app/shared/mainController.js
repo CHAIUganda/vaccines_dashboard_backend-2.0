@@ -1,3 +1,5 @@
+(function (angular) {
+    // 'use strict';
 angular.module('dashboard')
     .controller('MainController', ['$scope', 'FilterService', 'MonthService', '$rootScope', '$location',
     function($scope, FilterService, MonthService, $rootScope, $location)
@@ -273,3 +275,4 @@ angular.module('dashboard')
 
     }
 ]);
+})(window.angular);

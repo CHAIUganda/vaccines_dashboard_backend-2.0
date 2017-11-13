@@ -1,3 +1,5 @@
+(function (angular) {
+    // 'use strict';
 angular.module('dashboard')
     .controller('CoverageController', [
         '$scope','$location', 'StockService', '$rootScope', 'NgTableParams',
@@ -1154,3 +1156,4 @@ angular.module('dashboard')
             templateUrl: 'static/app/components/coverage/report-year-toggles.html'
         }
     });
+})(window.angular);

@@ -1,3 +1,5 @@
+(function (angular) {
+    // 'use strict';
 angular
     .module('services')
     .service('ChartPDFExport', ChartPDFExport);
@@ -42,3 +44,4 @@ function ChartPDFExport() {
         });
     }
 }
+})(window.angular);
