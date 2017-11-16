@@ -1,0 +1,45 @@
+<div ng-controller="MainFinanceController as vm">
+    <button class="pull-right" ng-click="vm.exportPDF('finance-allocations-report.pdf')">Download Pdf</button>
+    <div style="clear:both;"></div>
+
+    <div class="row toggle-row" >
+        <span class='reg_toggle'>
+            <span class=' toggle-option'
+                ng-class='{active: vm.activeToggle == "GAVI"}'
+                ng-click='vm.activeToggle = "GAVI"'>GAVI FUNDS</span>
+
+            <span class='toggle-option'
+                ng-class='{active: vm.activeToggle == "GOU"}'
+                ng-click='vm.activeToggle = "GOU"'>GOU FUNDS</span>
+        </span>
+    </div>
+
+
+    <div id="pdfReport">
+        <div class="text-center">
+            <br><br>
+            <h4 style="width: 100%;">Approved Vs Disbursed ({{ vm.activeToggle }})</h4>
+            <br><br>
+            <nvd3
+                options="vm.graphOptions"
+                data="vm.allocGraphData"
+                class="center-chart">
+            </nvd3>
+
+            <!-- <nvd3
+                ng-show="vm.activeToggle == 'GAVI'"
+                options="vm.graphOptions"
+                data="vm.gaviGraphData"
+                class="center-chart">
+            </nvd3>
+
+            <nvd3
+                ng-show="vm.activeToggle == 'GOU'"
+                options="vm.graphOptions"
+                data="vm.gouGraphData"
+                class="center-chart">
+            </nvd3> -->
+        </div>
+    </div>
+
+</div>

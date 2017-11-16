@@ -1,6 +1,11 @@
+import json
+
+from braces.views import LoginRequiredMixin
 from django.core.serializers.json import Serializer
 from django.db.models import Sum, Case, Value, When, Avg, FloatField, IntegerField
 from django.db.models.expressions import F, Q, ExpressionWrapper
+from django.http import HttpResponse
+from django.views.generic import TemplateView
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from dashboard.helpers import *
@@ -275,3 +280,41 @@ class LastPeriod(APIView):
             .distinct()
 
         return Response(summary.last())
+
+
+class FinanceListApiView(APIView):
+    def get(self, request, *args, **kwargs):
+        start_year = request.query_params.get('startYear', 0)
+        end_year = request.query_params.get('endYear', 0)
+
+        results = Financing.objects\
+            .filter(period__gte=start_year, period__lte=end_year)\
+            .values('period', 'gavi_approved', 'gavi_disbursed', 'gou_approved', 'gou_disbursed')\
+            .order_by('period')
+        return Response(results)
+
+
+class FinanceYearsApiView(APIView):
+    def get(self, request, *args, **kwargs):
+        results = Financing.objects\
+            .order_by('period')\
+            .values_list('period', flat=True)
+        return Response(results)
+
+
+class FinanceUpdateApiView(LoginRequiredMixin, TemplateView):
+    def post(self, request, *args, **kwargs):
+        data = json.loads(request.body)
+        data_row = Financing.objects.filter(period=data['period']).first()
+
+        if data_row is None:
+            data_row = Financing()
+
+        data_row.period = data['period']
+        data_row.gavi_approved = data['gavi_approved']
+        data_row.gavi_disbursed = data['gavi_disbursed']
+        data_row.gou_approved = data['gou_approved']
+        data_row.gou_disbursed = data['gou_disbursed']
+        data_row.save()
+
+        return HttpResponse("ok")

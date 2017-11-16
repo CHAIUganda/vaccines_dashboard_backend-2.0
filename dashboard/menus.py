@@ -26,6 +26,10 @@ Menu.add_item("main", MenuItem("Cold Chain".upper(),
                                "#/fridge/facilities",
                                weight=1))
 
+Menu.add_item("main", MenuItem("FINANCE",
+                               "#/finance/obligations",
+                               weight=1))
+
 '''
 Menu.add_item("main", MenuItem("Planning",
                                "#/planning/awp",
@@ -37,6 +41,11 @@ Menu.add_item("main", MenuItem("CVS",
 '''
 Menu.add_item("main", MenuItem("Import Files",
                                reverse("import"),
+                               check=user_is_admin,
+                               weight=20))
+
+Menu.add_item("main", MenuItem("Financing Data",
+                               reverse("finance"),
                                check=user_is_admin,
                                weight=20))
 

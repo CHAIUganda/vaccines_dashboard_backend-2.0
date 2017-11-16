@@ -1,0 +1,19 @@
+<div ng-controller="MainFinanceController as vm">
+    <button class="pull-right" ng-click="vm.exportPDF('finance-allocations-report.pdf')">Download Pdf</button>
+    <div style="clear:both;"></div>
+
+    <div id="pdfReport">
+        <div class="text-center">
+            <br><br>
+            <h4 style="width: 100%;">Co-Financing Obligations</h4>
+            <br><br>
+            <nvd3
+                options="vm.graphOptions"
+                data="vm.graphData.allOblig"
+                api="api"
+                class="center-chart">
+            </nvd3>
+        </div>
+    </div>
+
+</div>

@@ -168,6 +168,14 @@ class Stock(models.Model):
         unique_together = ("stock_requirement", "month",)
 
 
+class Financing(models.Model):
+    period = models.IntegerField(unique=True, null=False)
+    gavi_approved = models.BigIntegerField(default=0)
+    gavi_disbursed = models.BigIntegerField(default=0)
+    gou_approved = models.BigIntegerField(default=0)
+    gou_disbursed = models.BigIntegerField(default=0)
+
+
 class DataSyncTrackerStatus(object):
     UNKNOWN = 0
     INIT_DOWNLOAD = 1

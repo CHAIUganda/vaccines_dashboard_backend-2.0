@@ -10,6 +10,9 @@ var dashboard = angular.module('dashboard',
     "ngTable",
     "services",
     "nvd3",
+    "ui.grid",
+    "ui.grid.edit",
+    "ui.grid.rowEdit"
     // "leaflet-directive"
   ]
 );

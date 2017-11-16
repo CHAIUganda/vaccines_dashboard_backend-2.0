@@ -11,6 +11,11 @@ angular.module('dashboard')
         $scope.root = {};
         var shell = this;
 
+        $scope.$on('setDefaultYears', function(e, startYear, endYear) {
+            shell.startYear = startYear;
+            shell.endYear = endYear;
+        });
+
         //=== Stock Management =======
         shell.startMonth = shell.startMonth ? shell.startMonth.name : "Nov 2015";
         shell.endMonth = shell.endMonth ? shell.endMonth.name : "Dec 2015";

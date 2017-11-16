@@ -1,0 +1,61 @@
+<div ng-controller="MainController as shell">
+
+    <div class="row">
+    <div class="filter-title col-md-12 heading">
+        <h5 class="filter-title">FILTERS</h5>
+    </div>
+    </div>
+
+    <div class="row range_filter">
+        <div class="col-md-12 main-filters">
+            <div class="filter-field">
+                Start Year
+                <select name="name" class="form-control filter criteria-select" ng-model="shell.startYear"
+                    ng-options="year for year in financeYears">
+                </select>
+            </div>
+            <div class="spacer"></div>
+            <div class="filter-field">
+                End Year
+                <select name="name" class="form-control filter criteria-select" ng-model="shell.endYear"
+                    ng-options="year for year in financeYears">
+                </select>
+            </div>
+            <div class="spacer"></div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="filter-title col-md-12 heading">
+            <h5 class="filter-title">KEY METRICS</h5>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="quality_test" ui-sref-active="quality_test_active">
+                <a ui-sref="finance.obligations" ui-sref-opts="{reload: true}"
+                    tooltip-placement="bottom" uib-tooltip="">
+                    <span class="quality_test__metric"> </span>
+                    <span class="quality_test__description easytooltip">OBLIGATIONS</span>
+                </a>
+            </div>
+
+            <div class="quality_test" ui-sref-active="quality_test_active">
+                <a ui-sref="finance.allocations" ui-sref-opts="{reload: true}"
+                    tooltip-placement="bottom" uib-tooltip="">
+                    <span class="quality_test__metric"> </span>
+                    <span class="quality_test__description easytooltip">ALLOCATIONS</span>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="test-area clearfix">
+                <div ui-view></div>
+            </div>
+        </div>
+    </div>
+</div>

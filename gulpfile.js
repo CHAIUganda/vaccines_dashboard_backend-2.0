@@ -94,8 +94,8 @@ gulp.task('js', function () {
     .pipe(sourcemaps.init())
       .pipe(concat('bundle.js'))
 //      .pipe(ngAnnotate())
-      .pipe(babel({presets: ['es2015-without-strict']}))
-      .pipe(uglify())
+//      .pipe(babel({presets: ['es2015-without-strict']})) //Uncomment for production
+//      .pipe(uglify()) //Uncomment for production
       .on('error', function (err) { gutil.log(gutil.colors.red('[Error]'), err.toString()); })
     .pipe(sourcemaps.write())
     .pipe(gulp.dest('dashboard/static/app/'))

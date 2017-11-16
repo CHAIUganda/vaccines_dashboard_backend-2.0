@@ -1,10 +1,13 @@
+import json
 import os
 from braces.views import LoginRequiredMixin, StaffuserRequiredMixin
 from django.conf import settings
 from django.contrib import messages
+from django.core import serializers
 from django.core.files.base import ContentFile
 from django.core.files.storage import default_storage
 from django.db.models import Count, Case, When
+from django.http import HttpResponse, JsonResponse
 from django.views.generic import TemplateView, FormView
 from dashboard.forms import FileUploadForm
 from dashboard.models import Stock
@@ -51,6 +54,9 @@ class SurveillanceView(TemplateView):
         context = super(SurveillanceView, self).get_context_data(**kwargs)
         return context
 
+
+class FinanceModuleView(LoginRequiredMixin, TemplateView):
+    template_name = "finance.html"
 
 
 class DataImportView(LoginRequiredMixin, StaffuserRequiredMixin, FormView):

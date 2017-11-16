@@ -114,6 +114,21 @@ dashboard.config(["$stateProvider", "$urlRouterProvider", function($stateProvide
                 templateUrl: "static/app/components/unepi/download.html",
                 controller: "UnepiController"
             })
+            .state("finance", {
+                url: "/finance",
+                templateUrl: "static/app/components/finance/main.html",
+                controller: "MainFinanceController"
+            })
+            .state("finance.obligations", {
+                url: "/obligations",
+                templateUrl: "static/app/components/finance/obligations.html",
+                controller: "MainFinanceController"
+            })
+            .state("finance.allocations", {
+                url: "/allocations",
+                templateUrl: "static/app/components/finance/allocations.html",
+                controller: "MainFinanceController"
+            })
         ;
     }
 ]);
