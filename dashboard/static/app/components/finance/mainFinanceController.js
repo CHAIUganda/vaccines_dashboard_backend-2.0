@@ -12,7 +12,6 @@ function MainFinanceController($scope, ChartPDFExport, ChartSupportService, Fina
 
     resetGraphData();
     setYearFilterOptions();
-
     $scope.$watch('vm.activeToggle', changeTabs);
     $scope.$on('refreshCoverage3', updateChart);
 

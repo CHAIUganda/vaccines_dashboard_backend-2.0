@@ -14,8 +14,8 @@
         function getFinanceData(params) {
             var config = {
                 params: {
-                    startYear: params.startYear,
-                    endYear: params.endYear
+                    startYear: params == undefined ? 1990 : params.startYear,
+                    endYear: params == undefined ? 3000 : params.endYear
                 }
             };
             return $http.get('/finance/list', config).then(handleResponse);
