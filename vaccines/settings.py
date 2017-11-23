@@ -17,6 +17,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'table',
+    'django_crontab',
     'bootstrap3',
     'dashboard',
     'qdbauth',
@@ -110,6 +111,14 @@ REST_FRAMEWORK = {
 DHIS2_USER = 'qppu2'
 DHIS2_PASS = 'DoctorTeam31'
 DHIS2_ADDRESS = 'http://hmis2.health.go.ug'
+
+# Details of library and configuration
+# https://github.com/kraiz/django-crontab
+CRONJOBS = [
+    ('0   0 1 * *', 'django.core.management.call_command', ['dhis2_05_download_data_sets', '201512']),
+    ('0   0 1 * *', 'django.core.management.call_command', ['dhis2_06_parse_data_sets', '201512', '--bulk']),
+    ('0   0 1 * *', 'django.core.management.call_command', ['parse_vaccine_doses', '201605'])
+]
 
 GENERIC_DATA_IMPORT = {
     'planned_targets': {
