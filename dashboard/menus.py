@@ -1,6 +1,8 @@
 from django.core.urlresolvers import reverse
 from menu import Menu, MenuItem
 
+from vaccines import settings
+
 
 def user_is_admin(request):
     return request.user and request.user.is_staff
@@ -23,7 +25,7 @@ Menu.add_item("main", MenuItem("Stock Management".upper(),
                                weight=1))
 
 Menu.add_item("main", MenuItem("Cold Chain".upper(),
-                               "#/fridge/facilities",
+                               "/#/fridge/facilities",
                                weight=1))
 
 Menu.add_item("main", MenuItem("FINANCE",
@@ -39,10 +41,36 @@ Menu.add_item("main", MenuItem("CVS",
                                "#",
                                weight=10))
 '''
+
+data_import_settings = settings.GENERIC_DATA_IMPORT
+import_files_children = [MenuItem("Import Files",
+                                  "/import",
+                                  check=user_is_admin,
+                                  weight=20),
+                         MenuItem("View Import Logs",
+                                  "/import/generic/logs",
+                                  check=user_is_admin,
+                                  weight=20)
+                         ]
+
+for key in data_import_settings.keys():
+    import_files_children.append(MenuItem("Import %s" % data_import_settings[key]['name'],
+                                          "/import/generic/%s" % key,
+                                          check=user_is_admin,
+                                          weight=20))
+
+# import_files_children = (
+#     MenuItem("Generic Import",
+#              reverse("generic_import"),
+#              check=user_is_admin,
+#              weight=20),
+# )
+
 Menu.add_item("main", MenuItem("Import Files",
                                reverse("import"),
                                check=user_is_admin,
-                               weight=20))
+                               weight=20,
+                               children=import_files_children))
 
 Menu.add_item("main", MenuItem("Financing Data",
                                reverse("finance"),

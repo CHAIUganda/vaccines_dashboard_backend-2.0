@@ -2,9 +2,11 @@ from django.db.models import Q
 from django.shortcuts import render_to_response
 from django.views.generic import View
 from django_datatables_view.base_datatable_view import BaseDatatableView
+from table import Table
+from table.columns import Column
 
 from dashboard.helpers import *
-from dashboard.models import Stock
+from dashboard.models import Stock, DataUploadLog
 
 
 class ScoresTableView(BaseDatatableView):
@@ -57,3 +59,16 @@ class ScoresTableView(BaseDatatableView):
         return data
 
 
+class DataUploadLogTable(Table):
+    uploaded_at = Column(field='uploaded_at', header='Upload Date', sortable=True)
+    name = Column(field='name', header='Name')
+    data_file = Column(field='data_file', header='Data File')
+    param1 = Column(field='param1', header='Param 1')
+    param2 = Column(field='param2', header='Param 2')
+    param3 = Column(field='param3', header='Param 3')
+
+    class Meta:
+        model = DataUploadLog
+        sort = [(5, 'desc')]
+        search = False
+        pagination = False

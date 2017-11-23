@@ -1,6 +1,7 @@
 import logging
 
 from custom_user.models import AbstractEmailUser
+from django.core.files.storage import FileSystemStorage
 from django.db import models
 from django.db.models import CharField
 from jsonfield import JSONField
@@ -8,6 +9,8 @@ from picklefield import PickledObjectField
 from datetime import datetime, timedelta
 from django.db import models
 from django.utils import timezone
+
+from vaccines.settings import GENERIC_IMPORT_DIR
 
 MOH_CENTRAL = "MOH CENTRAL"
 
@@ -174,6 +177,19 @@ class Financing(models.Model):
     gavi_disbursed = models.BigIntegerField(default=0)
     gou_approved = models.BigIntegerField(default=0)
     gou_disbursed = models.BigIntegerField(default=0)
+
+
+fs = FileSystemStorage(location=GENERIC_IMPORT_DIR)
+
+
+class DataUploadLog(models.Model):
+    data_file = models.FileField(storage=fs, default=None)
+    name = models.CharField(max_length=255, null=True, blank=True)
+    param1 = models.CharField(max_length=255)
+    param2 = models.CharField(max_length=255)
+    param3 = models.CharField(max_length=255)
+    uploaded_at = models.DateTimeField(default=timezone.now)
+    parsed_at = models.DateTimeField(default=timezone.now)
 
 
 class DataSyncTrackerStatus(object):

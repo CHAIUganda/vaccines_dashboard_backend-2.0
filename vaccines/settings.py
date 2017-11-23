@@ -16,6 +16,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'table',
     'bootstrap3',
     'dashboard',
     'qdbauth',
@@ -110,6 +111,51 @@ DHIS2_USER = 'qppu2'
 DHIS2_PASS = 'DoctorTeam31'
 DHIS2_ADDRESS = 'http://hmis2.health.go.ug'
 
+GENERIC_DATA_IMPORT = {
+    'planned_targets': {
+        'name': 'Planned Targets',
+        'params': ('Year',),
+        'function': 'dashboard.management.commands.planned_targets.import_targets'
+    },
+    'coverage_targets': {
+        'name': 'Coverage Targets',
+        'params': ('Year',),
+        'function': 'dashboard.management.commands.coverage_targets.import_coverage_target'
+    },
+    'min_max': {
+        'name': 'Stock Requirements Data (min/max)',
+        'params': ('Year',),
+        'function': 'dashboard.management.commands.load_min_max.import_min_max'
+    },
+    'capacity': {
+        'name': 'Cold Chain Capacity',
+        'params': ('Quarter',),
+        'function': 'cold_chain.management.commands.capacity.import_capacity'
+    },
+    'cold_chain_functionality': {
+        'name': 'Cold Chain Functionality',
+        'params': ('Quarter',),
+        'function': 'cold_chain.management.commands.functionality.import_functionality'
+    },
+    'cold_chain_immunizing_facility': {
+        'name': 'Cold Chain Immunizing Facility',
+        'params': ('Quarter',),
+        'function': 'cold_chain.management.commands.immunizingfacility.import_immunizing_facilities'
+    },
+    'cold_chain_facility': {
+        'name': 'Cold Chain Facility',
+        'params': (),
+        'function': 'cold_chain.management.commands.facility.import_facilities'
+    },
+    'cold_chain_facility_type': {
+        'name': 'Cold Chain Facility Types',
+        'params': (),
+        'function': 'cold_chain.management.commands.load_TBL_Facilities.import_tab_facilities'
+    }
+}
+
+# The directory where uploaded files are stored
+GENERIC_IMPORT_DIR = "/tmp"
 
 
 SITE_ID = 1

@@ -222,13 +222,14 @@ angular.module('dashboard')
             true
         );
 
-        $scope.$watch('shell.endQuarter', function() {
+        // Disabled because it looks like a duplication
+        /*$scope.$watch('shell.endQuarter', function() {
             if (shell.endQuarter) {
                 $rootScope.$broadcast('refreshCapacity', shell.startQuarter, shell.endQuarter, shell.selectedFridgeDistrict, shell.selectedFridgeCareLevel);
             }
-        }, true);
+        }, true);*/
 
-        $scope.$watchGroup(['shell.endQuarter', 'shell.selectedFridgeDistrict', 'shell.selectedFridgeCareLevel'], function(data){
+        $scope.$watchGroup(['shell.endQuarter', 'shell.selectedFridgeDistrict', 'shell.selectedFridgeCareLevel', 'shell.startQuarter'], function(data){
             if(data[0] && data[1]){
                 if (shell.endQuarter && shell.selectedFridgeDistrict) {
                     $rootScope.$broadcast('refreshCapacity', shell.startQuarter, shell.endQuarter, shell.selectedFridgeDistrict, shell.selectedFridgeCareLevel);

@@ -82,6 +82,10 @@ h1, h2, h3, h4, h5, h6, th {
     min-height: 620px;
 }
 
+.test-area-fix {
+    min-height: 0px;
+}
+
 .range_filter .filter-field {
     float: left;
     width: 16.66666667%;
@@ -222,4 +226,14 @@ h1, h2, h3, h4, h5, h6, th {
 .data-grid {
   width: 100%;
   /*height: 450px;*/
+}
+
+.generic-import .form-control, .modal-body .form-control  {
+    margin-bottom: 10px;
+}
+
+.dropdown-menu > .active > a, .dropdown-menu > .active > a:hover, .dropdown-menu > .active > a:focus {
+    background: #fff;
+    color: #7b8a8b;
+    font-weight: bold;
 }

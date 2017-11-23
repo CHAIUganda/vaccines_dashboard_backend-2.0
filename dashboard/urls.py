@@ -9,6 +9,8 @@ urlpatterns = [
 
     url(r'^$', dashboard.views.main.HomeView.as_view(), name='home'),
     url(r'^import/$', dashboard.views.main.DataImportView.as_view(), name='import'),
+    url(r'^import/generic/logs$', dashboard.views.main.ImportLogsView.as_view(), name='import_logs'),
+    url(r'^import/generic/(?P<data_type>.*)$', dashboard.views.main.GenericDataImportView.as_view(), name='generic_import'),
     url(r'^finance/$', dashboard.views.main.FinanceModuleView.as_view(), name='finance'),
     url(r'^finance/update$', dashboard.views.api.FinanceUpdateApiView.as_view(), name='finance_update'),
     url(r'^finance/list', dashboard.views.api.FinanceListApiView.as_view(), name='finance_list'),

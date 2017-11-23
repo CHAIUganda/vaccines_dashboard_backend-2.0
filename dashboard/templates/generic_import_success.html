@@ -1,0 +1,12 @@
+{% extends "layout.html" %}
+{% load staticfiles %}
+{% load bootstrap3 %}
+{% block content %}
+<div class="container generic-import">
+    <h3>{{ title }}</h3>
+    <hr/>
+    <div class="alert alert-success" role="alert">
+        <strong>Success!</strong> Data has been imported.
+    </div>
+</div>
+{% endblock content %}
