@@ -31,20 +31,21 @@ angular.module('dashboard')
 
         // Add Antigen filters values
         var antigens = {
-            "ALL": [],
-            "HPV": ["HPV1", "HPV2"],
-            "DPT": ["DPT1", "DPT2", "DPT3"],
-            "PCV": ["PCV1", "PCV2", "PCV3"],
-            "IPV": [],
-            "OPV": ["OPV1", "OPV2", "OPV3"],
-            "BCG": [],
-            "MEASLES": [],
-            "TT": ["TT1", "TT2"]
+            "ALL": ['Dose 1', 'Dose 2', 'Dose 3'],
+            "HPV": ['Dose 1', 'Dose 2'],
+            "DPT": ['Dose 1', 'Dose 2', 'Dose 3'],
+            "PCV": ['Dose 1', 'Dose 2', 'Dose 3'],
+            "IPV": ['Dose 1'],
+            "OPV": ['Dose 1', 'Dose 2', 'Dose 3'],
+            "BCG": ['Dose 1'],
+            "MEASLES": ['Dose 1'],
+            "TT": ['Dose 1', 'Dose 2']
         }
 
         shell.updateDoses = function() {
             shell.dose = undefined;
-            shell.doses = ['Dose 1', 'Dose 2', 'Dose 3'];//antigens[shell.antigen]
+            shell.doses = antigens[shell.antigen]
+            //shell.doses = ['Dose 1', 'Dose 2', 'Dose 3'];//antigens[shell.antigen]
 
             if (shell.doses.length != 0) {
                 shell.dose = shell.doses[shell.doses.length-1];

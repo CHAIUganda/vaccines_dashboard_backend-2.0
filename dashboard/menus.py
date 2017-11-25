@@ -13,15 +13,15 @@ def user_is_super_user(request):
 
 
 Menu.add_item("main", MenuItem("UNEPI",
-                               "#/unepi/download",
+                               "/#/unepi/download",
                                 weight=1))
 
 Menu.add_item("main", MenuItem("Coverage".upper(),
-                               "#/coverage/coverage",
+                               "/#/coverage/coverage",
                                weight=1))
 
 Menu.add_item("main", MenuItem("Stock Management".upper(),
-                               "#/stock/stockonhand",
+                               "/#/stock/stockonhand",
                                weight=1))
 
 Menu.add_item("main", MenuItem("Cold Chain".upper(),
@@ -29,12 +29,12 @@ Menu.add_item("main", MenuItem("Cold Chain".upper(),
                                weight=1))
 
 Menu.add_item("main", MenuItem("FINANCE",
-                               "#/finance/obligations",
+                               "/#/finance/obligations",
                                weight=1))
 
 '''
 Menu.add_item("main", MenuItem("Planning",
-                               "#/planning/awp",
+                               "/#/planning/awp",
                               weight=10))
 
 Menu.add_item("main", MenuItem("CVS",

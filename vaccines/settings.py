@@ -114,6 +114,8 @@ DHIS2_ADDRESS = 'http://hmis2.health.go.ug'
 
 # Details of library and configuration
 # https://github.com/kraiz/django-crontab
+CRONTAB_LOCK_JOBS = True
+
 CRONJOBS = [
     ('0   0 1 * *', 'django.core.management.call_command', ['dhis2_05_download_data_sets', '201512']),
     ('0   0 1 * *', 'django.core.management.call_command', ['dhis2_06_parse_data_sets', '201512', '--bulk']),

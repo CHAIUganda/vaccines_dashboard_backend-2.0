@@ -325,7 +325,9 @@ angular.module('dashboard')
                 var duration = vm.activeReportToggle[0] == 'A' ? "Annualized" : "Monthly";
                 var period = vm.getLastMapPeriod();
                 var fullPeriod = appHelpers.generateFullLabelFromPeriod(period[0]+period[1]);
-                var antigenLabel = vm.activeDose != undefined ? vm.activeDose : vaccine;
+                var doseNumber = vm.activeDose.replace("Dose ", "");
+                var antigenLabel = vm.activeDose != undefined ? 
+                    `${vaccine}${doseNumber}` : vaccine;
 
                 var tab = "Coverage";
                 if (vm.path=="/coverage/dropoutrate") tab = "Dropout Rate";
@@ -1023,8 +1025,12 @@ angular.module('dashboard')
 
         vm.getChartTitle = function(vaccine) {
             var duration = vm.activeReportToggle[0] == 'A' ? "Annualized" : "Monthly";
-            var antigenLabel = vm.activeDose != undefined ? vm.activeDose : vaccine;
-            antigenLabel = (vaccine == "ALL") ? "antigens" : antigenLabel;
+            var vaccineName = (vaccine == "ALL") ? "antigens" : vaccine;
+            var doseNumber = vm.activeDose.replace("Dose ", "");
+            if (vaccine == "ALL") doseNumber = `(${doseNumber})`;
+            var antigenLabel = vm.activeDose != undefined ? 
+                `${vaccineName}${doseNumber}` : vaccineName;
+            
             var yearType = vm.activeReportYear == 'CY' ? 'Calendar Year' : 'Financial year';
 
             var tab = undefined;

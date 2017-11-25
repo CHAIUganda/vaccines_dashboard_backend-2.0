@@ -76,7 +76,7 @@ function AnnualCoverageController($scope, CoverageService, CoverageCalculator, C
             chart: {
                 type: 'multiBarChart',
                 height: 450,
-                width: 650,
+                width: 900,
                 stacked: false,
                 showControls: false,
                 groupSpacing: 0.2,
