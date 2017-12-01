@@ -16,8 +16,7 @@ function StockUptakeController($scope, StockService, MonthService, ChartSupportS
     shellScope.child = $scope;
 
     shellScope.child.uptake = 0;
-    vm.exportPDF = ChartPDFExport.export;
-
+    vm.exportPDF = function(name) { ChartPDFExport.exportWithStyler(vm, name); };
 
     vm.optionsUptake = getOptions();
 
@@ -79,7 +78,7 @@ function StockUptakeController($scope, StockService, MonthService, ChartSupportS
         uptakeOptions.chart.width = 900;
         uptakeOptions.chart.margin = {left: 70, top: 90};
         uptakeOptions.chart.legend.width = 900;
-        uptakeOptions.chart.legend.maxKeyLength = 40;
+        uptakeOptions.chart.legend.maxKeyLength = 50;
         uptakeOptions.chart.xAxis.axisLabel = "Months";
         uptakeOptions.chart.yAxis.axisLabel = "";
         uptakeOptions.chart.xAxis.tickFormat = function(d){

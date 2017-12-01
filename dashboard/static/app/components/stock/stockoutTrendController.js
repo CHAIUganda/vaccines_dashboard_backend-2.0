@@ -12,7 +12,7 @@ StockoutTrendController.$inject = [
 ];
 function StockoutTrendController($scope, StockService, MonthService, ChartSupportService, ChartPDFExport, $timeout) {
     var vm = this;
-    vm.exportPDF = ChartPDFExport.export;
+    vm.exportPDF = function(name) { ChartPDFExport.exportWithStyler(vm, name); };
     vm.graphOptions = getOptions();
     vm.graphData = [];
 

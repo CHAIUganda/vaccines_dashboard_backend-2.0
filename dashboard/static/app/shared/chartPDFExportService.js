@@ -4,8 +4,12 @@ angular
     .module('services')
     .service('ChartPDFExport', ChartPDFExport);
 
-function ChartPDFExport() {
-    var service = {'export': exportPDF};
+ChartPDFExport.$inject = ['$timeout'];
+function ChartPDFExport($timeout) {
+    var service = {
+        'export': exportPDF,
+        'exportWithStyler': exportWithStyler
+    };
     return service;
 
     function exportPDF(filename) {
@@ -42,6 +46,12 @@ function ChartPDFExport() {
         pdf.addHTML(document.getElementById("pdfReport"), 0, 0, options, function() {
           pdf.save(filename);
         });
+    }
+
+    function exportWithStyler(vm, filename) {
+        vm.printView = true;
+        $timeout(function() {exportPDF(filename); }, 100);
+        $timeout(function() {vm.printView = false;}, 1000);
     }
 }
 })(window.angular);

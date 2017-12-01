@@ -15,7 +15,7 @@
     </div>
 
 
-    <div id="pdfReport">
+    <div id="pdfReport" ng-class="vm.printView ? 'unepiPrint' : ''">
         <div class="text-center">
             <br><br>
             <h4 style="width: 100%;">Approved Vs Disbursed ({{ vm.activeToggle }})</h4>
@@ -25,6 +25,11 @@
                 data="vm.allocGraphData"
                 class="center-chart">
             </nvd3>
+        </div>
+        <div style="clear:both;"></div>
+        
+        <div class="text-center unepi-print-footer" ng-show="vm.printView">
+            <i>This report has been extracted from the Ministry of health UNEPI dashboard.</i>
         </div>
     </div>
 

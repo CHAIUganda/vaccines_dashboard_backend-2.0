@@ -2,7 +2,7 @@
     <button class="pull-right" ng-click="vm.exportPDF('uptake-rate-report.pdf')">Download Pdf</button>
     <div style="clear:both;"></div>
 
-    <div id="pdfReport">
+    <div id="pdfReport" ng-class="vm.printView ? 'unepiPrint' : ''">
         <div class="text-center">
             <br><br>
             <h4 style="width: 100%;">Uptake Rate of {{child.vaccine }} for {{child.district }}</h4>
@@ -17,6 +17,11 @@
             <br>
             Monthly Target: {{ vm.maxMonthlyTarget }}
             <br><br>
+        </div>
+        <div style="clear:both;"></div>
+        
+        <div class="text-center unepi-print-footer" ng-show="vm.printView">
+            <i>This report has been extracted from the Ministry of health UNEPI dashboard.</i>
         </div>
     </div>
     <!-- <div class="col-md-5">

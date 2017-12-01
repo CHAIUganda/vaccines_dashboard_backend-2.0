@@ -5,7 +5,7 @@ angular.module('dashboard').controller('MainFinanceController', MainFinanceContr
 MainFinanceController.$inject = ['$scope', 'ChartPDFExport', 'ChartSupportService', 'FinanceService'];
 function MainFinanceController($scope, ChartPDFExport, ChartSupportService, FinanceService) {
     var vm = this;
-    vm.exportPDF = ChartPDFExport.export;
+    vm.exportPDF = function(name) { ChartPDFExport.exportWithStyler(vm, name); };
     vm.graphOptions = getOptions();
     vm.yearIndexes = [];
     vm.activeToggle = 'GAVI';
