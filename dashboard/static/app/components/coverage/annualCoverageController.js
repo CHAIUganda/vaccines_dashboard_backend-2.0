@@ -37,6 +37,7 @@ function AnnualCoverageController($scope, CoverageService, CoverageCalculator, C
                     acc[vaccine][year] = {
                         totalActual: 0,
                         totalFirstDose: 0,
+                        totalThirdDose: 0,
                         totalLastDose: 0,
                         totalPlanned: 0,
                         totalSecondDose: 0
@@ -47,6 +48,7 @@ function AnnualCoverageController($scope, CoverageService, CoverageCalculator, C
                 acc[vaccine][year].totalLastDose += item.total_last_dose;
                 acc[vaccine][year].totalPlanned += item.total_planned;
                 acc[vaccine][year].totalSecondDose += item.total_second_dose;
+                acc[vaccine][year].totalThirdDose += item.total_third_dose;
 
                 return acc;
             }, {});
@@ -54,16 +56,36 @@ function AnnualCoverageController($scope, CoverageService, CoverageCalculator, C
             /* Calculate Rates for the results */
             var chartData = [];
             for (var vaccine in result) {
-                var vaccineData = [];
+                var vaccineData = {cR: [], cR1: [], cR2: [], cR3: []};
+
                 for (var year in result[vaccine]) {
-                    var coverageRate = CoverageCalculator.calculateCoverageRate(
-                        result[vaccine][year].totalLastDose,
-                        result[vaccine][year].totalPlanned
-                    );
+                    var planned = result[vaccine][year].totalPlanned;
+                    var item = result[vaccine][year];
+
+                    var cR1 = CoverageCalculator.calculateCoverageRate(item.totalFirstDose, planned);
+                    var cR2 = CoverageCalculator.calculateCoverageRate(item.totalSecondDose, planned);
+                    var cR = CoverageCalculator.calculateCoverageRate(item.totalLastDose, planned);
+                    var cR3 = CoverageCalculator.calculateCoverageRate(item.totalThirdDose, planned);
+
                     var i = vm.yearIndexes.indexOf(year);
-                    vaccineData.push({x: i, y: coverageRate})
+                    vaccineData.cR.push({x: i, y: cR});
+                    vaccineData.cR1.push({x: i, y: cR1});
+                    vaccineData.cR2.push({x: i, y: cR2});
+                    vaccineData.cR3.push({x: i, y: cR3});
                 }
-                chartData.push({key: vaccine, values: vaccineData});
+
+                if (params.antigen != "ALL") {
+                    /* Show coverages for the different doses */
+                    chartData.push({key: 'Dose 1', values: vaccineData.cR1});  
+                    
+                    if ($.inArray(vaccine, ['PENTA', 'PCV', 'OPV', 'HPV', 'IPV', 'TT']) != -1)
+                        chartData.push({key: 'Dose 2', values: vaccineData.cR2});  
+                    
+                    if ($.inArray(params.antigen, ['PENTA', 'PCV', 'OPV', 'DPT']) != -1)
+                        chartData.push({key: 'Dose 3', values: vaccineData.cR3});    
+                } else {
+                    chartData.push({key: vaccine, values: vaccineData.cR});    
+                }
             }
 
             vm.chartData = chartData;
