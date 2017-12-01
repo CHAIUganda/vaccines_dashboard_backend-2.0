@@ -60,15 +60,15 @@
 
             <div class="quality_test text-center" ui-sref-active="quality_test_active">
                 <a ui-sref="stock.stockonhand" ui-sref-opts="{reload: true}">
-                    <span class="quality_test__metric"> {{ child.stockedout | number:0 }}% </span>
-                    <span class="quality_test__description easytooltip">{{"Districts Stocked Out" | uppercase}}
+                    <!-- <span class="quality_test__metric"> {{ child.stockedout | number:0 }}% </span> -->
+                    <span class="quality_test__description easytooltip">{{"Districts Stock trends" | uppercase}}
                     <span class="easytooltiptext" ><b>Percentage of Districts reporting zero balance</b></span>
                     </span>
                 </a>
             </div>
             <div class="quality_test text-center" ui-sref-active="quality_test_active">
                 <a ui-sref="stock.distribution" ui-sref-opts="{reload: true}">
-                    <span class="quality_test__metric"> {{ child.refreshrate | number:0 }}%</span>
+                    <!-- <span class="quality_test__metric"> {{ child.refreshrate | number:0 }}%</span> -->
                     <span class="quality_test__description easytooltip">{{"Refill Rate" | uppercase}}
                     <span class="easytooltiptext"  ><b>Doses distributed by NMS / Doses ordered </b>expressed as a percentage</span>
                     </span>
@@ -89,7 +89,7 @@
 
             <div class="quality_test text-center" ui-sref-active="quality_test_active">
                 <a ui-sref="stock.uptakerate" ui-sref-opts="{reload: true}">
-                    <span class="quality_test__metric"> {{ child.uptake | number:0 }}%</span>
+                    <!-- <span class="quality_test__metric"> {{ child.uptake | number:0 }}%</span> -->
                     <span class="quality_test__description easytooltip " >{{"Uptake Rate" | uppercase}}
                     <span class="easytooltiptext" ><b>Doses consumed /Available Doses </b>expressed as a percentage</span>
                     </span>
@@ -98,8 +98,8 @@
 
             <div class="quality_test text-center" ui-sref-active="quality_test_active">
                 <a ui-sref="stock.stockouttrend" ui-sref-opts="{reload: true}">
-                    <span class="quality_test__metric"></span>
-                    <span class="quality_test__description easytooltip">STOCK OUT TREND
+                    <!-- <span class="quality_test__metric"></span> -->
+                    <span class="quality_test__description easytooltip">DISTRICT STOCK LEVELS
                     <span class="easytooltiptext" ><b>Doses consumed /Available Doses </b>expressed as a percentage</span>
                     </span>
                 </a>

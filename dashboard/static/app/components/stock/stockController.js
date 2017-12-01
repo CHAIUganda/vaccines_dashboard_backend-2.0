@@ -192,7 +192,8 @@ angular.module('dashboard')
                             {
                                 key: "Within Range",
                                 y: (within / vm.data.length) * 100,
-                                color:'#FFFF00'
+                                color:'#008000'
+                                // color:'#FFFF00'
                             },
                             {
                                 key: "Below MIN",
@@ -202,7 +203,8 @@ angular.module('dashboard')
                             {
                                 key: "Above MAX",
                                 y: (abovemaximum / vm.data.length) * 100,
-                                color:'#008000'
+                                color:'#90EE90'
+                                // color:'#008000'
                             }
                         ];
                     }

@@ -62,7 +62,7 @@ function StockUptakeController($scope, StockService, MonthService, ChartSupportS
                 }
             }
 
-            graphdataUptake.push({key: 'Available Stock', type: 'bar', yAxis: 1, values: stockData});
+            graphdataUptake.push({key: 'Available Stock (Stock balance + Issues)', type: 'bar', yAxis: 1, values: stockData});
             graphdataUptake.push({key: 'Children Immunised', type: 'bar', yAxis: 1, values: immunisationData});
             graphdataUptake.push({key: 'Monthly Targets', type: 'line', yAxis: 1, values: monthlyTargetData});
             graphdataUptake.push({key: '', type: 'line', yAxis: 1, strokeWidth: 0, values: forceStartZeroData});
@@ -77,8 +77,9 @@ function StockUptakeController($scope, StockService, MonthService, ChartSupportS
         var uptakeOptions = ChartSupportService.getOptions('multiChart');
         uptakeOptions.chart.color = ["green", "DodgerBlue", "red", "white"];
         uptakeOptions.chart.width = 900;
-        uptakeOptions.chart.margin = {left: 70, top: 70};
+        uptakeOptions.chart.margin = {left: 70, top: 90};
         uptakeOptions.chart.legend.width = 900;
+        uptakeOptions.chart.legend.maxKeyLength = 40;
         uptakeOptions.chart.xAxis.axisLabel = "Months";
         uptakeOptions.chart.yAxis.axisLabel = "";
         uptakeOptions.chart.xAxis.tickFormat = function(d){
