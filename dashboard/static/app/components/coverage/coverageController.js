@@ -3,9 +3,9 @@
 angular.module('dashboard')
     .controller('CoverageController', [
         '$scope','$location', 'StockService', '$rootScope', 'NgTableParams',
-        'FilterService', 'MonthService', 'CoverageService', 'MapSupportService',
+        'FilterService', 'MonthService', 'CoverageService', 'MapSupportService', 'ChartPDFExport',
     function($scope,$location, StockService, $rootScope, NgTableParams,
-        FilterService, MonthService, CoverageService, MapSupportService)
+        FilterService, MonthService, CoverageService, MapSupportService, ChartPDFExport)
     {
         var vm = this;
         var shellScope = $scope.$parent;
@@ -966,8 +966,15 @@ angular.module('dashboard')
                 for (var yearLabel in periodValues) {
                     for (var vaccine in periodValues[yearLabel]) {
                         var key = vaccine;
-                        // if (vm.activeDose != undefined)
-                            // key = vm.activeDose ;
+                        /* Remove antigens that lack value for particular dose on Coverage */
+                        if (vm.path == '/coverage/coverage') {
+                            if (vm.activeDose == "Dose 3" && $.inArray(vaccine, ['PENTA', 'PCV', 'OPV']) == -1)
+                                continue;
+                            else if (vm.activeDose == "Dose 2" && 
+                                        $.inArray(vaccine, ['PENTA', 'PCV', 'OPV', 'HPV', 'IPV', 'TT']) == -1)
+                                continue;
+                        }
+
                         var values = vm.fillMissingValues(periodValues[yearLabel][vaccine]);
                         chartData.push({key: key, values: values})
                     }
@@ -989,11 +996,13 @@ angular.module('dashboard')
         };
 
         vm.getChartOptions = function(reportYear) {
+            var width = (vm.activeDistrict == 'National') ? 450 : 900;
+                 
             return {
                 chart: {
                     type: 'lineChart',
                     height: 450,
-                    width: 450,
+                    width: width,
                     useInteractiveGuideline: true,
                     interactiveLayer: {
                         gravity: 's'
@@ -1027,7 +1036,7 @@ angular.module('dashboard')
             var duration = vm.activeReportToggle[0] == 'A' ? "Annualized" : "Monthly";
             var vaccineName = (vaccine == "ALL") ? "antigens" : vaccine;
             var doseNumber = vm.activeDose.replace("Dose ", "");
-            if (vaccine == "ALL") doseNumber = `(${doseNumber})`;
+            if (vaccine == "ALL") doseNumber = "";
             var antigenLabel = vm.activeDose != undefined ? 
                 `${vaccineName}${doseNumber}` : vaccineName;
             
@@ -1066,7 +1075,8 @@ angular.module('dashboard')
         };
 
         vm.enablePDFDownload = function() {
-                shellScope.child.downloadPDF = function() {
+            shellScope.child.downloadPDF = function(name) { ChartPDFExport.exportWithStyler(vm, name); };
+                /*shellScope.child.downloadPDF = function() {
                     //Fix chart before download
                     d3.selectAll("svg .nv-line")
                         .style("fill", "#ffffff")
@@ -1101,7 +1111,7 @@ angular.module('dashboard')
                     pdf.addHTML(document.getElementById("pdfReport"), 0, 0, options, function() {
                       pdf.save('coverage-report.pdf');
                     });
-                }
+                }*/
         };
 
         // $scope.$on('refresh', function(e, startMonth, endMonth, district, vaccine) {

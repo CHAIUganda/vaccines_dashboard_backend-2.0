@@ -1,10 +1,10 @@
 <div ng-controller="CoverageController as vm">
-    <button class="pull-right" ng-click="downloadPDF()">Download Pdf</button>
+    <button class="pull-right" ng-click="downloadPDF('red-categorization-report.pdf')">Download Pdf</button>
     <div style="clear:both;"></div>
 
     <div report-year-toggles></div>
 
-    <div id="pdfReport">
+    <div id="pdfReport" ng-class="vm.printView ? 'unepiPrint' : ''">
          <div id="legend"></div>
 
         <br>
@@ -34,6 +34,10 @@
         </div>
 
         <div style="clear:both;"></div>
+        
+        <div class="text-center unepi-print-footer" ng-show="vm.printView">
+            <i>This report has been extracted from the Ministry of health UNEPI dashboard.</i>
+        </div>
     </div>
     <!-- JS Libraries -->
     <!-- <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script> -->
