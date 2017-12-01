@@ -189,17 +189,19 @@
                 <table class="row-border hover table table-condensed">
                     <tr>
                     <td style="border-top:0px;">
-                        <span class="quality_test__description">{{"Cold Chain Equipment Functionality (DVS & Facilities)" }}</span>
+                        <span class="quality_test__description">
+                            Cold Chain Equipment Functionality (DVS & {{ child.numberOfFacilities }}@Facilities)</span>
                         <span class="quality_test__metric">
                             {{ child.per(child.numberWorking, child.numberOfColdchainEquipment)}}%
+                            (n={{ child.numberOfColdchainEquipment }})
                          </span>
 
-                         <table class="row-border hover table table-condensed">
+                         <!-- <table class="row-border hover table table-condensed">
                              <tr>
                                  <td>Number of facilities ({{ child.numberOfFacilities }})</td>
                                  <td>Number of coldchain equipment ({{ child.numberOfColdchainEquipment }})</td>
                              </tr>
-                         </table>
+                         </table> -->
 
                          <table class="row-border hover table table-condensed">
                              <tr>
