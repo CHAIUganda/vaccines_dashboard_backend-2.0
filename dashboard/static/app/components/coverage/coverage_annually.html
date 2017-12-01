@@ -2,7 +2,7 @@
     <button class="pull-right" ng-click="vm.exportPDF('annual-coverage-report.pdf')">Download Pdf</button>
     <div style="clear:both;"></div>
 
-    <div id="pdfReport">
+    <div id="pdfReport" ng-class="vm.printView ? 'unepiPrint' : ''">
         <div class="text-center" id="chart-container">
             <br><br>
             <h4 style="width: 100%;">{{ vm.chartTitle }} </h4>
@@ -13,6 +13,11 @@
                 id="annualCoverageChart"
                 >
             </nvd3>
+        </div>
+        <div style="clear:both;"></div>
+        
+        <div class="text-center unepi-print-footer" ng-show="vm.printView">
+            <i>This report has been extracted from the Ministry of health UNEPI dashboard.</i>
         </div>
     </div>
 </div>

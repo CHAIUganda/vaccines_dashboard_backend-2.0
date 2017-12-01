@@ -16,7 +16,7 @@ function AnnualCoverageController($scope, CoverageService, CoverageCalculator, C
     vm.chartOptions = getChartOptions();
     vm.chartData = [];
     vm.yearIndexes = [];
-    vm.exportPDF = ChartPDFExport.export;
+    vm.exportPDF = function(name) { ChartPDFExport.exportWithStyler(vm, name); };
     vm.initLabels = initLabels;
 
     function updateChart(e, params) {
@@ -102,6 +102,8 @@ function AnnualCoverageController($scope, CoverageService, CoverageCalculator, C
                 stacked: false,
                 showControls: false,
                 groupSpacing: 0.2,
+                clipEdge: false,
+                margin: {top: 70},
                 // useInteractiveGuideline: true,
                 interactiveLayer: {gravity: 's'},
                 x: function(d){ return d.x; },
