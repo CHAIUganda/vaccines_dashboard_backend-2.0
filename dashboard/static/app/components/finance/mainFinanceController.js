@@ -13,7 +13,7 @@ function MainFinanceController($scope, ChartPDFExport, ChartSupportService, Fina
     resetGraphData();
     setYearFilterOptions();
     $scope.$watch('vm.activeToggle', changeTabs);
-    $scope.$on('refreshCoverage3', updateChart);
+    $scope.$on('refreshFinance', updateChart);
 
     function resetGraphData() {
         vm.graphData = getDefaultGraphData();
@@ -46,6 +46,7 @@ function MainFinanceController($scope, ChartPDFExport, ChartSupportService, Fina
     function updateChart(e, params) {
         resetGraphData();
         FinanceService.getFinanceData(params).then(function(data) {
+            vm.yearIndexes = [];
             for (var i in data) {
                 var yearIndex = getYearIndex(data[i].period)
 

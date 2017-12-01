@@ -282,7 +282,7 @@ class LastPeriod(APIView):
         return Response(summary.last())
 
 
-class FinanceListApiView(APIView):
+class FinanceListApiView(LoginRequiredMixin, APIView):
     def get(self, request, *args, **kwargs):
         start_year = request.query_params.get('startYear', 0)
         end_year = request.query_params.get('endYear', 0)

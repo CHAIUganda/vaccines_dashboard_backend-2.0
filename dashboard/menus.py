@@ -30,6 +30,7 @@ Menu.add_item("main", MenuItem("Cold Chain".upper(),
 
 Menu.add_item("main", MenuItem("FINANCE",
                                "/#/finance/obligations",
+                               check=user_is_admin,
                                weight=1))
 
 '''

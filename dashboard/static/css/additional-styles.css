@@ -206,6 +206,7 @@ h1, h2, h3, h4, h5, h6, th {
 }*/
 
 .unepiPrint {
+    font-size: 14px;
     background: #fff url(../images/flag-ug.png) repeat-x scroll bottom;
 }
 
@@ -236,4 +237,14 @@ h1, h2, h3, h4, h5, h6, th {
     background: #fff;
     color: #7b8a8b;
     font-weight: bold;
+}
+
+.green-field, .green-field span {
+    background: green;
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.red-field, .red-field span {
+    background: red;
+    color: rgba(255, 255, 255, 0.9);
 }

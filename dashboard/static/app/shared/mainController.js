@@ -12,8 +12,8 @@ angular.module('dashboard')
         var shell = this;
 
         $scope.$on('setDefaultYears', function(e, startYear, endYear) {
-            shell.startYear = startYear;
-            shell.endYear = endYear;
+            shell.financeStartYear = startYear;
+            shell.financeEndYear = endYear;
         });
 
         //=== Stock Management =======
@@ -183,6 +183,13 @@ angular.module('dashboard')
                     $rootScope.$broadcast('refresh', shell.startMonth, shell.endMonth, shell.selectedDistrict, shell.selectedVaccine);
                 }
             }
+        });
+
+        $scope.$watchGroup(['shell.financeStartYear', 'shell.financeEndYear'], function(data, oldData) {
+            $rootScope.$broadcast('refreshFinance', {
+                startYear: shell.financeStartYear,
+                endYear: shell.financeEndYear,
+            });
         });
 
         $scope.$watchGroup(
