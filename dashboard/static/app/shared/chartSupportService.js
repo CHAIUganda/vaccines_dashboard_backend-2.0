@@ -56,7 +56,7 @@ function ChartSupportService() {
         };
     }
 
-    function initLabels() {
+    function initLabels(humanize=false) {
         // You need to apply this once all the animations are already finished. Otherwise labels will be placed wrongly.
         d3.selectAll('.nv-multibar .nv-group').each(function(group){
           var g = d3.select(this);
@@ -75,7 +75,10 @@ function ChartSupportService() {
               .attr('transform', b.attr('transform'))
               .text(function(){
                 // Two decimals format
+                if (humanize)
+                    return Humanize.compactInteger(parseFloat(bar.y).toFixed(0), 1);
                 return parseFloat(bar.y).toFixed(0);
+                
               })
               .attr('y', function(){
                 // Center label vertically

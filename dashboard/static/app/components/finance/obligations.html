@@ -1,4 +1,11 @@
 <div ng-controller="MainFinanceController as vm">
+    <div class="pull-left">
+        <input type="radio" name="currency" value="USD" ng-model="vm.graphCurrency"/> USD &nbsp;
+        <input type="radio" name="currency" value="UGX" ng-model="vm.graphCurrency" /> UGX
+        <br>
+        <small><input type="checkbox" ng-model="vm.compactAmounts"/> Compact Amounts</small>
+    </div>
+    
     <button class="pull-right" ng-click="vm.exportPDF('finance-allocations-report.pdf')">Download Pdf</button>
     <div style="clear:both;"></div>
 

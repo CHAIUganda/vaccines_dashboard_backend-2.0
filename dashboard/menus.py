@@ -51,6 +51,10 @@ import_files_children = [MenuItem("Import Files",
                          MenuItem("View Import Logs",
                                   "/import/generic/logs",
                                   check=user_is_admin,
+                                  weight=20),
+                         MenuItem("Enter Financing Data",
+                                  reverse("finance"),
+                                  check=user_is_admin,
                                   weight=20)
                          ]
 
@@ -73,10 +77,7 @@ Menu.add_item("main", MenuItem("Import Files",
                                weight=20,
                                children=import_files_children))
 
-Menu.add_item("main", MenuItem("Financing Data",
-                               reverse("finance"),
-                               check=user_is_admin,
-                               weight=20))
+# Menu.add_item("main", )
 
 Menu.add_item("main", MenuItem("Users",
                                reverse("users"),

@@ -7,17 +7,37 @@ function MainFinanceController($scope, ChartPDFExport, ChartSupportService, Fina
     var vm = this;
     vm.exportPDF = function(name) { ChartPDFExport.exportWithStyler(vm, name); };
     vm.graphOptions = getOptions();
+    vm.apiData = undefined;
+    vm.chartInstance = undefined;
     vm.yearIndexes = [];
     vm.activeToggle = 'GAVI';
+    vm.graphCurrency = 'USD';
+    vm.compactAmounts = false;
 
     resetGraphData();
     setYearFilterOptions();
     $scope.$watch('vm.activeToggle', changeTabs);
     $scope.$on('refreshFinance', updateChart);
+    $scope.$watch('vm.graphCurrency', changeCurrency);
+    $scope.$watch('vm.compactAmounts', compactAmounts);
 
     function resetGraphData() {
         vm.graphData = getDefaultGraphData();
         vm.allocGraphData = [];
+    }
+
+    function changeCurrency(newValue, oldValue) {
+        if (newValue != oldValue) {
+            resetGraphData();
+            updateChartWithData(vm.apiData);
+        }
+    }
+
+    function compactAmounts(newValue, oldValue) {
+        if (newValue != oldValue) {
+            resetGraphData();
+            updateChartWithData(vm.apiData);
+        }
     }
 
     function setYearFilterOptions() {
@@ -43,32 +63,44 @@ function MainFinanceController($scope, ChartPDFExport, ChartSupportService, Fina
             ]
         };
     }
+
+    function _cur(amount) {
+        if (vm.graphCurrency == 'UGX')
+            return amount * 3600;
+        return amount;
+    }
+
     function updateChart(e, params) {
         resetGraphData();
         FinanceService.getFinanceData(params).then(function(data) {
-            vm.yearIndexes = [];
-            for (var i in data) {
-                var yearIndex = getYearIndex(data[i].period)
-
-                vm.graphData.allOblig[0].values.push({x: yearIndex, y: data[i].gavi_approved});
-                vm.graphData.allOblig[1].values.push({x: yearIndex, y: data[i].gou_approved});
-
-                vm.graphData.gaviAlloc[0].values.push({x: yearIndex, y: data[i].gavi_approved});
-                vm.graphData.gaviAlloc[1].values.push({x: yearIndex, y: data[i].gavi_disbursed});
-
-                vm.graphData.gouAlloc[0].values.push({x: yearIndex, y: data[i].gou_approved});
-                vm.graphData.gouAlloc[1].values.push({x: yearIndex, y: data[i].gou_disbursed});
-            }
-            /*Trigger the loading of the inital Tab, with random values*/
-            changeTabs(0,1);
+            vm.apiData = data;
+            updateChartWithData(data);
         });
+    }
+
+    function updateChartWithData(data) {
+        vm.yearIndexes = [];
+        for (var i in data) {
+            var yearIndex = getYearIndex(data[i].period)
+
+            vm.graphData.allOblig[0].values.push({x: yearIndex, y: _cur(data[i].gavi_approved)});
+            vm.graphData.allOblig[1].values.push({x: yearIndex, y: _cur(data[i].gou_approved)});
+
+            vm.graphData.gaviAlloc[0].values.push({x: yearIndex, y: _cur(data[i].gavi_approved)});
+            vm.graphData.gaviAlloc[1].values.push({x: yearIndex, y: _cur(data[i].gavi_disbursed)});
+
+            vm.graphData.gouAlloc[0].values.push({x: yearIndex, y: _cur(data[i].gou_approved)});
+            vm.graphData.gouAlloc[1].values.push({x: yearIndex, y: _cur(data[i].gou_disbursed)});
+        }
+        /*Trigger the loading of the inital Tab, with random values*/
+        changeTabs(0,1);
     }
 
     function getOptions() {
         var chartOptions = ChartSupportService.getOptions('multiBarChart');
         chartOptions.chart.color = ["green", "DodgerBlue"];
         chartOptions.chart.width = 900;
-        chartOptions.chart.margin = {left: 70, top: 70};
+        chartOptions.chart.margin = {left: 80, top: 70};
         chartOptions.chart.legend.width = 900;
         chartOptions.chart.xAxis.axisLabel = "years";
         chartOptions.chart.yAxis.axisLabel = "";
@@ -78,6 +110,14 @@ function MainFinanceController($scope, ChartPDFExport, ChartSupportService, Fina
         chartOptions.chart.valueFormat = function(d){
             return tickFormat(d3.format('.0f'));
         };
+        //Humanize the labels
+        chartOptions.chart.dispatch.renderEnd = function() {
+            if (vm.compactAmounts)
+                ChartSupportService.initLabels(true);
+            else
+                ChartSupportService.initLabels();
+        }
+
         return chartOptions;
     }
 

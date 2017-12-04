@@ -40,7 +40,8 @@ function ChartPDFExport($timeout) {
         d3.selectAll(".legendQuant .label")
             .style("font", "normal 12px Arial, sans-serif");
 
-        var pdf = new jsPDF('l', 'mm');
+        // var pdf = new jsPDF('l', 'mm');
+        var pdf=new jsPDF("l", "mm", "a4");
         var options = { format : 'PNG' };
 
         pdf.addHTML(document.getElementById("pdfReport"), 0, 0, options, function() {
