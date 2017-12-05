@@ -15,6 +15,7 @@ function StockoutTrendController($scope, StockService, MonthService, ChartSuppor
     vm.exportPDF = function(name) { ChartPDFExport.exportWithStyler(vm, name); };
     vm.graphOptions = getOptions();
     vm.graphData = [];
+    vm.periodIndexes = [];
 
     $scope.$on('refresh', updateChart);
 
@@ -27,18 +28,21 @@ function StockoutTrendController($scope, StockService, MonthService, ChartSuppor
             var stockData = [];
             var supplyData = [];
 
+            vm.periodIndexes = [];
+
             for (var i = 0; i < vm.data.length ; i++) {
                 var item = vm.data[i];
                 /* Certain data had invalid periods like 20172 instead of
                     201702 which were causing errors. Hence the filter below. */
                 if (item.period.toString().length == 5) continue;
 
-                var monthIndex = appHelpers.getMonthIndexFromPeriod(item.period, 'CY');
+                //var monthIndex = appHelpers.getMonthIndexFromPeriod(item.period, 'CY');
+                var periodIndex = getPeriodIndex(item.period)
                 var atHand = item.at_hand == undefined ? item.total_at_hand : item.at_hand;
                 var received = item.received == undefined ? item.total_received : item.received;
 
-                stockData.push({x: monthIndex, y: Number(atHand.toFixed(0))});
-                supplyData.push({x: monthIndex, y: Number(received.toFixed(0))});
+                stockData.push({x: periodIndex, y: Number(atHand.toFixed(0))});
+                supplyData.push({x: periodIndex, y: Number(received.toFixed(0))});
             }
 
             graphData.push({key: 'Stock Balance', values: stockData});
@@ -56,12 +60,18 @@ function StockoutTrendController($scope, StockService, MonthService, ChartSuppor
         chartOptions.chart.xAxis.axisLabel = "Months";
         chartOptions.chart.yAxis.axisLabel = "";
         chartOptions.chart.xAxis.tickFormat = function(d){
-            return appHelpers.getMonthFromNumber(d, 'CY');
+            return appHelpers.generateLabelFromPeriod(vm.periodIndexes[d], 'CY');
+            //return appHelpers.getMonthFromNumber(d, 'CY');
         };
         chartOptions.chart.valueFormat = function(d){
             return tickFormat(d3.format('.0f'));
         };
         return chartOptions;
+    }
+
+    function getPeriodIndex(period) {
+        if (vm.periodIndexes.indexOf(period) == -1) vm.periodIndexes.push(period);
+        return vm.periodIndexes.indexOf(period);
     }
 
 }

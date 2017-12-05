@@ -19,6 +19,7 @@ function StockUptakeController($scope, StockService, MonthService, ChartSupportS
     vm.exportPDF = function(name) { ChartPDFExport.exportWithStyler(vm, name); };
 
     vm.optionsUptake = getOptions();
+    vm.periodIndexes = [];
 
     $scope.$on('refresh', updateChart);
     function updateChart(e, startMonth, endMonth, district, vaccine) {
@@ -35,13 +36,17 @@ function StockUptakeController($scope, StockService, MonthService, ChartSupportS
             var maxMonthlyTarget = 0;
             shellScope.child.uptake = "0";
 
+            vm.periodIndexes = [];
+
             for (var i = 0; i < vm.data.length ; i++) {
                 var item = vm.data[i];
                 /* Certain data had invalid periods like 20172 instead of
                     201702 which were causing errors. Hence the filter below. */
                 if (item.period.toString().length == 5) continue;
 
-                var monthIndex = appHelpers.getMonthIndexFromPeriod(item.period, 'CY');
+                // console.log(monthIndex, item);
+                //var monthIndex = appHelpers.getMonthIndexFromPeriod(item.period, 'CY');
+                var periodIndex = getPeriodIndex(item.period)
                 var atHand = item.at_hand == undefined ? item.total_at_hand : item.at_hand;
                 var received = item.received == undefined ? item.total_received : item.received;
                 var consumed = item.consumed == undefined ? item.total_consumed : item.consumed;
@@ -50,10 +55,10 @@ function StockUptakeController($scope, StockService, MonthService, ChartSupportS
                 var totalStock = atHand + received;
 
                 maxMonthlyTarget = Math.max(maxMonthlyTarget, Number(monthlyTarget.toFixed(0)));
-                stockData.push({x: monthIndex, y: Number(totalStock.toFixed(0))});
-                immunisationData.push({x: monthIndex, y: Number(consumed.toFixed(0))});
-                monthlyTargetData.push({x: monthIndex, y: Number(monthlyTarget.toFixed(0))});
-                forceStartZeroData.push({x: monthIndex, y: 0});
+                stockData.push({x: periodIndex, y: Number(totalStock.toFixed(0))});
+                immunisationData.push({x: periodIndex, y: Number(consumed.toFixed(0))});
+                monthlyTargetData.push({x: periodIndex, y: Number(monthlyTarget.toFixed(0))});
+                forceStartZeroData.push({x: periodIndex, y: 0});
 
                 if (vm.data[i].month == MonthService.getMonthNumber(endMonth.name.split(" ")[0])) {
                     shellScope.child.uptake = received == 0 && atHand == 0 ?
@@ -82,7 +87,7 @@ function StockUptakeController($scope, StockService, MonthService, ChartSupportS
         uptakeOptions.chart.xAxis.axisLabel = "Months";
         uptakeOptions.chart.yAxis.axisLabel = "";
         uptakeOptions.chart.xAxis.tickFormat = function(d){
-            return appHelpers.getMonthFromNumber(d, 'CY');
+            return appHelpers.generateLabelFromPeriod(vm.periodIndexes[d], 'CY');
         };
         uptakeOptions.chart.valueFormat = function(d){
             return tickFormat(d3.format('.0f'));
@@ -101,6 +106,11 @@ function StockUptakeController($scope, StockService, MonthService, ChartSupportS
             this should serve as a hack */
             d3.selectAll(".nv-multibar g").attr("clip-path", "");
         }, 1000);
+    }
+
+    function getPeriodIndex(period) {
+        if (vm.periodIndexes.indexOf(period) == -1) vm.periodIndexes.push(period);
+        return vm.periodIndexes.indexOf(period);
     }
 }
 })(window.angular);

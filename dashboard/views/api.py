@@ -192,6 +192,11 @@ class StockAtHandByMonthApi(APIView):
 
 
 class StockByDistrictVaccineApi(APIView):
+    def month_to_number(self, month):
+        month_map = {'Jan': 1, 'Feb': 2, 'Mar': 3, 'Apr': 4, 'May': 5, 'Jun': 6, 'Jul': 7, 'Aug': 8, 'Sep': 9, 'Oct': 10,
+                'Nov': 11, 'Dec': 12}
+        return "%02d" % month_map[month]
+
     def get(self, request):
         district = request.query_params.get('district', None)
         vaccine = request.query_params.get('vaccine', "PENTA")
@@ -204,6 +209,12 @@ class StockByDistrictVaccineApi(APIView):
         args = {'month__gte': int(MONTH_TO_NUM[startMonth])}
         args.update({'month__lte': int(MONTH_TO_NUM[endMonth])})
         args.update({'stock_requirement__year': int(endYear)})
+
+        # Fixed the filtering above
+        start_period = int("%s%02d" % (startYear, MONTH_TO_NUM[startMonth]))
+        end_period = int("%s%02d" % (endYear, MONTH_TO_NUM[endMonth]))
+
+        args = {'period__gte': start_period, 'period__lte': end_period}
 
         if vaccine:
             args.update({'stock_requirement__vaccine__name': vaccine})
