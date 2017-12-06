@@ -248,3 +248,7 @@ h1, h2, h3, h4, h5, h6, th {
     background: red;
     color: rgba(255, 255, 255, 0.9);
 }
+
+#stockLevelsPieChart .nv-label text {
+    fill: white !important;
+}

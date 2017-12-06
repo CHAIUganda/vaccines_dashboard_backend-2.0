@@ -233,6 +233,7 @@ class StockByDistrictVaccineApi(APIView):
                 .annotate(total_consumed=Sum('consumed'),
                           total_received=Sum('received'),
                           total_at_hand=Sum('at_hand'),
+                          total_ordered=Sum('ordered'),
                           total_target=Sum('stock_requirement__target'))
         else:
             summary = summary.order_by('period', ) \

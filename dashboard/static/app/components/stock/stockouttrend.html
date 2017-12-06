@@ -1,11 +1,16 @@
 <div ng-controller="StockoutTrendController as vm">
+    <div class="pull-left">
+        <small><input type="checkbox" ng-model="vm.compactValues"/> Compact Values</small>
+    </div>
+    
     <button class="pull-right" ng-click="vm.exportPDF('stock-out-trend-report.pdf')">Download Pdf</button>
     <div style="clear:both;"></div>
 
     <div id="pdfReport" ng-class="vm.printView ? 'unepiPrint' : ''">
         <div class="text-center">
             <br><br>
-            <h4 style="width: 100%;">{{child.district }} stock levels vs NMS supply of  {{child.vaccine }}</h4>
+            <!-- <h4 style="width: 100%;">{{child.district }} stock levels vs NMS supply of  {{child.vaccine }}</h4> -->
+            <h4 style="width: 100%;">{{child.district }} stock level monthly trends for  {{child.vaccine }}</h4>
             <br><br>
             <nvd3
                 options="vm.graphOptions"

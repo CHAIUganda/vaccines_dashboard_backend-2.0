@@ -113,8 +113,8 @@ angular.module('dashboard')
                     vm.options = {
                         chart: {
                             type: 'pieChart',
-                            height: 500,
-                            width: 500,
+                            height: 480,
+                            width: 480,
                             x: function (d) {
                                 return d.key;
                             },
