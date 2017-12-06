@@ -219,17 +219,30 @@ angular.module('dashboard')
                             acc.totalNotWorkingWell += item.not_working;
                             acc.totalNeedMaintenance += item.needs_maintenance;
                             acc.totalFacilities += item.total_facilities;
+                            if (item.facility__type__group == 'District Store')
+                                acc.totalDistrictStores += 1;
                             return acc;
                         }, {totalEquipment:0, totalFacilities:0, totalWorkingWell: 0,
-                            totalNotWorkingWell:0, totalNeedMaintenance: 0});
+                            totalNotWorkingWell:0, totalNeedMaintenance: 0, totalDistrictStores: 0});
 
                         shellScope.child.numberOfColdchainEquipment = aggregates.totalEquipment;
-                        shellScope.child.numberOfFacilities = aggregates.totalFacilities;
+                        
                         shellScope.child.numberWorkingWell = aggregates.totalWorkingWell;
                         shellScope.child.numberNotWorkingWell = aggregates.totalNotWorkingWell;
                         shellScope.child.numberNeedMaintenance = aggregates.totalNeedMaintenance;
                         shellScope.child.per = appHelpers.per;
                         shellScope.child.numberWorking = aggregates.totalEquipment - aggregates.totalNotWorkingWell;
+                    });
+
+                    FridgeService.getFacilityTypes(district).then(function(data) {
+                        var result = data.reduce(function(acc, item) {
+                            if (item.type__group == 'District Store') acc.dvs = item.count;
+                            else acc.others += item.count;
+                            return acc;
+                        }, {dvs: 0, others: 0});
+                        
+                        shellScope.child.numberOfDistrictStores = result.dvs;
+                        shellScope.child.numberOfFacilities = result.others;
                     });
                 };
 

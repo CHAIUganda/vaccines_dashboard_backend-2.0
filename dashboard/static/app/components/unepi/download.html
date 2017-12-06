@@ -190,7 +190,7 @@
                     <tr>
                     <td style="border-top:0px;">
                         <span class="quality_test__description">
-                            Cold Chain Equipment Functionality (DVS & {{ child.numberOfFacilities }}@Facilities)</span>
+                            Cold Chain Equipment Functionality ({{child.numberOfDistrictStores}} DVS & {{ child.numberOfFacilities }} Facilities)</span>
                         <span class="quality_test__metric">
                             {{ child.per(child.numberWorking, child.numberOfColdchainEquipment)}}%
                             (n={{ child.numberOfColdchainEquipment }})
@@ -226,12 +226,15 @@
                                  </td>
                              </tr>
                              <tr>
-                                 <td>Working but need fixing</td>
+                                 <td>Working but needs maintenance</td>
                                  <td>{{ child.numberNeedMaintenance }}</td>
                                  <td>
                                      {{ child.numberNeedMaintenance}}/{{child.numberOfColdchainEquipment}}
                                      ({{ child.per(child.numberNeedMaintenance, child.numberOfColdchainEquipment)}}%)
                                  </td>
+                             </tr>
+                             <tr>
+                                 <td colspan="3"><i><small>*Functionality includes both 'Working well' and 'Working well but needs maintenance'.</small></i></td>
                              </tr>
                          </table>
                     </td>

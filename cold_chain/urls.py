@@ -6,6 +6,7 @@ import cold_chain.views.api
 urlpatterns = [
 
     url(r'^api/districts', cold_chain.views.api.Districts.as_view(), name='district'),
+    url(r'^api/facilitytypes', cold_chain.views.api.FacilityTypes.as_view(), name='facilitytypes'),
     url(r'^api/carelevels', cold_chain.views.api.CareLevels.as_view(), name='carelevel'),
     url(r'^api/quarters', cold_chain.views.api.Quarters.as_view(), name='quarter'),
     url(r'^api/immunizingfacilities', cold_chain.views.api.ImmunizingFacilities.as_view(), name='immunizingfacilities'),

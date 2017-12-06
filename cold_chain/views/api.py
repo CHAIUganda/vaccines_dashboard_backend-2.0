@@ -28,6 +28,16 @@ class Districts(APIView):
         return Response(districts)
 
 
+class FacilityTypes(APIView):
+    def get(self, request):
+        district = request.query_params.get('district', None)
+        kwargs = {}
+        if district and district.lower() != 'national':
+            kwargs.update({'district': district})
+        facility_types = Facility.objects.filter(**kwargs).values('type__group').annotate(count=Count('id'))
+        return Response(facility_types)
+
+
 class CareLevels(APIView):
     def get(self, request):
         carelevels = FacilityType.objects.all().values('group').distinct().order_by('group')
