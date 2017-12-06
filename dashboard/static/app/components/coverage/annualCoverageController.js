@@ -78,7 +78,7 @@ function AnnualCoverageController($scope, CoverageService, CoverageCalculator, C
                     /* Show coverages for the different doses */
                     chartData.push({key: 'Dose 1', values: vaccineData.cR1});  
                     
-                    if ($.inArray(vaccine, ['PENTA', 'PCV', 'OPV', 'HPV', 'IPV', 'TT']) != -1)
+                    if ($.inArray(vaccine, ['PENTA', 'PCV', 'OPV', 'HPV', 'TT']) != -1)
                         chartData.push({key: 'Dose 2', values: vaccineData.cR2});  
                     
                     if ($.inArray(params.antigen, ['PENTA', 'PCV', 'OPV', 'DPT']) != -1)

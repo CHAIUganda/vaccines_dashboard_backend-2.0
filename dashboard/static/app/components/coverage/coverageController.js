@@ -971,7 +971,7 @@ angular.module('dashboard')
                             if (vm.activeDose == "Dose 3" && $.inArray(vaccine, ['PENTA', 'PCV', 'OPV']) == -1)
                                 continue;
                             else if (vm.activeDose == "Dose 2" && 
-                                        $.inArray(vaccine, ['PENTA', 'PCV', 'OPV', 'HPV', 'IPV', 'TT']) == -1)
+                                        $.inArray(vaccine, ['PENTA', 'PCV', 'OPV', 'HPV', 'TT']) == -1)
                                 continue;
                         }
 
