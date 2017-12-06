@@ -1,5 +1,6 @@
 from datetime import date
 from django.core.management import BaseCommand
+from django.db import IntegrityError
 
 from cold_chain.models import *
 from openpyxl import load_workbook
@@ -26,6 +27,9 @@ def import_capacity(excel_file, quarter):
             fc.difference = row[10].value
             fc.quarter = quarter
             fc.save()
+        except IntegrityError, e:
+            print e
+
 
 class Command(BaseCommand):
     args = '<path to dataset file>'

@@ -37,6 +37,9 @@ class Facility(models.Model):
 
 
 class ImmunizingFacility(models.Model):
+    class Meta:
+        unique_together = ('facility', 'quarter')
+
     facility = models.ForeignKey(Facility, on_delete=models.SET_NULL, null=True, blank=True)
     static = models.NullBooleanField(blank=True)
     outreach = models.NullBooleanField(blank=False, null=True)
@@ -45,6 +48,9 @@ class ImmunizingFacility(models.Model):
 
 
 class Functionality(models.Model):
+    class Meta:
+        unique_together = ('facility', 'quarter')
+
     facility = models.ForeignKey(Facility, on_delete=models.SET_NULL, null=True, blank=True)
     working_well = models.IntegerField()
     needs_maintenance = models.IntegerField()
@@ -54,6 +60,9 @@ class Functionality(models.Model):
 
 
 class Capacity(models.Model):
+    class Meta:
+        unique_together = ('facility', 'quarter')
+
     facility = models.ForeignKey(Facility, on_delete=models.SET_NULL, null=True, blank=True)
     actual = models.FloatField()
     required = models.FloatField()
