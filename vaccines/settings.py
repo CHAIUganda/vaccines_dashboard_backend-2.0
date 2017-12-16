@@ -108,8 +108,8 @@ REST_FRAMEWORK = {
     'PAGE_SIZE': 100
 }
 
-DHIS2_USER = 'qppu2'
-DHIS2_PASS = 'DoctorTeam31'
+DHIS2_USER = 'chai-hiv-logistics'
+DHIS2_PASS = 'CHAI54321'
 DHIS2_ADDRESS = 'http://hmis2.health.go.ug'
 
 # Details of library and configuration

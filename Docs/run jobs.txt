@@ -42,7 +42,7 @@ python manage.py dhis2_04_download_data_elements tZvfVXqVIHy
 
 
 // Download monthly data
-python manage.py dhis2_05_download_data_sets "201512"
+python manage.py dhis2_05_download_data_sets "201610"
 
 
 // Download monthly data
