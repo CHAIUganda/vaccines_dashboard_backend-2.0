@@ -93,9 +93,12 @@ class StockAtHandByDistrictApi(APIView):
                       received=F('received'),
                       consumed=F('consumed'),
                       available_stock=ExpressionWrapper(F('received')+F('at_hand'), output_field=IntegerField()),
-                      Months_stock=ExpressionWrapper(F('at_hand')/F('stock_requirement__minimum'), output_field=IntegerField()),
+                      Months_stock=Case(
+                                        When(Q(at_hand=Value(0)), then=Value(0)),
+                                        default=(ExpressionWrapper(F('at_hand')/F('stock_requirement__minimum'), output_field=IntegerField()))
+                      ),
                       uptake_rate=Case(
-                          When(Q(available_stock=Value(0)), then=Value(0)),
+                          When(Q(available_stock=Value(0))| Q(consumed=Value(0)), then=Value(0)),
                           default=(ExpressionWrapper(100*F('consumed')/ F('available_stock'), output_field=IntegerField()))
                       ),
                       Refill_rate=Case(
