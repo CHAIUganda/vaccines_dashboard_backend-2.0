@@ -99,7 +99,7 @@ class StockAtHandByDistrictApi(APIView):
                           default=(ExpressionWrapper(100*F('consumed')/ F('available_stock'), output_field=IntegerField()))
                       ),
                       Refill_rate=Case(
-                          When(Q(ordered=Value(0)), then=Value(0)),
+                          When(Q(ordered=Value(0))| Q(received=Value(0)), then=Value(0)),
                           default=(ExpressionWrapper(100*F('received')/ F('ordered'), output_field=IntegerField()))
                       ),
                       coverage_rate=Case(
