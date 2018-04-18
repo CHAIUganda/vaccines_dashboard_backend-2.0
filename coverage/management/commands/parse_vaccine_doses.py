@@ -18,15 +18,15 @@ class Command(BaseCommand):
         period = args[0]
         print "Loading period: %s" % (period,)
 
-        save_from_model(period)
-        save_vaccine_dose(period)
+        #save_from_model(period)
+        # save_vaccine_dose(period)
 
-        #periods = ['201606', '201607', '201608', '201609', '201610', '201611', '201612',
-         #          '201701', '201702', '201703', '201704', '201705', '201706', '201707',
-          #         '201708', '201709']
+        periods = ['201606', '201607', '201608', '201609', '201610', '201611', '201612',
+                   '201701', '201702', '201703', '201704', '201705', '201706', '201707',
+                   '201708', '201709', '201710', '201711', '201712', '201801', '201802']
 
-        #for p in periods:
-         #   print "Loading: %s" % p
+        for p in periods:
+            print "Loading: %s" % p
             # save_from_model(p)
-          #  save_vaccine_dose(p)
+            save_vaccine_dose(p)
 
