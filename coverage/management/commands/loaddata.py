@@ -4,7 +4,6 @@ from dashboard import utils
 from dashboard.models import *
 from coverage.models import *
 
-
 def save_from_model(period):
     sql = """SELECT
            row_number() OVER () AS id,
