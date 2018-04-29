@@ -3,8 +3,7 @@ from django.db import IntegrityError
 from dashboard import utils
 from dashboard.models import *
 from coverage.models import *
-import logging
-logging.getLogger('raven').setLevel(logging.WARNING)
+
 
 def save_from_model(period):
     sql = """SELECT

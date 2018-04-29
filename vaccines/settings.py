@@ -1,5 +1,7 @@
 import os
 import sys
+import logging
+logging.getLogger('raven').setLevel(logging.WARNING)
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
