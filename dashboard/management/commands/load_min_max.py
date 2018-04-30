@@ -15,11 +15,12 @@ def import_min_max(excel_file, year):
 
     for vaccine in vaccines:
         location_sheet = workbook.get_sheet_by_name(vaccine)
-        for row in location_sheet.iter_rows('A6:F117'):
+        for row in location_sheet.iter_rows('A6:G118'):
                 district_object = District.objects.filter(name__contains=row[1].value).first()
                 vaccine_object = Vaccine.objects.filter(name=vaccine).first()
                 max_value = row[5].value
-                min_value = int(max_value) * .25
+                min_value = row[6].value
+                #min_value = int(max_value) * .25
                 #print "district %s vaccine: %s min:%s max: %s" % (district_object.name, vaccine_object.name, min_value, max_value)
                 if max_value:
                     stock_requirement = StockRequirement()
