@@ -10,6 +10,7 @@ DEBUG = True
 ALLOWED_HOSTS = []
 
 INSTALLED_APPS = (
+    # 'django_cassandra_engine',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -96,7 +97,7 @@ EMAIL_PORT = os.environ.get('EMAIL_PORT', '')
 EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER', '')
 EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD', '')
 RAVEN_CONFIG = {
-    'dsn': os.environ.get('SENTRY_DSN', None),
+    'dsn': os.environ.get('SENTRY_DSN', None)
 }
 
 BROKER_URL = 'redis://127.0.0.1:6379/0'
@@ -109,7 +110,7 @@ REST_FRAMEWORK = {
 }
 
 DHIS2_USER = 'qppu2'
-DHIS2_PASS = 'DoctorTeam33'
+DHIS2_PASS = 'DoctorTeam34'
 DHIS2_ADDRESS = 'http://hmis2.health.go.ug'
 
 # Details of library and configuration
