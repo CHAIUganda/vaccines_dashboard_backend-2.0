@@ -20,7 +20,7 @@ angular.module('dashboard')
         }
 
         vm.getUnepiCoverage = function(period, district, vaccine) {
-            var params = {period, district};
+            var params = {period: district};
 
             var getValueSum = function(data, name, vaccine) {
                 return data.reduce(function(accumulator, value) {
