@@ -12,10 +12,12 @@ def import_coverage_target(excel_file, year):
     worksheet_name = "mcoverage"
     location_sheet = workbook.get_sheet_by_name(worksheet_name)
 
-    vaccines = ['BCG', 'OPV', 'PCV', 'TT', 'PENTA', 'MEASLES', 'IPV', 'HPV']
+    # vaccines = ['BCG', 'OPV', 'PCV', 'TT', 'PENTA', 'MEASLES', 'IPV', 'HPV']
+    vaccines = ['BCG', 'HPV', 'IPV', 'MEASLES','OPV', 'PCV', 'PENTA', 'TT']
 
-    for row in location_sheet.iter_rows('A%s:I%s' % (location_sheet.min_row + 5, location_sheet.max_row)):
+    for row in location_sheet.iter_rows('A%s:I%s' % (location_sheet.min_row + 4, location_sheet.max_row)):
         if row[0].value:
+
             for vaccine in vaccines:
                 col = vaccines.index(vaccine) + 1
 
@@ -26,6 +28,7 @@ def import_coverage_target(excel_file, year):
                         value = float(row[col].value)
                 else:
                     value = 0
+
                 try:
                     stock_requirement = StockRequirement.objects.get(
                         district__name__contains=row[0].value,

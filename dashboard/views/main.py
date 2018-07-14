@@ -105,17 +105,15 @@ class GenericDataImportView(LoginRequiredMixin, StaffuserRequiredMixin, Template
         }
 
         if form.is_valid():
-            data_file = form.files['data_file']
-            filename = ""
-            if data_file is not None:
-                filename = data_file.name
-
             obj = form.save()
             obj.name = target_settings['name']
             obj.save()
 
+            # If an old file exists with the same filename, the uploader creates a unique name
+            unique_filename = os.path.basename(obj.data_file.name)
+
             # The first argument is the uploaded file
-            uploaded_data_file = os.path.join(GENERIC_IMPORT_DIR, filename)
+            uploaded_data_file = os.path.join(GENERIC_IMPORT_DIR, unique_filename)
             args = [uploaded_data_file]
 
             num_params = len(target_settings['params'])
