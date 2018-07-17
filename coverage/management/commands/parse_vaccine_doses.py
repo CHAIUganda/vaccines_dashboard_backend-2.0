@@ -3,7 +3,7 @@ from optparse import make_option
 
 from dashboard.common.data_set_parser import DataSetParser
 from dashboard.models import DataSet
-from loaddata import *
+from loaddata_coverage import *
 
 class Command(BaseCommand):
     option_list = BaseCommand.option_list + (
@@ -18,19 +18,15 @@ class Command(BaseCommand):
         period = args[0]
         print "Loading period: %s" % (period,)
 
-        # save_from_model(period)
-        # save_vaccine_dose(period)
+        save_from_model(period)
+        save_vaccine_dose(period)
 
         # periods = ['201606', '201607', '201608', '201609', '201610', '201611', '201612',
         #            '201701', '201702', '201703', '201704', '201705', '201706', '201707',
-        #            '201708', '201709', '201710', '201711', '201712', '201801', '201802',]
+        #            '201708', '201709', '201710', '201711', '201712']
         #
-        periods = ['201801', '201802', '201803']
-
-
-
-        for p in periods:
-            print "Loading: %s" % p
-            save_from_model(p)
-            save_vaccine_dose(p)
+        # for p in periods:
+        #     print "Loading: %s" % p
+        #     save_from_model(p)
+        #     save_vaccine_dose(p)
 
