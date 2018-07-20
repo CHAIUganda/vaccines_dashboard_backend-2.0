@@ -3,7 +3,7 @@ from optparse import make_option
 
 from dashboard.common.data_set_parser import DataSetParser
 from dashboard.models import DataSet
-from loaddata_coverage import *
+from loaddata import *
 
 class Command(BaseCommand):
     option_list = BaseCommand.option_list + (
