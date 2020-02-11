@@ -1,5 +1,5 @@
 Django==1.9
-psycopg2==2.6.1
+psycopg2-binary
 django-braces==1.8.1
 django-password-reset==0.8.1
 django-bootstrap3==6.2.2
@@ -32,3 +32,4 @@ django-easy-pdf==0.1.1
 xhtml2pdf
 django-datatable
 django-crontab
+django-cors-headers

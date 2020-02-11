@@ -202,6 +202,7 @@ class StockByDistrictVaccineApi(APIView):
 
     def get(self, request):
         district = request.query_params.get('district', None)
+        districts = request.query_params.get('districts', None)
         vaccine = request.query_params.get('vaccine', "PENTA")
         #month = request.query_params.get('month', None)
 
@@ -223,15 +224,34 @@ class StockByDistrictVaccineApi(APIView):
             args.update({'stock_requirement__vaccine__name': vaccine})
 
         grouping_fields = None
-        if district and district.lower() != "national":
-            args.update({'stock_requirement__district__name': district})
+
+        if district:
+            if district.lower() != "national":
+                args.update({'stock_requirement__district__name': district})
+            else:
+                grouping_fields = ['period']
+
+        if districts:
+            districts = eval(districts)
+            # create list with empty lists that will hold objects
+            summary = [[] for x in range(200)]
+
+            for district in districts:
+                args.update({'stock_requirement__district__name': district})
+                for i, obj in enumerate(self.get_summary(args, None)):
+                    summary[i].append(obj)
+
+            # remove empty lists
+            summary = [x for x in summary if x]
         else:
-            grouping_fields = ['period']
+            summary = self.get_summary(args, grouping_fields)
 
+        return Response(summary)
+
+    def get_summary(self, args, grouping_fields):
         summary = Stock.objects.filter(**args)
-
-        if grouping_fields is not None:
-            print "grouping [%s]" % grouping_fields
+        if grouping_fields:
+            print("grouping [%s]" % grouping_fields)
             summary = summary.order_by('period', ).values(*grouping_fields) \
                 .annotate(total_consumed=Sum('consumed'),
                           total_received=Sum('received'),
@@ -253,8 +273,7 @@ class StockByDistrictVaccineApi(APIView):
                         'period',
                         'ordered',
                         'received')
-
-        return Response(summary)
+        return summary
 
 
 class StockMonthsLeftAPI(APIView):
