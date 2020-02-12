@@ -233,16 +233,17 @@ class StockByDistrictVaccineApi(APIView):
 
         if districts:
             districts = eval(districts)
-            # create list with empty lists that will hold objects
-            summary = [[] for x in range(200)]
+            # contains lists of dictionaries, the lists are created when needed
+            summary = []
 
             for district in districts:
                 args.update({'stock_requirement__district__name': district})
                 for i, obj in enumerate(self.get_summary(args, None)):
-                    summary[i].append(obj)
-
-            # remove empty lists
-            summary = [x for x in summary if x]
+                    try:
+                        summary[i].append(obj)
+                    except IndexError as e:
+                        print(e)
+                        summary.append([obj])
         else:
             summary = self.get_summary(args, grouping_fields)
 

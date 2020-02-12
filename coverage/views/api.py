@@ -142,6 +142,7 @@ class VaccineDosesByPeriod(APIView):
         default_start, default_end = self.get_db_last_year()
 
         district = request.query_params.get('district', None)
+        districts = request.query_params.get('districts', None)
         vaccine = request.query_params.get('vaccine', None)
         start_year = request.query_params.get('startYear', default_start)
         end_year = request.query_params.get('endYear', default_end)
@@ -191,7 +192,27 @@ class VaccineDosesByPeriod(APIView):
             start_period = "%s01" % period[0:4]
             filters.update({'period__gte': int(start_period), 'period__lte': int(period)})
 
-        summary = VaccineDose.objects.filter(**filters)\
+        if districts:
+            districts = eval(districts)
+            # contains lists of dictionaries, the lists are created when needed
+            summary = []
+
+            for district in districts:
+                grouping_fields.append('district__name')
+                filters.update({'district__name': district})
+                for i, obj in enumerate(self.get_summary(filters, grouping_fields)):
+                    try:
+                        summary[i].append(obj)
+                    except IndexError as e:
+                        print(e)
+                        summary.append([obj])
+        else:
+            summary = self.get_summary(filters, grouping_fields)
+
+        return Response(summary)
+
+    def get_summary(self, filters, grouping_fields):
+        summary = VaccineDose.objects.filter(**filters) \
             .values(*grouping_fields) \
             .annotate(total_actual=Sum('last_dose'),
                       total_last_dose=Sum('last_dose'),
@@ -201,8 +222,7 @@ class VaccineDosesByPeriod(APIView):
                       total_planned=Sum('planned_consumption')) \
             .order_by('period') \
             .all()
-
-        return Response(summary)
+        return summary
 
 
 class CoverageAnnualized(APIView):
