@@ -232,18 +232,12 @@ class StockByDistrictVaccineApi(APIView):
                 grouping_fields = ['period']
 
         if districts:
+            # convert districts string into list of district names
             districts = eval(districts)
-            # contains lists of dictionaries, the lists are created when needed
-            summary = []
-
-            for district in districts:
-                args.update({'stock_requirement__district__name': district})
-                for i, obj in enumerate(self.get_summary(args, None)):
-                    try:
-                        summary[i].append(obj)
-                    except IndexError as e:
-                        print(e)
-                        summary.append([obj])
+            districts = District.objects.filter(name__in=districts)
+            args.update({'stock_requirement__district__in': districts})
+            grouping_fields = ['period']
+            summary = self.get_summary(args, grouping_fields)
         else:
             summary = self.get_summary(args, grouping_fields)
 
