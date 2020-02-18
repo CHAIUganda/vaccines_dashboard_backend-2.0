@@ -161,12 +161,6 @@ class VaccineDosesByPeriod(APIView):
 
             filters.update({'vaccine__name': vaccine})
 
-        #     start_period, end_period = self.get_ranges_from_years(start_year, end_year)
-        #     filters.update({'period__gte': start_period, 'period__lte': end_period})
-        # else:
-        #     start_period, end_period = self.get_ranges_from_years(end_year, end_year)
-        #     filters.update({'period__gte': start_period, 'period__lte': end_period})
-
         start_period, end_period = self.get_ranges_from_years(start_year, end_year)
         filters.update({'period__gte': start_period, 'period__lte': end_period})
 
@@ -193,19 +187,10 @@ class VaccineDosesByPeriod(APIView):
             filters.update({'period__gte': int(start_period), 'period__lte': int(period)})
 
         if districts:
+            # convert districts string into list of district names
             districts = eval(districts)
-            # contains lists of dictionaries, the lists are created when needed
-            summary = []
-
-            for district in districts:
-                grouping_fields.append('district__name')
-                filters.update({'district__name': district})
-                for i, obj in enumerate(self.get_summary(filters, grouping_fields)):
-                    try:
-                        summary[i].append(obj)
-                    except IndexError as e:
-                        print(e)
-                        summary.append([obj])
+            filters.update({'district__name__in': districts})
+            summary = self.get_summary(filters, grouping_fields)
         else:
             summary = self.get_summary(filters, grouping_fields)
 
