@@ -236,7 +236,7 @@ class StockByDistrictVaccineApi(APIView):
             districts = eval(districts)
             districts = District.objects.filter(name__in=districts)
             args.update({'stock_requirement__district__in': districts})
-            grouping_fields = ['period']
+            # grouping_fields = ['period']
             summary = self.get_summary(args, grouping_fields)
         else:
             summary = self.get_summary(args, grouping_fields)
@@ -246,6 +246,7 @@ class StockByDistrictVaccineApi(APIView):
     def get_summary(self, args, grouping_fields):
         summary = Stock.objects.filter(**args)
         if grouping_fields:
+            # national selected
             print("grouping [%s]" % grouping_fields)
             summary = summary.order_by('period', ).values(*grouping_fields) \
                 .annotate(total_consumed=Sum('consumed'),
@@ -253,7 +254,23 @@ class StockByDistrictVaccineApi(APIView):
                           total_at_hand=Sum('at_hand'),
                           total_ordered=Sum('ordered'),
                           total_target=Sum('stock_requirement__target'))
+        elif 'stock_requirement__district__in' in args:
+            # districts selected
+
+            summary = summary.order_by('period', ).values(
+                'month',
+                'period',
+                'stock_requirement__vaccine__name'
+            ).annotate(consumed=Sum('consumed'),
+                       received=Sum('received'),
+                       at_hand=Sum('at_hand'),
+                       ordered=Sum('ordered'),
+                       stock_requirement__target=Sum('stock_requirement__target'),
+                       stock_requirement__coverage_target=Sum('stock_requirement__coverage_target'),
+                       stock_requirement__minimum=Sum('stock_requirement__minimum'),
+                       stock_requirement__maximum=Sum('stock_requirement__maximum'))
         else:
+            # district selected
             summary = summary.order_by('period', ) \
                 .values('stock_requirement__district__name',
                         'stock_requirement__vaccine__name',
