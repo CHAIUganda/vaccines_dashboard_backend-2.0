@@ -12,8 +12,8 @@ def import_functionality(excel_file, quarter):
 
     for row in workbook_results.iter_rows('A%s:N%s' % (workbook_results.min_row + 4, workbook_results.max_row)):
         try:
-            fn = Functionality()
-            ft = Facility.objects.get(code=row[0].value)
+            fn = Refrigerator()
+            ft = ColdChainFacility.objects.get(code=row[0].value)
             fn.facility = ft
             fn.working_well = row[11].value
             fn.needs_maintenance = row[12].value
@@ -21,7 +21,7 @@ def import_functionality(excel_file, quarter):
             fn.number_existing = row[10].value
             fn.quarter = quarter
             fn.save()
-        except Facility.DoesNotExist:
+        except ColdChainFacility.DoesNotExist:
             fn.working_well = row[11].value
             fn.needs_maintenance = row[12].value
             fn.not_working = row[13].value

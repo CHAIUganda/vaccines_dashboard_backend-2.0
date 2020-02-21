@@ -7,6 +7,7 @@ from django.utils.translation import ugettext_lazy
 from django.utils.translation import ugettext_lazy as _
 
 from dashboard.models import *
+from cold_chain.models import FacilityType, Refrigerator, ColdChainFacility
 from django.contrib import admin
 
 
@@ -119,4 +120,7 @@ admin_site.register(Vaccine, VaccineAdmin)
 admin_site.register(VaccineCategory, VaccineCategoryAdmin)
 admin_site.register(Facility, FacilityAdmin)
 admin_site.register(DataSyncTracker, DataSyncTrackerAdmin)
+admin_site.register(FacilityType)
+admin_site.register(Refrigerator)
+admin_site.register(ColdChainFacility)
 

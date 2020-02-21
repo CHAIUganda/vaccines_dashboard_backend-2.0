@@ -13,7 +13,7 @@ def import_facilities(excel_file):
 
     for row in workbook_results.iter_rows('A%s:F%s' % (workbook_results.min_row + 1, workbook_results.max_row)):
         try:
-            fc = Facility()
+            fc = ColdChainFacility()
             fc.code = row[0].value
             fc.name = row[4].value
             fc.district = row[1].value

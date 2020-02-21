@@ -24,7 +24,7 @@ class Quarters(APIView):
 
 class Districts(APIView):
     def get(self, request):
-        districts = Facility.objects.all().values('district').distinct().order_by('district')
+        districts = ColdChainFacility.objects.all().values('district').distinct().order_by('district')
         return Response(districts)
 
 
@@ -34,7 +34,7 @@ class FacilityTypes(APIView):
         kwargs = {}
         if district and district.lower() != 'national':
             kwargs.update({'district': district})
-        facility_types = Facility.objects.filter(**kwargs).values('type__group').annotate(count=Count('id'))
+        facility_types = ColdChainFacility.objects.filter(**kwargs).values('type__group').annotate(count=Count('id'))
         return Response(facility_types)
 
 
@@ -131,7 +131,7 @@ class Refrigerators(APIView):
         if endQuarter:
             args.update({'quarter__lte': endQuarter})
 
-        summary = Functionality.objects.filter() \
+        summary = Refrigerator.objects.filter() \
             .values(
             'number_existing',
             'working_well',
@@ -162,7 +162,7 @@ class DistrictRefrigerators(APIView):
         if endQuarter:
             args.update({'quarter__lte': endQuarter})
 
-        summary = Functionality.objects.filter(**args) \
+        summary = Refrigerator.objects.filter(**args) \
             .values('facility__district') \
             .annotate(working_well=Sum('working_well'),
                       needs_maintenance=Sum('needs_maintenance'),
@@ -200,7 +200,7 @@ class FacilityRefrigerators(APIView):
         if endQuarter:
             args.update({'quarter__lte': endQuarter})
 
-        summary = Functionality.objects.filter(**args) \
+        summary = Refrigerator.objects.filter(**args) \
             .values('facility__name') \
             .annotate(working_well=Sum('working_well'),
                       needs_maintenance=Sum('needs_maintenance'),

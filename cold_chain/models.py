@@ -3,13 +3,12 @@ from __future__ import unicode_literals
 from django.db import models
 from custom_user.models import AbstractEmailUser
 
-
 from django.db.models import *
 from jsonfield import JSONField
 from picklefield import PickledObjectField
 from datetime import datetime, timedelta
 from django.utils import timezone
-
+from dashboard.models import District
 
 QUARTER = "Quarter"
 
@@ -20,51 +19,36 @@ QUARTERS = (
     (4, "Q4"),
 )
 
+FUNCTIONALITY_STATUS = (
+    ("Working", "Working"),
+    ("Not working", "Not working"),
+    ("Needs repair", "Needs repair"),
+)
 
 
 class FacilityType(models.Model):
     name = models.CharField(max_length=200)
     group = models.CharField(max_length=200)
-    old_id = models.IntegerField()
 
 
-class Facility(models.Model):
-    code = models.CharField(max_length=255,unique=True)
+class ColdChainFacility(models.Model):
+    code = models.CharField(max_length=255, unique=True)
     name = models.CharField(max_length=255)
-    district = models.CharField(max_length=255)
-    sub_county = models.CharField(max_length=255)
+    district = models.ForeignKey(District, on_delete=models.SET_NULL, null=True, blank=True)
     type = models.ForeignKey(FacilityType, on_delete=models.SET_NULL, null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
 
 
-class ImmunizingFacility(models.Model):
-    class Meta:
-        unique_together = ('facility', 'quarter')
-
-    facility = models.ForeignKey(Facility, on_delete=models.SET_NULL, null=True, blank=True)
-    static = models.NullBooleanField(blank=True)
-    outreach = models.NullBooleanField(blank=False, null=True)
-    ficc_storage = models.NullBooleanField(blank=True)
-    quarter = models.CharField(choices=QUARTERS, max_length=20)
-
-
-class Functionality(models.Model):
-    class Meta:
-        unique_together = ('facility', 'quarter')
-
-    facility = models.ForeignKey(Facility, on_delete=models.SET_NULL, null=True, blank=True)
-    working_well = models.IntegerField()
-    needs_maintenance = models.IntegerField()
-    not_working = models.IntegerField()
-    number_existing = models.IntegerField()
-    quarter = models.CharField(choices=QUARTERS, max_length=20,null=True, blank=True)
-
-
-class Capacity(models.Model):
-    class Meta:
-        unique_together = ('facility', 'quarter')
-
-    facility = models.ForeignKey(Facility, on_delete=models.SET_NULL, null=True, blank=True)
-    actual = models.FloatField()
-    required = models.FloatField()
-    difference = models.FloatField()
-    quarter = models.CharField(choices=QUARTERS, max_length=20,null=True, blank=True)
+class Refrigerator(models.Model):
+    cold_chain_facility = models.ForeignKey(ColdChainFacility, on_delete=models.SET_NULL, null=True, blank=True)
+    serial_number = models.CharField(max_length=255, unique=True)
+    make = models.CharField(max_length=255, unique=True)
+    model = models.CharField(max_length=255, unique=True)
+    available_net_storage_volume = models.IntegerField()
+    required_net_storage_volume = models.IntegerField()
+    temperature = models.FloatField()
+    supply_year = models.DateField()
+    functionality_status = models.CharField(choices=FUNCTIONALITY_STATUS, max_length=20,
+                                            default=FUNCTIONALITY_STATUS[0][0])
+    quarter = models.CharField(choices=QUARTERS, max_length=20, null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
