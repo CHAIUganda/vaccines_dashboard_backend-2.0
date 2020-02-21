@@ -142,6 +142,7 @@ class VaccineDosesByPeriod(APIView):
         default_start, default_end = self.get_db_last_year()
 
         district = request.query_params.get('district', None)
+        districts = request.query_params.get('districts', None)
         vaccine = request.query_params.get('vaccine', None)
         start_year = request.query_params.get('startYear', default_start)
         end_year = request.query_params.get('endYear', default_end)
@@ -159,12 +160,6 @@ class VaccineDosesByPeriod(APIView):
                 vaccine = "PENTA"
 
             filters.update({'vaccine__name': vaccine})
-
-        #     start_period, end_period = self.get_ranges_from_years(start_year, end_year)
-        #     filters.update({'period__gte': start_period, 'period__lte': end_period})
-        # else:
-        #     start_period, end_period = self.get_ranges_from_years(end_year, end_year)
-        #     filters.update({'period__gte': start_period, 'period__lte': end_period})
 
         start_period, end_period = self.get_ranges_from_years(start_year, end_year)
         filters.update({'period__gte': start_period, 'period__lte': end_period})
@@ -191,7 +186,18 @@ class VaccineDosesByPeriod(APIView):
             start_period = "%s01" % period[0:4]
             filters.update({'period__gte': int(start_period), 'period__lte': int(period)})
 
-        summary = VaccineDose.objects.filter(**filters)\
+        if districts:
+            # convert districts string into list of district names
+            districts = eval(districts)
+            filters.update({'district__name__in': districts})
+            summary = self.get_summary(filters, grouping_fields)
+        else:
+            summary = self.get_summary(filters, grouping_fields)
+
+        return Response(summary)
+
+    def get_summary(self, filters, grouping_fields):
+        summary = VaccineDose.objects.filter(**filters) \
             .values(*grouping_fields) \
             .annotate(total_actual=Sum('last_dose'),
                       total_last_dose=Sum('last_dose'),
@@ -201,8 +207,7 @@ class VaccineDosesByPeriod(APIView):
                       total_planned=Sum('planned_consumption')) \
             .order_by('period') \
             .all()
-
-        return Response(summary)
+        return summary
 
 
 class CoverageAnnualized(APIView):
