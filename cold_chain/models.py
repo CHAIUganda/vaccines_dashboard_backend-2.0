@@ -28,7 +28,9 @@ FUNCTIONALITY_STATUS = (
 
 class FacilityType(models.Model):
     name = models.CharField(max_length=200)
-    group = models.CharField(max_length=200)
+
+    def __str__(self):
+        return self.name.encode('utf-8')
 
 
 class ColdChainFacility(models.Model):
@@ -38,17 +40,23 @@ class ColdChainFacility(models.Model):
     type = models.ForeignKey(FacilityType, on_delete=models.SET_NULL, null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
+    def __str__(self):
+        return self.name.encode('utf-8') + self.district.name.encode('utf-8')
+
 
 class Refrigerator(models.Model):
     cold_chain_facility = models.ForeignKey(ColdChainFacility, on_delete=models.SET_NULL, null=True, blank=True)
     serial_number = models.CharField(max_length=255, unique=True)
-    make = models.CharField(max_length=255, unique=True)
-    model = models.CharField(max_length=255, unique=True)
+    make = models.CharField(max_length=255)
+    model = models.CharField(max_length=255)
     available_net_storage_volume = models.IntegerField()
     required_net_storage_volume = models.IntegerField()
-    temperature = models.FloatField()
+    temperature = models.FloatField(null=True, blank=True)
     supply_year = models.DateField()
     functionality_status = models.CharField(choices=FUNCTIONALITY_STATUS, max_length=20,
                                             default=FUNCTIONALITY_STATUS[0][0])
     quarter = models.CharField(choices=QUARTERS, max_length=20, null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.serial_number.encode('utf-8') + self.cold_chain_facility.name.encode('utf-8')

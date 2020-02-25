@@ -156,7 +156,7 @@ GENERIC_DATA_IMPORT = {
     },
     'cold_chain_functionality': {
         'name': 'Cold Chain Refrigerator',
-        'params': ('Quarter',),
+        'params': (),
         'function': 'cold_chain.management.commands.functionality.import_functionality'
     },
     'cold_chain_immunizing_facility': {
