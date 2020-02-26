@@ -331,3 +331,43 @@ class FacilityCapacities(APIView):
             'quarter',
             'facility__name')
         return Response(summary)
+
+
+class FunctionalityMetrics(APIView):
+    def get(self, request):
+        district = request.query_params.get('district', None)
+        carelevel = request.query_params.get('carelevel', None)
+        startQuarter = request.query_params.get('startQuarter', '201601')
+        endQuarter = request.query_params.get('endQuarter', None)
+
+        # Create arguments for filtering
+        args = {'quarter__gte': startQuarter}
+        args.update({'cold_chain_facility__district__name': district})
+        args.update({'facility__district': district})
+        args.update({'facility__type__name': carelevel})
+
+        summary = Refrigerator.objects.filter(**args)\
+            .values('cold_chain_facility__district__name')\
+            .annotate(needs_maintenance=Sum('needs_maintenance', 'functionality_status'))
+
+        summary = RefrigeratorDetail.objects.filter(**args)\
+            .values()
+
+        summary = Capacity.objects.filter(**args) \
+            .values('facility__name') \
+            .annotate(required=F('required'),
+                      actual=F('actual'),
+                      difference=(F('required') - F('actual')),
+                      adequate=(F('actual') - F('required')),
+                      surplus=Case(
+                          When(Q(adequate=Value(0)) | Q(required=Value(0)), then=Value(0)),
+                          default=(ExpressionWrapper(100 * F('adequate') / F('required'), output_field=IntegerField()))
+                      )) \
+            .order_by('-difference') \
+            .values(
+            'actual',
+            'surplus',
+            'quarter',
+            'facility__name')
+        return Response(summary)
+

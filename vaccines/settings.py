@@ -166,7 +166,7 @@ GENERIC_DATA_IMPORT = {
     },
     'cold_chain_facility': {
         'name': 'Cold Chain ColdChainFacility',
-        'params': (),
+        'params': ('year', 'year_half',),
         'function': 'cold_chain.management.commands.facility.import_facilities'
     },
     'cold_chain_facility_type': {

@@ -4,14 +4,16 @@ import traceback
 from cold_chain.models import *
 from openpyxl import load_workbook
 import datetime
+import random
 
-def import_functionality(excel_file):
+
+def import_functionality(excel_file, year, year_half):
     workbook = load_workbook(excel_file, read_only=True, use_iterators=True)
     # spaces in the sheet name may cause errors
     worksheet_name = "Functionality_and_Optimality"
     workbook_results = workbook.get_sheet_by_name(worksheet_name)
 
-    for row in workbook_results.iter_rows('A%s:N%s' % (workbook_results.min_row + 1, workbook_results.max_row)):
+    for row in workbook_results.iter_rows('A%s:O%s' % (workbook_results.min_row + 1, workbook_results.max_row)):
         try:
             facility_code = row[1].value
             district = row[2].value
@@ -22,10 +24,11 @@ def import_functionality(excel_file):
             cce_make = row[7].value
             cce_serial_number = row[8].value
             available_net_storage_volume = row[9].value
-            supply_year = row[10].value
-            older_than_ten_years = row[11].value
-            suboptiomal_cce = row[12].value
-            cce_functionality_status = row[13].value
+            required_net_storage_volume = row[10].value
+            supply_year = row[11].value
+            older_than_ten_years = row[12].value
+            suboptiomal_cce = row[13].value
+            cce_functionality_status = row[14].value
 
             district = District.objects.filter(name__icontains=district).first()
 
@@ -42,24 +45,37 @@ def import_functionality(excel_file):
                 print(e)
                 facility = ColdChainFacility.objects.get(code__icontains=facility_code)
 
-            refrige = Refrigerator()
-            refrige.make = cce_make
-            refrige.model = cce_model
-            refrige.serial_number = cce_serial_number
-            refrige.available_net_storage_volume = available_net_storage_volume
-            refrige.required_net_storage_volume = available_net_storage_volume
-            refrige.supply_year = datetime.datetime(supply_year, 1, 1)
-            refrige.cold_chain_facility = facility
-            refrige.functionality_status = cce_functionality_status
-            refrige.save()
+            try:
+                refrige = Refrigerator.objects.get(serial_number=cce_serial_number)
+            except Exception as e:
+                print(e)
+                refrige = Refrigerator()
+                refrige.make = cce_make
+                refrige.model = cce_model
+                refrige.serial_number = cce_serial_number
+                refrige.supply_year = datetime.datetime(supply_year, 1, 1)
+                refrige.cold_chain_facility = facility
+                refrige.save()
+
+            refrige_detail = RefrigeratorDetail()
+            refrige_detail.refrigerator = refrige
+            refrige_detail.district = district
+            refrige_detail.temperature = random.randint(-4, 12)
+            refrige_detail.available_net_storage_volume = available_net_storage_volume
+            refrige_detail.required_net_storage_volume = required_net_storage_volume
+            refrige_detail.functionality_status = cce_functionality_status
+            refrige_detail.year = year
+            refrige_detail.year_half = year_half
+            refrige_detail.save()
         except Exception as e:
             print(traceback.print_exc())
             print(e)
 
 
 class Command(BaseCommand):
-    args = '<path to dataset file>'
-    help = """ Import functionality """
+    args = '<path to dataset file>, year, year_half'
+    help = """ Import functionality. Imports the cold chain CCE data. 
+            Pass the excel file link, year and period of the year"""
 
     def handle(self, *args, **options):
-        import_functionality(args[0])
+        import_functionality(args[0], args[1], args[2])
