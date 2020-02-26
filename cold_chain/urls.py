@@ -17,4 +17,5 @@ urlpatterns = [
     url(r'^api/districtrefrigerators', cold_chain.views.api.DistrictRefrigerators.as_view(), name='districtrefrigerators'),
     url(r'^api/districtcapacities', cold_chain.views.api.DistrictCapacities.as_view(), name='districtcapacities'),
     url(r'^api/facilitycapacities', cold_chain.views.api.FacilityCapacities.as_view(), name='facilitycapacities'),
+    url(r'^api/functionalitymetrics', cold_chain.views.api.FunctionalityMetrics.as_view(), name='functionalitymetrics'),
 ]
