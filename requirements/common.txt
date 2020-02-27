@@ -34,3 +34,4 @@ django-datatable
 django-crontab
 django-cors-headers
 requests
+jupyter

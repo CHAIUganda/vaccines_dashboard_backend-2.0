@@ -335,16 +335,43 @@ class FacilityCapacities(APIView):
 
 class FunctionalityMetrics(APIView):
     def get(self, request):
-        district = request.query_params.get('district', None)
+        district_name = request.query_params.get('district', None)
         carelevel = request.query_params.get('carelevel', None)
         year = request.query_params.get('year', None)
         year_half = request.query_params.get('year_half', None)
 
         summary = []
+        statistics = []
+
         districts = District.objects.all()
+
+        total_working = 0
+        total_not_working = 0
+        total_needs_repair = 0
 
         for district in districts:
             print(district)
+            working = RefrigeratorDetail.objects.filter(district=district,
+                                                        functionality_status__icontains=FUNCTIONALITY_STATUS[0][
+                                                            0]).count()
+            total_working += working
+
+            not_working = RefrigeratorDetail.objects.filter(district=district,
+                                                            functionality_status__icontains=FUNCTIONALITY_STATUS[1][
+                                                                0]).count()
+            total_not_working += not_working
+
+            needs_repair = RefrigeratorDetail.objects.filter(district=district,
+                                                             functionality_status__icontains=FUNCTIONALITY_STATUS[2][
+                                                                 0]).count()
+            total_needs_repair += needs_repair
+
+            summary.append({'district': district.name, 'working': working, 'not_working': not_working,
+                            'needs_repair': needs_repair})
+
+        if str(district_name).lower() != 'national' and district_name:
+            district = District.objects.get(name=district_name)
+
             working = RefrigeratorDetail.objects.filter(district=district,
                                                         functionality_status__icontains=FUNCTIONALITY_STATUS[0][
                                                             0]).count()
@@ -354,7 +381,31 @@ class FunctionalityMetrics(APIView):
             needs_repair = RefrigeratorDetail.objects.filter(district=district,
                                                              functionality_status__icontains=FUNCTIONALITY_STATUS[2][
                                                                  0]).count()
-            summary.append({'district': district.name, 'working': working, 'not_working': not_working,
-                            'needs_repair': needs_repair})
+
+            functionality_percentage = round((working / float(working + not_working + needs_repair)) * 100, 1)
+            working_percentage = round((working / float(working + not_working + needs_repair)) * 100, 1)
+            not_working_percentage = round((not_working / float(working + not_working + needs_repair)) * 100, 1)
+            needs_repair_percentage = round((needs_repair / float(working + not_working + needs_repair)) * 100, 1)
+
+            statistics.append({'functionality_percentage': functionality_percentage,
+                               'working_percentage': working_percentage,
+                               'not_working_percentage': not_working_percentage,
+                               'needs_repair_percentage': needs_repair_percentage})
+            summary.append({'statistics': statistics})
+        else:
+            functionality_percentage = round(
+                (total_working / float(total_working + total_not_working + total_needs_repair)) * 100, 1)
+            working_percentage = round(
+                (total_working / float(total_working + total_not_working + total_needs_repair)) * 100, 1)
+            not_working_percentage = round((total_not_working / float(
+                total_working + total_not_working + total_needs_repair)) * 100, 1)
+            needs_repair_percentage = round((total_needs_repair / float(
+                total_working + total_not_working + total_needs_repair)) * 100, 1)
+
+            statistics.append({'functionality_percentage': functionality_percentage,
+                               'working_percentage': working_percentage,
+                               'not_working_percentage': not_working_percentage,
+                               'needs_repair_percentage': needs_repair_percentage})
+            summary.append({'statistics': statistics})
 
         return Response(summary)
