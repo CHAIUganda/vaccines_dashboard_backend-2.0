@@ -5,6 +5,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from cold_chain.helpers import *
 from cold_chain.models import *
+from utility import replace_quotes
 
 
 class ApiParams(Serializer):
@@ -184,7 +185,7 @@ class DistrictRefrigerators(APIView):
 class FacilityRefrigerators(APIView):
     def get(self, request):
         district = request.query_params.get('district', None)
-        carelevel = request.query_params.get('carelevel', None)
+        carelevel = request.query_params.get('carelevel', 'all')
         startQuarter = request.query_params.get('startQuarter', '201601')
         endQuarter = request.query_params.get('endQuarter', None)
 
@@ -336,51 +337,72 @@ class FacilityCapacities(APIView):
 class FunctionalityMetrics(APIView):
     def get(self, request):
         district_name = request.query_params.get('district', None)
-        carelevel = request.query_params.get('carelevel', None)
+        facility_type = replace_quotes(request.query_params.get('carelevel', 'all'))
         year = request.query_params.get('year', None)
         year_half = request.query_params.get('year_half', None)
 
         summary = []
         statistics = []
-
-        districts = District.objects.all()
-
         total_working = 0
         total_not_working = 0
         total_needs_repair = 0
+        functionality_percentage = 0
+        working_percentage = 0
+        not_working_percentage = 0
+        needs_repair_percentage = 0
+
+        districts = District.objects.all()
 
         for district in districts:
             print(district)
-            working = RefrigeratorDetail.objects.filter(district=district,
-                                                        functionality_status__icontains=FUNCTIONALITY_STATUS[0][
-                                                            0]).count()
-            total_working += working
+            working = RefrigeratorDetail.objects.filter(Q(district__name__icontains=district) &
+                                                        Q(functionality_status__icontains=FUNCTIONALITY_STATUS[0][
+                                                            0]))
+            if facility_type.lower() != 'all':
+                working = working.filter(refrigerator__cold_chain_facility__type__name__icontains=facility_type)
+            total_working += working.count()
 
-            not_working = RefrigeratorDetail.objects.filter(district=district,
-                                                            functionality_status__icontains=FUNCTIONALITY_STATUS[1][
-                                                                0]).count()
-            total_not_working += not_working
+            not_working = RefrigeratorDetail.objects.filter(Q(district__name__icontains=district) &
+                                                            Q(functionality_status__icontains=FUNCTIONALITY_STATUS[1][
+                                                                0]))
+            if facility_type.lower() != 'all':
+                not_working = not_working.filter(refrigerator__cold_chain_facility__type__name__icontains=facility_type)
+            total_not_working += not_working.count()
 
-            needs_repair = RefrigeratorDetail.objects.filter(district=district,
-                                                             functionality_status__icontains=FUNCTIONALITY_STATUS[2][
-                                                                 0]).count()
-            total_needs_repair += needs_repair
+            needs_repair = RefrigeratorDetail.objects.filter(Q(district__name__icontains=district) &
+                                                             Q(functionality_status__icontains=FUNCTIONALITY_STATUS[2][
+                                                                 0]))
+            if facility_type.lower() != 'all':
+                needs_repair = needs_repair.filter(refrigerator__cold_chain_facility__type__name__icontains=facility_type)
+            total_needs_repair += needs_repair.count()
 
-            summary.append({'district': district.name, 'working': working, 'not_working': not_working,
-                            'needs_repair': needs_repair})
+            summary.append({'district': district.name, 'working': working.count(), 'not_working': not_working.count(),
+                            'needs_repair': needs_repair.count()})
 
         if str(district_name).lower() != 'national' and district_name:
-            district = District.objects.get(name=district_name)
+            district = District.objects.get(name=replace_quotes(district_name))
 
-            working = RefrigeratorDetail.objects.filter(district=district,
-                                                        functionality_status__icontains=FUNCTIONALITY_STATUS[0][
-                                                            0]).count()
-            not_working = RefrigeratorDetail.objects.filter(district=district,
-                                                            functionality_status__icontains=FUNCTIONALITY_STATUS[1][
-                                                                0]).count()
-            needs_repair = RefrigeratorDetail.objects.filter(district=district,
-                                                             functionality_status__icontains=FUNCTIONALITY_STATUS[2][
-                                                                 0]).count()
+            working = RefrigeratorDetail.objects.filter(Q(district__name__icontains=district) &
+                                                        Q(functionality_status__icontains=FUNCTIONALITY_STATUS[0][
+                                                            0]))
+            if facility_type.lower() != 'all':
+                working = working.filter(refrigerator__cold_chain_facility__type__name__icontains=facility_type)
+
+            not_working = RefrigeratorDetail.objects.filter(Q(district__name__icontains=district) &
+                                                            Q(functionality_status__icontains=FUNCTIONALITY_STATUS[1][
+                                                                0]))
+            if facility_type.lower() != 'all':
+                not_working = not_working.filter(refrigerator__cold_chain_facility__type__name__icontains=facility_type)
+
+            needs_repair = RefrigeratorDetail.objects.filter(Q(district__name__icontains=district) &
+                                                             Q(functionality_status__icontains=FUNCTIONALITY_STATUS[2][
+                                                                 0]))
+            if facility_type.lower() != 'all':
+                needs_repair = needs_repair.filter(refrigerator__cold_chain_facility__type__name__icontains=facility_type)
+
+            working = working.count()
+            not_working = not_working.count()
+            needs_repair = needs_repair.count()
 
             functionality_percentage = round((working / float(working + not_working + needs_repair)) * 100, 1)
             working_percentage = round((working / float(working + not_working + needs_repair)) * 100, 1)
@@ -393,14 +415,17 @@ class FunctionalityMetrics(APIView):
                                'needs_repair_percentage': needs_repair_percentage})
             summary.append({'statistics': statistics})
         else:
-            functionality_percentage = round(
-                (total_working / float(total_working + total_not_working + total_needs_repair)) * 100, 1)
-            working_percentage = round(
-                (total_working / float(total_working + total_not_working + total_needs_repair)) * 100, 1)
-            not_working_percentage = round((total_not_working / float(
-                total_working + total_not_working + total_needs_repair)) * 100, 1)
-            needs_repair_percentage = round((total_needs_repair / float(
-                total_working + total_not_working + total_needs_repair)) * 100, 1)
+            try:
+                functionality_percentage = round(
+                    (total_working / float(total_working + total_not_working + total_needs_repair)) * 100, 1)
+                working_percentage = round(
+                    (total_working / float(total_working + total_not_working + total_needs_repair)) * 100, 1)
+                not_working_percentage = round((total_not_working / float(
+                    total_working + total_not_working + total_needs_repair)) * 100, 1)
+                needs_repair_percentage = round((total_needs_repair / float(
+                    total_working + total_not_working + total_needs_repair)) * 100, 1)
+            except ZeroDivisionError as e:
+                print(e)
 
             statistics.append({'functionality_percentage': functionality_percentage,
                                'working_percentage': working_percentage,
