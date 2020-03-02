@@ -342,16 +342,12 @@ class FunctionalityMetrics(APIView):
         year_half = replace_quotes(request.query_params.get('year_half', '1'))
 
         summary = []
-        statistics = []
         total_working = 0
         total_not_working = 0
         total_needs_repair = 0
         working_percentage = 0
         not_working_percentage = 0
         needs_repair_percentage = 0
-        functionality_working_total = 0
-        functionality_not_working_total = 0
-        functionality_needs_repair_total = 0
 
         districts = District.objects.all()
 
@@ -381,6 +377,22 @@ class FunctionalityMetrics(APIView):
 
             summary.append({'district': district.name, 'working': working.count(), 'not_working': not_working.count(),
                             'needs_repair': needs_repair.count()})
+
+        return Response(summary)
+
+
+class FunctionalityMetricsGraph(APIView):
+    def get(self, request):
+        district_name = request.query_params.get('district', None)
+        facility_type = replace_quotes(request.query_params.get('carelevel', 'all'))
+        year = replace_quotes(request.query_params.get('year', '2015'))
+        year_half = replace_quotes(request.query_params.get('year_half', '1'))
+
+        functionality_working_total = 0
+        functionality_not_working_total = 0
+        functionality_needs_repair_total = 0
+        summary = []
+        statistics = []
 
         for year_half in range(1, 3):
             working = RefrigeratorDetail.objects.filter(Q(functionality_status__icontains=FUNCTIONALITY_STATUS[0][
@@ -415,9 +427,7 @@ class FunctionalityMetrics(APIView):
             not_working = not_working.count()
             needs_repair = needs_repair.count()
 
-            percentages_object = self.generate_percentages(needs_repair, needs_repair_percentage, not_working,
-                                                           not_working_percentage, working, working_percentage,
-                                                           year_half)
+            percentages_object = self.generate_percentages(needs_repair, not_working, working, year_half)
 
             statistics.append(percentages_object)
 
@@ -427,11 +437,12 @@ class FunctionalityMetrics(APIView):
                                                 functionality_needs_repair_total)) * 100, 1)
         statistics.append({'functionality_percentage': functionality_percentage})
         summary.append({'statistics': statistics})
+        return Response(statistics)
 
-        return Response(summary)
-
-    def generate_percentages(self, needs_repair, needs_repair_percentage, not_working,
-                             not_working_percentage, working, working_percentage, year_half):
+    def generate_percentages(self, needs_repair, not_working, working, year_half):
+        working_percentage = 0
+        not_working_percentage = 0
+        needs_repair_percentage = 0
         try:
             working_percentage = round((working / float(working + not_working + needs_repair)) * 100, 1)
             not_working_percentage = round((not_working / float(working + not_working + needs_repair)) * 100, 1)
