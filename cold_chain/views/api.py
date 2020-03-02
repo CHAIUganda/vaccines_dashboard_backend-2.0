@@ -345,9 +345,6 @@ class FunctionalityMetrics(APIView):
         total_working = 0
         total_not_working = 0
         total_needs_repair = 0
-        working_percentage = 0
-        not_working_percentage = 0
-        needs_repair_percentage = 0
 
         districts = District.objects.all()
 
@@ -385,8 +382,11 @@ class FunctionalityMetricsGraph(APIView):
     def get(self, request):
         district_name = request.query_params.get('district', None)
         facility_type = replace_quotes(request.query_params.get('carelevel', 'all'))
-        year = replace_quotes(request.query_params.get('year', '2015'))
-        year_half = replace_quotes(request.query_params.get('year_half', '1'))
+        start_period = replace_quotes(request.query_params.get('start_period', '2019_1'))
+        end_period = replace_quotes(request.query_params.get('end_period', '2019_2'))
+
+        start_year, start_half = [int(x) for x in start_period.split('_')]
+        end_year, end_half = [int(x) for x in end_period.split('_')]
 
         functionality_working_total = 0
         functionality_not_working_total = 0
@@ -394,42 +394,37 @@ class FunctionalityMetricsGraph(APIView):
         summary = []
         statistics = []
 
-        for year_half in range(1, 3):
-            working = RefrigeratorDetail.objects.filter(Q(functionality_status__icontains=FUNCTIONALITY_STATUS[0][
-                0]) & Q(year=int(year)))
-            if facility_type.lower() != 'all':
-                working = working.filter(refrigerator__cold_chain_facility__type__name__icontains=facility_type)
-            if district_name:
-                working = working.filter(district__name__icontains=replace_quotes(district_name))
-            functionality_working_total = working.count()
-            working = working.filter(year_half=int(year_half))
+        while (start_year <= end_year):
+            for year_half in range(1, 3):
+                working = RefrigeratorDetail.objects.filter(Q(functionality_status__icontains=FUNCTIONALITY_STATUS[0][
+                    0]) & Q(year=start_year))
+                working_total, working_per_half = self.add_data_filters(district_name, facility_type, working,
+                                                                        year_half)
+                print(working_total)
+                functionality_working_total += working_total
 
-            not_working = RefrigeratorDetail.objects.filter(Q(functionality_status__icontains=FUNCTIONALITY_STATUS[1][
-                0]) & Q(year=int(year)))
-            if facility_type.lower() != 'all':
-                not_working = not_working.filter(refrigerator__cold_chain_facility__type__name__icontains=facility_type)
-            if district_name:
-                not_working = not_working.filter(district__name__icontains=replace_quotes(district_name))
-            functionality_not_working_total = not_working.count()
-            not_working = not_working.filter(year_half=int(year_half))
+                not_working = RefrigeratorDetail.objects.filter(
+                    Q(functionality_status__icontains=FUNCTIONALITY_STATUS[1][
+                        0]) & Q(year=start_year))
+                not_working_total, not_working_per_half = self.add_data_filters(district_name, facility_type,
+                                                                                not_working, year_half)
+                functionality_not_working_total += not_working_total
 
-            needs_repair = RefrigeratorDetail.objects.filter(Q(functionality_status__icontains=FUNCTIONALITY_STATUS[2][
-                0]) & Q(year=int(year)))
-            if facility_type.lower() != 'all':
-                needs_repair = needs_repair.filter(
-                    refrigerator__cold_chain_facility__type__name__icontains=facility_type)
-            if district_name:
-                needs_repair = needs_repair.filter(district__name__icontains=replace_quotes(district_name))
-            functionality_needs_repair_total = not_working.count()
-            needs_repair = needs_repair.filter(year_half=int(year_half))
+                needs_repair = RefrigeratorDetail.objects.filter(
+                    Q(functionality_status__icontains=FUNCTIONALITY_STATUS[2][
+                        0]) & Q(year=start_year))
+                needs_repair_total, needs_repair_per_half = self.add_data_filters(district_name, facility_type,
+                                                                                  needs_repair, year_half)
+                functionality_needs_repair_total += needs_repair_total
 
-            working = working.count()
-            not_working = not_working.count()
-            needs_repair = needs_repair.count()
+                working = working_per_half.count()
+                not_working = not_working_per_half.count()
+                needs_repair = needs_repair_per_half.count()
 
-            percentages_object = self.generate_percentages(needs_repair, not_working, working, year_half)
-
-            statistics.append(percentages_object)
+                percentages_object = self.generate_percentages(needs_repair, not_working, working, start_year,
+                                                               year_half)
+                statistics.append(percentages_object)
+            start_year = start_year + 1
 
         functionality_percentage = round((functionality_working_total /
                                           float(functionality_working_total +
@@ -439,7 +434,14 @@ class FunctionalityMetricsGraph(APIView):
         summary.append({'statistics': statistics})
         return Response(statistics)
 
-    def generate_percentages(self, needs_repair, not_working, working, year_half):
+    def add_data_filters(self, district_name, facility_type, object, year_half):
+        if replace_quotes(facility_type) != 'all':
+            object = object.filter(refrigerator__cold_chain_facility__type__name__icontains=facility_type)
+        if replace_quotes(district_name) != 'national':
+            object = object.filter(district__name__icontains=replace_quotes(district_name))
+        return object.count(), object.filter(year_half=int(year_half))
+
+    def generate_percentages(self, needs_repair, not_working, working, year, year_half):
         working_percentage = 0
         not_working_percentage = 0
         needs_repair_percentage = 0
@@ -452,4 +454,8 @@ class FunctionalityMetricsGraph(APIView):
         return {'working_percentage': working_percentage,
                 'not_working_percentage': not_working_percentage,
                 'needs_repair_percentage': needs_repair_percentage,
+                'working': working,
+                'not_working': not_working,
+                'needs_repair': needs_repair,
+                'year': year,
                 'year_half': year_half}
