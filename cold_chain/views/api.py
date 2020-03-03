@@ -336,10 +336,12 @@ class FacilityCapacities(APIView):
 
 class FunctionalityMetrics(APIView):
     def get(self, request):
-        district_name = request.query_params.get('district', None)
         facility_type = replace_quotes(request.query_params.get('carelevel', 'all'))
-        year = replace_quotes(request.query_params.get('year', '2015'))
-        year_half = replace_quotes(request.query_params.get('year_half', '1'))
+        start_period = replace_quotes(request.query_params.get('start_period', '2019_1'))
+        end_period = replace_quotes(request.query_params.get('end_period', '2019_2'))
+
+        start_year, start_half = [int(x) for x in start_period.split('_')]
+        end_year, end_half = [int(x) for x in end_period.split('_')]
 
         summary = []
         total_working = 0
@@ -350,23 +352,20 @@ class FunctionalityMetrics(APIView):
 
         for district in districts:
             print(district)
-            working = RefrigeratorDetail.objects.filter(Q(district__name__icontains=district) &
-                                                        Q(functionality_status__icontains=FUNCTIONALITY_STATUS[0][
-                                                            0]) & Q(year=int(year)) & Q(year_half=int(year_half)))
+            working = RefrigeratorDetail.objects.filter(Q(functionality_status__icontains=FUNCTIONALITY_STATUS[0][
+                0]) & Q(year__gte=start_year) & Q(year__lte=end_year) & Q(district=district))
             if facility_type.lower() != 'all':
                 working = working.filter(refrigerator__cold_chain_facility__type__name__icontains=facility_type)
             total_working += working.count()
 
-            not_working = RefrigeratorDetail.objects.filter(Q(district__name__icontains=district) &
-                                                            Q(functionality_status__icontains=FUNCTIONALITY_STATUS[1][
-                                                                0]) & Q(year=int(year)) & Q(year_half=int(year_half)))
+            not_working = RefrigeratorDetail.objects.filter(Q(functionality_status__icontains=FUNCTIONALITY_STATUS[1][
+                0]) & Q(year__gte=start_year) & Q(year__lte=end_year) & Q(district=district))
             if facility_type.lower() != 'all':
                 not_working = not_working.filter(refrigerator__cold_chain_facility__type__name__icontains=facility_type)
             total_not_working += not_working.count()
 
-            needs_repair = RefrigeratorDetail.objects.filter(Q(district__name__icontains=district) &
-                                                             Q(functionality_status__icontains=FUNCTIONALITY_STATUS[2][
-                                                                 0]) & Q(year=int(year)) & Q(year_half=int(year_half)))
+            needs_repair = RefrigeratorDetail.objects.filter(Q(functionality_status__icontains=FUNCTIONALITY_STATUS[2][
+                0]) & Q(year__gte=start_year) & Q(year__lte=end_year) & Q(district=district))
             if facility_type.lower() != 'all':
                 needs_repair = needs_repair.filter(
                     refrigerator__cold_chain_facility__type__name__icontains=facility_type)
