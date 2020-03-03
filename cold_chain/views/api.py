@@ -348,7 +348,7 @@ class FunctionalityMetrics(APIView):
         total_not_working = 0
         total_needs_repair = 0
 
-        districts = District.objects.all()
+        districts = District.objects.all().order_by('name')
 
         for district in districts:
             print(district)
@@ -372,7 +372,8 @@ class FunctionalityMetrics(APIView):
             total_needs_repair += needs_repair.count()
 
             summary.append({'district': district.name, 'working': working.count(), 'not_working': not_working.count(),
-                            'needs_repair': needs_repair.count()})
+                            'needs_repair': needs_repair.count(),
+                            'total_cce': working.count() + not_working.count() + needs_repair.count()})
 
         return Response(summary)
 
@@ -424,11 +425,13 @@ class FunctionalityMetricsGraph(APIView):
                                                                year_half)
                 statistics.append(percentages_object)
             start_year = start_year + 1
-
-        functionality_percentage = round((functionality_working_total /
-                                          float(functionality_working_total +
-                                                functionality_not_working_total +
-                                                functionality_needs_repair_total)) * 100, 1)
+        try:
+            functionality_percentage = round((functionality_working_total /
+                                              float(functionality_working_total +
+                                                    functionality_not_working_total +
+                                                    functionality_needs_repair_total)) * 100, 1)
+        except ZeroDivisionError as e:
+            print(e)
         statistics.append({'functionality_percentage': functionality_percentage})
         summary.append({'statistics': statistics})
         return Response(statistics)
