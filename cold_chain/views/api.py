@@ -366,13 +366,15 @@ class FunctionalityMetrics(RequestSuperClass):
             not_working = RefrigeratorDetail.objects.filter(Q(functionality_status__icontains=FUNCTIONALITY_STATUS[1][
                 0]) & Q(year__gte=self.start_year) & Q(year__lte=self.end_year) & Q(district=district))
             if self.facility_type.lower() != 'all':
-                not_working = not_working.filter(refrigerator__cold_chain_facility__type__name__icontains=self.facility_type)
+                not_working = not_working.filter(
+                    refrigerator__cold_chain_facility__type__name__icontains=self.facility_type)
             total_not_working += not_working.count()
 
             needs_repair = RefrigeratorDetail.objects.filter(Q(functionality_status__icontains=FUNCTIONALITY_STATUS[2][
                 0]) & Q(year__gte=self.start_year) & Q(year__lte=self.end_year) & Q(district=district))
             if self.facility_type.lower() != 'all':
-                needs_repair = needs_repair.filter(refrigerator__cold_chain_facility__type__name__icontains=self.facility_type)
+                needs_repair = needs_repair.filter(
+                    refrigerator__cold_chain_facility__type__name__icontains=self.facility_type)
             total_needs_repair += needs_repair.count()
 
             summary.append({'district': district.name, 'working': working.count(), 'not_working': not_working.count(),
@@ -409,8 +411,9 @@ class FunctionalityMetricsGraph(RequestSuperClass):
                 needs_repair = RefrigeratorDetail.objects.filter(
                     Q(functionality_status__icontains=FUNCTIONALITY_STATUS[2][
                         0]) & Q(year=self.start_year))
-                needs_repair_total, needs_repair_per_half = self.add_data_filters(self.district_name, self.facility_type,
-                                                                                needs_repair, year_half)
+                needs_repair_total, needs_repair_per_half = self.add_data_filters(self.district_name,
+                                                                                  self.facility_type,
+                                                                                  needs_repair, year_half)
                 functionality_needs_repair_total += needs_repair_total
 
                 working = working_per_half.count()
@@ -456,3 +459,43 @@ class FunctionalityMetricsGraph(RequestSuperClass):
                 'needs_repair': needs_repair,
                 'year': year,
                 'year_half': year_half}
+
+
+class CapacityMetrics(RequestSuperClass):
+    """
+    Returns:
+        The table data for the available, required and gap
+    Procedure:
+        Go through the RefrigeratorDetails for each district
+        while aggregating the available and required volume then get gap
+    """
+    def get(self, request):
+        super(CapacityMetrics, self).get(request)
+
+        current_district = ''
+        summary = []
+        total_available_net_storage_volume = 0
+        total_required_net_storage_volume = 0
+
+        fridge_details = RefrigeratorDetail.objects.filter(Q(year__gte=self.start_year) & Q(year__lte=self.end_year)) \
+            .order_by('district__name')
+        for fridge_detail in fridge_details:
+            print(fridge_detail)
+            try:
+                if fridge_detail.district.name != current_district:
+                    summary.append({
+                        'district': current_district,
+                        'available_net_storage_volume': total_available_net_storage_volume,
+                        'required_net_storage_volume': total_required_net_storage_volume,
+                        'gap': total_available_net_storage_volume - total_required_net_storage_volume
+                    })
+                    # reset values after making data object for the district
+                    current_district = fridge_detail.district.name
+                    total_available_net_storage_volume = 0
+                    total_required_net_storage_volume = 0
+                else:
+                    total_available_net_storage_volume += fridge_detail.available_net_storage_volume
+                    total_required_net_storage_volume += fridge_detail.required_net_storage_volume
+            except Exception as e:
+                print(e)
+        return Response(summary)
