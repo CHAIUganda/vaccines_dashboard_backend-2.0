@@ -25,7 +25,7 @@ WAREHOUSE = "Warehouse"
 
 logger = logging.getLogger(__name__)
 CONSUMPTION = "CONSUMPTION"
-LOCATION = "Facility Index"
+LOCATION = "ColdChainFacility Index"
 
 
 class DashboardUser(AbstractEmailUser):

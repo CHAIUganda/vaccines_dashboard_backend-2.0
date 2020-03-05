@@ -120,8 +120,8 @@ REST_FRAMEWORK = {
 }
 
 DHIS2_USER = 'qppu2'
-DHIS2_PASS = 'DoctorTeam34'
-DHIS2_ADDRESS = 'http://hmis2.health.go.ug'
+DHIS2_PASS = 'Dhis2019!'
+DHIS2_ADDRESS = 'https://hmis2.health.go.ug'
 
 # Details of library and configuration
 # https://github.com/kraiz/django-crontab
@@ -155,22 +155,22 @@ GENERIC_DATA_IMPORT = {
         'function': 'cold_chain.management.commands.capacity.import_capacity'
     },
     'cold_chain_functionality': {
-        'name': 'Cold Chain Functionality',
-        'params': ('Quarter',),
+        'name': 'Cold Chain Refrigerator',
+        'params': (),
         'function': 'cold_chain.management.commands.functionality.import_functionality'
     },
     'cold_chain_immunizing_facility': {
-        'name': 'Cold Chain Immunizing Facility',
+        'name': 'Cold Chain Immunizing ColdChainFacility',
         'params': ('Quarter',),
         'function': 'cold_chain.management.commands.immunizingfacility.import_immunizing_facilities'
     },
     'cold_chain_facility': {
-        'name': 'Cold Chain Facility',
-        'params': (),
+        'name': 'Cold Chain ColdChainFacility',
+        'params': ('year', 'year_half',),
         'function': 'cold_chain.management.commands.facility.import_facilities'
     },
     'cold_chain_facility_type': {
-        'name': 'Cold Chain Facility Types',
+        'name': 'Cold Chain ColdChainFacility Types',
         'params': (),
         'function': 'cold_chain.management.commands.load_TBL_Facilities.import_tab_facilities'
     }

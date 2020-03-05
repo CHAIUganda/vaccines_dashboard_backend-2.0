@@ -5,6 +5,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from cold_chain.helpers import *
 from cold_chain.models import *
+from utility import replace_quotes
 
 
 class ApiParams(Serializer):
@@ -24,7 +25,7 @@ class Quarters(APIView):
 
 class Districts(APIView):
     def get(self, request):
-        districts = Facility.objects.all().values('district').distinct().order_by('district')
+        districts = ColdChainFacility.objects.all().values('district').distinct().order_by('district')
         return Response(districts)
 
 
@@ -34,7 +35,7 @@ class FacilityTypes(APIView):
         kwargs = {}
         if district and district.lower() != 'national':
             kwargs.update({'district': district})
-        facility_types = Facility.objects.filter(**kwargs).values('type__group').annotate(count=Count('id'))
+        facility_types = ColdChainFacility.objects.filter(**kwargs).values('type__group').annotate(count=Count('id'))
         return Response(facility_types)
 
 
@@ -131,7 +132,7 @@ class Refrigerators(APIView):
         if endQuarter:
             args.update({'quarter__lte': endQuarter})
 
-        summary = Functionality.objects.filter() \
+        summary = Refrigerator.objects.filter() \
             .values(
             'number_existing',
             'working_well',
@@ -162,7 +163,7 @@ class DistrictRefrigerators(APIView):
         if endQuarter:
             args.update({'quarter__lte': endQuarter})
 
-        summary = Functionality.objects.filter(**args) \
+        summary = Refrigerator.objects.filter(**args) \
             .values('facility__district') \
             .annotate(working_well=Sum('working_well'),
                       needs_maintenance=Sum('needs_maintenance'),
@@ -184,7 +185,7 @@ class DistrictRefrigerators(APIView):
 class FacilityRefrigerators(APIView):
     def get(self, request):
         district = request.query_params.get('district', None)
-        carelevel = request.query_params.get('carelevel', None)
+        carelevel = request.query_params.get('carelevel', 'all')
         startQuarter = request.query_params.get('startQuarter', '201601')
         endQuarter = request.query_params.get('endQuarter', None)
 
@@ -200,7 +201,7 @@ class FacilityRefrigerators(APIView):
         if endQuarter:
             args.update({'quarter__lte': endQuarter})
 
-        summary = Functionality.objects.filter(**args) \
+        summary = Refrigerator.objects.filter(**args) \
             .values('facility__name') \
             .annotate(working_well=Sum('working_well'),
                       needs_maintenance=Sum('needs_maintenance'),
@@ -278,7 +279,7 @@ class DistrictCapacities(APIView):
                       surplus=Case(
                           When(Q(difference=Value(0)) | Q(required=Value(0)), then=Value(0)),
                           default=(
-                          ExpressionWrapper(100 * F('difference') / F('required'), output_field=IntegerField()))
+                              ExpressionWrapper(100 * F('difference') / F('required'), output_field=IntegerField()))
                       )
                       ) \
             .order_by('difference') \
@@ -330,4 +331,171 @@ class FacilityCapacities(APIView):
             'surplus',
             'quarter',
             'facility__name')
+        return Response(summary)
+
+
+class RequestSuperClass(APIView):
+    def get(self, request):
+        self.district_name = request.query_params.get('district', None)
+        self.facility_type = replace_quotes(request.query_params.get('carelevel', 'all'))
+        self.start_period = replace_quotes(request.query_params.get('start_period', '2019_1'))
+        self.end_period = replace_quotes(request.query_params.get('end_period', '2019_2'))
+
+        self.start_year, self.start_half = [int(x) for x in self.start_period.split('_')]
+        self.end_year, self.end_half = [int(x) for x in self.end_period.split('_')]
+
+
+class FunctionalityMetrics(RequestSuperClass):
+    def get(self, request):
+        super(FunctionalityMetrics, self).get(request)
+        summary = []
+        total_working = 0
+        total_not_working = 0
+        total_needs_repair = 0
+
+        districts = District.objects.all().order_by('name')
+
+        for district in districts:
+            print(district)
+            working = RefrigeratorDetail.objects.filter(Q(functionality_status__icontains=FUNCTIONALITY_STATUS[0][
+                0]) & Q(year__gte=self.start_year) & Q(year__lte=self.end_year) & Q(district=district))
+            if self.facility_type.lower() != 'all':
+                working = working.filter(refrigerator__cold_chain_facility__type__name__icontains=self.facility_type)
+            total_working += working.count()
+
+            not_working = RefrigeratorDetail.objects.filter(Q(functionality_status__icontains=FUNCTIONALITY_STATUS[1][
+                0]) & Q(year__gte=self.start_year) & Q(year__lte=self.end_year) & Q(district=district))
+            if self.facility_type.lower() != 'all':
+                not_working = not_working.filter(
+                    refrigerator__cold_chain_facility__type__name__icontains=self.facility_type)
+            total_not_working += not_working.count()
+
+            needs_repair = RefrigeratorDetail.objects.filter(Q(functionality_status__icontains=FUNCTIONALITY_STATUS[2][
+                0]) & Q(year__gte=self.start_year) & Q(year__lte=self.end_year) & Q(district=district))
+            if self.facility_type.lower() != 'all':
+                needs_repair = needs_repair.filter(
+                    refrigerator__cold_chain_facility__type__name__icontains=self.facility_type)
+            total_needs_repair += needs_repair.count()
+
+            summary.append({'district': district.name, 'working': working.count(), 'not_working': not_working.count(),
+                            'needs_repair': needs_repair.count(),
+                            'total_cce': working.count() + not_working.count() + needs_repair.count()})
+
+        return Response(summary)
+
+
+class FunctionalityMetricsGraph(RequestSuperClass):
+    def get(self, request):
+        super(FunctionalityMetricsGraph, self).get(request)
+        functionality_working_total = 0
+        functionality_not_working_total = 0
+        functionality_needs_repair_total = 0
+        statistics = []
+
+        while (self.start_year <= self.end_year):
+            for year_half in range(1, 3):
+                working = RefrigeratorDetail.objects.filter(Q(functionality_status__icontains=FUNCTIONALITY_STATUS[0][
+                    0]) & Q(year=self.start_year))
+                working_total, working_per_half = self.add_data_filters(self.district_name, self.facility_type, working,
+                                                                        year_half)
+                print(working_total)
+                functionality_working_total += working_total
+
+                not_working = RefrigeratorDetail.objects.filter(
+                    Q(functionality_status__icontains=FUNCTIONALITY_STATUS[1][
+                        0]) & Q(year=self.start_year))
+                not_working_total, not_working_per_half = self.add_data_filters(self.district_name, self.facility_type,
+                                                                                not_working, year_half)
+                functionality_not_working_total += not_working_total
+
+                needs_repair = RefrigeratorDetail.objects.filter(
+                    Q(functionality_status__icontains=FUNCTIONALITY_STATUS[2][
+                        0]) & Q(year=self.start_year))
+                needs_repair_total, needs_repair_per_half = self.add_data_filters(self.district_name,
+                                                                                  self.facility_type,
+                                                                                  needs_repair, year_half)
+                functionality_needs_repair_total += needs_repair_total
+
+                working = working_per_half.count()
+                not_working = not_working_per_half.count()
+                needs_repair = needs_repair_per_half.count()
+
+                percentages_object = self.generate_percentages(needs_repair, not_working, working, self.start_year,
+                                                               year_half)
+                statistics.append(percentages_object)
+            self.start_year = self.start_year + 1
+        try:
+            functionality_percentage = round((functionality_working_total /
+                                              float(functionality_working_total +
+                                                    functionality_not_working_total +
+                                                    functionality_needs_repair_total)) * 100, 1)
+            statistics.append({'functionality_percentage': functionality_percentage})
+        except ZeroDivisionError as e:
+            print(e)
+        return Response(statistics)
+
+    def add_data_filters(self, district_name, facility_type, object, year_half):
+        if replace_quotes(facility_type) != 'all':
+            object = object.filter(refrigerator__cold_chain_facility__type__name__icontains=facility_type)
+        if replace_quotes(district_name) != 'national':
+            object = object.filter(district__name__icontains=replace_quotes(district_name))
+        return object.count(), object.filter(year_half=int(year_half))
+
+    def generate_percentages(self, needs_repair, not_working, working, year, year_half):
+        working_percentage = 0
+        not_working_percentage = 0
+        needs_repair_percentage = 0
+        try:
+            working_percentage = round((working / float(working + not_working + needs_repair)) * 100, 1)
+            not_working_percentage = round((not_working / float(working + not_working + needs_repair)) * 100, 1)
+            needs_repair_percentage = round((needs_repair / float(working + not_working + needs_repair)) * 100, 1)
+        except ZeroDivisionError as e:
+            print(e)
+        return {'working_percentage': working_percentage,
+                'not_working_percentage': not_working_percentage,
+                'needs_repair_percentage': needs_repair_percentage,
+                'working': working,
+                'not_working': not_working,
+                'needs_repair': needs_repair,
+                'year': year,
+                'year_half': year_half}
+
+
+class CapacityMetrics(RequestSuperClass):
+    """
+    Returns:
+        The table data for the available, required and gap
+    Procedure:
+        Go through the RefrigeratorDetails for each district
+        while aggregating the available and required volume then get gap
+    """
+    def get(self, request):
+        super(CapacityMetrics, self).get(request)
+
+        current_district = ''
+        summary = []
+        total_available_net_storage_volume = 0
+        total_required_net_storage_volume = 0
+
+        fridge_details = RefrigeratorDetail.objects.filter(Q(year__gte=self.start_year) & Q(year__lte=self.end_year)) \
+            .order_by('district__name')
+        for fridge_detail in fridge_details:
+            print(fridge_detail)
+            try:
+                if fridge_detail.district.name != current_district:
+                    summary.append({
+                        'district': current_district,
+                        'available_net_storage_volume': total_available_net_storage_volume,
+                        'required_net_storage_volume': total_required_net_storage_volume,
+                        'gap': total_available_net_storage_volume - total_required_net_storage_volume
+                    })
+                    # reset values after making data object for the district
+                    current_district = fridge_detail.district.name
+                    total_available_net_storage_volume = 0
+                    total_required_net_storage_volume = 0
+                else:
+                    total_available_net_storage_volume += fridge_detail.available_net_storage_volume
+                    total_required_net_storage_volume += fridge_detail.required_net_storage_volume
+            except Exception as e:
+                print(e)
         return Response(summary)
