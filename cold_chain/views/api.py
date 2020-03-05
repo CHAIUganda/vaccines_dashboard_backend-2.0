@@ -336,7 +336,7 @@ class FacilityCapacities(APIView):
 
 class RequestSuperClass(APIView):
     def get(self, request):
-        self.district_name = request.query_params.get('district', None)
+        self.district_name = request.query_params.get('district', 'national')
         self.facility_type = replace_quotes(request.query_params.get('carelevel', 'all'))
         self.start_period = replace_quotes(request.query_params.get('start_period', '2019_1'))
         self.end_period = replace_quotes(request.query_params.get('end_period', '2019_2'))
@@ -469,6 +469,7 @@ class CapacityMetrics(RequestSuperClass):
         Go through the RefrigeratorDetails for each district
         while aggregating the available and required volume then get gap
     """
+
     def get(self, request):
         super(CapacityMetrics, self).get(request)
 
@@ -493,9 +494,52 @@ class CapacityMetrics(RequestSuperClass):
                     current_district = fridge_detail.district.name
                     total_available_net_storage_volume = 0
                     total_required_net_storage_volume = 0
-                else:
-                    total_available_net_storage_volume += fridge_detail.available_net_storage_volume
-                    total_required_net_storage_volume += fridge_detail.required_net_storage_volume
+                total_available_net_storage_volume += fridge_detail.available_net_storage_volume
+                total_required_net_storage_volume += fridge_detail.required_net_storage_volume
             except Exception as e:
                 print(e)
         return Response(summary)
+
+
+class CapacityMetricsStats(RequestSuperClass):
+    """
+    Returns:
+        The statistics data for the total number of liters, positive gap, negative gap, required and gap
+    Procedure:
+        Go through the RefrigeratorDetails for each district
+        while aggregating the available and required volume then calculate the gap
+    """
+
+    def get(self, request):
+        super(CapacityMetricsStats, self).get(request)
+        statistics = []
+        overall_total_available = 0
+
+        while (self.start_year <= self.end_year):
+            for year_half in range(1, 3):
+                all_fridges = RefrigeratorDetail.objects.filter(Q(year=self.start_year))
+                all_fridges, all_fridges_per_half = self.add_data_filters(self.district_name, self.facility_type,
+                                                                          all_fridges, year_half)
+
+                total_available_list = [x.available_net_storage_volume for x in all_fridges]
+                overall_total_available += sum(filter(lambda v: v is not None, total_available_list))
+
+                total_available_list = [x.available_net_storage_volume for x in all_fridges_per_half]
+                total_required_list = [x.required_net_storage_volume for x in all_fridges_per_half]
+                total_available = sum(filter(lambda v: v is not None, total_available_list))
+                total_required = sum(filter(lambda v: v is not None, total_required_list))
+
+                statistics.append({'total_available': total_available,
+                                   'total_required': total_required,
+                                   'year_half': year_half,
+                                   'year': self.start_year})
+            statistics.append({'overall_total_available': overall_total_available})
+            self.start_year = self.start_year + 1
+        return Response(statistics)
+
+    def add_data_filters(self, district_name, facility_type, object, year_half):
+        if replace_quotes(facility_type) != 'all':
+            object = object.filter(refrigerator__cold_chain_facility__type__name__icontains=facility_type)
+        if replace_quotes(district_name) != 'national':
+            object = object.filter(district__name__icontains=replace_quotes(district_name))
+        return object, object.filter(year_half=int(year_half))
