@@ -488,7 +488,7 @@ class CapacityMetrics(RequestSuperClass):
                         'district': current_district,
                         'available_net_storage_volume': total_available_net_storage_volume,
                         'required_net_storage_volume': total_required_net_storage_volume,
-                        'gap': total_available_net_storage_volume - total_required_net_storage_volume
+                        'gap': gap
                     })
                     # reset values after making data object for the district
                     current_district = fridge_detail.district.name
@@ -514,14 +514,18 @@ class CapacityMetricsStats(RequestSuperClass):
         super(CapacityMetricsStats, self).get(request)
         statistics = []
         overall_total_available = 0
+        all_fridges_per_half = None
+        iterator_year = self.start_year
+        summary = dict()
 
-        while (self.start_year <= self.end_year):
+        while (iterator_year <= self.end_year):
             for year_half in range(1, 3):
-                all_fridges = RefrigeratorDetail.objects.filter(Q(year=self.start_year))
+                all_fridges = RefrigeratorDetail.objects.filter(Q(year=iterator_year)).exclude(
+                    district__name__isnull=True).exclude(district__name__exact='')
                 all_fridges, all_fridges_per_half = self.add_data_filters(self.district_name, self.facility_type,
                                                                           all_fridges, year_half)
 
-                total_available_list = [x.available_net_storage_volume for x in all_fridges]
+                total_available_list = [x.available_net_storage_volume for x in all_fridges_per_half]
                 overall_total_available += sum(filter(lambda v: v is not None, total_available_list))
 
                 total_available_list = [x.available_net_storage_volume for x in all_fridges_per_half]
@@ -532,10 +536,50 @@ class CapacityMetricsStats(RequestSuperClass):
                 statistics.append({'total_available': total_available,
                                    'total_required': total_required,
                                    'year_half': year_half,
-                                   'year': self.start_year})
-            statistics.append({'overall_total_available': overall_total_available})
-            self.start_year = self.start_year + 1
-        return Response(statistics)
+                                   'year': iterator_year})
+            iterator_year = iterator_year + 1
+        summary.update({'required_available_comparison_metrics': statistics})
+        summary.update({'overall_total_available': overall_total_available})
+        summary.update({'gap_metrics': self.generate_gap_data()})
+        return Response(summary)
+
+    def generate_gap_data(self):
+        positive_gap_count = 0
+        negative_gap_count = 0
+        total_available_net_storage_volume = 0
+        total_required_net_storage_volume = 0
+        districts_with_cce = []
+        current_district = ''
+
+        all_fridges = RefrigeratorDetail.objects.filter(
+            Q(year__gte=self.start_year) & Q(year__lte=self.end_year)).exclude(
+            district__name__isnull=True).exclude(district__name__exact='').order_by('district')
+        districts_with_cce += [fridge.district for fridge in all_fridges]
+        for fridge_detail in all_fridges:
+
+            if fridge_detail.district.name != current_district:
+                gap = total_available_net_storage_volume - total_required_net_storage_volume
+
+                if gap > 0:
+                    positive_gap_count += 1
+                else:
+                    negative_gap_count += 1
+
+                # reset values after making data object for the district
+                current_district = fridge_detail.district.name
+                total_available_net_storage_volume = 0
+                total_required_net_storage_volume = 0
+            total_available_net_storage_volume += fridge_detail.available_net_storage_volume
+            total_required_net_storage_volume += fridge_detail.required_net_storage_volume
+        districts_with_cce_count = len(set(districts_with_cce))
+
+        return {
+            'positive_gap_count': positive_gap_count,
+            'negative_gap_count': negative_gap_count,
+            'districts_with_cce_count': districts_with_cce_count,
+            'positive_gap_percentage': round((positive_gap_count / float(districts_with_cce_count)) * 100, 0),
+            'negative_gap_percentage': round((negative_gap_count / float(districts_with_cce_count)) * 100, 0)
+        }
 
     def add_data_filters(self, district_name, facility_type, object, year_half):
         if replace_quotes(facility_type) != 'all':
