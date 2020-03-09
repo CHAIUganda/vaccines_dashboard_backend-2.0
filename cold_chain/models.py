@@ -82,9 +82,6 @@ class EligibleFacilityMetric(models.Model):
     district = models.ForeignKey(District, on_delete=models.SET_NULL, null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
-    def __str__(self):
-        return self.name.encode('utf-8')
-
     @property
     def cce_coverage_rate(self):
         return (self.total_number_immunizing_facility / float(self.total_eligible_facility)) * 100
