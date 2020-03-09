@@ -79,9 +79,13 @@ class RefrigeratorDetail(models.Model):
 class EligibleFacilityMetric(models.Model):
     total_eligible_facility = models.IntegerField(default=0)
     total_number_immunizing_facility = models.IntegerField(default=0)
+    year = models.IntegerField(default=2019)
+    month = models.IntegerField(default=6)
     district = models.ForeignKey(District, on_delete=models.SET_NULL, null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
+    cce_coverage_rate = models.IntegerField(default=0)
 
-    @property
-    def cce_coverage_rate(self):
-        return (self.total_number_immunizing_facility / float(self.total_eligible_facility)) * 100
+    def save(self, force_insert=False, force_update=False, *args, **kwargs):
+        self.cce_coverage_rate = int(
+            round((self.total_number_immunizing_facility / float(self.total_eligible_facility)) * 100, 0))
+        super(EligibleFacilityMetric, self).save(force_insert, force_update, *args, **kwargs)
