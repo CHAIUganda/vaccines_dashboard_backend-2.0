@@ -59,8 +59,8 @@ class Refrigerator(models.Model):
 class RefrigeratorDetail(models.Model):
     refrigerator = models.ForeignKey(Refrigerator, on_delete=models.SET_NULL, null=True, blank=True)
     district = models.ForeignKey(District, on_delete=models.SET_NULL, null=True, blank=True)
-    year = models.IntegerField(default=2015)
-    year_half = models.IntegerField(default=1)
+    year = models.IntegerField(default=2019)
+    month = models.IntegerField(default=1)
     available_net_storage_volume = models.IntegerField()
     required_net_storage_volume = models.IntegerField()
     functionality_status = models.CharField(choices=FUNCTIONALITY_STATUS, max_length=20,
@@ -70,7 +70,7 @@ class RefrigeratorDetail(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
-        unique_together = ("refrigerator", "district", "year", "year_half")
+        unique_together = ("refrigerator", "district", "year", "month")
 
     def __str__(self):
         return "%s %s" % (self.refrigerator, self.temperature)
