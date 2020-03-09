@@ -577,3 +577,22 @@ class CapacityMetricsStats(RequestSuperClass):
             'positive_gap_percentage': round((positive_gap_count / float(districts_with_cce_count)) * 100, 0),
             'negative_gap_percentage': round((negative_gap_count / float(districts_with_cce_count)) * 100, 0)
         }
+
+
+class EligibleFacilityMetrics(RequestSuperClass):
+    """
+    Returns:
+        The table data for the eligible facilities, immunizing facilities and cce coverage rate
+    Procedure:
+        Query the EligibleFacilityMetric filtering by year
+    """
+
+    def get(self, request):
+        super(EligibleFacilityMetrics, self).get(request)
+
+        metrics = EligibleFacilityMetric.objects.filter(Q(year__gte=self.start_year) & Q(year__lte=self.end_year)) \
+            .exclude(district__name__isnull=True).exclude(district__name__exact='') \
+            .values('district__name', 'total_eligible_facility', 'total_number_immunizing_facility',
+                    'cce_coverage_rate')
+
+        return Response(metrics)

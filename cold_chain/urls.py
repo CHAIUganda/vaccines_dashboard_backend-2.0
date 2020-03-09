@@ -20,5 +20,6 @@ urlpatterns = [
     url(r'^api/functionalitymetricsgraph', cold_chain.views.api.FunctionalityMetricsGraph.as_view(), name='functionalitymetricsgraph'),
     url(r'^api/functionalitymetrics', cold_chain.views.api.FunctionalityMetrics.as_view(), name='functionalitymetrics'),
     url(r'^api/capacitymetricsstats', cold_chain.views.api.CapacityMetricsStats.as_view(), name='capacitymetricsstats'),
-    url(r'^api/capacitymetrics', cold_chain.views.api.CapacityMetrics.as_view(), name='capacitymetrics')
+    url(r'^api/capacitymetrics', cold_chain.views.api.CapacityMetrics.as_view(), name='capacitymetrics'),
+    url(r'^api/eligiblefacilitiesmetrics', cold_chain.views.api.EligibleFacilityMetrics.as_view(), name='eligiblefacilitiesmetrics')
 ]
