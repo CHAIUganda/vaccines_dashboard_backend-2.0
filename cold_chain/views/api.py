@@ -5,7 +5,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from cold_chain.helpers import *
 from cold_chain.models import *
-from utility import replace_quotes
+from utility import replace_quotes, quarter_months
 
 
 class ApiParams(Serializer):
@@ -344,6 +344,13 @@ class RequestSuperClass(APIView):
         self.start_year, self.start_half = [int(x) for x in self.start_period.split('_')]
         self.end_year, self.end_half = [int(x) for x in self.end_period.split('_')]
 
+    def add_data_filters(self, district_name, facility_type, object, quarter):
+        if replace_quotes(facility_type) != 'all':
+            object = object.filter(refrigerator__cold_chain_facility__type__name__icontains=facility_type)
+        if replace_quotes(district_name) != 'national':
+            object = object.filter(district__name__icontains=replace_quotes(district_name))
+        return object.count(), object.filter(month__in=quarter_months[quarter])
+
 
 class FunctionalityMetrics(RequestSuperClass):
     def get(self, request):
@@ -356,7 +363,6 @@ class FunctionalityMetrics(RequestSuperClass):
         districts = District.objects.all().order_by('name')
 
         for district in districts:
-            print(district)
             working = RefrigeratorDetail.objects.filter(Q(functionality_status__icontains=FUNCTIONALITY_STATUS[0][
                 0]) & Q(year__gte=self.start_year) & Q(year__lte=self.end_year) & Q(district=district))
             if self.facility_type.lower() != 'all':
@@ -393,11 +399,11 @@ class FunctionalityMetricsGraph(RequestSuperClass):
         statistics = []
 
         while (self.start_year <= self.end_year):
-            for year_half in range(1, 3):
+            for quarter in range(1, 5):
                 working = RefrigeratorDetail.objects.filter(Q(functionality_status__icontains=FUNCTIONALITY_STATUS[0][
                     0]) & Q(year=self.start_year))
                 working_total, working_per_half = self.add_data_filters(self.district_name, self.facility_type, working,
-                                                                        year_half)
+                                                                        quarter)
                 print(working_total)
                 functionality_working_total += working_total
 
@@ -405,7 +411,7 @@ class FunctionalityMetricsGraph(RequestSuperClass):
                     Q(functionality_status__icontains=FUNCTIONALITY_STATUS[1][
                         0]) & Q(year=self.start_year))
                 not_working_total, not_working_per_half = self.add_data_filters(self.district_name, self.facility_type,
-                                                                                not_working, year_half)
+                                                                                not_working, quarter)
                 functionality_not_working_total += not_working_total
 
                 needs_repair = RefrigeratorDetail.objects.filter(
@@ -413,7 +419,7 @@ class FunctionalityMetricsGraph(RequestSuperClass):
                         0]) & Q(year=self.start_year))
                 needs_repair_total, needs_repair_per_half = self.add_data_filters(self.district_name,
                                                                                   self.facility_type,
-                                                                                  needs_repair, year_half)
+                                                                                  needs_repair, quarter)
                 functionality_needs_repair_total += needs_repair_total
 
                 working = working_per_half.count()
@@ -421,7 +427,7 @@ class FunctionalityMetricsGraph(RequestSuperClass):
                 needs_repair = needs_repair_per_half.count()
 
                 percentages_object = self.generate_percentages(needs_repair, not_working, working, self.start_year,
-                                                               year_half)
+                                                               quarter)
                 statistics.append(percentages_object)
             self.start_year = self.start_year + 1
         try:
@@ -434,14 +440,7 @@ class FunctionalityMetricsGraph(RequestSuperClass):
             print(e)
         return Response(statistics)
 
-    def add_data_filters(self, district_name, facility_type, object, year_half):
-        if replace_quotes(facility_type) != 'all':
-            object = object.filter(refrigerator__cold_chain_facility__type__name__icontains=facility_type)
-        if replace_quotes(district_name) != 'national':
-            object = object.filter(district__name__icontains=replace_quotes(district_name))
-        return object.count(), object.filter(year_half=int(year_half))
-
-    def generate_percentages(self, needs_repair, not_working, working, year, year_half):
+    def generate_percentages(self, needs_repair, not_working, working, year, quarter):
         working_percentage = 0
         not_working_percentage = 0
         needs_repair_percentage = 0
@@ -458,7 +457,7 @@ class FunctionalityMetricsGraph(RequestSuperClass):
                 'not_working': not_working,
                 'needs_repair': needs_repair,
                 'year': year,
-                'year_half': year_half}
+                'quarter': quarter}
 
 
 class CapacityMetrics(RequestSuperClass):
@@ -513,16 +512,15 @@ class CapacityMetricsStats(RequestSuperClass):
         super(CapacityMetricsStats, self).get(request)
         statistics = []
         overall_total_available = 0
-        all_fridges_per_half = None
         iterator_year = self.start_year
         summary = dict()
 
         while (iterator_year <= self.end_year):
-            for year_half in range(1, 3):
+            for quarter in range(1, 5):
                 all_fridges = RefrigeratorDetail.objects.filter(Q(year=iterator_year)).exclude(
-                    district__name__isnull=True).exclude(district__name__exact='')
+                    district__name__isnull=True).exclude(district__name__exact='').order_by('district')
                 all_fridges, all_fridges_per_half = self.add_data_filters(self.district_name, self.facility_type,
-                                                                          all_fridges, year_half)
+                                                                          all_fridges, quarter)
 
                 total_available_list = [x.available_net_storage_volume for x in all_fridges_per_half]
                 overall_total_available += sum(filter(lambda v: v is not None, total_available_list))
@@ -534,7 +532,7 @@ class CapacityMetricsStats(RequestSuperClass):
 
                 statistics.append({'total_available': total_available,
                                    'total_required': total_required,
-                                   'year_half': year_half,
+                                   'quarter': quarter,
                                    'year': iterator_year})
             iterator_year = iterator_year + 1
         summary.update({'required_available_comparison_metrics': statistics})
@@ -579,10 +577,3 @@ class CapacityMetricsStats(RequestSuperClass):
             'positive_gap_percentage': round((positive_gap_count / float(districts_with_cce_count)) * 100, 0),
             'negative_gap_percentage': round((negative_gap_count / float(districts_with_cce_count)) * 100, 0)
         }
-
-    def add_data_filters(self, district_name, facility_type, object, year_half):
-        if replace_quotes(facility_type) != 'all':
-            object = object.filter(refrigerator__cold_chain_facility__type__name__icontains=facility_type)
-        if replace_quotes(district_name) != 'national':
-            object = object.filter(district__name__icontains=replace_quotes(district_name))
-        return object, object.filter(year_half=int(year_half))
