@@ -22,7 +22,8 @@ def import_facilities(excel_file):
             fc.type = ft
             fc.save()
         except IntegrityError:
-            print "%s already exists" % row[4].value
+            print("%s already exists" % row[4].value)
+
 
 class Command(BaseCommand):
     args = '<path to dataset file>'
