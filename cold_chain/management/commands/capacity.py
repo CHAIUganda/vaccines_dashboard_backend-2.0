@@ -28,7 +28,7 @@ def import_capacity(excel_file, quarter):
             fc.quarter = quarter
             fc.save()
         except IntegrityError, e:
-            print e
+            print(e)
 
 
 class Command(BaseCommand):
