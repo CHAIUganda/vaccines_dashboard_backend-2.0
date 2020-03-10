@@ -6,6 +6,8 @@ from rest_framework.views import APIView
 from cold_chain.helpers import *
 from cold_chain.models import *
 from utility import replace_quotes, quarter_months
+from dateutil.relativedelta import relativedelta
+import datetime
 
 
 class ApiParams(Serializer):
@@ -622,5 +624,33 @@ class EligibleFacilityStats(RequestSuperClass):
             'percentage_not_cce_coverage_rate': percentage_not_cce_coverage_rate},
             'total_eligible_facilities': total_eligible_facilities
         })
+
+        return Response(summary)
+
+
+class OptimalityMetric(RequestSuperClass):
+    def get(self, request):
+        super(OptimalityMetric, self).get(request)
+        # Optimality Metric uses only one year(start_year)
+
+        ten_years_ago_date = datetime.datetime.now() - relativedelta(years=10)
+
+        optimal = Sum(Case(When(refrigeratordetail__refrigerator__supply_year__lte=ten_years_ago_date,
+                                refrigeratordetail__year=self.start_year, then=0),
+                           When(refrigeratordetail__refrigerator__supply_year__gte=ten_years_ago_date,
+                                refrigeratordetail__year=self.start_year, then=1),
+                           output_field=IntegerField()))
+
+        not_optimal = Sum(Case(When(refrigeratordetail__refrigerator__supply_year__lte=ten_years_ago_date,
+                                    refrigeratordetail__year=self.start_year, then=1),
+                               When(refrigeratordetail__refrigerator__supply_year__gte=ten_years_ago_date,
+                                    refrigeratordetail__year=self.start_year, then=0),
+                               output_field=IntegerField()))
+
+        total_cce = Case(When(refrigeratordetail__year=self.start_year, then=Count('refrigeratordetail__refrigerator')),
+                         When(~Q(refrigeratordetail__year=self.start_year), then=None))
+
+        summary = District.objects.annotate(optimal=optimal, not_optimal=not_optimal, total_cce=total_cce) \
+            .values('name', 'optimal', 'not_optimal', 'total_cce')
 
         return Response(summary)
