@@ -486,7 +486,8 @@ class CapacityMetrics(RequestSuperClass):
                     summary.append({
                         'district': current_district,
                         'available_net_storage_volume': total_available_net_storage_volume,
-                        'required_net_storage_volume': total_required_net_storage_volume
+                        'required_net_storage_volume': total_required_net_storage_volume,
+                        'gap': total_available_net_storage_volume - total_required_net_storage_volume
                     })
                     # reset values after making data object for the district
                     current_district = fridge_detail.district.name
