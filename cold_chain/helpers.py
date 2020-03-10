@@ -49,7 +49,7 @@ def generate_quarters():
     q = [ ('01','Q1'), ('02','Q2'), ('03','Q3'), ('04','Q4')]
     x = (date.today().month + 1)//3
 
-    for y in range(2016, date.today().year+1):
+    for y in range(2019, date.today().year+1):
         if y == date.today().year:
             x1 = ((date.today().month - 1) - 1) // 3 + 1
             qx = q[:x1]
@@ -58,8 +58,6 @@ def generate_quarters():
 
         for z in qx:
             quarters.append({'value': '%s%s' % (y, z[0]), 'name' : '%s - %s' % (y, z[1])})
-
-
     return quarters
 
 

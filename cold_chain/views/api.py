@@ -596,3 +596,30 @@ class EligibleFacilityMetrics(RequestSuperClass):
                     'cce_coverage_rate')
 
         return Response(metrics)
+
+
+class EligibleFacilityStats(RequestSuperClass):
+    def get(self, request):
+        super(EligibleFacilityStats, self).get(request)
+        summary = dict()
+        metrics = EligibleFacilityMetric.objects.filter(Q(year__gte=self.start_year) & Q(year__lte=self.end_year)) \
+            .exclude(district__name__isnull=True).exclude(district__name__exact='')
+
+        if self.district_name:
+            metrics = metrics.filter(district__name__icontains=self.district_name)
+
+        total_eligible_facilities = metrics.count()
+        total_archievable_cce_coverage_rate_percentage = total_eligible_facilities * 100
+
+        total_cce_coverage_rate = metrics.aggregate(Sum('cce_coverage_rate'))['cce_coverage_rate__sum']
+        percentage_cce_coverage_rate = int(
+            round(total_cce_coverage_rate / float(total_archievable_cce_coverage_rate_percentage) * 100, 0))
+        percentage_not_cce_coverage_rate = 100 - percentage_cce_coverage_rate
+
+        summary.update({'cce_coverage_pie_chart': {
+            'percentage_cce_coverage_rate': percentage_cce_coverage_rate,
+            'percentage_not_cce_coverage_rate': percentage_not_cce_coverage_rate},
+            'total_eligible_facilities': total_eligible_facilities
+        })
+
+        return Response(summary)
