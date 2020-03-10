@@ -338,7 +338,7 @@ class FacilityCapacities(APIView):
 
 class RequestSuperClass(APIView):
     def get(self, request):
-        self.district_name = request.query_params.get('district', 'national')
+        self.district_name = replace_quotes(request.query_params.get('district', 'national'))
         self.facility_type = replace_quotes(request.query_params.get('carelevel', 'all'))
         self.start_period = replace_quotes(request.query_params.get('start_period', '2019_1'))
         self.end_period = replace_quotes(request.query_params.get('end_period', '2019_2'))
@@ -608,7 +608,7 @@ class EligibleFacilityStats(RequestSuperClass):
         metrics = EligibleFacilityMetric.objects.filter(Q(year__gte=self.start_year) & Q(year__lte=self.end_year)) \
             .exclude(district__name__isnull=True).exclude(district__name__exact='')
 
-        if self.district_name:
+        if self.district_name.lower() != 'national':
             metrics = metrics.filter(district__name__icontains=self.district_name)
 
         total_eligible_facilities = metrics.count()
