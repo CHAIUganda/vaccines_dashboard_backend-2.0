@@ -27,7 +27,10 @@ class StockReport:
         self.vaccines0 = ["MEASLES", "BCG", "HPV", "OPV", "TT", "TOPV", "IPV", "PCV", "PENTA"]
         self.vaccines1 = ["MEASLES", "BCG", "HPV", "HEPB", "TT", "OPV", "IPV", "PCV", "PENTA"]
         self.start_row = 2
+        month = "0" + month if len(month) < 2 else month
         self.period = int(year + month)
+
+        print("Started: ------------------")
 
     def load(self):
         self.workbook = self.get_workbook()
@@ -48,7 +51,10 @@ class StockReport:
         if current_period < 20166:
             self.start_row = 1
 
-        for row in location_sheet.iter_rows('B%s:K%s' % (location_sheet.min_row + self.start_row, location_sheet.max_row)):
+        
+
+        for row in location_sheet.iter_rows('B3:K140'):
+            print (row[0].value)
             if row[0].value:
                 for vaccine in self.vaccines:
                     col = self.vaccines.index(vaccine) + 1
@@ -85,13 +91,14 @@ class StockReport:
                                 stock.firstdate = date(int(self.year), int(self.month), 1)
                                 stock.lastdate = date(int(self.year), int(self.month), LAST_MONTH_DAY[int(self.month)])
                                 stock.save()
-                            #print "Saved %s %s %s" % (row[0].value, vaccine, value)
+                            print "Saved %s %s %s" % (row[0].value, vaccine, value)
 
     def import_orders(self):
         # Todo: use proper name
         worksheet_name = "%s %s" % (self.month_name, self.year)
         location_sheet = self.workbook.get_sheet_by_name(worksheet_name)
-        for row in location_sheet.iter_rows('B%s:AC%s' % (location_sheet.min_row + self.start_row, location_sheet.max_row)):
+        for row in location_sheet.iter_rows('B3:AC140'):
+            print (row[0].value)
             if row[0].value:
                 for vaccine in self.vaccines:
                     col = self.vaccines.index(vaccine) + 18
@@ -126,7 +133,7 @@ class StockReport:
                                 stock.firstdate = date(int(self.year), int(self.month), 1)
                                 stock.lastdate = date(int(self.year), int(self.month), LAST_MONTH_DAY[int(self.month)])
                                 stock.save()
-                        #print "Saved order %s %s %s" % (row[0].value, vaccine, value)
+                        print "Saved order %s %s %s" % (row[0].value, vaccine, value)
 
     def import_issues(self):
         # Todo: use proper name
@@ -134,7 +141,9 @@ class StockReport:
         location_sheet = self.workbook.get_sheet_by_name(worksheet_name)
         current_period = self.period
 
-        for row in location_sheet.iter_rows('B%s:K%s' % (location_sheet.min_row + 1, location_sheet.max_row)):
+        for row in location_sheet.iter_rows('B3:K140'):
+            print (row[0].value)
+
             if row[0].value:
                 for vaccine in self.vaccines:
                     col = self.vaccines.index(vaccine) + 1
