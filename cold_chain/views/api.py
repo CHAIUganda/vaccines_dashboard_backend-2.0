@@ -687,7 +687,7 @@ class OptimalityStats(RequestSuperClass):
 
     def get_dvs_and_hf_for_cce_metrics(self, facility_type, ten_years_ago_date):
         # gets the percentage based on CCE
-
+        # district vaccine stores metrics
         optimal = Sum(Case(When(refrigeratordetail__refrigerator__supply_year__lte=ten_years_ago_date,
                                 refrigeratordetail__year=self.start_year,
                                 refrigeratordetail__refrigerator__cold_chain_facility__type__name__icontains=facility_type,
@@ -707,6 +707,7 @@ class OptimalityStats(RequestSuperClass):
         districts_store_optimal_cce = districts.aggregate(dvs_optimal=optimal)['dvs_optimal']
         dvs = int(round(districts_store_optimal_cce / float(district_store_cce_overall_total) * 100, 0))
 
+        # health facility metrics
         optimal = Sum(Case(When(refrigeratordetail__refrigerator__supply_year__lte=ten_years_ago_date,
                                 refrigeratordetail__year=self.start_year,
                                 then=0),
@@ -722,14 +723,28 @@ class OptimalityStats(RequestSuperClass):
 
     def get_dvs_and_hf_for_sites_metrics(self, facility_type, ten_years_ago_date):
         # gets the percentage based on location where the CCE is kept
+        # district vaccine stores metrics
         optimal = Sum(Case(When(refrigerator__supply_year__lte=ten_years_ago_date, then=0),
                            When(refrigerator__supply_year__gte=ten_years_ago_date, then=1),
                            output_field=IntegerField()))
         facilitys = ColdChainFacility.objects.annotate(optimal=optimal).filter(type__name=facility_type)
         optimal_facilitys = facilitys.filter(optimal__gt=0)
-        dvs_sites = int(round(optimal_facilitys.count() / float(facilitys.count()) * 100, 0))
 
+        districts = [facility.district for facility in facilitys]
+        optimal_districts = [facility.district for facility in optimal_facilitys]
+
+        total_districts_count = len(set(filter(lambda v: v is not None, districts)))
+        optimal_districts_count = len(set(filter(lambda v: v is not None, optimal_districts)))
+        dvs_sites = int(round(optimal_districts_count / float(total_districts_count) * 100, 0))
+
+        # health facility metrics
         facilitys = ColdChainFacility.objects.annotate(optimal=optimal)
         optimal_facilitys = facilitys.filter(optimal__gt=0)
-        hf_sites = int(round(optimal_facilitys.count() / float(facilitys.count()) * 100, 0))
+
+        districts = [facility.district for facility in facilitys]
+        optimal_districts = [facility.district for facility in optimal_facilitys]
+
+        total_districts_count = len(set(filter(lambda v: v is not None, districts)))
+        optimal_districts_count = len(set(filter(lambda v: v is not None, optimal_districts)))
+        hf_sites = int(round(optimal_districts_count / float(total_districts_count) * 100, 0))
         return dvs_sites, hf_sites
