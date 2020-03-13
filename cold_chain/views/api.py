@@ -674,8 +674,8 @@ class OptimalityStats(RequestSuperClass):
         ten_years_ago_date = datetime.datetime.now() - relativedelta(years=10)
         facility_type = 'District Store'
 
-        dvs, hf = self.get_cce_metrics_for_dvs_and_hf(facility_type, ten_years_ago_date)
-        dvs_sites, hf_sites = self.get_sites_for_dvs_and_hf(facility_type, ten_years_ago_date)
+        dvs, hf = self.get_dvs_and_hf_for_cce_metrics(facility_type, ten_years_ago_date)
+        dvs_sites, hf_sites = self.get_dvs_and_hf_for_sites_metrics(facility_type, ten_years_ago_date)
 
         summary.update({
             "dvs": dvs,
@@ -685,34 +685,51 @@ class OptimalityStats(RequestSuperClass):
         })
         return Response(summary)
 
-    def get_cce_metrics_for_dvs_and_hf(self, facility_type, ten_years_ago_date):
-        optimal = Sum(Case(When(refrigeratordetail__refrigerator__supply_year__lte=ten_years_ago_date,
-                                    refrigeratordetail__year=self.start_year,
-                                    then=0),
-                               When(refrigeratordetail__refrigerator__supply_year__gte=ten_years_ago_date,
-                                    refrigeratordetail__year=self.start_year,
-                                    then=1),
-                               output_field=IntegerField()))
+    def get_dvs_and_hf_for_cce_metrics(self, facility_type, ten_years_ago_date):
+        # gets the percentage based on CCE
 
+        optimal = Sum(Case(When(refrigeratordetail__refrigerator__supply_year__lte=ten_years_ago_date,
+                                refrigeratordetail__year=self.start_year,
+                                refrigeratordetail__refrigerator__cold_chain_facility__type__name__icontains=facility_type,
+                                then=0),
+                           When(refrigeratordetail__refrigerator__supply_year__gte=ten_years_ago_date,
+                                refrigeratordetail__year=self.start_year,
+                                refrigeratordetail__refrigerator__cold_chain_facility__type__name__icontains=facility_type,
+                                then=1),output_field=IntegerField()))
+
+        # Returns duplicates districts, each district mapped to a RefrigeratorDetail(Refrigerator)
+        # This is used to reduce on the number of queries
         districts = District.objects.filter(
-            refrigeratordetail__refrigerator__cold_chain_facility__type__name=facility_type)
-        district_store_cce_total = RefrigeratorDetail.objects.filter(
-            Q(year=self.start_year) & Q(refrigerator__cold_chain_facility__type__name=facility_type)).count()
-        districts_store_optimal_cce_total = districts.aggregate(dvs_optimal=optimal)['dvs_optimal']
-        dvs = int(round(districts_store_optimal_cce_total / float(district_store_cce_total) * 100, 0))
+            refrigeratordetail__refrigerator__cold_chain_facility__type__name__icontains=facility_type)
+
+        district_store_cce_overall_total = RefrigeratorDetail.objects.filter(
+            Q(refrigerator__cold_chain_facility__type__name__icontains=facility_type)).count()
+        districts_store_optimal_cce = districts.aggregate(dvs_optimal=optimal)['dvs_optimal']
+        dvs = int(round(districts_store_optimal_cce / float(district_store_cce_overall_total) * 100, 0))
+
+        optimal = Sum(Case(When(refrigeratordetail__refrigerator__supply_year__lte=ten_years_ago_date,
+                                refrigeratordetail__year=self.start_year,
+                                then=0),
+                           When(refrigeratordetail__refrigerator__supply_year__gte=ten_years_ago_date,
+                                refrigeratordetail__year=self.start_year,
+                                then=1), output_field=IntegerField()))
 
         districts = District.objects.filter()
-        hf_cce_total = RefrigeratorDetail.objects.filter(Q(year=self.start_year)).count()
-        hf_optimal_cce_total = districts.aggregate(hf_optimal=optimal)['hf_optimal']
-        hf = int(round(hf_optimal_cce_total / float(hf_cce_total) * 100, 0))
+        hf_cce_overall_total = RefrigeratorDetail.objects.filter().count()
+        hf_optimal_cce = districts.aggregate(hf_optimal=optimal)['hf_optimal']
+        hf = int(round(hf_optimal_cce / float(hf_cce_overall_total) * 100, 0))
         return dvs, hf
 
-    def get_sites_for_dvs_and_hf(self, facility_type, ten_years_ago_date):
+    def get_dvs_and_hf_for_sites_metrics(self, facility_type, ten_years_ago_date):
+        # gets the percentage based on location where the CCE is kept
         optimal = Sum(Case(When(refrigerator__supply_year__lte=ten_years_ago_date, then=0),
                            When(refrigerator__supply_year__gte=ten_years_ago_date, then=1),
                            output_field=IntegerField()))
         facilitys = ColdChainFacility.objects.annotate(optimal=optimal).filter(type__name=facility_type)
         optimal_facilitys = facilitys.filter(optimal__gt=0)
         dvs_sites = int(round(optimal_facilitys.count() / float(facilitys.count()) * 100, 0))
-        hf_sites = 0
+
+        facilitys = ColdChainFacility.objects.annotate(optimal=optimal)
+        optimal_facilitys = facilitys.filter(optimal__gt=0)
+        hf_sites = int(round(optimal_facilitys.count() / float(facilitys.count()) * 100, 0))
         return dvs_sites, hf_sites
