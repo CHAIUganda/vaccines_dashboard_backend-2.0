@@ -727,7 +727,7 @@ class OptimalityStats(RequestSuperClass):
         optimal = Sum(Case(When(refrigerator__supply_year__lte=ten_years_ago_date, then=0),
                            When(refrigerator__supply_year__gte=ten_years_ago_date, then=1),
                            output_field=IntegerField()))
-        facilitys = ColdChainFacility.objects.annotate(optimal=optimal).filter(type__name=facility_type)
+        facilitys = ColdChainFacility.objects.annotate(optimal=optimal).filter(type__name=facility_type).select_related('district')
         optimal_facilitys = facilitys.filter(optimal__gt=0)
 
         districts = [facility.district for facility in facilitys]
@@ -738,7 +738,7 @@ class OptimalityStats(RequestSuperClass):
         dvs_sites = int(round(optimal_districts_count / float(total_districts_count) * 100, 0))
 
         # health facility metrics
-        facilitys = ColdChainFacility.objects.annotate(optimal=optimal)
+        facilitys = ColdChainFacility.objects.annotate(optimal=optimal).select_related('district')
         optimal_facilitys = facilitys.filter(optimal__gt=0)
 
         districts = [facility.district for facility in facilitys]
