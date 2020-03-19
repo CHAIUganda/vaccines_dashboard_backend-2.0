@@ -13,12 +13,18 @@ vaccines:
   command: /usr/local/bin/gunicorn vaccines.wsgi:application -w 2 -b :9000
 
 postgres:
+  restart: "no"
   restart: always
+  restart: on-failure
+  restart: unless-stopped
   image: postgres:latest
   volumes:
     - /data/postgresql:/var/lib/postgresql
   ports:
     - "5432:5432"
+  environment:
+    POSTGRES_DB: "vaccines_db"
+    POSTGRES_HOST_AUTH_METHOD: "trust"
 
 redis:
   restart: always
