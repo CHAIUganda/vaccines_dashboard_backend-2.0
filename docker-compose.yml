@@ -10,6 +10,9 @@ vaccines:
     - redis:redis
     - postgres:postgres
   env_file: .env
+  # allows display of print statements in docker logs
+  environment:
+    - PYTHONUNBUFFERED=1
   command: /usr/local/bin/gunicorn vaccines.wsgi:application -w 2 -b :9000
 
 postgres:

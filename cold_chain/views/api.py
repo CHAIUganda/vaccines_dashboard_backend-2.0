@@ -634,29 +634,57 @@ class OptimalityMetric(RequestSuperClass):
         # Optimality Metric uses only one year(start_year)
 
         ten_years_ago_date = datetime.datetime.now() - relativedelta(years=10)
-
-        optimal = Sum(Case(When(refrigeratordetail__refrigerator__supply_year__lte=ten_years_ago_date,
-                                refrigeratordetail__year=self.start_year, then=0),
-                           When(refrigeratordetail__refrigerator__supply_year__gte=ten_years_ago_date,
-                                refrigeratordetail__year=self.start_year, then=1),
-                           output_field=IntegerField()))
-
-        not_optimal = Sum(Case(When(refrigeratordetail__refrigerator__supply_year__lte=ten_years_ago_date,
-                                    refrigeratordetail__year=self.start_year, then=1),
+        if self.facility_type.lower() != 'all':
+            optimal = Sum(Case(When(refrigeratordetail__refrigerator__supply_year__lte=ten_years_ago_date,
+                                    refrigeratordetail__year=self.start_year,
+                                    refrigeratordetail__refrigerator__cold_chain_facility__type__name__icontains=
+                                    self.facility_type.lower(),
+                                    then=0),
                                When(refrigeratordetail__refrigerator__supply_year__gte=ten_years_ago_date,
-                                    refrigeratordetail__year=self.start_year, then=0),
+                                    refrigeratordetail__year=self.start_year,
+                                    refrigeratordetail__refrigerator__cold_chain_facility__type__name__icontains=
+                                    self.facility_type.lower(),
+                                    then=1),
                                output_field=IntegerField()))
 
-        total_cce = Case(When(refrigeratordetail__year=self.start_year, then=Count('refrigeratordetail__refrigerator')),
-                         When(~Q(refrigeratordetail__year=self.start_year), then=None))
+            not_optimal = Sum(Case(When(refrigeratordetail__refrigerator__supply_year__lte=ten_years_ago_date,
+                                        refrigeratordetail__year=self.start_year,
+                                        refrigeratordetail__refrigerator__cold_chain_facility__type__name__icontains=self.facility_type.lower(),
+                                        then=1),
+                                   When(refrigeratordetail__refrigerator__supply_year__gte=ten_years_ago_date,
+                                        refrigeratordetail__year=self.start_year,
+                                        refrigeratordetail__refrigerator__cold_chain_facility__type__name__icontains=self.facility_type.lower(),
+                                        then=0),
+                                   output_field=IntegerField()))
 
-        summary = District.objects.annotate(optimal=optimal, not_optimal=not_optimal, total_cce=total_cce)
+            total_cce = Case(When(refrigeratordetail__year=self.start_year,
+                                  refrigeratordetail__refrigerator__cold_chain_facility__type__name__icontains=self.facility_type.lower(),
+                                  then=Count('refrigeratordetail__refrigerator')),
+                             When(~Q(refrigeratordetail__year=self.start_year) &
+                                  Q(refrigeratordetail__refrigerator__cold_chain_facility__type__name__icontains=
+                                    self.facility_type.lower()),
+                                  then=None))
 
-        if self.facility_type.lower() != 'all':
-            summary = summary.filter(
-                refrigeratordetail__refrigerator__cold_chain_facility__type__name=self.facility_type) \
-                .values('name', 'optimal', 'not_optimal', 'total_cce')
-        return Response(summary)
+        else:
+            optimal = Sum(Case(When(refrigeratordetail__refrigerator__supply_year__lte=ten_years_ago_date,
+                                    refrigeratordetail__year=self.start_year, then=0),
+                               When(refrigeratordetail__refrigerator__supply_year__gte=ten_years_ago_date,
+                                    refrigeratordetail__year=self.start_year, then=1),
+                               output_field=IntegerField()))
+
+            not_optimal = Sum(Case(When(refrigeratordetail__refrigerator__supply_year__lte=ten_years_ago_date,
+                                        refrigeratordetail__year=self.start_year, then=1),
+                                   When(refrigeratordetail__refrigerator__supply_year__gte=ten_years_ago_date,
+                                        refrigeratordetail__year=self.start_year, then=0),
+                                   output_field=IntegerField()))
+
+            total_cce = Case(
+                When(refrigeratordetail__year=self.start_year, then=Count('refrigeratordetail__refrigerator')),
+                When(~Q(refrigeratordetail__year=self.start_year), then=None))
+
+        # make the values distinct since multiple districts will be returned
+        summary = District.objects.annotate(optimal=optimal, not_optimal=not_optimal, total_cce=total_cce).distinct()
+        return Response(summary.values('name', 'optimal', 'not_optimal', 'total_cce'))
 
 
 class OptimalityStats(RequestSuperClass):
@@ -695,7 +723,7 @@ class OptimalityStats(RequestSuperClass):
                            When(refrigeratordetail__refrigerator__supply_year__gte=ten_years_ago_date,
                                 refrigeratordetail__year=self.start_year,
                                 refrigeratordetail__refrigerator__cold_chain_facility__type__name__icontains=facility_type,
-                                then=1),output_field=IntegerField()))
+                                then=1), output_field=IntegerField()))
 
         # Returns duplicates districts, each district mapped to a RefrigeratorDetail(Refrigerator)
         # This is used to reduce on the number of queries
@@ -727,7 +755,8 @@ class OptimalityStats(RequestSuperClass):
         optimal = Sum(Case(When(refrigerator__supply_year__lte=ten_years_ago_date, then=0),
                            When(refrigerator__supply_year__gte=ten_years_ago_date, then=1),
                            output_field=IntegerField()))
-        facilitys = ColdChainFacility.objects.annotate(optimal=optimal).filter(type__name=facility_type).select_related('district')
+        facilitys = ColdChainFacility.objects.annotate(optimal=optimal).filter(type__name=facility_type).select_related(
+            'district')
         optimal_facilitys = facilitys.filter(optimal__gt=0)
 
         districts = [facility.district for facility in facilitys]
