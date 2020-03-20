@@ -702,12 +702,13 @@ class OptimalityStats(RequestSuperClass):
         ten_years_ago_date = datetime.datetime.now() - relativedelta(years=10)
         facility_type = 'District Store'
 
-        dvs, hf = self.get_dvs_and_hf_for_cce_metrics(facility_type, ten_years_ago_date)
+        dvs, hf, optimality_graph_data = self.get_dvs_and_hf_for_cce_metrics(facility_type, ten_years_ago_date)
         dvs_sites, hf_sites = self.get_dvs_and_hf_for_sites_metrics(facility_type, ten_years_ago_date)
 
         summary.update({
             "dvs": dvs,
             "dvs_sites": dvs_sites,
+            "optimality_graph_data": optimality_graph_data,
             "hf": hf,
             "hf_sites": hf_sites,
         })
@@ -715,7 +716,6 @@ class OptimalityStats(RequestSuperClass):
 
     def get_dvs_and_hf_for_cce_metrics(self, facility_type, ten_years_ago_date):
         # gets the percentage based on CCE
-        # district vaccine stores metrics
         optimal = Sum(Case(When(refrigeratordetail__refrigerator__supply_year__lte=ten_years_ago_date,
                                 refrigeratordetail__year=self.start_year,
                                 refrigeratordetail__refrigerator__cold_chain_facility__type__name__icontains=facility_type,
@@ -747,7 +747,29 @@ class OptimalityStats(RequestSuperClass):
         hf_cce_overall_total = RefrigeratorDetail.objects.filter().count()
         hf_optimal_cce = districts.aggregate(hf_optimal=optimal)['hf_optimal']
         hf = int(round(hf_optimal_cce / float(hf_cce_overall_total) * 100, 0))
-        return dvs, hf
+        ten_years_ago_date = datetime.datetime.now() - relativedelta(years=10)
+
+        optimality_graph_data = dict()
+
+        for quarter in range(1, 5):
+            optimal = RefrigeratorDetail.objects.filter(Q(refrigerator__supply_year__gte=ten_years_ago_date)
+                                                        & Q(year=self.start_year)
+                                                        & Q(district__name__icontains=self.district_name
+                                                        if self.district_name != 'national' else '')
+                                                        & Q(month__in=quarter_months[quarter])).count()
+
+            not_optimal = RefrigeratorDetail.objects.filter(Q(refrigerator__supply_year__lte=ten_years_ago_date)
+                                                            & Q(year=self.start_year)
+                                                            & Q(district__name__icontains=self.district_name
+                                                            if self.district_name != 'national' else '')
+                                                            & Q(month__in=quarter_months[quarter])).count()
+            optimality_graph_data.update({
+                'quarter ' + str(quarter): {
+                    'optimal': optimal,
+                    'not_optimal': not_optimal,
+                }
+            })
+        return dvs, hf, optimality_graph_data
 
     def get_dvs_and_hf_for_sites_metrics(self, facility_type, ten_years_ago_date):
         # gets the percentage based on location where the CCE is kept

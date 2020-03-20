@@ -6,6 +6,7 @@ vaccines:
   volumes:
     - /data/assets:/usr/src/app/asset_files
     - /data/tmp:/usr/src/app/tmp
+    - .:/usr/src/app
   links:
     - redis:redis
     - postgres:postgres
