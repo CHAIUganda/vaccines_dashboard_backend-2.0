@@ -59,8 +59,8 @@ class Refrigerator(models.Model):
 class RefrigeratorDetail(models.Model):
     refrigerator = models.ForeignKey(Refrigerator, on_delete=models.SET_NULL, null=True, blank=True)
     district = models.ForeignKey(District, on_delete=models.SET_NULL, null=True, blank=True)
-    year = models.IntegerField(default=2015)
-    year_half = models.IntegerField(default=1)
+    year = models.IntegerField(default=2019)
+    month = models.IntegerField(default=1)
     available_net_storage_volume = models.IntegerField()
     required_net_storage_volume = models.IntegerField()
     functionality_status = models.CharField(choices=FUNCTIONALITY_STATUS, max_length=20,
@@ -70,7 +70,22 @@ class RefrigeratorDetail(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
-        unique_together = ("refrigerator", "district", "year", "year_half")
+        unique_together = ("refrigerator", "district", "year", "month")
 
     def __str__(self):
         return "%s %s" % (self.refrigerator, self.temperature)
+
+
+class EligibleFacilityMetric(models.Model):
+    total_eligible_facility = models.IntegerField(default=0)
+    total_number_immunizing_facility = models.IntegerField(default=0)
+    year = models.IntegerField(default=2019)
+    month = models.IntegerField(default=6)
+    district = models.ForeignKey(District, on_delete=models.SET_NULL, null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    cce_coverage_rate = models.IntegerField(default=0)
+
+    def save(self, force_insert=False, force_update=False, *args, **kwargs):
+        self.cce_coverage_rate = int(
+            round((self.total_number_immunizing_facility / float(self.total_eligible_facility)) * 100, 0))
+        super(EligibleFacilityMetric, self).save(force_insert, force_update, *args, **kwargs)

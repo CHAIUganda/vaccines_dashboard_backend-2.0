@@ -7,7 +7,7 @@ import datetime
 import random
 
 
-def import_functionality(excel_file, year, year_half):
+def import_functionality(excel_file, year, month):
     workbook = load_workbook(excel_file, read_only=True, use_iterators=True)
     # spaces in the sheet name may cause errors
     worksheet_name = "Functionality_and_Optimality"
@@ -65,7 +65,7 @@ def import_functionality(excel_file, year, year_half):
             refrige_detail.required_net_storage_volume = required_net_storage_volume
             refrige_detail.functionality_status = cce_functionality_status
             refrige_detail.year = year
-            refrige_detail.year_half = year_half
+            refrige_detail.month = month
             refrige_detail.save()
         except Exception as e:
             print(traceback.print_exc())

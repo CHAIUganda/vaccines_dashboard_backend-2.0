@@ -6,10 +6,13 @@ vaccines:
   volumes:
     - /data/assets:/usr/src/app/asset_files
     - /data/tmp:/usr/src/app/tmp
+    - .:/usr/src/app
   links:
     - redis:redis
     - postgres:postgres
   env_file: .env
+  environment:
+    - PYTHONUNBUFFERED=1
   command: /usr/local/bin/gunicorn vaccines.wsgi:application -w 2 -b :9000
 
 postgres:
