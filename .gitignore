@@ -151,3 +151,5 @@ node_modules/
 
 # Don't push the vendor scripts, load with bower
 # dashboard/static/vendor/*
+#
+/venv
