@@ -654,9 +654,8 @@ class OptimalityMetric(RequestSuperClass):
 
         if self.facility_type.lower() != 'all':
             summary = summary.filter(
-                refrigeratordetail__refrigerator__cold_chain_facility__type__name=self.facility_type) \
-                .values('name', 'optimal', 'not_optimal', 'total_cce')
-        return Response(summary)
+                refrigeratordetail__refrigerator__cold_chain_facility__type__name=self.facility_type)
+        return Response(summary.values('name', 'optimal', 'not_optimal', 'total_cce'))
 
 
 class OptimalityStats(RequestSuperClass):
@@ -737,8 +736,9 @@ class OptimalityStats(RequestSuperClass):
             cce_optimal = 0
 
             if data:
-                cce_overall_total = data['dvs_optimal'] + data['dvs_not_optimal']
-                cce_optimal = data['dvs_optimal']
+                cce_overall_total = data['dvs_optimal'] if data['dvs_optimal'] else 0 + data['dvs_not_optimal'] \
+                    if data['dvs_not_optimal'] else 0
+                cce_optimal = data['dvs_optimal'] if data['dvs_optimal'] else 0
             optimal_bar_graph_metrics.update({
                 'quarter' + str(quarter): {
                     # 'districts_store_optimal_cce': districts.filter(refrigeratordetail__month__in=quarter_months[quarter])
@@ -779,15 +779,15 @@ class OptimalityStats(RequestSuperClass):
         optimal_districts_count = len(set(filter(lambda v: v is not None, optimal_districts)))
         hf_sites = int(round(optimal_districts_count / float(total_districts_count) * 100, 0))
 
-        for quarter in quarter_months:
-            optimal_bar_graph_metrics.update({
-                'quarter' + str(quarter): {
-                    'districts_store_optimal_cce':
-                        districts.filter(refrigeratordetail__month__in=quarter_months[quarter]).aggregate(
-                            dvs_optimal=optimal)['dvs_optimal'],
-                    'district_store_cce_overall_total':
-                        districts.filter(refrigeratordetail__month__in=quarter_months[quarter]).aggregate(
-                            dvs_optimal=optimal)['dvs_optimal']
-                }
-            })
+        # for quarter in quarter_months:
+        #     optimal_bar_graph_metrics.update({
+        #         'quarter' + str(quarter): {
+        #             'districts_store_optimal_cce':
+        #                 districts.filter(refrigeratordetail__month__in=quarter_months[quarter]).aggregate(
+        #                     dvs_optimal=optimal)['dvs_optimal'],
+        #             'district_store_cce_overall_total':
+        #                 districts.filter(refrigeratordetail__month__in=quarter_months[quarter]).aggregate(
+        #                     dvs_optimal=optimal)['dvs_optimal']
+        #         }
+        #     })
         return dvs_sites, hf_sites
