@@ -93,7 +93,6 @@ class EligibleFacilityMetric(models.Model):
 
 class TempReport(models.Model):
     district = models.ForeignKey(District, on_delete=models.SET_NULL, null=True, blank=True)
-    balance = models.IntegerField(default=0)
     heat_alarm = models.IntegerField(default=0)
     cold_alarm = models.IntegerField(default=0)
     year = models.IntegerField(default=2019)
