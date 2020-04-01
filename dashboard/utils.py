@@ -1,6 +1,6 @@
 import os
 import requests
-from vaccines.settings import DHIS2_USER, DHIS2_PASS, DHIS2_ADDRESS, BASE_DIR
+from vaccines.settings import DHIS2_USER, DHIS2_PASS, DHIS2_ADDRESS, BASE_DIR, DHIS2_NEW_ADDRESS,DHIS2_NEW_USER, DHIS2_NEW_PASS
 
 
 def get_data_set_file_path(data_set_identifier, period):
@@ -12,6 +12,11 @@ def get_data_set_file_path(data_set_identifier, period):
 def dhis2_request(resource):
     url = '%s/hmis2/api/%s' % (DHIS2_ADDRESS,resource)
     result = requests.get(url, auth=(DHIS2_USER, DHIS2_PASS))
+    return result.json()
+
+def dhis2_request_new(resource):
+    url = '%s/api/%s' % (DHIS2_NEW_ADDRESS,resource)
+    result = requests.get(url, auth=(DHIS2_NEW_USER, DHIS2_NEW_PASS))
     return result.json()
 
 

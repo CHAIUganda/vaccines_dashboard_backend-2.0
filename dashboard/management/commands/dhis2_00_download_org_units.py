@@ -1,7 +1,7 @@
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.management import BaseCommand
 from dashboard.models import Region, District, SubCounty, Facility
-from dashboard.utils import dhis2_request
+from dashboard.utils import dhis2_request, dhis2_request_new
 
 
 def store_children(parent_org_unit, child_model):
@@ -13,6 +13,21 @@ def store_children(parent_org_unit, child_model):
 
         except ObjectDoesNotExist:
             result = dhis2_request('organisationUnits/%s.json' % child_org_unit['id'])
+
+            child_model_instance = child_model()
+            child_model_instance.identifier = child_org_unit['id']
+            child_model_instance.name = result['name']
+            child_model_instance.save()
+
+def store_children_new(parent_org_unit, child_model):
+    for child_org_unit in parent_org_unit['children']:
+
+        try:
+            # Throws error when unit already exists
+            child_model.objects.get(identifier=child_org_unit['id'])
+
+        except ObjectDoesNotExist:
+            result = dhis2_request_new('organisationUnits/%s.json' % child_org_unit['id'])
 
             child_model_instance = child_model()
             child_model_instance.identifier = child_org_unit['id']
@@ -33,12 +48,24 @@ class Command(BaseCommand):
         if unit == 'region':
             root_org_unit = dhis2_request('organisationUnits/%s.json' % root_org_unit)
             store_children(root_org_unit, Region)
-
+        
+        elif unit == 'region_new':
+            root_org_unit = dhis2_request_new('organisationUnits/%s.json' % root_org_unit)
+            store_children_new(root_org_unit, Region)
+        
         elif unit == 'district':
             regions = Region.objects.all()
             for region in regions:
                 region_org_unit = dhis2_request('organisationUnits/%s.json' % region.identifier)
                 store_children(region_org_unit, District)
+
+        elif unit == 'district_new':
+            # Return only new DHIS2 regions
+            regions = Region.objects.filter(id__gte=5)
+            for region in regions:
+                print(region.identifier)
+                region_org_unit = dhis2_request_new('organisationUnits/%s.json' % region.identifier)
+                store_children_new(region_org_unit, District)
 
         elif unit == 'subcounty':
             districts = District.objects.all()
