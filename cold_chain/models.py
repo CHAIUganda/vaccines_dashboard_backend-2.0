@@ -89,3 +89,13 @@ class EligibleFacilityMetric(models.Model):
         self.cce_coverage_rate = int(
             round((self.total_number_immunizing_facility / float(self.total_eligible_facility)) * 100, 0))
         super(EligibleFacilityMetric, self).save(force_insert, force_update, *args, **kwargs)
+
+
+class TempReport(models.Model):
+    district = models.ForeignKey(District, on_delete=models.SET_NULL, null=True, blank=True)
+    refrigerator_detail = models.ForeignKey(RefrigeratorDetail, on_delete=models.SET_NULL, null=True, blank=True)
+    heat_alarm = models.IntegerField(default=0)
+    cold_alarm = models.IntegerField(default=0)
+    year = models.IntegerField(default=2019)
+    month = models.IntegerField(default=1)
+    created_at = models.DateTimeField(auto_now_add=True)
