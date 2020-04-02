@@ -73,7 +73,7 @@ python manage.py parse_vaccine_doses "201605"
 
 python manage.py coverage_targets Docs\Latest/coverage_targets.xlsx 2016
 
-Step by Step Guide:
+Step by Step Guide for 2019 Data:
 
 python manage.py dhis2_05_download_data_sets "201606"
 
@@ -88,3 +88,24 @@ python manage.py coverage_targets Docs/Latest/coverage_targets.xlsx 2016
 python manage.py parse_vaccine_doses "201606"
 
 
+Step by step Guide for 2020 Data:
+-----------------------------------------
+python manage.py dhis2_08_download_and_parse_datasets 202001
+
+From UI, upload coverage targets and planned targets for 2020
+
+python manage.py parse_vaccine_doses_new 202001
+
+
+
+
+https://play.dhis2.org/demo/api/33/dataValueSets?dataSet=pBOMPrpg1QX&period=201401&orgUnit=DiszpKrYNg8
+https://hmis.health.go.ug/api/dataValueSets.json?dataSet=tZvfVXqVIHy&orgUnit=akV6429SUqu&period=202001&children=true
+https://hmis.health.go.ug/api/dataValueSets.json?dataSet=IAtaRO1bTAO&orgUnit=akV6429SUqu&period=202001&children=true
+https://hmis2.health.go.ug/hmis2/api/dataValueSets.json?dataSet=tZvfVXqVIHy&orgUnit=akV6429SUqu&period=202001&children=true
+
+
+docker exec vc_dashboard_postgres_1 pg_dump vaccines_db -U postgres -f vaccines_db.19.03.2020_new.sql
+docker cp vc_dashboard_postgres_1:/vaccines_db.19.03.2020_new.sql vaccines_db.19.03.2020_new.sql
+
+105-CL04. Polio 1	105-CL05. Polio 2	105-CL06. Polio 3	105-CL11. PCV 1	105-CL12. PCV 2	105-CL13. PCV 3	105-CL08. DPT-HepB+Hib 1	105-CL09. DPT-HepB+Hib 2	105-CL10. DPT-HepB+Hib 3	105-TD01. Td1-Dose 1	105-TD02. Td2-Dose 2	105-VP01. HPV1-Dose 1	105-VP02. HPV2-Dose 2	105-CL07. IPV	105-CL01. BCG	105-EP07. Measles
