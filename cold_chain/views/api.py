@@ -804,11 +804,13 @@ class TempHeatAndFreezeStats(RequestSuperClass):
         summary = []
 
         for month in range(1, 13):
-            temp_reports = TempReport.objects.filter(Q(month=month) & Q(year=self.start_year)) \
-                .aggregate(Sum('heat_alarm'), Sum('cold_alarm'))
-
-            summary.append(temp_reports.update({
+            temp_reports = TempReport.objects.filter(Q(month=month) & Q(year=self.year)).select_related('district')
+            if self.district_name != 'national':
+                temp_reports = temp_reports.filter(Q(district__name__icontains=self.district_name))
+            temp_reports = temp_reports.aggregate(Sum('heat_alarm'), Sum('cold_alarm'))
+            temp_reports.update({
                 'month': month,
-                'year': self.start_year
-            }))
+                'year': self.year,
+            })
+            summary.append(temp_reports)
         return Response(summary)
