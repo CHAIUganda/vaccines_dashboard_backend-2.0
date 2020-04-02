@@ -814,3 +814,55 @@ class TempHeatAndFreezeStats(RequestSuperClass):
             })
             summary.append(temp_reports)
         return Response(summary)
+
+
+class TempReportingRateStats(RequestSuperClass):
+    """
+    Returns submission percentages and submissions entry data for the TempReport Reporting Rate graphs
+    """
+
+    def get(self, request):
+        super(TempReportingRateStats, self).get(request)
+        summary = dict()
+        monthly_submission_data = {
+            'month1': 0,
+            'month2': 0,
+            'month3': 0,
+            'month4': 0,
+            'month5': 0,
+            'month6': 0,
+            'month7': 0,
+            'month8': 0,
+            'month9': 0,
+            'month10': 0,
+            'month11': 0,
+            'month12': 0
+        }
+        monthly_submission_data_percentages = dict()
+
+        districts = District.objects.all()
+        districts_total = districts.count()
+        heat_graph_data = []
+        submission_percentages_graph_data = []
+
+        for district in districts:
+            data = []
+            temp_reports = TempReport.objects.filter(Q(district=district) & Q(year=self.year))
+            if temp_reports:
+                report_months = [temp_report.month for temp_report in temp_reports]
+                for month in range(1, 13):
+                    submitted = month in report_months
+                    data.append({'month': month, 'submitted': submitted})
+                    if submitted:
+                        monthly_submission_data['month' + str(month)] = monthly_submission_data[
+                                                                            'month' + str(month)] + 1
+            heat_graph_data.append({'district': district.name, 'data': data})
+
+        for month in range(1, 13):
+            monthly_submission_data_percentages['month' + str(month)] = int(
+                round(monthly_submission_data['month' + str(month)] / float(districts_total) * 100))
+        submission_percentages_graph_data.append({'submissions_percentages': monthly_submission_data_percentages})
+
+        summary.update({'heat_graph_data': heat_graph_data})
+        summary.update({'submission_percentages_graph_data': submission_percentages_graph_data})
+        return Response(summary)
