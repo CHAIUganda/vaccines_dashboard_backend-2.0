@@ -787,8 +787,9 @@ class TempReportMetrics(RequestSuperClass):
 
     def get(self, request):
         super(TempReportMetrics, self).get(request)
-        temp_reports = TempReport.objects.filter(Q(month__in=quarter_months[self.start_half]) &
-                                                 Q(year=self.start_year)).values('district__name', 'heat_alarm', 'cold_alarm')
+        temp_reports = TempReport.objects.filter(Q(year=self.start_year)) \
+            .annotate(heat_alarm_value=Sum('heat_alarm'), freeze_alarm_value=Sum('cold_alarm')) \
+            .select_related('district').values('district__name', 'heat_alarm_value', 'freeze_alarm_value')
         return Response(temp_reports)
 
 
