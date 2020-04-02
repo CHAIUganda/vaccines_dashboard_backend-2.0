@@ -342,6 +342,7 @@ class RequestSuperClass(APIView):
         self.facility_type = replace_quotes(request.query_params.get('carelevel', 'all'))
         self.start_period = replace_quotes(request.query_params.get('start_period', '2019_1'))
         self.end_period = replace_quotes(request.query_params.get('end_period', '2019_2'))
+        self.year = replace_quotes(request.query_params.get('year', '2019'))
 
         self.start_year, self.start_half = [int(x) for x in self.start_period.split('_')]
         self.end_year, self.end_half = [int(x) for x in self.end_period.split('_')]
@@ -787,7 +788,7 @@ class TempReportMetrics(RequestSuperClass):
 
     def get(self, request):
         super(TempReportMetrics, self).get(request)
-        temp_reports = TempReport.objects.filter(Q(year=self.start_year)) \
+        temp_reports = TempReport.objects.filter(Q(year=self.year)) \
             .annotate(heat_alarm_value=Sum('heat_alarm'), freeze_alarm_value=Sum('cold_alarm')) \
             .select_related('district').values('district__name', 'heat_alarm_value', 'freeze_alarm_value')
         return Response(temp_reports)
