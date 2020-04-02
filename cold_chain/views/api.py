@@ -778,3 +778,35 @@ class OptimalityStats(RequestSuperClass):
         optimal_districts_count = len(set(filter(lambda v: v is not None, optimal_districts)))
         hf_sites = int(round(optimal_districts_count / float(total_districts_count) * 100, 0))
         return dvs_sites, hf_sites
+
+
+class TempReportMetrics(RequestSuperClass):
+    """
+    Returns temperature reports of freeze and heat alarms for each district
+    """
+
+    def get(self, request):
+        super(TempReportMetrics, self).get(request)
+        temp_reports = TempReport.objects.filter(Q(month__in=quarter_months[self.start_half]) &
+                                                 Q(year=self.start_year)).values('district__name', 'heat_alarm', 'cold_alarm')
+        return Response(temp_reports)
+
+
+class TempHeatAndFreezeStats(RequestSuperClass):
+    """
+    Returns freeze and heat alarm totals for the graph
+    """
+
+    def get(self, request):
+        super(TempHeatAndFreezeStats, self).get(request)
+        summary = []
+
+        for month in range(1, 13):
+            temp_reports = TempReport.objects.filter(Q(month=month) & Q(year=self.start_year)) \
+                .aggregate(Sum('heat_alarm'), Sum('cold_alarm'))
+
+            summary.append(temp_reports.update({
+                'month': month,
+                'year': self.start_year
+            }))
+        return Response(summary)

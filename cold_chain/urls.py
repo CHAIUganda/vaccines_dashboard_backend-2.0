@@ -15,5 +15,7 @@ urlpatterns = [
     url(r'^api/eligiblefacilitiesstats', cold_chain.views.api.EligibleFacilityStats.as_view(), name='eligiblefacilitiesstats'),
     url(r'^api/eligiblefacilitiesmetrics', cold_chain.views.api.EligibleFacilityMetrics.as_view(), name='eligiblefacilitiesmetrics'),
     url(r'^api/optimalitymetrics', cold_chain.views.api.OptimalityMetric.as_view(), name='optimalitymetrics'),
-    url(r'^api/optimalitystats', cold_chain.views.api.OptimalityStats.as_view(), name='optimalitystats')
+    url(r'^api/optimalitystats', cold_chain.views.api.OptimalityStats.as_view(), name='optimalitystats'),
+    url(r'^api/tempreportmetrics', cold_chain.views.api.TempReportMetrics.as_view(), name='tempreportmetrics'),
+    url(r'^api/tempheatfreezestats', cold_chain.views.api.TempHeatAndFreezeStats.as_view(), name='tempreportstats')
 ]
