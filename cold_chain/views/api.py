@@ -827,20 +827,8 @@ class TempReportingRateStats(RequestSuperClass):
     def get(self, request):
         super(TempReportingRateStats, self).get(request)
         summary = dict()
-        monthly_submission_data = {
-            1: 0,
-            2: 0,
-            3: 0,
-            4: 0,
-            5: 0,
-            6: 0,
-            7: 0,
-            8: 0,
-            9: 0,
-            10: 0,
-            11: 0,
-            12: 0
-        }
+        monthly_submission_data = {1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0,
+                                   7: 0, 8: 0, 9: 0, 10: 0, 11: 0, 12: 0}
         monthly_submission_data_percentages = dict()
 
         districts = District.objects.all()
@@ -849,20 +837,25 @@ class TempReportingRateStats(RequestSuperClass):
         submission_percentages_graph_data = []
 
         for district in districts:
-            data = []
-            temp_reports = TempReport.objects.filter(Q(district=district) & Q(year=self.year))
-            if temp_reports:
-                report_months = [temp_report.month for temp_report in temp_reports]
-                for month in range(1, 13):
-                    submitted = month in report_months
-                    data.append({'month': month, 'submitted': submitted})
-                    if submitted:
-                        monthly_submission_data[month] = monthly_submission_data[month] + 1
+            data = self.generate_montly_submission_data(district, monthly_submission_data)
             heat_graph_data.append({'district': district.name, 'data': data})
 
-        for month in range(1, 13):
-            monthly_submission_data_percentages[month] = int(
-                round(monthly_submission_data[month] / float(districts_total) * 100))
+        if self.district_name != 'national':
+            # reset the data when filtering for one district
+            monthly_submission_data = {1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0,
+                                       7: 0, 8: 0, 9: 0, 10: 0, 11: 0, 12: 0}
+            district = District.objects.filter(name__icontains=self.district_name).first()
+            if district:
+                data = self.generate_montly_submission_data(district, monthly_submission_data)
+                heat_graph_data.append({'district': district.name, 'data': data})
+
+            for month in range(1, 13):
+                monthly_submission_data_percentages[month] = int(
+                    round(monthly_submission_data[month] / 1.0 * 100, 0))
+        else:
+            for month in range(1, 13):
+                monthly_submission_data_percentages[month] = int(
+                    round(monthly_submission_data[month] / float(districts_total) * 100))
         submission_percentages_graph_data.append({
             'submissions_percentages': monthly_submission_data_percentages
         })
@@ -870,3 +863,15 @@ class TempReportingRateStats(RequestSuperClass):
         summary.update({'heat_graph_data': heat_graph_data})
         summary.update({'submission_percentages_graph_data': submission_percentages_graph_data})
         return Response(summary)
+
+    def generate_montly_submission_data(self, district, monthly_submission_data):
+        data = []
+        temp_reports = TempReport.objects.filter(Q(district=district) & Q(year=self.year))
+        if temp_reports:
+            report_months = [temp_report.month for temp_report in temp_reports]
+            for month in range(1, 13):
+                submitted = month in report_months
+                data.append({'month': month, 'submitted': submitted})
+                if submitted:
+                    monthly_submission_data[month] = monthly_submission_data[month] + 1
+        return data
