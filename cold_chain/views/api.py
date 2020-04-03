@@ -5,10 +5,10 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from cold_chain.helpers import *
 from cold_chain.models import *
-from utility import replace_quotes, quarter_months
+from utility import replace_quotes, quarter_months, month_to_string
 from dateutil.relativedelta import relativedelta
 import datetime
-
+import collections
 
 class ApiParams(Serializer):
     startyear = models.IntegerField(blank=True, default=None)
@@ -804,7 +804,8 @@ class TempHeatAndFreezeStats(RequestSuperClass):
         summary = []
 
         for month in range(1, 13):
-            temp_reports = TempReport.objects.filter(Q(month=month) & Q(year=self.year)).select_related('district')
+            temp_reports = TempReport.objects.filter(Q(month=month) & Q(year=self.year)).order_by('district') \
+                .select_related('district')
             if self.district_name != 'national':
                 temp_reports = temp_reports.filter(Q(district__name__icontains=self.district_name))
             temp_reports = temp_reports.aggregate(Sum('heat_alarm'), Sum('cold_alarm'))
@@ -825,18 +826,18 @@ class TempReportingRateStats(RequestSuperClass):
         super(TempReportingRateStats, self).get(request)
         summary = dict()
         monthly_submission_data = {
-            'month1': 0,
-            'month2': 0,
-            'month3': 0,
-            'month4': 0,
-            'month5': 0,
-            'month6': 0,
-            'month7': 0,
-            'month8': 0,
-            'month9': 0,
-            'month10': 0,
-            'month11': 0,
-            'month12': 0
+            1: 0,
+            2: 0,
+            3: 0,
+            4: 0,
+            5: 0,
+            6: 0,
+            7: 0,
+            8: 0,
+            9: 0,
+            10: 0,
+            11: 0,
+            12: 0
         }
         monthly_submission_data_percentages = dict()
 
@@ -854,14 +855,15 @@ class TempReportingRateStats(RequestSuperClass):
                     submitted = month in report_months
                     data.append({'month': month, 'submitted': submitted})
                     if submitted:
-                        monthly_submission_data['month' + str(month)] = monthly_submission_data[
-                                                                            'month' + str(month)] + 1
+                        monthly_submission_data[month] = monthly_submission_data[month] + 1
             heat_graph_data.append({'district': district.name, 'data': data})
 
         for month in range(1, 13):
-            monthly_submission_data_percentages['month' + str(month)] = int(
-                round(monthly_submission_data['month' + str(month)] / float(districts_total) * 100))
-        submission_percentages_graph_data.append({'submissions_percentages': monthly_submission_data_percentages})
+            monthly_submission_data_percentages[month] = int(
+                round(monthly_submission_data[month] / float(districts_total) * 100))
+        submission_percentages_graph_data.append({
+            'submissions_percentages': monthly_submission_data_percentages
+        })
 
         summary.update({'heat_graph_data': heat_graph_data})
         summary.update({'submission_percentages_graph_data': submission_percentages_graph_data})
