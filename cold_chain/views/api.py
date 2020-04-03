@@ -340,12 +340,14 @@ class RequestSuperClass(APIView):
     def get(self, request):
         self.district_name = replace_quotes(request.query_params.get('district', 'national'))
         self.facility_type = replace_quotes(request.query_params.get('carelevel', 'all'))
-        self.start_period = replace_quotes(request.query_params.get('start_period', '2019_1'))
-        self.end_period = replace_quotes(request.query_params.get('end_period', '2019_2'))
+        self.start_period = replace_quotes(request.query_params.get('start_period', '201901'))
+        self.end_period = replace_quotes(request.query_params.get('end_period', '201902'))
         self.year = replace_quotes(request.query_params.get('year', '2019'))
 
-        self.start_year, self.start_half = [int(x) for x in self.start_period.split('_')]
-        self.end_year, self.end_half = [int(x) for x in self.end_period.split('_')]
+        self.start_year = int(self.start_period[:4])
+        self.start_quarter = int(self.start_period[4:])
+        self.end_year = int(self.end_period[:4])
+        self.end_quarter = int(self.end_period[4:])
 
     def add_data_filters(self, district_name, facility_type, object, quarter):
         if replace_quotes(facility_type) != 'all':
