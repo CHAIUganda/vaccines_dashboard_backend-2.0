@@ -468,10 +468,7 @@ class FunctionalityMetricsGraph(RequestSuperClass):
 class CapacityMetrics(RequestSuperClass):
     """
     Returns:
-        The table data for the available, required and gap
-    Procedure:
-        Go through the RefrigeratorDetails for each district
-        while aggregating the available and required volume then get gap
+        The table data for the available, required and gap for CCE capacity
     """
 
     def get(self, request):
@@ -540,6 +537,10 @@ class CapacityMetricsStats(RequestSuperClass):
         all_fridges = RefrigeratorDetail.objects.filter(
             Q(year__gte=self.start_year) & Q(year__lte=self.end_year)).exclude(
             district__name__isnull=True).exclude(district__name__exact='').order_by('district')
+
+        if self.district_name != 'national':
+            all_fridges = all_fridges.filter(district__name=self.district_name)
+
         districts_with_cce += [fridge.district for fridge in all_fridges]
         for fridge_detail in all_fridges:
 
