@@ -551,6 +551,8 @@ class CapacityMetricsStats(RequestSuperClass):
         negative_gap_count = 0
         total_available_net_storage_volume = 0
         total_required_net_storage_volume = 0
+        positive_gap_percentage = 0
+        negative_gap_percentage = 0
         districts_with_cce = []
         current_district = ''
 
@@ -576,12 +578,18 @@ class CapacityMetricsStats(RequestSuperClass):
             total_required_net_storage_volume += fridge_detail.required_net_storage_volume
         districts_with_cce_count = len(set(districts_with_cce))
 
+        try:
+            positive_gap_percentage = round((positive_gap_count / float(districts_with_cce_count)) * 100, 0)
+            negative_gap_percentage = round((negative_gap_count / float(districts_with_cce_count)) * 100, 0)
+        except (TypeError, ZeroDivisionError) as e:
+            print(e)
+
         return {
             'positive_gap_count': positive_gap_count,
             'negative_gap_count': negative_gap_count,
             'districts_with_cce_count': districts_with_cce_count,
-            'positive_gap_percentage': round((positive_gap_count / float(districts_with_cce_count)) * 100, 0),
-            'negative_gap_percentage': round((negative_gap_count / float(districts_with_cce_count)) * 100, 0)
+            'positive_gap_percentage': positive_gap_percentage,
+            'negative_gap_percentage': negative_gap_percentage
         }
 
 
@@ -608,6 +616,8 @@ class EligibleFacilityStats(RequestSuperClass):
     def get(self, request):
         super(EligibleFacilityStats, self).get(request)
         summary = dict()
+        percentage_cce_coverage_rate = 0
+        percentage_not_cce_coverage_rate = 0
         metrics = EligibleFacilityMetric.objects.filter(Q(year__gte=self.start_year) & Q(year__lte=self.end_year)) \
             .exclude(district__name__isnull=True).exclude(district__name__exact='')
 
@@ -618,9 +628,12 @@ class EligibleFacilityStats(RequestSuperClass):
         total_archievable_cce_coverage_rate_percentage = total_eligible_facilities * 100
 
         total_cce_coverage_rate = metrics.aggregate(Sum('cce_coverage_rate'))['cce_coverage_rate__sum']
-        percentage_cce_coverage_rate = int(
-            round(total_cce_coverage_rate / float(total_archievable_cce_coverage_rate_percentage) * 100, 0))
-        percentage_not_cce_coverage_rate = 100 - percentage_cce_coverage_rate
+        try:
+            percentage_cce_coverage_rate = int(
+                round(total_cce_coverage_rate / float(total_archievable_cce_coverage_rate_percentage) * 100, 0))
+            percentage_not_cce_coverage_rate = 100 - percentage_cce_coverage_rate
+        except (TypeError, ZeroDivisionError) as e:
+            print(e)
 
         summary.update({'cce_coverage_pie_chart': {
             'percentage_cce_coverage_rate': percentage_cce_coverage_rate,
