@@ -477,31 +477,12 @@ class CapacityMetrics(RequestSuperClass):
     def get(self, request):
         super(CapacityMetrics, self).get(request)
 
-        current_district = ''
-        summary = []
-        total_available_net_storage_volume = 0
-        total_required_net_storage_volume = 0
-
-        fridge_details = RefrigeratorDetail.objects.filter(Q(year__gte=self.start_year) & Q(year__lte=self.end_year)) \
-            .order_by('district__name')
-        for fridge_detail in fridge_details:
-            print(fridge_detail)
-            try:
-                if fridge_detail.district.name != current_district:
-                    summary.append({
-                        'district': current_district,
-                        'available_net_storage_volume': total_available_net_storage_volume,
-                        'required_net_storage_volume': total_required_net_storage_volume,
-                        'gap': total_available_net_storage_volume - total_required_net_storage_volume
-                    })
-                    # reset values after making data object for the district
-                    current_district = fridge_detail.district.name
-                    total_available_net_storage_volume = 0
-                    total_required_net_storage_volume = 0
-                total_available_net_storage_volume += fridge_detail.available_net_storage_volume
-                total_required_net_storage_volume += fridge_detail.required_net_storage_volume
-            except Exception as e:
-                print(e)
+        summary = District.objects.filter(Q(refrigeratordetail__year__gte=self.start_year) &
+                                          Q(refrigeratordetail__year__lte=self.end_year)).order_by('name') \
+            .annotate(available_net_storage_volume=Sum('refrigeratordetail__available_net_storage_volume'),
+                      required_net_storage_volume=Sum('refrigeratordetail__required_net_storage_volume'),
+                      gap=F('available_net_storage_volume') - F('required_net_storage_volume')) \
+            .values('available_net_storage_volume', 'required_net_storage_volume', 'gap', 'name')
         return Response(summary)
 
 
