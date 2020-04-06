@@ -342,7 +342,7 @@ class RequestSuperClass(APIView):
         self.facility_type = replace_quotes(request.query_params.get('carelevel', 'all'))
         self.start_period = replace_quotes(request.query_params.get('start_period', '201901'))
         self.end_period = replace_quotes(request.query_params.get('end_period', '201902'))
-        self.year = replace_quotes(request.query_params.get('year', '2019'))
+        self.year = int(replace_quotes(request.query_params.get('year', '2019')))
 
         self.start_year = int(self.start_period[:4])
         self.start_quarter = int(self.start_period[4:])
@@ -686,7 +686,7 @@ class OptimalityStats(RequestSuperClass):
         super(OptimalityStats, self).get(request)
         summary = dict()
 
-        ten_years_ago_date = datetime.datetime.now() - relativedelta(years=10)
+        ten_years_ago_date = datetime.datetime(self.year, 1, 1) - relativedelta(years=10)
         facility_type = 'District Store'
 
         dvs, hf, optimal_bar_graph_metrics = self.get_dvs_and_hf_for_cce_metrics(facility_type, ten_years_ago_date)
@@ -705,12 +705,14 @@ class OptimalityStats(RequestSuperClass):
         # gets the percentage based on CCE
         # district vaccine stores metrics
         optimal_bar_graph_metrics = []
+        dvs = 0
+        hf = 0
         optimal = Sum(Case(When(refrigeratordetail__refrigerator__supply_year__lte=ten_years_ago_date,
-                                refrigeratordetail__year=self.start_year,
+                                refrigeratordetail__year=self.year,
                                 refrigeratordetail__refrigerator__cold_chain_facility__type__name__icontains=facility_type,
                                 then=0),
                            When(refrigeratordetail__refrigerator__supply_year__gte=ten_years_ago_date,
-                                refrigeratordetail__year=self.start_year,
+                                refrigeratordetail__year=self.year,
                                 refrigeratordetail__refrigerator__cold_chain_facility__type__name__icontains=facility_type,
                                 then=1), output_field=IntegerField()))
 
@@ -722,27 +724,33 @@ class OptimalityStats(RequestSuperClass):
         district_store_cce_overall_total = RefrigeratorDetail.objects.filter(
             Q(refrigerator__cold_chain_facility__type__name__icontains=facility_type)).count()
         districts_store_optimal_cce = districts.aggregate(dvs_optimal=optimal)['dvs_optimal']
-        dvs = int(round(districts_store_optimal_cce / float(district_store_cce_overall_total) * 100, 0))
+        try:
+            dvs = int(round(districts_store_optimal_cce / float(district_store_cce_overall_total) * 100, 0))
+        except (TypeError, ZeroDivisionError) as e:
+            print(e)
 
         # health facility metrics
         optimal = Sum(Case(When(refrigeratordetail__refrigerator__supply_year__lte=ten_years_ago_date,
-                                refrigeratordetail__year=self.start_year,
+                                refrigeratordetail__year=self.year,
                                 then=0),
                            When(refrigeratordetail__refrigerator__supply_year__gte=ten_years_ago_date,
-                                refrigeratordetail__year=self.start_year,
+                                refrigeratordetail__year=self.year,
                                 then=1), output_field=IntegerField()))
 
         not_optimal = Sum(Case(When(refrigeratordetail__refrigerator__supply_year__lte=ten_years_ago_date,
-                                    refrigeratordetail__year=self.start_year,
+                                    refrigeratordetail__year=self.year,
                                     then=1),
                                When(refrigeratordetail__refrigerator__supply_year__gte=ten_years_ago_date,
-                                    refrigeratordetail__year=self.start_year,
+                                    refrigeratordetail__year=self.year,
                                     then=0), output_field=IntegerField()))
 
         districts = District.objects.filter()
         hf_cce_overall_total = RefrigeratorDetail.objects.filter().count()
         hf_optimal_cce = districts.aggregate(hf_optimal=optimal)['hf_optimal']
-        hf = int(round(hf_optimal_cce / float(hf_cce_overall_total) * 100, 0))
+        try:
+            hf = int(round(hf_optimal_cce / float(hf_cce_overall_total) * 100, 0))
+        except (TypeError, ZeroDivisionError) as e:
+            print(e)
 
         for quarter in quarter_months:
             data = districts.filter(refrigeratordetail__month__in=quarter_months[quarter]).aggregate(
@@ -758,7 +766,7 @@ class OptimalityStats(RequestSuperClass):
 
             optimal_bar_graph_metrics.append({
                 'quarter': quarter,
-                'year': self.start_year,
+                'year': self.year,
                 'cce_overall_total': cce_overall_total,
                 'cce_optimal': cce_optimal
             })
