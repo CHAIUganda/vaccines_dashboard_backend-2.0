@@ -15,9 +15,9 @@ def import_targets(excel_file, year):
     location_sheet = workbook.get_sheet_by_name(worksheet_name)
 
     # vaccines = ['BCG', 'OPV', 'PCV', 'TT', 'PENTA', 'MEASLES', 'IPV', 'HPV']
-    vaccines = ['BCG', 'HPV', 'IPV', 'MEASLES','OPV', 'PCV', 'PENTA', 'TT']
+    vaccines = ['BCG', 'HPV', 'IPV', 'MEASLES', 'OPV', 'PCV', 'PENTA', 'TT', 'ROTA']
 
-    for row in location_sheet.iter_rows('A%s:I%s' % (location_sheet.min_row + 5, location_sheet.max_row)):
+    for row in location_sheet.iter_rows('A%s:J%s' % (location_sheet.min_row + 5, location_sheet.max_row)):
         if row[0].value:
             for vaccine in vaccines:
                 col = vaccines.index(vaccine) + 1

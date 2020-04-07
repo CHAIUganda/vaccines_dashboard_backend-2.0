@@ -41,10 +41,10 @@ def save_from_model(period):
         try:
             if stock_requirement:
                 DHIS2VaccineDoseDataset.objects.update_or_create(
-                    vaccine = stock_requirement.vaccine,
-                    district = stock_requirement.district,
-                    period = dh.period,
-                    dose = dh.dose,
+                    vaccine=stock_requirement.vaccine,
+                    district=stock_requirement.district,
+                    period=dh.period,
+                    dose=dh.dose,
                     defaults={'planned_consumption': stock_requirement.coverage_target,
                               'consumed': dh.consumed},
                 )
@@ -61,9 +61,7 @@ def save_vaccine_dose(period):
 
     for d in districts:
         district = d.name
-        # print(district)
         summary = doses.filter(district=d)
-        # print(summary)
 
         # ====== OPV ===========================
         opv_drop_out_rate = None
@@ -205,10 +203,8 @@ def save_vaccine_dose(period):
                 planned_consumption=ipv_dose2.first().planned_consumption,
             )
 
-
-
         # ====== MEASLES ===========================
-        bcgm_drop_out_rate=None
+        bcgm_drop_out_rate = None
         bcgm_dose1 = summary.filter(vaccine__name='105-CL01. BCG')
         bcgm_dose2 = summary.filter(vaccine__name='105-EP07. Measles')
         if bcgm_dose1 and bcgm_dose2.first().consumed > 0:
@@ -238,7 +234,6 @@ def save_vaccine_dose(period):
                                                    - bcgm_dose2.first().consumed)
                                                   / bcgm_dose1.first().consumed) * 100))
 
-
             VaccineDose.objects.update_or_create(
                 vaccine=bcgm_dose1.first().vaccine,
                 district=d,
@@ -251,4 +246,24 @@ def save_vaccine_dose(period):
                 coverage_rate=float('%.1f' % (100*(bcgm_dose1.first().consumed / bcgm_dose1.first().planned_consumption))),
                 planned_consumption=bcgm_dose1.first().planned_consumption,
             )
-
+        # # ====== ROTA ===========================
+        rota_drop_out_rate = None
+        rota_dose1 = summary.filter(vaccine__name='ROTA', dose='105-CL14. Rotavirus 1 Vaccine')
+        rota_dose2 = summary.filter(vaccine__name='ROTA', dose='105-CL15. Rotavirus 2 Vaccine')
+        if rota_dose1 and rota_dose2 and rota_dose1.first().consumed > 0:
+            rota_drop_out_rate = float('%.2f' % (((rota_dose1.first().consumed
+                                                   - rota_dose2.first().consumed)
+                                                  / rota_dose1.first().consumed) * 100))
+            VaccineDose.objects.update_or_create(
+                vaccine=rota_dose1.first().vaccine,
+                district=d,
+                period=period,
+                drop_out_rate=rota_drop_out_rate,
+                under_immunized=rota_dose1.first().consumed-rota_dose2.first().consumed,
+                first_dose=rota_dose1.first().consumed,
+                second_dose=rota_dose2.first().consumed,
+                last_dose=rota_dose2.first().consumed,
+                access=100 * (rota_dose1.first().consumed / rota_dose1.first().planned_consumption),
+                coverage_rate=float('%.1f' % (100*(rota_dose2.first().consumed / rota_dose2.first().planned_consumption))),
+                planned_consumption=rota_dose2.first().planned_consumption,
+            )

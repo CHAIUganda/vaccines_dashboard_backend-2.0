@@ -96,6 +96,15 @@ From UI, upload coverage targets and planned targets for 2020
 
 python manage.py parse_vaccine_doses_new 202001
 
+Resetting DB data for 2020
+-- DELETE FROM public.dashboard_dhis2dataset where period = 202001
+
+-- DELETE from public.dashboard_stockrequirement where year = 2020
+
+-- DELETE FROM public.coverage_dhis2vaccinedosedataset where period = 202001
+
+-- DELETE FROM public.coverage_vaccinedose where period = 202001
+
 
 
 
