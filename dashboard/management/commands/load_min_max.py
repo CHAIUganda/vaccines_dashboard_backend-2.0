@@ -11,25 +11,25 @@ from openpyxl import load_workbook
 def import_min_max(excel_file, year):
     workbook = load_workbook(excel_file, read_only=True, use_iterators=True)
 
-    vaccines = ["MEASLES", "BCG", "TT", "OPV",  "PCV", "PENTA", "HPV", "IPV"]
+    vaccines = ["MEASLES", "BCG", "TT", "OPV", "PCV", "PENTA", "HPV", "IPV", "ROTA"]
 
     for vaccine in vaccines:
         location_sheet = workbook.get_sheet_by_name(vaccine)
         for row in location_sheet.iter_rows('A6:F117'):
-                district_object = District.objects.filter(name__contains=row[1].value).first()
-                vaccine_object = Vaccine.objects.filter(name=vaccine).first()
-                max_value = row[5].value
-                min_value = int(max_value) * .25
-                # min_value = row[6].value
-                #print "district %s vaccine: %s min:%s max: %s" % (district_object.name, vaccine_object.name, min_value, max_value)
-                if max_value:
-                    stock_requirement = StockRequirement()
-                    stock_requirement.district = district_object
-                    stock_requirement.year = int(year)
-                    stock_requirement.vaccine = vaccine_object
-                    stock_requirement.minimum = min_value
-                    stock_requirement.maximum = max_value
-                    stock_requirement.save()
+            district_object = District.objects.filter(name__contains=row[1].value).first()
+            vaccine_object = Vaccine.objects.filter(name=vaccine).first()
+            max_value = row[5].value
+            min_value = int(max_value) * .25
+            # min_value = row[6].value
+            # print "district %s vaccine: %s min:%s max: %s" % (district_object.name, vaccine_object.name, min_value, max_value)
+            if max_value:
+                stock_requirement = StockRequirement()
+                stock_requirement.district = district_object
+                stock_requirement.year = int(year)
+                stock_requirement.vaccine = vaccine_object
+                stock_requirement.minimum = min_value
+                stock_requirement.maximum = max_value
+                stock_requirement.save()
 
 
 class Command(BaseCommand):
