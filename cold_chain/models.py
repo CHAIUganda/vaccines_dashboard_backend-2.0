@@ -25,6 +25,43 @@ FUNCTIONALITY_STATUS = (
     ("Needs repair", "Needs repair"),
 )
 
+FUNDING_STATUS = (
+    ("Funded", "Funded"),
+    ("Not Funded", "Not Funded"),
+)
+
+IMMUNIZATION_COMPONENT = (
+    ("Advocacy", "Advocacy, Communication & Social Mobilization"),
+    ("Monitoring", "Monitoring, Supervision & Evaluation"),
+    ("ProgrammeManagementGeneral", "Programme Management General"),
+    ("ProgrammeManagementFinance", "Programme Management Finance"),
+    ("ServiceDelivery", "Service Delivery & Training"),
+    ("Surveillance", "Surveillance"),
+    ("Vaccines", "Vaccines, Logistics, Equipment & Infrastructure"),
+)
+
+OBJECTIVE = (
+    ("Funded", "Funded"),
+    ("Not Funded", "Not Funded"),
+)
+
+LEVEL = (
+    ("Funded", "Funded"),
+    ("Not Funded", "Not Funded"),
+)
+
+FUNDING_PRIORITY_LEVEL = (
+    ("Funded", "Funded"),
+    ("Not Funded", "Not Funded"),
+)
+
+
+COMPLETION_STATUS = (
+    ("Completed", "Completed"),
+    ("Not Done", "Not Done"),
+    ("Ongoing", "Ongoing"),
+)
+
 
 class FacilityType(models.Model):
     name = models.CharField(max_length=200)
@@ -98,3 +135,42 @@ class TempReport(models.Model):
     year = models.IntegerField(default=2019)
     month = models.IntegerField(default=1)
     created_at = models.DateTimeField(auto_now_add=True)
+
+
+class Organization(models.Model):
+    name = models.CharField(max_length=400)
+
+
+class ActivityDates(models.Model):
+    date = models.DateTimeField()
+
+
+class ActivityStatus(models.Model):
+    quarter = models.IntegerField(default=1)
+    comment = models.TextField(null=True, blank=True)
+    status = models.CharField(choices=COMPLETION_STATUS, max_length=20,
+                                           default=COMPLETION_STATUS[0][0])
+
+
+class Activity(models.Model):
+    name = models.CharField(max_length=400)
+    funding_status = models.CharField(choices=FUNCTIONALITY_STATUS, max_length=20,
+                                           default=FUNCTIONALITY_STATUS[0][0])
+    immunization_component = models.CharField(choices=IMMUNIZATION_COMPONENT, max_length=200,
+                                        default=IMMUNIZATION_COMPONENT[0][0])
+
+    objective = models.CharField(choices=OBJECTIVE, max_length=200,
+                                        default=OBJECTIVE[0][0])
+    level = models.CharField(choices=LEVEL, max_length=200,
+                                    default=LEVEL[0][0])
+    funding_priority_level = models.CharField(choices=FUNDING_PRIORITY_LEVEL, max_length=200,
+                                    default=FUNDING_PRIORITY_LEVEL[0][0])
+    verification = models.CharField(max_length=200)
+    organization = models.ForeignKey(Organization)
+    activity_date = models.ManyToManyField(ActivityDates)
+    activity_status = models.ManyToManyField(ActivityStatus)
+
+
+class ChangeLog(models.Model):
+    activity = models.CharField(max_length=200)
+    action = models.CharField(max_length=400)
