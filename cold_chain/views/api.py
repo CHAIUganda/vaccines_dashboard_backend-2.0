@@ -878,3 +878,15 @@ class TempReportingRateStats(RequestSuperClass):
                 if submitted:
                     monthly_submission_data[month] = monthly_submission_data[month] + 1
         return data
+
+
+class ActivityByOrganization(RequestSuperClass):
+    def get(self, request):
+        super(ActivityByOrganization, self).get(request)
+        summary = Organization.objects.filter().annotate(completed=Count(
+            Case(
+                When(activity__activity_status__status=COMPLETION_STATUS[0][0], then=1),
+                output_field=IntegerField()
+            )), completed_percentage=F('completed') / 6) \
+            .values('name', 'completed', 'activity__activity_status__quarter')
+        return Response(summary)

@@ -148,21 +148,17 @@ class ActivityDates(models.Model):
 class ActivityStatus(models.Model):
     quarter = models.IntegerField(default=1)
     comment = models.TextField(null=True, blank=True)
-    status = models.CharField(choices=COMPLETION_STATUS, max_length=20,
-                                           default=COMPLETION_STATUS[0][0])
+    status = models.CharField(choices=COMPLETION_STATUS, max_length=20, default=COMPLETION_STATUS[0][0])
 
 
 class Activity(models.Model):
     name = models.CharField(max_length=400)
-    funding_status = models.CharField(choices=FUNCTIONALITY_STATUS, max_length=20,
-                                           default=FUNCTIONALITY_STATUS[0][0])
+    funding_status = models.CharField(choices=FUNCTIONALITY_STATUS, max_length=20, default=FUNCTIONALITY_STATUS[0][0])
     immunization_component = models.CharField(choices=IMMUNIZATION_COMPONENT, max_length=200,
                                         default=IMMUNIZATION_COMPONENT[0][0])
 
-    objective = models.CharField(choices=OBJECTIVE, max_length=200,
-                                        default=OBJECTIVE[0][0])
-    level = models.CharField(choices=LEVEL, max_length=200,
-                                    default=LEVEL[0][0])
+    objective = models.CharField(choices=OBJECTIVE, max_length=200, default=OBJECTIVE[0][0])
+    level = models.CharField(choices=LEVEL, max_length=200, default=LEVEL[0][0])
     funding_priority_level = models.CharField(choices=FUNDING_PRIORITY_LEVEL, max_length=200,
                                     default=FUNDING_PRIORITY_LEVEL[0][0])
     verification = models.CharField(max_length=200)
