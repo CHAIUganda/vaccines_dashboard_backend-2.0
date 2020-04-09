@@ -136,9 +136,15 @@ class TempReport(models.Model):
 class Organization(models.Model):
     name = models.CharField(max_length=400)
 
+    def __str__(self):
+        return "%s" % (str(self.name))
+
 
 class ActivityDates(models.Model):
-    date = models.DateTimeField()
+    date = models.DateField()
+
+    def __str__(self):
+        return "%s" % (str(self.date))
 
 
 class ActivityStatus(models.Model):
@@ -146,10 +152,13 @@ class ActivityStatus(models.Model):
     comment = models.TextField(null=True, blank=True)
     status = models.CharField(choices=COMPLETION_STATUS, max_length=20, default=COMPLETION_STATUS[0][0])
 
+    def __str__(self):
+        return "%s %s" % (str(self.quarter), self.status)
+
 
 class Activity(models.Model):
     name = models.CharField(max_length=400)
-    funding_status = models.CharField(choices=FUNCTIONALITY_STATUS, max_length=20, default=FUNCTIONALITY_STATUS[0][0])
+    funding_status = models.CharField(choices=FUNDING_STATUS, max_length=20, default=FUNDING_STATUS[0][0])
     immunization_component = models.CharField(choices=IMMUNIZATION_COMPONENT, max_length=200,
                                         default=IMMUNIZATION_COMPONENT[0][0])
 
@@ -161,6 +170,9 @@ class Activity(models.Model):
     organization = models.ForeignKey(Organization)
     activity_date = models.ManyToManyField(ActivityDates)
     activity_status = models.ManyToManyField(ActivityStatus)
+
+    def __str__(self):
+        return "%s %s" % (str(self.name), self.organization.name)
 
 
 class ChangeLog(models.Model):
