@@ -40,19 +40,15 @@ IMMUNIZATION_COMPONENT = (
     ("Vaccines", "Vaccines, Logistics, Equipment & Infrastructure"),
 )
 
-OBJECTIVE = (
-    ("Funded", "Funded"),
-    ("Not Funded", "Not Funded"),
-)
-
 LEVEL = (
-    ("Funded", "Funded"),
-    ("Not Funded", "Not Funded"),
+    ("District", "District"),
+    ("National", "National"),
 )
 
 FUNDING_PRIORITY_LEVEL = (
-    ("Funded", "Funded"),
-    ("Not Funded", "Not Funded"),
+    ("High", "High"),
+    ("Medium", "Medium"),
+    ("Low", "Low"),
 )
 
 
@@ -157,7 +153,7 @@ class Activity(models.Model):
     immunization_component = models.CharField(choices=IMMUNIZATION_COMPONENT, max_length=200,
                                         default=IMMUNIZATION_COMPONENT[0][0])
 
-    objective = models.CharField(choices=OBJECTIVE, max_length=200, default=OBJECTIVE[0][0])
+    objective = models.CharField(max_length=300)
     level = models.CharField(choices=LEVEL, max_length=200, default=LEVEL[0][0])
     funding_priority_level = models.CharField(choices=FUNDING_PRIORITY_LEVEL, max_length=200,
                                     default=FUNDING_PRIORITY_LEVEL[0][0])
