@@ -87,6 +87,11 @@ DATABASES = {
 }
 
 LANGUAGE_CODE = 'en-us'
+from django.utils.translation import ugettext_lazy as _l
+LANGUAGES=(
+    ('en', _l(u'English')),
+    ('en-us', _l(u'English')),
+)
 
 TIME_ZONE = 'Africa/Kampala'
 
@@ -177,6 +182,11 @@ GENERIC_DATA_IMPORT = {
         'name': 'Cold Chain ColdChainFacility Types',
         'params': (),
         'function': 'cold_chain.management.commands.load_TBL_Facilities.import_tab_facilities'
+    },
+    'cold_chain_performance_management': {
+        'name': 'Cold Chain Performance Management',
+        'params': ('year', 'month',),
+        'function': 'cold_chain.management.commands.performance_management.import_performance_management'
     }
 }
 

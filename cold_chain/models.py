@@ -26,8 +26,8 @@ FUNCTIONALITY_STATUS = (
 )
 
 FUNDING_STATUS = (
-    ("Funded", "Funded"),
-    ("Not Funded", "Not Funded"),
+    ("Secured", "Secured"),
+    ("Unsecured", "Unsecured"),
 )
 
 IMMUNIZATION_COMPONENT = (
@@ -134,7 +134,7 @@ class TempReport(models.Model):
 
 
 class Organization(models.Model):
-    name = models.CharField(max_length=400)
+    name = models.CharField(max_length=1000, unique=True)
 
     def __str__(self):
         return "%s" % (str(self.name))
@@ -150,29 +150,33 @@ class ActivityDates(models.Model):
 class ActivityStatus(models.Model):
     quarter = models.IntegerField(default=1)
     comment = models.TextField(null=True, blank=True)
-    status = models.CharField(choices=COMPLETION_STATUS, max_length=20, default=COMPLETION_STATUS[0][0])
+    status = models.CharField(choices=COMPLETION_STATUS, max_length=1000, default=COMPLETION_STATUS[0][1])
 
     def __str__(self):
         return "%s %s" % (str(self.quarter), self.status)
 
 
 class Activity(models.Model):
-    name = models.CharField(max_length=400)
-    funding_status = models.CharField(choices=FUNDING_STATUS, max_length=20, default=FUNDING_STATUS[0][0])
-    immunization_component = models.CharField(choices=IMMUNIZATION_COMPONENT, max_length=200,
-                                        default=IMMUNIZATION_COMPONENT[0][0])
+    name = models.TextField(unique=True)
+    funding_status = models.CharField(choices=FUNDING_STATUS, max_length=1000, default=FUNDING_STATUS[0][0], null=True, blank=True)
+    immunization_component = models.CharField(default=IMMUNIZATION_COMPONENT[0][0], null=True, blank=True, max_length=1000)
 
-    objective = models.CharField(max_length=300)
-    level = models.CharField(choices=LEVEL, max_length=200, default=LEVEL[0][0])
-    funding_priority_level = models.CharField(choices=FUNDING_PRIORITY_LEVEL, max_length=200,
+    objective = models.TextField(default="", null=True, blank=True)
+    level = models.CharField(choices=LEVEL, max_length=1000, default=LEVEL[0][0], null=True, blank=True)
+    funding_priority_level = models.CharField(choices=FUNDING_PRIORITY_LEVEL, max_length=1000,
                                     default=FUNDING_PRIORITY_LEVEL[0][0])
-    verification = models.CharField(max_length=200)
-    organization = models.ForeignKey(Organization)
+    verification = models.CharField(max_length=1000, default="", null=True, blank=True)
+    activity_cost_ugx = models.IntegerField(default=0, null=True, blank=True)
+    activity_cost_usd = models.IntegerField(default=0, null=True, blank=True)
+    budget_assumption = models.TextField(default="", null=True, blank=True)
+    responsible_focal_point = models.TextField(default="", null=True, blank=True)
+    stackholder_focal_point = models.TextField(default="", null=True, blank=True)
+    organization = models.ForeignKey(Organization, null=True, blank=True)
     activity_date = models.ManyToManyField(ActivityDates)
     activity_status = models.ManyToManyField(ActivityStatus)
 
     def __str__(self):
-        return "%s %s" % (str(self.name), self.organization.name)
+        return "%s" % self.id
 
 
 class ChangeLog(models.Model):
