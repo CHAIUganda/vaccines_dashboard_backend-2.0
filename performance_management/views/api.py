@@ -91,3 +91,26 @@ class ActivityStatusPercentages(RequestSuperClass):
         except ZeroDivisionError as e:
             print(e)
         return Response(summary)
+
+
+class ActivityFundingStats(RequestSuperClass):
+    def get(self, request):
+        super(ActivityFundingStats, self).get(request)
+
+        activity_funding_data = Activity.objects.aggregate(
+            funded=Count(Case(
+                When(funding_status=FUNDING_STATUS[0][0], then=1),
+                output_field=IntegerField(),
+            )),
+            unfunded=Count(Case(
+                When(funding_status=FUNDING_STATUS[1][0], then=1),
+                output_field=IntegerField(),
+            ))
+        )
+
+        summary = {
+            'funded': activity_funding_data['funded'],
+            'unfunded': activity_funding_data['unfunded'],
+            'total': activity_funding_data['funded'] + activity_funding_data['unfunded']
+        }
+        return Response(summary)
