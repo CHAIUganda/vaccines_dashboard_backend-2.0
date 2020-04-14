@@ -32,6 +32,7 @@ INSTALLED_APPS = (
     'cold_chain',
     'coverage',
     'planning',
+    'performance_management',
 )
 
 MIDDLEWARE_CLASSES = (
