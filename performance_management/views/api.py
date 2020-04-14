@@ -49,3 +49,38 @@ class ActivityByOrganization(RequestSuperClass):
                                        'completed_percentage',
                                        'activity_status_count')
         return Response(summary)
+
+
+class ActivityStatusPercentages(RequestSuperClass):
+    def get(self, request):
+        super(ActivityStatusPercentages, self).get(request)
+
+        summary = dict()
+        activity_status_data = Activity.objects.aggregate(
+            completed_count=Count(Case(
+                When(activity_status__status=COMPLETION_STATUS[0][0], then=1),
+                output_field=IntegerField(),
+            )),
+            not_done_count=Count(Case(
+                When(activity_status__status=COMPLETION_STATUS[1][0], then=1),
+                output_field=IntegerField(),
+            )),
+            ongoing_count=Count(Case(
+                When(activity_status__status=COMPLETION_STATUS[2][0], then=1),
+                output_field=IntegerField(),
+            )),
+        )
+
+        completed_count = float(activity_status_data['completed_count'])
+        not_done_count = float(activity_status_data['not_done_count'])
+        ongoing_count = float(activity_status_data['ongoing_count'])
+
+        try:
+            summary = {
+                'completed_percentage': round(completed_count / (completed_count + not_done_count + ongoing_count) * 100, 0),
+                'not_done_percentage': round(not_done_count / (completed_count + not_done_count + ongoing_count) * 100, 0),
+                'ongoing_percentage': round(ongoing_count / (completed_count + not_done_count + ongoing_count) * 100, 0)
+            }
+        except ZeroDivisionError as e:
+            print(e)
+        return Response(summary)
