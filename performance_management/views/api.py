@@ -6,6 +6,8 @@ from rest_framework.views import APIView
 from cold_chain.models import *
 from utility import replace_quotes, quarter_months, month_to_string
 from dateutil.relativedelta import relativedelta
+from rest_framework.generics import ListCreateAPIView
+from performance_management.serializers import OrganizationsGetSerializer
 import datetime
 import collections
 from decimal import Decimal
@@ -114,3 +116,8 @@ class ActivityFundingStats(RequestSuperClass):
             'total': activity_funding_data['funded'] + activity_funding_data['unfunded']
         }
         return Response(summary)
+
+
+class OrganizationsList(ListCreateAPIView):
+    queryset = Organization.objects.all()
+    serializer_class = OrganizationsGetSerializer
