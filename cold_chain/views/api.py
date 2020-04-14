@@ -882,26 +882,3 @@ class TempReportingRateStats(RequestSuperClass):
                 if submitted:
                     monthly_submission_data[month] = monthly_submission_data[month] + 1
         return data
-
-
-class ActivityByOrganization(RequestSuperClass):
-    def get(self, request):
-        super(ActivityByOrganization, self).get(request)
-        # divide the activity status count by 6 because there are 6 quarters
-        # assume completion is achieved when all 6 quarter objectives have been completed
-
-        organizations = Organization.objects.filter()
-        if self.organization:
-            organizations = organizations.filter(name=replace_quotes(self.organization))
-
-        if self.funding:
-            organizations = organizations.order_by('name').annotate(completed=Count(
-                Case(When(activity__activity_status__status=COMPLETION_STATUS[0][0],
-                          activity__funding_status=self.funding, then=1),
-                     output_field=IntegerField())),
-                activity_status_count=Count('activity__activity_status'),
-                completed_percentage=F('completed') / (F('activity_status_count') * Decimal('1.0')) * 100)
-        summary = organizations.values('name', 'completed', 'activity__activity_status__quarter',
-                                       'completed_percentage',
-                                       'activity_status_count')
-        return Response(summary)

@@ -19,5 +19,4 @@ urlpatterns = [
     url(r'^api/tempreportmetrics', cold_chain.views.api.TempReportMetrics.as_view(), name='tempreportmetrics'),
     url(r'^api/tempheatfreezestats', cold_chain.views.api.TempHeatAndFreezeStats.as_view(), name='tempreportstats'),
     url(r'^api/tempreportingratestats', cold_chain.views.api.TempReportingRateStats.as_view(), name='tempreportingrate'),
-    url(r'^api/activitybyorganizationstats', cold_chain.views.api.ActivityByOrganization.as_view(), name='activitybyorganizationstats')
 ]
