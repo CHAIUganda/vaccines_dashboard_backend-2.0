@@ -76,11 +76,18 @@ class ActivityStatusPercentages(RequestSuperClass):
         ongoing_count = float(activity_status_data['ongoing_count'])
 
         try:
-            summary = {
+            percentages = {
                 'completed_percentage': round(completed_count / (completed_count + not_done_count + ongoing_count) * 100, 0),
                 'not_done_percentage': round(not_done_count / (completed_count + not_done_count + ongoing_count) * 100, 0),
-                'ongoing_percentage': round(ongoing_count / (completed_count + not_done_count + ongoing_count) * 100, 0)
+                'ongoing_percentage': round(ongoing_count / (completed_count + not_done_count + ongoing_count) * 100, 0),
             }
+
+            count_data = {
+                'completed_count': completed_count, 'not_done_count': not_done_count, 'ongoing_count': ongoing_count
+            }
+
+            summary.update({'percentages': percentages})
+            summary.update({'count': count_data})
         except ZeroDivisionError as e:
             print(e)
         return Response(summary)
