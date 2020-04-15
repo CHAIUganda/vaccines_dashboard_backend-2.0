@@ -183,3 +183,32 @@ class BudgetAllocationPerRegionStats(RequestSuperClass):
         except ZeroDivisionError as e:
             print(e)
         return Response(summary)
+
+
+class ISCFundingStats(RequestSuperClass):
+    """
+    ISC - Immunization System Component
+    """
+    def get(self, request):
+        super(ISCFundingStats, self).get(request)
+        summary = []
+
+        for component in IMMUNIZATION_COMPONENT:
+            activity_funding_data = Activity.objects.aggregate(
+                isc_secured=Count(Case(
+                    When(Q(funding_status=FUNDING_STATUS[0][0]) & Q(immunization_component=component[1]), then=1),
+                    output_field=IntegerField(),
+                )),
+                isc_unsecured=Count(Case(
+                    When(Q(funding_status=FUNDING_STATUS[1][0]) & Q(immunization_component=component[1]),
+                         then=1),
+                    output_field=IntegerField(),
+                )),
+            )
+            summary.append({
+                'component': component[1],
+                'secured': activity_funding_data['isc_secured'],
+                'unsecured': activity_funding_data['isc_unsecured'],
+                'total': activity_funding_data['isc_secured'] + activity_funding_data['isc_unsecured']
+            })
+        return Response(summary)
