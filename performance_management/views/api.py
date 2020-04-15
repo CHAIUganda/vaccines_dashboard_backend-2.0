@@ -142,3 +142,44 @@ class PlannedActivitiesPerQuarterStats(RequestSuperClass):
                                                              1))).distinct().count()
             summary.append({'quarter': quarter, 'activity_count': activity_count, 'year': self.start_year})
         return Response(summary)
+
+
+class BudgetAllocationPerRegionStats(RequestSuperClass):
+    def get(self, request):
+        super(BudgetAllocationPerRegionStats, self).get(request)
+        summary = dict()
+
+        if self.funding == 'Unsecured':
+            activity_funding_data = Activity.objects.aggregate(
+                district_count=Count(Case(
+                    When(Q(funding_status=FUNDING_STATUS[1][0]) & Q(level=LEVEL[0][0]), then=1),
+                    output_field=IntegerField(),
+                )),
+                national_count=Count(Case(
+                    When(Q(funding_status=FUNDING_STATUS[1][0]) & Q(level=LEVEL[1][0]), then=1),
+                    output_field=IntegerField(),
+                ))
+            )
+        else:
+            activity_funding_data = Activity.objects.aggregate(
+                district_count=Count(Case(
+                    When(Q(funding_status=FUNDING_STATUS[0][0]) & Q(level=LEVEL[0][0]), then=1),
+                    output_field=IntegerField(),
+                )),
+                national_count=Count(Case(
+                    When(Q(funding_status=FUNDING_STATUS[0][0]) & Q(level=LEVEL[1][0]), then=1),
+                    output_field=IntegerField(),
+                ))
+            )
+
+        district_count = activity_funding_data['district_count']
+        national_count = activity_funding_data['national_count']
+
+        try:
+            summary = {
+                'district_percentage': int(round(district_count / float(district_count + national_count) * 100,0)),
+                'national_percentage': int(round(national_count / float(district_count + national_count) * 100, 0))
+            }
+        except ZeroDivisionError as e:
+            print(e)
+        return Response(summary)
