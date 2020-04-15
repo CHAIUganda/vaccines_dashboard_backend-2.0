@@ -148,6 +148,7 @@ class ActivityDates(models.Model):
 
 
 class ActivityStatus(models.Model):
+    year = models.IntegerField(default=2020)
     quarter = models.IntegerField(default=1)
     comment = models.TextField(null=True, blank=True)
     status = models.CharField(choices=COMPLETION_STATUS, max_length=1000, default=COMPLETION_STATUS[0][1])

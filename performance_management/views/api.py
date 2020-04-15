@@ -121,3 +121,24 @@ class ActivityFundingStats(RequestSuperClass):
 class OrganizationsList(ListCreateAPIView):
     queryset = Organization.objects.all()
     serializer_class = OrganizationsGetSerializer
+
+
+class PlannedActivitiesPerQuarterStats(RequestSuperClass):
+    def get(self, request):
+        super(PlannedActivitiesPerQuarterStats, self).get(request)
+        quarter = 0
+        summary = []
+        self.start_year = 2020
+
+        for x in range(6):
+            if x > 3 and quarter > 3:
+                self.start_year += 1
+                quarter = 0
+            quarter += 1
+
+            activity_count = Activity.objects.filter(
+                Q(activity_date__date__gte=datetime.datetime(self.start_year, quarter_months[quarter][0], 1)) &
+                Q(activity_date__date__lte=datetime.datetime(self.start_year, quarter_months[quarter][2],
+                                                             1))).distinct().count()
+            summary.append({'quarter': quarter, 'activity_count': activity_count, 'year': self.start_year})
+        return Response(summary)
