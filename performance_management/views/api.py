@@ -4,7 +4,7 @@ from django.db.models.expressions import F, Q, ExpressionWrapper
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from cold_chain.models import *
-from utility import replace_quotes, quarter_months, month_to_string
+from utility import replace_quotes, quarter_months, month_to_string, generate_percentage
 from dateutil.relativedelta import relativedelta
 from rest_framework.generics import ListCreateAPIView
 from performance_management.serializers import OrganizationsGetSerializer
@@ -215,4 +215,39 @@ class ISCFundingStats(RequestSuperClass):
                 'activity_cost_usd': activity_funding_data['activity_cost_usd'],
                 'total': activity_funding_data['isc_secured'] + activity_funding_data['isc_unsecured']
             })
+        return Response(summary)
+
+
+class ActivityStatusProgressStats(RequestSuperClass):
+    def get(self, request):
+        super(ActivityStatusProgressStats, self).get(request)
+        summary = []
+        activity_status = ActivityStatus.objects.aggregate(
+            completed=Count(Case(
+                When(Q(status=COMPLETION_STATUS[0][0]), then=1),
+                output_field=IntegerField(),
+            )),
+            ongoing=Count(Case(
+                When(Q(status=COMPLETION_STATUS[2][0]), then=1),
+                output_field=IntegerField(),
+            )),
+            not_done=Count(Case(
+                When(Q(status=COMPLETION_STATUS[1][0]), then=1),
+                output_field=IntegerField(),
+            ))
+        )
+
+        completed = activity_status['completed']
+        ongoing = activity_status['ongoing']
+        not_done = activity_status['not_done']
+        total = completed + ongoing + not_done
+
+        summary = {
+            'completed': completed,
+            'ongoing': ongoing,
+            'not_done': not_done,
+            'completed_percentage': generate_percentage(completed, total),
+            'ongoing_percentage': generate_percentage(ongoing, total),
+            'not_done_percentage': generate_percentage(not_done, total),
+        }
         return Response(summary)
