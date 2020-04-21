@@ -194,7 +194,7 @@ class ISCFundingStats(RequestSuperClass):
         summary = []
 
         for component in IMMUNIZATION_COMPONENT:
-            activity_funding_data = Activity.objects.aggregate(
+            activity_funding_data = Activity.objects.filter(immunization_component=component[1]).aggregate(
                 isc_secured=Count(Case(
                     When(Q(funding_status=FUNDING_STATUS[0][0]) & Q(immunization_component=component[1]), then=1),
                     output_field=IntegerField(),
@@ -204,11 +204,15 @@ class ISCFundingStats(RequestSuperClass):
                          then=1),
                     output_field=IntegerField(),
                 )),
+                activity_cost_ugx=Sum('activity_cost_ugx'),
+                activity_cost_usd=Sum('activity_cost_usd'),
             )
             summary.append({
                 'component': component[1],
                 'secured': activity_funding_data['isc_secured'],
                 'unsecured': activity_funding_data['isc_unsecured'],
+                'activity_cost_ugx': activity_funding_data['activity_cost_ugx'],
+                'activity_cost_usd': activity_funding_data['activity_cost_usd'],
                 'total': activity_funding_data['isc_secured'] + activity_funding_data['isc_unsecured']
             })
         return Response(summary)
