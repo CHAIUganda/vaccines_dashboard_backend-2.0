@@ -221,7 +221,7 @@ class ISCFundingStats(RequestSuperClass):
 class ActivityStatusProgressStats(RequestSuperClass):
     def get(self, request):
         super(ActivityStatusProgressStats, self).get(request)
-        summary = []
+        summary = dict()
         activity_status = ActivityStatus.objects.aggregate(
             completed=Count(Case(
                 When(Q(status=COMPLETION_STATUS[0][0]), then=1),
@@ -242,12 +242,15 @@ class ActivityStatusProgressStats(RequestSuperClass):
         not_done = activity_status['not_done']
         total = completed + ongoing + not_done
 
-        summary = {
-            'completed': completed,
-            'ongoing': ongoing,
-            'not_done': not_done,
-            'completed_percentage': generate_percentage(completed, total),
-            'ongoing_percentage': generate_percentage(ongoing, total),
-            'not_done_percentage': generate_percentage(not_done, total),
-        }
+        try:
+            summary = {
+                'completed': completed,
+                'ongoing': ongoing,
+                'not_done': not_done,
+                'completed_percentage': generate_percentage(completed, total),
+                'ongoing_percentage': generate_percentage(ongoing, total),
+                'not_done_percentage': generate_percentage(not_done, total),
+            }
+        except ZeroDivisionError as e:
+            print(e)
         return Response(summary)
