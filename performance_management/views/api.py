@@ -194,7 +194,11 @@ class ISCFundingStats(RequestSuperClass):
         summary = []
 
         for component in IMMUNIZATION_COMPONENT:
-            activity_funding_data = Activity.objects.filter(immunization_component=component[1]).aggregate(
+            activity_funding_data = Activity.objects.filter(
+                Q(immunization_component=component[1]) &
+                Q(activity_date__date__gte=datetime.datetime(self.start_year, quarter_months[self.start_quarter][0], 1)) &
+                Q(activity_date__date__lte=datetime.datetime(self.start_year, quarter_months[self.end_quarter][2],
+                                                             1))).aggregate(
                 isc_secured=Count(Case(
                     When(Q(funding_status=FUNDING_STATUS[0][0]) & Q(immunization_component=component[1]), then=1),
                     output_field=IntegerField(),
