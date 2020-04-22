@@ -48,6 +48,7 @@ class ActivityByOrganization(RequestSuperClass):
                 # completed_percentage=F('completed') / (F('activity_status_count') * Decimal('1.0')) * 100)
                 completed_percentage=F('completed') / (6 * Decimal('1.0')) * 100)
         summary = organizations.values('name', 'completed', 'activity__activity_status__quarter',
+                                       'activity__activity_status__year',
                                        'completed_percentage',
                                        'activity_status_count')
         return Response(summary)
