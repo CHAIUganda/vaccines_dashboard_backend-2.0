@@ -17,7 +17,7 @@ def import_performance_management(excel_file, year, month):
 
     for row in workbook_results.iter_rows('A%s:BF%s' % (workbook_results.min_row + 4, workbook_results.max_row)):
         try:
-            immunization_component = row[1].value
+            immunization_component_name = row[1].value
             objective = row[2].value
             activity_name = row[3].value
             level = row[4].value
@@ -38,6 +38,13 @@ def import_performance_management(excel_file, year, month):
                 print(e)
                 organization = Organization(name=organization_name)
                 organization.save()
+
+            try:
+                immunization_component = ImmunizationComponent.objects.get(name=immunization_component_name)
+            except Exception as e:
+                print(e)
+                immunization_component = ImmunizationComponent(name=immunization_component_name)
+                immunization_component.save()
 
             # precreate the dates in the ActivityDates table
             activity_dates = []

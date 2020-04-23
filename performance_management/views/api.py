@@ -195,9 +195,9 @@ class ISCFundingStats(RequestSuperClass):
         super(ISCFundingStats, self).get(request)
         summary = []
 
-        for component in IMMUNIZATION_COMPONENT:
+        for component in ImmunizationComponent.objects.all():
             activities = Activity.objects.filter(
-                Q(immunization_component=component[1]) &
+                Q(immunization_component=component) &
                 Q(activity_date__date__gte=datetime.datetime(self.start_year, quarter_months[self.start_quarter][0],
                                                              1)) &
                 Q(activity_date__date__lte=datetime.datetime(self.start_year, quarter_months[self.end_quarter][2], 1)))
@@ -207,11 +207,11 @@ class ISCFundingStats(RequestSuperClass):
 
             activity_funding_data = activities.aggregate(
                 isc_secured=Count(Case(
-                    When(Q(funding_status=FUNDING_STATUS[0][0]) & Q(immunization_component=component[1]), then=1),
+                    When(Q(funding_status=FUNDING_STATUS[0][0]) & Q(immunization_component=component), then=1),
                     output_field=IntegerField(),
                 )),
                 isc_unsecured=Count(Case(
-                    When(Q(funding_status=FUNDING_STATUS[1][0]) & Q(immunization_component=component[1]),
+                    When(Q(funding_status=FUNDING_STATUS[1][0]) & Q(immunization_component=component),
                          then=1),
                     output_field=IntegerField(),
                 )),
@@ -222,7 +222,7 @@ class ISCFundingStats(RequestSuperClass):
 
             if total > 0:
                 summary.append({
-                    'component': component[1],
+                    'component': component.name,
                     'secured': activity_funding_data['isc_secured'],
                     'unsecured': activity_funding_data['isc_unsecured'],
                     'activity_cost_ugx': activity_funding_data['activity_cost_ugx'],

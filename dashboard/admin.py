@@ -129,5 +129,6 @@ admin_site.register(Organization)
 admin_site.register(ActivityDates)
 admin_site.register(ActivityStatus)
 admin_site.register(Activity)
+admin_site.register(ImmunizationComponent)
 admin_site.register(ChangeLog)
 

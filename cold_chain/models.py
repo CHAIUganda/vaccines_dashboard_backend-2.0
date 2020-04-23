@@ -157,10 +157,17 @@ class ActivityStatus(models.Model):
         return "%s %s" % (str(self.quarter), self.status)
 
 
+class ImmunizationComponent(models.Model):
+    name = models.CharField(max_length=500, unique=True, default="Advocacy, Communication & Social Mobilization")
+
+    def __str__(self):
+        return "%s" % (str(self.name))
+
+
 class Activity(models.Model):
     name = models.TextField(unique=True)
     funding_status = models.CharField(choices=FUNDING_STATUS, max_length=1000, default=FUNDING_STATUS[0][0], null=True, blank=True)
-    immunization_component = models.CharField(default=IMMUNIZATION_COMPONENT[0][0], null=True, blank=True, max_length=1000)
+    immunization_component = models.ForeignKey(ImmunizationComponent, null=True, blank=True)
 
     objective = models.TextField(default="", null=True, blank=True)
     level = models.CharField(choices=LEVEL, max_length=1000, default=LEVEL[0][0], null=True, blank=True)
