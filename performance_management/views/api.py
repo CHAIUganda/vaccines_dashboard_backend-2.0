@@ -20,7 +20,7 @@ class RequestSuperClass(APIView):
         self.start_period = replace_quotes(request.query_params.get('start_period', '201901'))
         self.end_period = replace_quotes(request.query_params.get('end_period', '201902'))
         self.year = int(replace_quotes(request.query_params.get('year', '2019')))
-        self.organization = request.query_params.get('organization', None)
+        self.organization = replace_quotes(request.query_params.get('organization', 'All'))
         self.funding = replace_quotes(request.query_params.get('funding', 'Secured'))
 
         self.start_year = int(self.start_period[:4])
@@ -36,8 +36,8 @@ class ActivityByOrganization(RequestSuperClass):
         # assume completion is achieved when all 6 quarter objectives have been completed
 
         organizations = Organization.objects.filter()
-        if self.organization:
-            organizations = organizations.filter(name=replace_quotes(self.organization))
+        if self.organization != 'All':
+            organizations = organizations.filter(name=self.organization)
 
         if self.funding:
             organizations = organizations.order_by('name').annotate(completed=Count(
@@ -202,7 +202,7 @@ class ISCFundingStats(RequestSuperClass):
                                                              1)) &
                 Q(activity_date__date__lte=datetime.datetime(self.start_year, quarter_months[self.end_quarter][2], 1)))
 
-            if self.organization:
+            if self.organization != 'All':
                 activities = activities.filter(organization__name=replace_quotes(self.organization))
 
             activity_funding_data = activities.aggregate(
@@ -275,7 +275,7 @@ class FundSourceMetrics(RequestSuperClass):
         super(FundSourceMetrics, self).get(request)
 
         organization = Organization.objects.filter()
-        if self.organization:
+        if self.organization != 'All':
             organization = organization.filter(name=replace_quotes(self.organization))
         organization = organization.annotate(activity_cost_usd=Sum('activity__activity_cost_usd'),
                                                      activity_cost_ugx=Sum('activity__activity_cost_ugx'))
