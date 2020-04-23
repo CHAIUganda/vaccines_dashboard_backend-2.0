@@ -276,8 +276,8 @@ class FundSourceMetrics(RequestSuperClass):
 
         organization = Organization.objects.filter()
         if self.organization:
-            organization = organization.filter(name=self.organization)
-        organization = organization.objects.annotate(activity_cost_usd=Sum('activity__activity_cost_usd'),
+            organization = organization.filter(name=replace_quotes(self.organization))
+        organization = organization.annotate(activity_cost_usd=Sum('activity__activity_cost_usd'),
                                                      activity_cost_ugx=Sum('activity__activity_cost_ugx'))
         summary = organization.values('name', 'activity_cost_usd', 'activity_cost_ugx')
         return Response(summary)
