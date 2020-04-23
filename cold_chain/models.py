@@ -30,16 +30,6 @@ FUNDING_STATUS = (
     ("Unsecured", "Unsecured"),
 )
 
-IMMUNIZATION_COMPONENT = (
-    ("Advocacy", "Advocacy, Communication & Social Mobilization"),
-    ("Monitoring", "Monitoring, Supervision & Evaluation"),
-    ("ProgrammeManagementGeneral", "Programme Management General"),
-    ("ProgrammeManagementFinance", "Programme Management Finance"),
-    ("ServiceDelivery", "Service Delivery & Training"),
-    ("Surveillance", "Surveillance"),
-    ("Vaccines", "Vaccines, Logistics, Equipment & Infrastructure"),
-)
-
 LEVEL = (
     ("District", "District"),
     ("National", "National"),

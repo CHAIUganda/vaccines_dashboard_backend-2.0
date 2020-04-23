@@ -7,7 +7,7 @@ from cold_chain.models import *
 from utility import replace_quotes, quarter_months, month_to_string, generate_percentage
 from dateutil.relativedelta import relativedelta
 from rest_framework.generics import ListCreateAPIView
-from performance_management.serializers import OrganizationsGetSerializer
+from performance_management.serializers import OrganizationsGetSerializer, ImmunizationComponentGetSerializer
 import datetime
 import collections
 from decimal import Decimal
@@ -123,6 +123,11 @@ class OrganizationsList(ListCreateAPIView):
     queryset = Organization.objects.all()
     serializer_class = OrganizationsGetSerializer
 
+
+class ImmunizationComponentList(ListCreateAPIView):
+    queryset = ImmunizationComponent.objects.all()
+    serializer_class = ImmunizationComponentGetSerializer
+    
 
 class PlannedActivitiesPerQuarterStats(RequestSuperClass):
     def get(self, request):
