@@ -190,16 +190,22 @@ class ISCFundingStats(RequestSuperClass):
     """
     ISC - Immunization System Component
     """
+
     def get(self, request):
         super(ISCFundingStats, self).get(request)
         summary = []
 
         for component in IMMUNIZATION_COMPONENT:
-            activity_funding_data = Activity.objects.filter(
+            activities = Activity.objects.filter(
                 Q(immunization_component=component[1]) &
-                Q(activity_date__date__gte=datetime.datetime(self.start_year, quarter_months[self.start_quarter][0], 1)) &
-                Q(activity_date__date__lte=datetime.datetime(self.start_year, quarter_months[self.end_quarter][2],
-                                                             1))).aggregate(
+                Q(activity_date__date__gte=datetime.datetime(self.start_year, quarter_months[self.start_quarter][0],
+                                                             1)) &
+                Q(activity_date__date__lte=datetime.datetime(self.start_year, quarter_months[self.end_quarter][2], 1)))
+
+            if self.organization:
+                activities = activities.filter(organization__name=replace_quotes(self.organization))
+
+            activity_funding_data = activities.aggregate(
                 isc_secured=Count(Case(
                     When(Q(funding_status=FUNDING_STATUS[0][0]) & Q(immunization_component=component[1]), then=1),
                     output_field=IntegerField(),
@@ -212,14 +218,17 @@ class ISCFundingStats(RequestSuperClass):
                 activity_cost_ugx=Sum('activity_cost_ugx'),
                 activity_cost_usd=Sum('activity_cost_usd'),
             )
-            summary.append({
-                'component': component[1],
-                'secured': activity_funding_data['isc_secured'],
-                'unsecured': activity_funding_data['isc_unsecured'],
-                'activity_cost_ugx': activity_funding_data['activity_cost_ugx'],
-                'activity_cost_usd': activity_funding_data['activity_cost_usd'],
-                'total': activity_funding_data['isc_secured'] + activity_funding_data['isc_unsecured']
-            })
+            total = activity_funding_data['isc_secured'] + activity_funding_data['isc_unsecured']
+
+            if total > 0:
+                summary.append({
+                    'component': component[1],
+                    'secured': activity_funding_data['isc_secured'],
+                    'unsecured': activity_funding_data['isc_unsecured'],
+                    'activity_cost_ugx': activity_funding_data['activity_cost_ugx'],
+                    'activity_cost_usd': activity_funding_data['activity_cost_usd'],
+                    'total': total
+                })
         return Response(summary)
 
 
