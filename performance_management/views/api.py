@@ -268,3 +268,16 @@ class ActivityStatusProgressStats(RequestSuperClass):
         except ZeroDivisionError as e:
             print(e)
         return Response(summary)
+
+
+class FundSourceMetrics(RequestSuperClass):
+    def get(self, request):
+        super(FundSourceMetrics, self).get(request)
+
+        organization = Organization.objects.filter()
+        if self.organization:
+            organization = organization.filter(name=self.organization)
+        organization = organization.objects.annotate(activity_cost_usd=Sum('activity__activity_cost_usd'),
+                                                     activity_cost_ugx=Sum('activity__activity_cost_ugx'))
+        summary = organization.values('name', 'activity_cost_usd', 'activity_cost_ugx')
+        return Response(summary)
