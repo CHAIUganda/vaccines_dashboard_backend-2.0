@@ -7,7 +7,8 @@ from cold_chain.models import *
 from utility import replace_quotes, quarter_months, month_to_string, generate_percentage
 from dateutil.relativedelta import relativedelta
 from rest_framework.generics import ListCreateAPIView
-from performance_management.serializers import OrganizationsGetSerializer, ImmunizationComponentGetSerializer
+from performance_management.serializers import OrganizationsGetSerializer, ImmunizationComponentGetSerializer, \
+    ActivityGetSerializer
 import datetime
 import collections
 from decimal import Decimal
@@ -286,3 +287,8 @@ class FundSourceMetrics(RequestSuperClass):
                                                      activity_cost_ugx=Sum('activity__activity_cost_ugx'))
         summary = organization.values('name', 'activity_cost_usd', 'activity_cost_ugx')
         return Response(summary)
+
+
+class ActivityMetrics(ListCreateAPIView):
+    queryset = Activity.objects.all()
+    serializer_class = ActivityGetSerializer

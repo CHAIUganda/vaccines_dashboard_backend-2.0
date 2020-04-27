@@ -141,6 +141,9 @@ class ActivityStatus(models.Model):
     year = models.IntegerField(default=2020)
     quarter = models.IntegerField(default=1)
     comment = models.TextField(null=True, blank=True)
+    organization = models.ForeignKey(Organization, null=True, blank=True)
+    firstdate = models.DateField(null=True, blank=True)
+    lastdate = models.DateField(null=True, blank=True)
     status = models.CharField(choices=COMPLETION_STATUS, max_length=1000, default=COMPLETION_STATUS[0][1])
 
     def __str__(self):

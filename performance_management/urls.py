@@ -14,4 +14,5 @@ urlpatterns = [
     url(r'^api/iscfundingstats', performance_management.views.api.ISCFundingStats.as_view(), name='iscfundingstats'),
     url(r'^api/activitystatusprogressstats', performance_management.views.api.ActivityStatusProgressStats.as_view(), name='activitystatusprogressstats'),
     url(r'^api/fundsourcemetrics', performance_management.views.api.FundSourceMetrics.as_view(), name='fundsourcemetrics'),
+    url(r'^api/activitymetrics', performance_management.views.api.ActivityMetrics.as_view(), name='activitymetrics'),
 ]
