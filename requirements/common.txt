@@ -35,3 +35,4 @@ django-crontab
 django-cors-headers
 requests
 jupyter
+djoser==0.4.1
