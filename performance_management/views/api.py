@@ -155,29 +155,18 @@ class BudgetAllocationPerRegionStats(RequestSuperClass):
     def get(self, request):
         super(BudgetAllocationPerRegionStats, self).get(request)
         summary = dict()
-
-        if self.funding == 'Unsecured':
-            activity_funding_data = Activity.objects.aggregate(
-                district_count=Count(Case(
-                    When(Q(funding_status=FUNDING_STATUS[1][0]) & Q(level=LEVEL[0][0]), then=1),
-                    output_field=IntegerField(),
-                )),
-                national_count=Count(Case(
-                    When(Q(funding_status=FUNDING_STATUS[1][0]) & Q(level=LEVEL[1][0]), then=1),
-                    output_field=IntegerField(),
-                ))
-            )
-        else:
-            activity_funding_data = Activity.objects.aggregate(
-                district_count=Count(Case(
-                    When(Q(funding_status=FUNDING_STATUS[0][0]) & Q(level=LEVEL[0][0]), then=1),
-                    output_field=IntegerField(),
-                )),
-                national_count=Count(Case(
-                    When(Q(funding_status=FUNDING_STATUS[0][0]) & Q(level=LEVEL[1][0]), then=1),
-                    output_field=IntegerField(),
-                ))
-            )
+        
+        funding_status = FUNDING_STATUS[1][0] if self.funding == 'Unsecured' else FUNDING_STATUS[1][0]
+        activity_funding_data = Activity.objects.aggregate(
+            district_count=Count(Case(
+                When(Q(funding_status=funding_status) & Q(level=LEVEL[0][0]), then=1),
+                output_field=IntegerField(),
+            )),
+            national_count=Count(Case(
+                When(Q(funding_status=funding_status) & Q(level=LEVEL[1][0]), then=1),
+                output_field=IntegerField(),
+            ))
+        )
 
         district_count = activity_funding_data['district_count']
         national_count = activity_funding_data['national_count']
