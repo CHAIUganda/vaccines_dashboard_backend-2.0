@@ -15,7 +15,7 @@ def import_performance_management(excel_file, year, month):
     worksheet_name = "Data"
     workbook_results = workbook.get_sheet_by_name(worksheet_name)
 
-    for row in workbook_results.iter_rows('A%s:BF%s' % (workbook_results.min_row + 4, workbook_results.max_row)):
+    for row in workbook_results.iter_rows('A%s:BG%s' % (workbook_results.min_row + 4, workbook_results.max_row)):
         try:
             immunization_component_name = row[1].value
             objective = row[2].value
@@ -31,6 +31,8 @@ def import_performance_management(excel_file, year, month):
             budget_assumption = row[12].value if row[12].value else ""
             responsible_focal_point = row[14].value
             stackholder_focal_point = row[15].value if row[15].value else ""
+            # todo add quarter budget
+            quarter_budget_usd = 0
 
             try:
                 organization = Organization.objects.get(name=organization_name)
@@ -69,7 +71,7 @@ def import_performance_management(excel_file, year, month):
                     quarter = 1
                 status_value = row[x].value
                 comment_value = row[x + 1].value
-                activity_status = ActivityStatus(status=status_value, comment=comment_value, quarter=quarter)
+                activity_status = ActivityStatus(status=status_value, comment=comment_value, quarter=quarter, quarter_budget_usd=quarter_budget_usd)
                 activity_status.save()
                 activity_statuses.append(activity_status)
                 quarter += 1

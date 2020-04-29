@@ -281,3 +281,17 @@ class FundSourceMetrics(RequestSuperClass):
 class ActivityMetrics(ListCreateAPIView):
     queryset = Activity.objects.all()
     serializer_class = ActivityGetSerializer
+
+
+class BudgetPerQuarterStats(RequestSuperClass):
+    def get(self, request):
+        super(BudgetPerQuarterStats, self).get(request)
+        quarter_budget_filter = lambda x: Sum(
+            Case(When(quarter=x, then=F('quarter_budget_usd')), default=Value(0), output_field=IntegerField()))
+        activity_status = ActivityStatus.objects.aggregate(q1=quarter_budget_filter(1),
+                                                           q2=quarter_budget_filter(2),
+                                                           q3=quarter_budget_filter(3),
+                                                           q4=quarter_budget_filter(4),
+                                                           q5=quarter_budget_filter(5),
+                                                           q6=quarter_budget_filter(6))
+        return Response(activity_status)
