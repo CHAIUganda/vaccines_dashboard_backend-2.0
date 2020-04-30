@@ -104,6 +104,7 @@ class EligibleFacilityMetric(models.Model):
     total_number_immunizing_facility = models.IntegerField(default=0)
     year = models.IntegerField(default=2019)
     month = models.IntegerField(default=6)
+    date = models.DateField(null=True, blank=True)
     district = models.ForeignKey(District, on_delete=models.SET_NULL, null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     cce_coverage_rate = models.IntegerField(default=0)

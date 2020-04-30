@@ -5,7 +5,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from cold_chain.helpers import *
 from cold_chain.models import *
-from utility import replace_quotes, quarter_months, month_to_string
+from utility import replace_quotes, quarter_months, month_to_string, generate_percentage
 from dateutil.relativedelta import relativedelta
 import datetime
 import collections
@@ -607,19 +607,18 @@ class EligibleFacilityStats(RequestSuperClass):
         summary = dict()
         percentage_cce_coverage_rate = 0
         percentage_not_cce_coverage_rate = 0
+        # todo change to date filter
         metrics = EligibleFacilityMetric.objects.filter(Q(year__gte=self.start_year) & Q(year__lte=self.end_year)) \
             .exclude(district__name__isnull=True).exclude(district__name__exact='')
 
         if self.district_name.lower() != 'national':
             metrics = metrics.filter(district__name__icontains=self.district_name)
 
-        total_eligible_facilities = metrics.count()
-        total_archievable_cce_coverage_rate_percentage = total_eligible_facilities * 100
+        total_eligible_facilities = metrics.aggregate(Sum('total_eligible_facility'))['total_eligible_facility__sum']
+        total_number_immunizing_facility = metrics.aggregate(Sum('total_number_immunizing_facility'))['total_number_immunizing_facility__sum']
 
-        total_cce_coverage_rate = metrics.aggregate(Sum('cce_coverage_rate'))['cce_coverage_rate__sum']
         try:
-            percentage_cce_coverage_rate = int(
-                round(total_cce_coverage_rate / float(total_archievable_cce_coverage_rate_percentage) * 100, 0))
+            percentage_cce_coverage_rate = generate_percentage(total_number_immunizing_facility, total_eligible_facilities)
             percentage_not_cce_coverage_rate = 100 - percentage_cce_coverage_rate
         except (TypeError, ZeroDivisionError) as e:
             print(e)
