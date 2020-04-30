@@ -536,6 +536,7 @@ class CapacityMetricsStats(RequestSuperClass):
         positive_gap_percentage = 0
         negative_gap_percentage = 0
         districts_with_cce = []
+        facilities_with_cce = []
         current_district = ''
 
         all_fridges = RefrigeratorDetail.objects.filter(
@@ -546,6 +547,7 @@ class CapacityMetricsStats(RequestSuperClass):
             all_fridges = all_fridges.filter(district__name=self.district_name)
 
         districts_with_cce += [fridge.district for fridge in all_fridges]
+        facilities_with_cce += [fridge.refrigerator.cold_chain_facility for fridge in all_fridges]
         for fridge_detail in all_fridges:
 
             if fridge_detail.district.name != current_district:
@@ -563,6 +565,7 @@ class CapacityMetricsStats(RequestSuperClass):
             total_available_net_storage_volume += fridge_detail.available_net_storage_volume
             total_required_net_storage_volume += fridge_detail.required_net_storage_volume
         districts_with_cce_count = len(set(districts_with_cce))
+        facilities_with_cce = len(set(facilities_with_cce))
 
         try:
             positive_gap_percentage = round((positive_gap_count / float(districts_with_cce_count)) * 100, 0)
@@ -573,7 +576,7 @@ class CapacityMetricsStats(RequestSuperClass):
         return {
             'positive_gap_count': positive_gap_count,
             'negative_gap_count': negative_gap_count,
-            'districts_with_cce_count': districts_with_cce_count,
+            'facilities_with_cce': facilities_with_cce,
             'positive_gap_percentage': positive_gap_percentage,
             'negative_gap_percentage': negative_gap_percentage
         }
@@ -864,7 +867,8 @@ class TempReportingRateStats(RequestSuperClass):
                 monthly_submission_data_percentages[month] = int(
                     round(monthly_submission_data[month] / float(districts_total) * 100))
         submission_percentages_graph_data.append({
-            'submissions_percentages': monthly_submission_data_percentages
+            'submissions_percentages': monthly_submission_data_percentages,
+            'monthly_submissions': monthly_submission_data,
         })
 
         summary.update({'heat_graph_data': heat_graph_data})
