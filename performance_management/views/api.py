@@ -28,30 +28,21 @@ class RequestSuperClass(APIView):
         self.start_quarter = int(self.start_period[4:])
         self.end_year = int(self.end_period[:4])
         self.end_quarter = int(self.end_period[4:])
+        self.start_date = datetime.datetime(self.start_year, quarter_months[self.start_quarter][0], 1)
+        self.end_date = datetime.datetime(self.start_year, quarter_months[self.end_quarter][2], 1)
 
 
 class ActivityByOrganization(RequestSuperClass):
     def get(self, request):
         super(ActivityByOrganization, self).get(request)
-        # divide the activity status count by 6 because there are 6 quarters
-        # assume completion is achieved when all 6 quarter objectives have been completed
 
-        organizations = Organization.objects.filter()
-        if self.organization != 'All':
-            organizations = organizations.filter(name=self.organization)
-
-        if self.funding:
-            organizations = organizations.order_by('name').annotate(completed=Count(
-                Case(When(activity__activity_status__status=COMPLETION_STATUS[0][0],
-                          activity__funding_status=self.funding, then=1),
-                     output_field=IntegerField())),
-                activity_status_count=Count('activity__activity_status'),
-                # completed_percentage=F('completed') / (F('activity_status_count') * Decimal('1.0')) * 100)
-                completed_percentage=F('completed') / (6 * Decimal('1.0')) * 100)
-        summary = organizations.values('name', 'completed', 'activity__activity_status__quarter',
-                                       'activity__activity_status__year',
-                                       'completed_percentage',
-                                       'activity_status_count')
+        # make reverse query then count
+        organizations = Organization.objects.filter(Q(activity__activity_status__firstdate__gte=self.start_date) &
+                                                    Q(activity__activity_status__firstdate__lte=self.end_date)).distinct()
+        total_activities = [{"activity_count": x.activity_set.count(), "name": x.name} for x in organizations]
+        summary = {
+            "total_activities": total_activities
+        }
         return Response(summary)
 
 
