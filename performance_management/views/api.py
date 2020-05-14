@@ -29,20 +29,26 @@ class RequestSuperClass(APIView):
         self.end_year = int(self.end_period[:4])
         self.end_quarter = int(self.end_period[4:])
         self.start_date = datetime.datetime(self.start_year, quarter_months[self.start_quarter][0], 1)
-        self.end_date = datetime.datetime(self.start_year, quarter_months[self.end_quarter][2], 1)
+        self.end_date = datetime.datetime(self.end_year, quarter_months[self.end_quarter][2], 1)
 
 
 class ActivityByOrganization(RequestSuperClass):
     def get(self, request):
         super(ActivityByOrganization, self).get(request)
+        summary = []
 
         # make reverse query then count
         organizations = Organization.objects.filter(Q(activity__activity_status__firstdate__gte=self.start_date) &
-                                                    Q(activity__activity_status__firstdate__lte=self.end_date)).distinct()
-        total_activities = [{"activity_count": x.activity_set.count(), "name": x.name} for x in organizations]
-        summary = {
-            "total_activities": total_activities
-        }
+                                                    Q(activity__activity_status__firstdate__lte=self.end_date))
+
+        for org in Organization.objects.all():
+            filtered_orgs = organizations.filter(name=org.name)
+            total_activities = filtered_orgs.count()
+            if total_activities:
+                summary.append({
+                    "total_activities": total_activities,
+                    "name": org.name,
+                })
         return Response(summary)
 
 
