@@ -30,6 +30,7 @@ class RequestSuperClass(APIView):
         self.end_quarter = int(self.end_period[4:])
         self.start_date = datetime.datetime(self.start_year, quarter_months[self.start_quarter][0], 1)
         self.end_date = datetime.datetime(self.end_year, quarter_months[self.end_quarter][2], 1)
+        self.activity_status = replace_quotes(request.query_params.get('activity_status', 'Completed'))
 
 
 class ActivityByOrganization(RequestSuperClass):
@@ -41,14 +42,35 @@ class ActivityByOrganization(RequestSuperClass):
         organizations = Organization.objects.filter(Q(activity__activity_status__firstdate__gte=self.start_date) &
                                                     Q(activity__activity_status__firstdate__lte=self.end_date))
 
-        for org in Organization.objects.all():
+        completed_organizations = Organization.objects.filter(Q(activity__activity_status__firstdate__gte=self.start_date) &
+                                                    Q(activity__activity_status__firstdate__lte=self.end_date) &
+                                                    Q(activity__activity_status__status=self.activity_status))
+
+        all_activities = []
+        orgs = Organization.objects.all()
+        for org in orgs:
             filtered_orgs = organizations.filter(name=org.name)
             total_activities = filtered_orgs.count()
             if total_activities:
-                summary.append({
+                all_activities.append({
                     "total_activities": total_activities,
                     "name": org.name,
                 })
+
+        # filter for completed, ongoing, not done
+        all_filtered_activities = []
+        for org in orgs:
+            filtered_orgs = completed_organizations.filter(name=org.name)
+            total_activities = filtered_orgs.count()
+            if total_activities:
+                all_filtered_activities.append({
+                    "total_activities": total_activities,
+                    "name": org.name,
+                })
+        summary = {
+            'all_activities': all_activities,
+            'filtered_activities': all_filtered_activities
+        }
         return Response(summary)
 
 
