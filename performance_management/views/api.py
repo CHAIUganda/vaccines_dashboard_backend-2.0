@@ -205,7 +205,10 @@ class ISCFundingStats(RequestSuperClass):
 
     def get(self, request):
         super(ISCFundingStats, self).get(request)
-        summary = []
+        unsecured_total = 0
+        secured_total = 0
+        grand_total = 0
+        data = []
 
         for component in ImmunizationComponent.objects.all():
             activities = Activity.objects.filter(
@@ -231,9 +234,12 @@ class ISCFundingStats(RequestSuperClass):
                 activity_cost_usd=Sum('activity_cost_usd'),
             )
             total = activity_funding_data['isc_secured'] + activity_funding_data['isc_unsecured']
+            secured_total += activity_funding_data['isc_secured']
+            unsecured_total += activity_funding_data['isc_unsecured']
+            grand_total += total
 
             if total > 0:
-                summary.append({
+                data.append({
                     'component': component.name,
                     'secured': activity_funding_data['isc_secured'],
                     'unsecured': activity_funding_data['isc_unsecured'],
@@ -241,6 +247,13 @@ class ISCFundingStats(RequestSuperClass):
                     'activity_cost_usd': activity_funding_data['activity_cost_usd'],
                     'total': total
                 })
+
+        summary = {
+            'data': data,
+            'secured_total': secured_total,
+            'unsecured_total': unsecured_total,
+            'grand_total': grand_total,
+        }
         return Response(summary)
 
 
