@@ -22,7 +22,6 @@ class RequestSuperClass(APIView):
         self.end_period = replace_quotes(request.query_params.get('end_period', '201902'))
         self.year = int(replace_quotes(request.query_params.get('year', '2019')))
         self.organization = replace_quotes(request.query_params.get('organization', 'All'))
-        self.funding = replace_quotes(request.query_params.get('funding', 'Secured'))
 
         self.start_year = int(self.start_period[:4])
         self.start_quarter = int(self.start_period[4:])
@@ -174,15 +173,14 @@ class BudgetAllocationPerRegionStats(RequestSuperClass):
     def get(self, request):
         super(BudgetAllocationPerRegionStats, self).get(request)
         summary = dict()
-        
-        funding_status = FUNDING_STATUS[1][0] if self.funding == 'Unsecured' else FUNDING_STATUS[1][0]
+
         activity_funding_data = Activity.objects.aggregate(
             district_count=Count(Case(
-                When(Q(funding_status=funding_status) & Q(level=LEVEL[0][0]), then=1),
+                When(Q(level=LEVEL[0][0]), then=1),
                 output_field=IntegerField(),
             )),
             national_count=Count(Case(
-                When(Q(funding_status=funding_status) & Q(level=LEVEL[1][0]), then=1),
+                When(Q(level=LEVEL[1][0]), then=1),
                 output_field=IntegerField(),
             ))
         )
