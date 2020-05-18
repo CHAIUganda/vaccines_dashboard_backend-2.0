@@ -22,36 +22,54 @@ class RequestSuperClass(APIView):
         self.end_period = replace_quotes(request.query_params.get('end_period', '201902'))
         self.year = int(replace_quotes(request.query_params.get('year', '2019')))
         self.organization = replace_quotes(request.query_params.get('organization', 'All'))
-        self.funding = replace_quotes(request.query_params.get('funding', 'Secured'))
 
         self.start_year = int(self.start_period[:4])
         self.start_quarter = int(self.start_period[4:])
         self.end_year = int(self.end_period[:4])
         self.end_quarter = int(self.end_period[4:])
+        self.start_date = datetime.datetime(self.start_year, quarter_months[self.start_quarter][0], 1)
+        self.end_date = datetime.datetime(self.end_year, quarter_months[self.end_quarter][2], 1)
+        self.activity_status = replace_quotes(request.query_params.get('activity_status', 'Completed'))
 
 
 class ActivityByOrganization(RequestSuperClass):
     def get(self, request):
         super(ActivityByOrganization, self).get(request)
-        # divide the activity status count by 6 because there are 6 quarters
-        # assume completion is achieved when all 6 quarter objectives have been completed
+        summary = []
 
-        organizations = Organization.objects.filter()
-        if self.organization != 'All':
-            organizations = organizations.filter(name=self.organization)
+        # make reverse query then count
+        organizations = Organization.objects.filter(Q(activity__activity_status__firstdate__gte=self.start_date) &
+                                                    Q(activity__activity_status__firstdate__lte=self.end_date))
 
-        if self.funding:
-            organizations = organizations.order_by('name').annotate(completed=Count(
-                Case(When(activity__activity_status__status=COMPLETION_STATUS[0][0],
-                          activity__funding_status=self.funding, then=1),
-                     output_field=IntegerField())),
-                activity_status_count=Count('activity__activity_status'),
-                # completed_percentage=F('completed') / (F('activity_status_count') * Decimal('1.0')) * 100)
-                completed_percentage=F('completed') / (6 * Decimal('1.0')) * 100)
-        summary = organizations.values('name', 'completed', 'activity__activity_status__quarter',
-                                       'activity__activity_status__year',
-                                       'completed_percentage',
-                                       'activity_status_count')
+        completed_organizations = Organization.objects.filter(Q(activity__activity_status__firstdate__gte=self.start_date) &
+                                                    Q(activity__activity_status__firstdate__lte=self.end_date) &
+                                                    Q(activity__activity_status__status=self.activity_status))
+
+        all_activities = []
+        orgs = Organization.objects.all()
+        for org in orgs:
+            filtered_orgs = organizations.filter(name=org.name)
+            total_activities = filtered_orgs.count()
+            if total_activities:
+                all_activities.append({
+                    "total_activities": total_activities,
+                    "name": org.name,
+                })
+
+        # filter for completed, ongoing, not done
+        all_filtered_activities = []
+        for org in orgs:
+            filtered_orgs = completed_organizations.filter(name=org.name)
+            total_activities = filtered_orgs.count()
+            if total_activities:
+                all_filtered_activities.append({
+                    "total_activities": total_activities,
+                    "name": org.name,
+                })
+        summary = {
+            'all_activities': all_activities,
+            'filtered_activities': all_filtered_activities
+        }
         return Response(summary)
 
 
@@ -155,15 +173,14 @@ class BudgetAllocationPerRegionStats(RequestSuperClass):
     def get(self, request):
         super(BudgetAllocationPerRegionStats, self).get(request)
         summary = dict()
-        
-        funding_status = FUNDING_STATUS[1][0] if self.funding == 'Unsecured' else FUNDING_STATUS[1][0]
+
         activity_funding_data = Activity.objects.aggregate(
             district_count=Count(Case(
-                When(Q(funding_status=funding_status) & Q(level=LEVEL[0][0]), then=1),
+                When(Q(level=LEVEL[0][0]), then=1),
                 output_field=IntegerField(),
             )),
             national_count=Count(Case(
-                When(Q(funding_status=funding_status) & Q(level=LEVEL[1][0]), then=1),
+                When(Q(level=LEVEL[1][0]), then=1),
                 output_field=IntegerField(),
             ))
         )
@@ -188,7 +205,10 @@ class ISCFundingStats(RequestSuperClass):
 
     def get(self, request):
         super(ISCFundingStats, self).get(request)
-        summary = []
+        unsecured_total = 0
+        secured_total = 0
+        grand_total = 0
+        data = []
 
         for component in ImmunizationComponent.objects.all():
             activities = Activity.objects.filter(
@@ -214,9 +234,12 @@ class ISCFundingStats(RequestSuperClass):
                 activity_cost_usd=Sum('activity_cost_usd'),
             )
             total = activity_funding_data['isc_secured'] + activity_funding_data['isc_unsecured']
+            secured_total += activity_funding_data['isc_secured']
+            unsecured_total += activity_funding_data['isc_unsecured']
+            grand_total += total
 
             if total > 0:
-                summary.append({
+                data.append({
                     'component': component.name,
                     'secured': activity_funding_data['isc_secured'],
                     'unsecured': activity_funding_data['isc_unsecured'],
@@ -224,6 +247,13 @@ class ISCFundingStats(RequestSuperClass):
                     'activity_cost_usd': activity_funding_data['activity_cost_usd'],
                     'total': total
                 })
+
+        summary = {
+            'data': data,
+            'secured_total': secured_total,
+            'unsecured_total': unsecured_total,
+            'grand_total': grand_total,
+        }
         return Response(summary)
 
 
