@@ -18,9 +18,9 @@ class RequestSuperClass(APIView):
     def get(self, request):
         self.district_name = replace_quotes(request.query_params.get('district', 'national'))
         self.facility_type = replace_quotes(request.query_params.get('carelevel', 'all'))
-        self.start_period = replace_quotes(request.query_params.get('start_period', '201901'))
-        self.end_period = replace_quotes(request.query_params.get('end_period', '201902'))
-        self.year = int(replace_quotes(request.query_params.get('year', '2019')))
+        self.start_period = replace_quotes(request.query_params.get('start_period', '202001'))
+        self.end_period = replace_quotes(request.query_params.get('end_period', '202102'))
+        self.year = int(replace_quotes(request.query_params.get('year', '2020')))
         self.organization = replace_quotes(request.query_params.get('organization', 'All'))
 
         self.start_year = int(self.start_period[:4])
@@ -41,34 +41,50 @@ class ActivityByOrganization(RequestSuperClass):
         organizations = Organization.objects.filter(Q(activity__activity_status__firstdate__gte=self.start_date) &
                                                     Q(activity__activity_status__firstdate__lte=self.end_date))
 
-        completed_organizations = Organization.objects.filter(Q(activity__activity_status__firstdate__gte=self.start_date) &
+        completed_organizations =Organization.objects.filter(Q(activity__activity_status__firstdate__gte=self.start_date) &
                                                     Q(activity__activity_status__firstdate__lte=self.end_date) &
-                                                    Q(activity__activity_status__status=self.activity_status))
+                                                    Q(activity__activity_status__status="Completed"))
+        
+        not_done_organizations = Organization.objects.filter(Q(activity__activity_status__firstdate__gte=self.start_date) &
+                                            Q(activity__activity_status__firstdate__lte=self.end_date) &
+                                            Q(activity__activity_status__status="Not Done"))
+        
+        on_going_organizations = Organization.objects.filter(Q(activity__activity_status__firstdate__gte=self.start_date) &
+                                    Q(activity__activity_status__firstdate__lte=self.end_date) &
+                                    Q(activity__activity_status__status="Ongoing"))
+
+        # We have other statuses in the backend. How do we query for all not equal to the above?
 
         all_activities = []
         orgs = Organization.objects.all()
         for org in orgs:
-            filtered_orgs = organizations.filter(name=org.name)
-            total_activities = filtered_orgs.count()
+            total_activities = organizations.filter(name=org.name).count()
+            completed_activities = completed_organizations.filter(name=org.name).count()
+            not_done_activities = not_done_organizations.filter(name=org.name).count()
+            on_going_activities = on_going_organizations.filter(name=org.name).count()
             if total_activities:
                 all_activities.append({
                     "total_activities": total_activities,
                     "name": org.name,
+                    "completed_activities":completed_activities,
+                    "on_going_activities":on_going_activities,
+                    "not_done_activities": not_done_activities
                 })
 
         # filter for completed, ongoing, not done
-        all_filtered_activities = []
-        for org in orgs:
-            filtered_orgs = completed_organizations.filter(name=org.name)
-            total_activities = filtered_orgs.count()
-            if total_activities:
-                all_filtered_activities.append({
-                    "total_activities": total_activities,
-                    "name": org.name,
-                })
+        # all_filtered_activities = []
+        # for org in orgs:
+        #     filtered_orgs = completed_organizations.filter(name=org.name)
+        #     total_activities = filtered_orgs.count()
+        #     if total_activities:
+        #         all_filtered_activities.append({
+        #             "total_activities": total_activities,
+        #             "name": org.name,
+        #             "status": self.activity_status
+        #         })
         summary = {
             'all_activities': all_activities,
-            'filtered_activities': all_filtered_activities
+            # 'filtered_activities': all_filtered_activities
         }
         return Response(summary)
 
@@ -161,11 +177,23 @@ class PlannedActivitiesPerQuarterStats(RequestSuperClass):
                 quarter = 0
             quarter += 1
 
-            activity_count = Activity.objects.filter(
+            activities = Activity.objects.filter(
                 Q(activity_date__date__gte=datetime.datetime(self.start_year, quarter_months[quarter][0], 1)) &
-                Q(activity_date__date__lte=datetime.datetime(self.start_year, quarter_months[quarter][2],
-                                                             1))).distinct().count()
-            summary.append({'quarter': quarter, 'activity_count': activity_count, 'year': self.start_year})
+                Q(activity_date__date__lte=datetime.datetime(self.start_year, quarter_months[quarter][2],1))
+            ).distinct()
+
+            activities_count = activities.count()
+                
+            completed = activities.filter(activity_status__status="Completed").values('activity_status').count()
+            
+            ongoing = activities.filter(activity_status__status="Ongoing").values('activity_status').count()
+
+            not_done = activities.filter(activity_status__status="Not Done").values('activity_status').count()
+
+            # Statuses not equal to completed, ongoing and not_done
+            rest = activities.filter(~Q(activity_status__status="Not Done") | ~Q(activity_status__status="Completed") | ~Q(activity_status__status="Completed")).values('activity_status').count()
+
+            summary.append({'quarter': quarter, 'activity_count': activities_count, 'year': self.start_year, "completed": completed, "not_done": not_done, "ongoing": ongoing, "rest": rest})
         return Response(summary)
 
 

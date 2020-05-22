@@ -32,7 +32,7 @@ django-easy-pdf==0.1.1
 xhtml2pdf
 django-datatable
 django-crontab
-django-cors-headers
+django-cors-headers==2.4.1
 requests
 jupyter
 djoser==0.4.1
