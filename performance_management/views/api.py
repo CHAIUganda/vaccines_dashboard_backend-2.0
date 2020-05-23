@@ -37,39 +37,44 @@ class ActivityByOrganization(RequestSuperClass):
         super(ActivityByOrganization, self).get(request)
         summary = []
 
-        # make reverse query then count
-        organizations = Organization.objects.filter(Q(activity__activity_status__firstdate__gte=self.start_date) &
-                                                    Q(activity__activity_status__firstdate__lte=self.end_date))
+        for organization in Organization.objects.all():
+            completed = 0
+            ongoing = 0
+            not_done = 0
+            partially_done = 0
 
-        completed_organizations = Organization.objects.filter(Q(activity__activity_status__firstdate__gte=self.start_date) &
-                                                    Q(activity__activity_status__firstdate__lte=self.end_date) &
-                                                    Q(activity__activity_status__status=self.activity_status))
+            activities = organization.activity_set.all()
+            activities = activities.filter(
+                Q(activity_date__date__gte=self.start_date) &
+                Q(activity_date__date__lte=self.end_date)).distinct()
 
-        all_activities = []
-        orgs = Organization.objects.all()
-        for org in orgs:
-            filtered_orgs = organizations.filter(name=org.name)
-            total_activities = filtered_orgs.count()
-            if total_activities:
-                all_activities.append({
-                    "total_activities": total_activities,
-                    "name": org.name,
-                })
+            activities_count = activities.count()
 
-        # filter for completed, ongoing, not done
-        all_filtered_activities = []
-        for org in orgs:
-            filtered_orgs = completed_organizations.filter(name=org.name)
-            total_activities = filtered_orgs.count()
-            if total_activities:
-                all_filtered_activities.append({
-                    "total_activities": total_activities,
-                    "name": org.name,
-                })
-        summary = {
-            'all_activities': all_activities,
-            'filtered_activities': all_filtered_activities
-        }
+            for activity in activities:
+                activity_statuses = activity.activity_status.all()
+                activity_statuses_count = activity_statuses.count()
+                completed_count = activity_statuses.filter(status=COMPLETION_STATUS[0][0]).count()
+                not_done_count = activity_statuses.filter(status=COMPLETION_STATUS[1][0]).count()
+                activity.activity_date.last()
+
+                if completed_count == activity_statuses_count:
+                    completed += 1
+                elif not_done_count == activity_statuses_count:
+                    not_done += 1
+                elif activity.activity_date.order_by(
+                        'date').last().date < datetime.datetime.now().date() and completed_count > 1:
+                    partially_done += 1
+                else:
+                    ongoing += 1
+
+            summary.append({
+                'organization': organization.name,
+                'completed': completed,
+                'not_done': not_done,
+                'partially_done': partially_done,
+                'ongoing': ongoing,
+                'activity_count': activities_count,
+            })
         return Response(summary)
 
 
