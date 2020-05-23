@@ -155,17 +155,57 @@ class PlannedActivitiesPerQuarterStats(RequestSuperClass):
         summary = []
         self.start_year = 2020
 
+        organizations = Organization.objects.all()
+
         for x in range(6):
             if x > 3 and quarter > 3:
                 self.start_year += 1
                 quarter = 0
             quarter += 1
 
-            activity_count = Activity.objects.filter(
-                Q(activity_date__date__gte=datetime.datetime(self.start_year, quarter_months[quarter][0], 1)) &
-                Q(activity_date__date__lte=datetime.datetime(self.start_year, quarter_months[quarter][2],
-                                                             1))).distinct().count()
-            summary.append({'quarter': quarter, 'activity_count': activity_count, 'year': self.start_year})
+            for organization in organizations:
+                completed = 0
+                ongoing = 0
+                not_done = 0
+                partially_done = 0
+
+                activities = organization.activity_set.all()
+                print(activities.count())
+                activities = activities.filter(
+                    Q(activity_date__date__gte=datetime.datetime(self.start_year, quarter_months[quarter][0], 1)) &
+                    Q(activity_date__date__lte=datetime.datetime(self.start_year, quarter_months[quarter][2],
+                                                                 1))).distinct()
+
+                activities_count = activities.count()
+                print(activities_count)
+
+                for activity in activities:
+                    activity_statuses = activity.activity_status.all()
+                    activity_statuses_count = activity_statuses.count()
+                    completed_count = activity_statuses.filter(status=COMPLETION_STATUS[0][0]).count()
+                    not_done_count = activity_statuses.filter(status=COMPLETION_STATUS[1][0]).count()
+                    activity.activity_date.last()
+
+                    if completed_count == activity_statuses_count:
+                        completed += 1
+                    elif not_done_count == activity_statuses_count:
+                        not_done += 1
+                    elif activity.activity_date.order_by('date').last().date < datetime.datetime.now().date() and completed_count > 1:
+                        partially_done += 1
+                    else:
+                        ongoing += 1
+
+                summary.append({
+                    'organization': organization.name,
+                    'completed': completed,
+                    'not_done': not_done,
+                    'partially_done': partially_done,
+                    'ongoing': ongoing,
+                    'quarter': quarter,
+                    'activity_count': activities_count,
+                    'year': self.start_year
+                })
+
         return Response(summary)
 
 
