@@ -113,8 +113,7 @@ def import_performance_management(excel_file, year, month):
                     status_value = row[x].value if row[x].value else COMPLETION_STATUS[2][0]
                     comment_value = row[x + 1].value if row[x + 1].value else ""
                     current_year = int(year) if index < 8 else int(year) + 1
-                    # if its the next year choose the last month in the quarter
-                    current_month = quarter_months[active_quarters[counter]][0 if current_year == int(year) else 2]
+                    current_month = quarter_months[active_quarters[counter]][0]
                     firstdate = datetime.datetime(current_year, current_month, 1)
                     activity_status = ActivityStatus(status=status_value, comment=comment_value, quarter=active_quarters[counter], year=current_year,
                                                      quarter_budget_usd=budgets[counter], firstdate=firstdate)
