@@ -74,6 +74,16 @@ def save_vaccine_dose(period):
             opv_drop_out_rate = float('%.2f' % (((opv_dose1.first().consumed
                                                   - opv_dose3.first().consumed)
                                                  / opv_dose1.first().consumed) * 100))
+            try:
+                coverage_rate = float('%.1f' % (100*(opv_dose3.first().consumed / opv_dose3.first().planned_consumption)))
+            except ZeroDivisionError as e:
+                print(e)
+                coverage_rate = 0 
+            try:
+                access = 100*(opv_dose1.first().consumed / opv_dose1.first().planned_consumption)
+            except ZeroDivisionError as e:
+                print(e)
+                access = 0 
             VaccineDose.objects.update_or_create(
                 vaccine=opv_dose1.first().vaccine,
                 district=d,
@@ -84,8 +94,8 @@ def save_vaccine_dose(period):
                 second_dose=opv_dose2.first().consumed,
                 third_dose=opv_dose3.first().consumed,
                 last_dose=opv_dose3.first().consumed,
-                access=100*(opv_dose1.first().consumed / opv_dose1.first().planned_consumption),
-                coverage_rate=float('%.1f' % (100*(opv_dose3.first().consumed / opv_dose3.first().planned_consumption))),
+                access=access,
+                coverage_rate=coverage_rate,
                 planned_consumption=opv_dose3.first().planned_consumption,
             )
 
@@ -98,6 +108,17 @@ def save_vaccine_dose(period):
             pcv_drop_out_rate = float('%.2f' % (((pcv_dose1.first().consumed
                                                   - pcv_dose3.first().consumed)
                                                  / pcv_dose1.first().consumed) * 100))
+            try:
+                coverage_rate = float('%.1f' % (100*(pcv_dose3.first().consumed / pcv_dose3.first().planned_consumption)))
+            except ZeroDivisionError as e:
+                print(e)
+                coverage_rate = 0 
+            try:
+                access = 100 * (pcv_dose1.first().consumed / pcv_dose1.first().planned_consumption)
+            except ZeroDivisionError as e:
+                print(e)
+                access = 0 
+
             VaccineDose.objects.update_or_create(
                 vaccine=pcv_dose1.first().vaccine,
                 district=d,
@@ -108,8 +129,8 @@ def save_vaccine_dose(period):
                 second_dose=pcv_dose2.first().consumed,
                 third_dose=pcv_dose3.first().consumed,
                 last_dose=pcv_dose3.first().consumed,
-                access=100 * (pcv_dose1.first().consumed / pcv_dose1.first().planned_consumption),
-                coverage_rate=float('%.1f' % (100*(pcv_dose3.first().consumed / pcv_dose3.first().planned_consumption))),
+                access=access,
+                coverage_rate=coverage_rate,
                 planned_consumption=pcv_dose3.first().planned_consumption,
             )
 
@@ -123,6 +144,17 @@ def save_vaccine_dose(period):
                                                     - penta_dose3.first().consumed)
                                                    / penta_dose1.first().consumed) * 100))
 
+            try:
+                coverage_rate = float('%.1f' % (100*(penta_dose3.first().consumed / penta_dose3.first().planned_consumption)))
+            except ZeroDivisionError as e:
+                print(e)
+                coverage_rate = 0 
+            try:
+                access = 100 * (penta_dose1.first().consumed / penta_dose1.first().planned_consumption)
+            except ZeroDivisionError as e:
+                print(e)
+                access = 0 
+
             VaccineDose.objects.update_or_create(
                 vaccine=penta_dose1.first().vaccine,
                 district=d,
@@ -133,8 +165,8 @@ def save_vaccine_dose(period):
                 second_dose=penta_dose2.first().consumed,
                 third_dose=penta_dose3.first().consumed,
                 last_dose=penta_dose3.first().consumed,
-                access=100 * (penta_dose1.first().consumed / penta_dose1.first().planned_consumption),
-                coverage_rate=float('%.1f' % (100*(penta_dose3.first().consumed / penta_dose3.first().planned_consumption))),
+                access=access,
+                coverage_rate=coverage_rate,
                 planned_consumption=penta_dose3.first().planned_consumption,
             )
 
@@ -146,6 +178,18 @@ def save_vaccine_dose(period):
             tt_drop_out_rate = float('%.2f' % (((tt_dose1.first().consumed
                                                  - tt_dose2.first().consumed)
                                                 / tt_dose1.first().consumed) * 100))
+
+            try:
+                coverage_rate = float('%.1f' % (100*(tt_dose2.first().consumed / tt_dose2.first().planned_consumption)))
+            except ZeroDivisionError as e:
+                print(e)
+                coverage_rate = 0 
+            try:
+                access = 100 * (tt_dose1.first().consumed / tt_dose1.first().planned_consumption)
+            except ZeroDivisionError as e:
+                print(e)
+                access = 0 
+
             VaccineDose.objects.update_or_create(
                 vaccine=tt_dose1.first().vaccine,
                 district=d,
@@ -155,8 +199,8 @@ def save_vaccine_dose(period):
                 first_dose=tt_dose1.first().consumed,
                 second_dose=tt_dose2.first().consumed,
                 last_dose=tt_dose2.first().consumed,
-                access=100 * (tt_dose1.first().consumed / tt_dose1.first().planned_consumption),
-                coverage_rate=float('%.1f' % (100*(tt_dose2.first().consumed / tt_dose2.first().planned_consumption))),
+                access=access,
+                coverage_rate=coverage_rate,
                 planned_consumption=tt_dose2.first().planned_consumption,
             )
 
@@ -168,6 +212,18 @@ def save_vaccine_dose(period):
             hpv_drop_out_rate = float('%.2f' % (((hpv_dose1.first().consumed
                                                   - hpv_dose2.first().consumed)
                                                  / hpv_dose1.first().consumed) * 100))
+
+            try:
+                coverage_rate = float('%.1f' % (100*(hpv_dose2.first().consumed / hpv_dose2.first().planned_consumption)))
+            except ZeroDivisionError as e:
+                print(e)
+                coverage_rate = 0 
+            try:
+                access = 100 * (hpv_dose1.first().consumed / hpv_dose1.first().planned_consumption)
+            except ZeroDivisionError as e:
+                print(e)
+                access = 0 
+
             VaccineDose.objects.update_or_create(
                 vaccine=hpv_dose1.first().vaccine,
                 district=d,
@@ -177,8 +233,8 @@ def save_vaccine_dose(period):
                 first_dose=hpv_dose1.first().consumed,
                 second_dose=hpv_dose2.first().consumed,
                 last_dose=hpv_dose2.first().consumed,
-                access=100 * (hpv_dose1.first().consumed / hpv_dose1.first().planned_consumption),
-                coverage_rate=float('%.1f' % (100*(hpv_dose2.first().consumed / hpv_dose2.first().planned_consumption))),
+                access=access,
+                coverage_rate=coverage_rate,
                 planned_consumption=hpv_dose2.first().planned_consumption,
             )
 
@@ -190,6 +246,19 @@ def save_vaccine_dose(period):
             ipv_drop_out_rate = float('%.2f' % (((ipv_dose1.first().consumed
                                                   - ipv_dose2.first().consumed)
                                                  / ipv_dose1.first().consumed) * 100))
+
+            try:
+                coverage_rate = float(
+                    '%.1f' % (100 * (ipv_dose2.first().consumed / ipv_dose2.first().planned_consumption)))
+            except ZeroDivisionError as e:
+                print(e)
+                coverage_rate = 0 
+            try:
+                access = 100 * (ipv_dose1.first().consumed / ipv_dose1.first().planned_consumption)
+            except ZeroDivisionError as e:
+                print(e)
+                access = 0 
+
             VaccineDose.objects.update_or_create(
                 vaccine=ipv_dose1.first().vaccine,
                 district=d,
@@ -199,9 +268,8 @@ def save_vaccine_dose(period):
                 first_dose=ipv_dose1.first().consumed,
                 second_dose=ipv_dose2.first().consumed,
                 last_dose=ipv_dose2.first().consumed,
-                access=100 * (ipv_dose1.first().consumed / ipv_dose1.first().planned_consumption),
-                coverage_rate=float(
-                    '%.1f' % (100 * (ipv_dose2.first().consumed / ipv_dose2.first().planned_consumption))),
+                access=access,
+                coverage_rate=coverage_rate,
                 planned_consumption=ipv_dose2.first().planned_consumption,
             )
 
@@ -216,6 +284,17 @@ def save_vaccine_dose(period):
                                                    - bcgm_dose2.first().consumed)
                                                   / bcgm_dose1.first().consumed) * 100))
 
+            try:
+                coverage_rate = float('%.1f' % (100*(bcgm_dose2.first().consumed / bcgm_dose2.first().planned_consumption)))
+            except ZeroDivisionError as e:
+                print(e)
+                coverage_rate = 0 
+            try:
+                access = 100 * (bcgm_dose2.first().consumed / bcgm_dose2.first().planned_consumption)
+            except ZeroDivisionError as e:
+                print(e)
+                access = 0 
+
             VaccineDose.objects.update_or_create(
                 vaccine=bcgm_dose2.first().vaccine,
                 district=d,
@@ -224,8 +303,8 @@ def save_vaccine_dose(period):
                 under_immunized=bcgm_dose1.first().consumed-bcgm_dose2.first().consumed,
                 first_dose=bcgm_dose1.first().consumed,
                 last_dose=bcgm_dose2.first().consumed,
-                access=100 * (bcgm_dose2.first().consumed / bcgm_dose2.first().planned_consumption),
-                coverage_rate=float('%.1f' % (100*(bcgm_dose2.first().consumed / bcgm_dose2.first().planned_consumption))),
+                access=access,
+                coverage_rate=coverage_rate,
                 planned_consumption=bcgm_dose2.first().planned_consumption,
             )
 
@@ -237,7 +316,16 @@ def save_vaccine_dose(period):
             bcgm_drop_out_rate = float('%.2f' % (((bcgm_dose1.first().consumed
                                                    - bcgm_dose2.first().consumed)
                                                   / bcgm_dose1.first().consumed) * 100))
-
+            try:
+                coverage_rate = float('%.1f' % (100*(bcgm_dose1.first().consumed / bcgm_dose1.first().planned_consumption)))
+            except ZeroDivisionError as e:
+                print(e)
+                coverage_rate = 0 
+            try:
+                access = 100 * (bcgm_dose1.first().consumed / bcgm_dose1.first().planned_consumption)
+            except ZeroDivisionError as e:
+                print(e)
+                access = 0 
 
             VaccineDose.objects.update_or_create(
                 vaccine=bcgm_dose1.first().vaccine,
@@ -247,8 +335,8 @@ def save_vaccine_dose(period):
                 drop_out_rate=bcgm_drop_out_rate,
                 under_immunized=bcgm_dose1.first().consumed-bcgm_dose2.first().consumed,
                 last_dose=bcgm_dose1.first().consumed,
-                access=100 * (bcgm_dose1.first().consumed / bcgm_dose1.first().planned_consumption),
-                coverage_rate=float('%.1f' % (100*(bcgm_dose1.first().consumed / bcgm_dose1.first().planned_consumption))),
+                access=access,
+                coverage_rate=coverage_rate,
                 planned_consumption=bcgm_dose1.first().planned_consumption,
             )
 
