@@ -3,7 +3,7 @@ from django.db.models import Sum, Case, Value, When, Avg, FloatField, IntegerFie
 from django.db.models.expressions import F, Q, ExpressionWrapper
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from cold_chain.models import *
+from performance_management.models import *
 from utility import replace_quotes, quarter_months, month_to_string, generate_percentage
 from dateutil.relativedelta import relativedelta
 from rest_framework.generics import ListCreateAPIView

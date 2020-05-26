@@ -191,10 +191,10 @@ GENERIC_DATA_IMPORT = {
         'params': (),
         'function': 'cold_chain.management.commands.load_TBL_Facilities.import_tab_facilities'
     },
-    'cold_chain_performance_management': {
-        'name': 'Cold Chain Performance Management',
+    'performance_management_performance_management_command': {
+        'name': 'Performance Management Data',
         'params': ('year', 'month',),
-        'function': 'cold_chain.management.commands.performance_management.import_performance_management'
+        'function': 'performance_management.management.commands.performance_management_command.import_performance_management'
     }
 }
 

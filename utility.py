@@ -20,3 +20,9 @@ def add_months(sourcedate, months):
     month = month % 12 + 1
     day = min(sourcedate.day, calendar.monthrange(year,month)[1])
     return timezone.datetime(year, month, day)
+
+
+def encode_unicode(text):
+    if type(text) == unicode:
+        text = text.encode('utf-8')
+    return str(text)

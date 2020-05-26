@@ -7,6 +7,7 @@ from django.utils.translation import ugettext_lazy
 from django.utils.translation import ugettext_lazy as _
 
 from dashboard.models import *
+from performance_management.models import *
 from cold_chain.models import *
 from django.contrib import admin
 

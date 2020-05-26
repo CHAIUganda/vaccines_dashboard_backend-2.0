@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from cold_chain.models import Organization, ImmunizationComponent, Activity, ActivityDates, ActivityStatus
+from performance_management.models import Organization, ImmunizationComponent, Activity, ActivityDates, ActivityStatus
 
 
 class OrganizationsGetSerializer(serializers.ModelSerializer):
