@@ -6,9 +6,9 @@ from rest_framework.views import APIView
 from performance_management.models import *
 from utility import replace_quotes, quarter_months, month_to_string, generate_percentage
 from dateutil.relativedelta import relativedelta
-from rest_framework.generics import ListCreateAPIView
+from rest_framework.generics import ListCreateAPIView, RetrieveUpdateAPIView
 from performance_management.serializers import OrganizationsGetSerializer, ImmunizationComponentGetSerializer, \
-    ActivityGetSerializer
+    ActivityGetSerializer, ActivityStatusGetSerializer
 import datetime
 import collections
 from decimal import Decimal
@@ -104,9 +104,12 @@ class ActivityStatusPercentages(RequestSuperClass):
 
         try:
             percentages = {
-                'completed_percentage': round(completed_count / (completed_count + not_done_count + ongoing_count) * 100, 0),
-                'not_done_percentage': round(not_done_count / (completed_count + not_done_count + ongoing_count) * 100, 0),
-                'ongoing_percentage': round(ongoing_count / (completed_count + not_done_count + ongoing_count) * 100, 0),
+                'completed_percentage': round(
+                    completed_count / (completed_count + not_done_count + ongoing_count) * 100, 0),
+                'not_done_percentage': round(not_done_count / (completed_count + not_done_count + ongoing_count) * 100,
+                                             0),
+                'ongoing_percentage': round(ongoing_count / (completed_count + not_done_count + ongoing_count) * 100,
+                                            0),
             }
 
             count_data = {
@@ -151,7 +154,7 @@ class OrganizationsList(ListCreateAPIView):
 class ImmunizationComponentList(ListCreateAPIView):
     queryset = ImmunizationComponent.objects.all()
     serializer_class = ImmunizationComponentGetSerializer
-    
+
 
 class PlannedActivitiesPerQuarterStats(RequestSuperClass):
     def get(self, request):
@@ -195,7 +198,8 @@ class PlannedActivitiesPerQuarterStats(RequestSuperClass):
                         completed += 1
                     elif not_done_count == activity_statuses_count:
                         not_done += 1
-                    elif activity.activity_date.order_by('date').last().date < datetime.datetime.now().date() and completed_count > 1:
+                    elif activity.activity_date.order_by(
+                            'date').last().date < datetime.datetime.now().date() and completed_count > 1:
                         partially_done += 1
                     else:
                         ongoing += 1
@@ -235,7 +239,7 @@ class BudgetAllocationPerRegionStats(RequestSuperClass):
 
         try:
             summary = {
-                'district_percentage': int(round(district_count / float(district_count + national_count) * 100,0)),
+                'district_percentage': int(round(district_count / float(district_count + national_count) * 100, 0)),
                 'national_percentage': int(round(national_count / float(district_count + national_count) * 100, 0))
             }
         except ZeroDivisionError as e:
@@ -348,7 +352,7 @@ class FundSourceMetrics(RequestSuperClass):
         if self.organization != 'All':
             organization = organization.filter(name=replace_quotes(self.organization))
         organization = organization.annotate(activity_cost_usd=Sum('activity__activity_cost_usd'),
-                                                     activity_cost_ugx=Sum('activity__activity_cost_ugx'))
+                                             activity_cost_ugx=Sum('activity__activity_cost_ugx'))
         summary = organization.values('name', 'activity_cost_usd', 'activity_cost_ugx')
         return Response(summary)
 
@@ -362,7 +366,8 @@ class BudgetPerQuarterStats(RequestSuperClass):
     def get(self, request):
         super(BudgetPerQuarterStats, self).get(request)
         quarter_budget_filter = lambda quarter, year: Sum(
-            Case(When(quarter=quarter, year=year, then=F('quarter_budget_usd')), default=Value(0), output_field=IntegerField()))
+            Case(When(quarter=quarter, year=year, then=F('quarter_budget_usd')), default=Value(0),
+                 output_field=IntegerField()))
         activity_status = ActivityStatus.objects.aggregate(q1=quarter_budget_filter(1, self.start_year),
                                                            q2=quarter_budget_filter(2, self.start_year),
                                                            q3=quarter_budget_filter(3, self.start_year),
@@ -370,3 +375,8 @@ class BudgetPerQuarterStats(RequestSuperClass):
                                                            q5=quarter_budget_filter(1, self.start_year + 1),
                                                            q6=quarter_budget_filter(2, self.start_year + 1))
         return Response(activity_status)
+
+
+class ActivityStatusRetrieveUpdate(RetrieveUpdateAPIView):
+    queryset = ActivityStatus.objects.all()
+    serializer_class = ActivityStatusGetSerializer

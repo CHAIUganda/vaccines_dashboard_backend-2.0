@@ -16,4 +16,5 @@ urlpatterns = [
     url(r'^api/fundsourcemetrics', performance_management.views.api.FundSourceMetrics.as_view(), name='fundsourcemetrics'),
     url(r'^api/activitymetrics', performance_management.views.api.ActivityMetrics.as_view(), name='activitymetrics'),
     url(r'^api/budgetperquarter', performance_management.views.api.BudgetPerQuarterStats.as_view(), name='budgetperquarter'),
+    url(r'^api/activitystatus/(?P<pk>\d+)', performance_management.views.api.ActivityStatusRetrieveUpdate.as_view(), name='activitystatus'),
 ]
