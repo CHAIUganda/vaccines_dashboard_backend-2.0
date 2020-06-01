@@ -40,7 +40,7 @@ INSTALLED_APPS = (
 )
 
 MIDDLEWARE_CLASSES = (
-    # 'corsheaders.middleware.CorsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -49,7 +49,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.security.SecurityMiddleware',
-    'vaccines.middleware.corsMiddleware'
+    # 'vaccines.middleware.corsMiddleware'
 )
 
 ROOT_URLCONF = 'vaccines.urls'
