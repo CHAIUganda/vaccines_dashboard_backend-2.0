@@ -10,7 +10,7 @@ from vaccines import settings
 
 def validate_file_extension(value):
     ext = os.path.splitext(value.name)[1]
-    valid_extensions = ['.xlsx', '.xls']
+    valid_extensions = ['.xlsm', '.xlsx', '.xls']
     if ext not in valid_extensions:
         raise ValidationError(u'Unsupported file extension.')
 

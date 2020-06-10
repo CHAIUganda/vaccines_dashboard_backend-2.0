@@ -36,4 +36,4 @@ django-cors-headers==2.4.1
 requests
 jupyter
 djoser==0.4.1
-django-cors==2.4.3
+django-cors

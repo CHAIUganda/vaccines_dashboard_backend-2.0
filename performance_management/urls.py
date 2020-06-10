@@ -1,7 +1,7 @@
 from django.conf.urls import url, include
 
 import performance_management.views.api
-
+import performance_management.views.main
 
 urlpatterns = [
     url(r'^api/activitybyorganizationstats', performance_management.views.api.ActivityByOrganization.as_view(), name='activitybyorganizationstats'),
@@ -17,4 +17,5 @@ urlpatterns = [
     url(r'^api/activities', performance_management.views.api.ActivityMetrics.as_view(), name='activitymetrics'),
     url(r'^api/budgetperquarter', performance_management.views.api.BudgetPerQuarterStats.as_view(), name='budgetperquarter'),
     url(r'^api/activitystatuses/(?P<pk>\d+)', performance_management.views.api.ActivityStatusRetrieveUpdate.as_view(), name='activitystatus'),
+    url(r'^api/import$', performance_management.views.main.DataImportView.as_view(), name='import-performance'),
 ]
