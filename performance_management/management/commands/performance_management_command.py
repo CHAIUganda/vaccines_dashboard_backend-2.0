@@ -7,7 +7,7 @@ import datetime
 from utility import add_months, encode_unicode, quarter_months
 
 
-def import_performance_management(excel_file, year, month):
+def import_performance_management(excel_file, year):
     # data_only allow the return of values not formulae
     workbook = load_workbook(excel_file, read_only=True, use_iterators=True, data_only=True)
     # spaces in the sheet name may cause errors
@@ -144,4 +144,4 @@ class Command(BaseCommand):
             Pass the excel file link, year and month of the year"""
 
     def handle(self, *args, **options):
-        import_performance_management(args[0], args[1], args[2])
+        import_performance_management(args[0], args[1])

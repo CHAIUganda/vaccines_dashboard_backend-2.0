@@ -20,6 +20,6 @@ class DataImportView(LoginRequiredMixin, StaffuserRequiredMixin, FormView):
         month = form.cleaned_data['month']
         path = default_storage.save('tmp/workspace.xlsm', ContentFile(import_file.read()))
         tmp_file = os.path.join(settings.MEDIA_ROOT, path)
-        import_performance_management(tmp_file, year, month)
+        import_performance_management(tmp_file, year)
         messages.add_message(self.request, messages.INFO, 'Successfully started import for %s %s' % (year, month))
         return super(DataImportView, self).form_valid(form)

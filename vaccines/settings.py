@@ -193,7 +193,7 @@ GENERIC_DATA_IMPORT = {
     },
     'performance_management_performance_management_command': {
         'name': 'Performance Management Data',
-        'params': ('year', 'month',),
+        'params': ('year',),
         'function': 'performance_management.management.commands.performance_management_command.import_performance_management'
     }
 }
