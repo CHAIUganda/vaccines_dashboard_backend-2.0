@@ -366,13 +366,36 @@ class ActivityStatusProgressStats(RequestSuperClass):
 class FundSourceMetrics(RequestSuperClass):
     def get(self, request):
         super(FundSourceMetrics, self).get(request)
+        summary = []
 
-        organization = Organization.objects.filter()
         if self.organization != 'All':
-            organization = organization.filter(name=replace_quotes(self.organization))
-        organization = organization.annotate(activity_cost_usd=Sum('activity__activity_cost_usd'),
-                                             activity_cost_ugx=Sum('activity__activity_cost_ugx'))
-        summary = organization.values('name', 'activity_cost_usd', 'activity_cost_ugx')
+            total_budget_filter = lambda funding_source_organization: Sum(
+                Case(When(Q(activity_status__firstdate__gte=self.start_date) & Q(activity_status__firstdate__lte=self.end_date)
+                          & Q(organization__name=self.organization)
+                          & Q(funding_source_organization__name=funding_source_organization),
+                          then=F('activity_status__quarter_budget_usd')), default=Value(0),
+                     output_field=IntegerField()))
+
+        else:
+            total_budget_filter = lambda funding_source_organization: Sum(
+                Case(When(Q(activity_status__firstdate__gte=self.start_date) & Q(activity_status__firstdate__lte=self.end_date)
+                          & Q(funding_source_organization__name=funding_source_organization),
+                          then=F('activity_status__quarter_budget_usd')), default=Value(0),
+                     output_field=IntegerField()))
+
+        for org in FundingSourceOrganization.objects.all():
+            activity_funding_data = Activity.objects.aggregate(total_budget=total_budget_filter(org.name))
+            summary.append({
+                'name': org.name,
+                'total_budget': activity_funding_data['total_budget']
+            })
+
+        # organization = FundingSourceOrganization.objects.filter()
+        # if self.organization != 'All':
+        #     organization = organization.filter(name=replace_quotes(self.organization))
+        # organization = organization.annotate(activity_cost_usd=Sum('activity__activity_cost_usd'),
+        #                                      activity_cost_ugx=Sum('activity__activity_cost_ugx'))
+        # summary = organization.values('name', 'activity_cost_usd', 'activity_cost_ugx')
         return Response(summary)
 
 

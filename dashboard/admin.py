@@ -132,4 +132,5 @@ admin_site.register(ActivityStatus)
 admin_site.register(Activity)
 admin_site.register(ImmunizationComponent)
 admin_site.register(ChangeLog)
+admin_site.register(FundingSourceOrganization)
 
