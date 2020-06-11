@@ -127,21 +127,30 @@ class ActivityFundingStats(RequestSuperClass):
     def get(self, request):
         super(ActivityFundingStats, self).get(request)
 
-        activity_funding_data = Activity.objects.aggregate(
-            funded=Count(Case(
-                When(funding_status=FUNDING_STATUS[0][0], then=1),
-                output_field=IntegerField(),
-            )),
-            unfunded=Count(Case(
-                When(funding_status=FUNDING_STATUS[1][0], then=1),
-                output_field=IntegerField(),
-            ))
-        )
+        if self.organization != "All":
+            organization = Organization.objects.filter(name=self.organization)
+            funded = Activity.objects.filter(Q(activity_status__firstdate__gte=self.start_date)
+                                             & Q(activity_status__firstdate__lte=self.end_date)
+                                             & Q(funding_status=FUNDING_STATUS[0][0])
+                                             & Q(organization=organization)).distinct().count()
+
+            unfunded = Activity.objects.filter(Q(activity_status__firstdate__gte=self.start_date)
+                                               & Q(activity_status__firstdate__lte=self.end_date)
+                                               & Q(funding_status=FUNDING_STATUS[1][0])
+                                               & Q(organization=organization)).distinct().count()
+        else:
+            funded = Activity.objects.filter(Q(activity_status__firstdate__gte=self.start_date)
+                                    & Q(activity_status__firstdate__lte=self.end_date)
+                                    & Q(funding_status=FUNDING_STATUS[0][0])).distinct().count()
+
+            unfunded = Activity.objects.filter(Q(activity_status__firstdate__gte=self.start_date)
+                                              & Q(activity_status__firstdate__lte=self.end_date)
+                                              & Q(funding_status=FUNDING_STATUS[1][0])).distinct().count()
 
         summary = {
-            'funded': activity_funding_data['funded'],
-            'unfunded': activity_funding_data['unfunded'],
-            'total': activity_funding_data['funded'] + activity_funding_data['unfunded']
+            'funded': funded,
+            'unfunded': unfunded,
+            'total': funded + unfunded
         }
         return Response(summary)
 
