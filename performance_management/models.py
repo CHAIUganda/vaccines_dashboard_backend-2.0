@@ -40,7 +40,7 @@ FUNDING_PRIORITY_LEVEL = (
 
 
 COMPLETION_STATUS = (
-    ("Completed", "Completed"),
+    ("Complete", "Complete"),
     ("Not Done", "Not Done"),
     ("Ongoing", "Ongoing"),
 )

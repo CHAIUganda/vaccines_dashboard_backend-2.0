@@ -161,7 +161,6 @@ class PlannedActivitiesPerQuarterStats(RequestSuperClass):
         super(PlannedActivitiesPerQuarterStats, self).get(request)
         quarter = 0
         summary = []
-        self.start_year = 2020
 
         organizations = Organization.objects.all()
 
