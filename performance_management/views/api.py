@@ -85,15 +85,18 @@ class ActivityStatusPercentages(RequestSuperClass):
         summary = dict()
         activity_status_data = Activity.objects.aggregate(
             completed_count=Count(Case(
-                When(activity_status__status=COMPLETION_STATUS[0][0], then=1),
+                When(Q(activity_status__status=COMPLETION_STATUS[0][0]) & Q(activity_status__firstdate__gte=self.start_date)
+                                               & Q(activity_status__firstdate__lte=self.end_date), then=1),
                 output_field=IntegerField(),
             )),
             not_done_count=Count(Case(
-                When(activity_status__status=COMPLETION_STATUS[1][0], then=1),
+                When(Q(activity_status__status=COMPLETION_STATUS[1][0]) & Q(activity_status__firstdate__gte=self.start_date)
+                                               & Q(activity_status__firstdate__lte=self.end_date), then=1),
                 output_field=IntegerField(),
             )),
             ongoing_count=Count(Case(
-                When(activity_status__status=COMPLETION_STATUS[2][0], then=1),
+                When(Q(activity_status__status=COMPLETION_STATUS[2][0]) & Q(activity_status__firstdate__gte=self.start_date)
+                                               & Q(activity_status__firstdate__lte=self.end_date), then=1),
                 output_field=IntegerField(),
             )),
         )
