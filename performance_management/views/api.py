@@ -127,7 +127,7 @@ class ActivityFundingStats(RequestSuperClass):
     def get(self, request):
         super(ActivityFundingStats, self).get(request)
 
-        if self.organization != "All":
+        if self.organization != 'All':
             organization = Organization.objects.filter(name=self.organization)
             funded = Activity.objects.filter(Q(activity_status__firstdate__gte=self.start_date)
                                              & Q(activity_status__firstdate__lte=self.end_date)
@@ -171,7 +171,11 @@ class PlannedActivitiesPerQuarterStats(RequestSuperClass):
         quarter = 0
         summary = []
 
-        organizations = Organization.objects.all()
+        args = {}
+
+        if self.organization != 'All':
+            args.update({'name': self.organization})
+        organizations = Organization.objects.filter(**args)
 
         for x in range(6):
             if x > 3 and quarter > 3:
@@ -231,7 +235,7 @@ class BudgetAllocationPerRegionStats(RequestSuperClass):
         super(BudgetAllocationPerRegionStats, self).get(request)
         summary = dict()
 
-        if self.organization != "All":
+        if self.organization != 'All':
             total_budget_filter = lambda level: Sum(
                 Case(When(Q(activity_status__firstdate__gte=self.start_date) & Q(activity_status__firstdate__lte=self.end_date)
                           & Q(organization__name=self.organization)
