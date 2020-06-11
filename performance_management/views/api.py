@@ -231,16 +231,21 @@ class BudgetAllocationPerRegionStats(RequestSuperClass):
         super(BudgetAllocationPerRegionStats, self).get(request)
         summary = dict()
 
-        activity_funding_data = Activity.objects.aggregate(
-            district_count=Count(Case(
-                When(Q(level=LEVEL[0][0]), then=1),
-                output_field=IntegerField(),
-            )),
-            national_count=Count(Case(
-                When(Q(level=LEVEL[1][0]), then=1),
-                output_field=IntegerField(),
-            ))
-        )
+        if self.organization != "All":
+            total_budget_filter = lambda level: Sum(
+                Case(When(Q(activity_status__firstdate__gte=self.start_date) & Q(activity_status__firstdate__lte=self.end_date)
+                          & Q(organization__name=self.organization)
+                          & Q(level=level), then=F('activity_status__quarter_budget_usd')), default=Value(0),
+                     output_field=IntegerField()))
+        else:
+            total_budget_filter = lambda level: Sum(
+                Case(When(Q(activity_status__firstdate__gte=self.start_date) & Q(
+                    activity_status__firstdate__lte=self.end_date)
+                          & Q(level=level), then=F('activity_status__quarter_budget_usd')), default=Value(0),
+                     output_field=IntegerField()))
+
+        activity_funding_data = Activity.objects.aggregate(district_count=total_budget_filter(LEVEL[0][0]),
+                                              national_count=total_budget_filter(LEVEL[1][0]))
 
         district_count = activity_funding_data['district_count']
         national_count = activity_funding_data['national_count']
@@ -248,7 +253,9 @@ class BudgetAllocationPerRegionStats(RequestSuperClass):
         try:
             summary = {
                 'district_percentage': int(round(district_count / float(district_count + national_count) * 100, 0)),
-                'national_percentage': int(round(national_count / float(district_count + national_count) * 100, 0))
+                'national_percentage': int(round(national_count / float(district_count + national_count) * 100, 0)),
+                'district_count': district_count,
+                'national_count': national_count
             }
         except ZeroDivisionError as e:
             print(e)
