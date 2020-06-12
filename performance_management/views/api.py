@@ -59,7 +59,8 @@ class ActivityByOrganization(RequestSuperClass):
             for activity in activities:
                 if self.isc != 'All':
                     # skip activities without this immunization component
-                    if activity.immunization_component.name != self.isc:
+                    immunization_component = ImmunizationComponent.objects.filter(self.isc).first()
+                    if activity.immunization_component != immunization_component:
                         continue
                 # for an activity to be completed or not_done all quarter must be completed or not_done
                 # partially_done happens when an activity is over due however, it has atleast one completed activity
@@ -228,6 +229,7 @@ class PlannedActivitiesPerQuarterStats(RequestSuperClass):
                 ongoing = 0
                 not_done = 0
                 partially_done = 0
+                activities_count = 0
 
                 activities = organization.activity_set.all()
                 print(activities.count())
@@ -236,10 +238,12 @@ class PlannedActivitiesPerQuarterStats(RequestSuperClass):
                     Q(activity_date__date__lte=datetime.datetime(self.start_year, quarter_months[quarter][2],
                                                                  1))).distinct()
 
-                activities_count = activities.count()
-                print(activities_count)
-
                 for activity in activities:
+                    if self.isc != 'All':
+                        # skip activities without this immunization component
+                        immunization_component = ImmunizationComponent.objects.filter(name__icontains=self.isc).first()
+                        if activity.immunization_component != immunization_component:
+                            continue
                     activity_statuses = activity.activity_status.all()
                     activity_statuses_count = activity_statuses.count()
                     completed_count = activity_statuses.filter(status=COMPLETION_STATUS[0][0]).count()
@@ -255,6 +259,11 @@ class PlannedActivitiesPerQuarterStats(RequestSuperClass):
                         partially_done += 1
                     else:
                         ongoing += 1
+                    activities_count += 1
+
+                # don't include organizations without activities
+                if activities_count == 0:
+                    continue
 
                 summary.append({
                     'organization': organization.name,
