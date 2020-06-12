@@ -337,16 +337,24 @@ class ISCFundingStats(RequestSuperClass):
         secured_total = 0
         grand_total = 0
         data = []
+        comp_args = {}
 
-        for component in ImmunizationComponent.objects.all():
-            activities = Activity.objects.filter(
-                Q(immunization_component=component) &
-                Q(activity_date__date__gte=datetime.datetime(self.start_year, quarter_months[self.start_quarter][0],
-                                                             1)) &
-                Q(activity_date__date__lte=datetime.datetime(self.start_year, quarter_months[self.end_quarter][2], 1)))
+        if self.isc != 'All':
+            comp_args = {'name__icontains': self.isc}
+
+        for component in ImmunizationComponent.objects.filter(**comp_args):
+            args = {}
+            args.update({
+                'activity_status__firstdate__gte': self.start_date,
+                'activity_status__firstdate__lte': self.end_date,
+            })
 
             if self.organization != 'All':
-                activities = activities.filter(organization__name=replace_quotes(self.organization))
+                args.update({'organization__name': replace_quotes(self.organization)})
+            activities = Activity.objects.filter(generate_q(args)).distinct()
+
+            # requery the activities since aggregate won't work when distinct is used
+            activities = Activity.objects.filter(id__in=[act.id for act in activities])
 
             activity_funding_data = activities.aggregate(
                 isc_secured=Count(Case(
@@ -354,12 +362,15 @@ class ISCFundingStats(RequestSuperClass):
                     output_field=IntegerField(),
                 )),
                 isc_unsecured=Count(Case(
-                    When(Q(funding_status=FUNDING_STATUS[1][0]) & Q(immunization_component=component),
-                         then=1),
+                    When(Q(funding_status=FUNDING_STATUS[1][0]) & Q(immunization_component=component), then=1),
                     output_field=IntegerField(),
                 )),
-                activity_cost_ugx=Sum('activity_cost_ugx'),
-                activity_cost_usd=Sum('activity_cost_usd'),
+                activity_cost_ugx=Sum(Case(
+                    When(Q(immunization_component=component), then=F('activity_cost_ugx')),
+                    default=Value(0), output_field=IntegerField())),
+                activity_cost_usd=Sum(Case(
+                    When(Q(immunization_component=component), then=F('activity_cost_usd')),
+                    default=Value(0), output_field=IntegerField()))
             )
             total = activity_funding_data['isc_secured'] + activity_funding_data['isc_unsecured']
             secured_total += activity_funding_data['isc_secured']
@@ -438,7 +449,6 @@ class FundSourceMetrics(RequestSuperClass):
 
         if self.isc != 'All':
             filters.update({'immunization_component__name__icontains': self.isc})
-
 
         for org in FundingSourceOrganization.objects.all():
             activity_funding_data = Activity.objects.aggregate(total_budget=self.generate_total_budget_filter(filters, org.name))
