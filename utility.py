@@ -1,5 +1,7 @@
 import datetime
 import calendar
+
+from django.db.models import Q
 from django.utils import timezone
 
 quarter_months = {1: [1, 2, 3],
@@ -26,3 +28,11 @@ def encode_unicode(text):
     if type(text) == unicode:
         text = text.encode('utf-8')
     return str(text)
+
+
+def generate_q(filters):
+    # generates dynamic Q() filter
+    q_filters = Q()
+    for key, value in filters.items():
+        q_filters.add(Q(**{key: value}), Q.AND)
+    return q_filters

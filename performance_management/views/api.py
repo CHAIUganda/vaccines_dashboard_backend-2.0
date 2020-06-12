@@ -4,7 +4,7 @@ from django.db.models.expressions import F, Q, ExpressionWrapper
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from performance_management.models import *
-from utility import replace_quotes, quarter_months, month_to_string, generate_percentage
+from utility import replace_quotes, quarter_months, month_to_string, generate_percentage, generate_q
 from dateutil.relativedelta import relativedelta
 from rest_framework.generics import ListCreateAPIView, RetrieveUpdateAPIView
 from performance_management.serializers import OrganizationsGetSerializer, ImmunizationComponentGetSerializer, \
@@ -275,6 +275,7 @@ class PlannedActivitiesPerQuarterStats(RequestSuperClass):
                     'partially_done': partially_done,
                     'ongoing': ongoing,
                     'quarter': quarter,
+                    'period': str(self.start_year) + '0' + str(quarter),
                     'activity_count': activities_count,
                     'year': self.start_year
                 })
@@ -287,21 +288,20 @@ class BudgetAllocationPerRegionStats(RequestSuperClass):
         super(BudgetAllocationPerRegionStats, self).get(request)
         summary = dict()
 
-        if self.organization != 'All':
-            total_budget_filter = lambda level: Sum(
-                Case(When(Q(activity_status__firstdate__gte=self.start_date) & Q(activity_status__firstdate__lte=self.end_date)
-                          & Q(organization__name=self.organization)
-                          & Q(level=level), then=F('activity_status__quarter_budget_usd')), default=Value(0),
-                     output_field=IntegerField()))
-        else:
-            total_budget_filter = lambda level: Sum(
-                Case(When(Q(activity_status__firstdate__gte=self.start_date) & Q(
-                    activity_status__firstdate__lte=self.end_date)
-                          & Q(level=level), then=F('activity_status__quarter_budget_usd')), default=Value(0),
-                     output_field=IntegerField()))
+        filters = {
+            'activity_status__firstdate__gte': self.start_date,
+            'activity_status__firstdate__lte': self.end_date
+        }
 
-        activity_funding_data = Activity.objects.aggregate(district_count=total_budget_filter(LEVEL[0][0]),
-                                              national_count=total_budget_filter(LEVEL[1][0]))
+        if self.organization != 'All':
+            filters.update({'organization__name': self.organization})
+
+        if self.isc != 'All':
+            filters.update({'immunization_component__name__icontains': self.isc})
+
+        activity_funding_data = Activity.objects.aggregate(
+            district_count=self.generate_total_budget_filter(filters, LEVEL[0][0]),
+            national_count=self.generate_total_budget_filter(filters, LEVEL[1][0]))
 
         district_count = activity_funding_data['district_count']
         national_count = activity_funding_data['national_count']
@@ -316,6 +316,15 @@ class BudgetAllocationPerRegionStats(RequestSuperClass):
         except ZeroDivisionError as e:
             print(e)
         return Response(summary)
+
+    def generate_total_budget_filter(self, filters, level):
+        filters.update({'level': level})
+        q_filters = generate_q(filters)
+        print(q_filters)
+        total_budget_filter = Sum(
+            Case(When(q_filters, then=F('activity_status__quarter_budget_usd')), default=Value(0),
+                 output_field=IntegerField()))
+        return total_budget_filter
 
 
 class ISCFundingStats(RequestSuperClass):
