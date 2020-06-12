@@ -22,7 +22,12 @@ class RequestSuperClass(APIView):
         self.end_period = replace_quotes(request.query_params.get('end_period', '201902'))
         self.year = int(replace_quotes(request.query_params.get('year', '2019')))
         self.organization = replace_quotes(request.query_params.get('organization', 'All'))
-        self.isc = replace_quotes(request.query_params.get('isc', 'All'))
+        try:
+            # remove & sign and only use the first text
+            self.isc = replace_quotes(request.query_params.get('isc', 'All')).split('&')[0]
+        except IndexError as e:
+            print(e)
+            self.isc = 'All'
 
         self.start_year = int(self.start_period[:4])
         self.start_quarter = int(self.start_period[4:])
@@ -59,7 +64,7 @@ class ActivityByOrganization(RequestSuperClass):
             for activity in activities:
                 if self.isc != 'All':
                     # skip activities without this immunization component
-                    immunization_component = ImmunizationComponent.objects.filter(self.isc).first()
+                    immunization_component = ImmunizationComponent.objects.filter(name__icontains=self.isc).first()
                     if activity.immunization_component != immunization_component:
                         continue
                 # for an activity to be completed or not_done all quarter must be completed or not_done
@@ -175,8 +180,6 @@ class ActivityFundingStats(RequestSuperClass):
             args.update({'organization__name': self.organization})
 
         if self.isc != 'All':
-            print(self.isc)
-            print(ImmunizationComponent.objects.filter(name__icontains=self.isc))
             args.update({'immunization_component__name__icontains': self.isc})
 
         args.update({
