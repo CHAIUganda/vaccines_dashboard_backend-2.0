@@ -37,7 +37,6 @@ class ActivityByOrganization(RequestSuperClass):
     def get(self, request):
         super(ActivityByOrganization, self).get(request)
         summary = []
-
         args = {}
 
         if self.organization != 'All':
@@ -147,26 +146,25 @@ class ActivityStatusPercentages(RequestSuperClass):
 class ActivityFundingStats(RequestSuperClass):
     def get(self, request):
         super(ActivityFundingStats, self).get(request)
+        args = {}
 
         if self.organization != 'All':
-            organization = Organization.objects.filter(name=self.organization)
-            funded = Activity.objects.filter(Q(activity_status__firstdate__gte=self.start_date)
-                                             & Q(activity_status__firstdate__lte=self.end_date)
-                                             & Q(funding_status=FUNDING_STATUS[0][0])
-                                             & Q(organization=organization)).distinct().count()
+            args.update({'organization__name': self.organization})
 
-            unfunded = Activity.objects.filter(Q(activity_status__firstdate__gte=self.start_date)
-                                               & Q(activity_status__firstdate__lte=self.end_date)
-                                               & Q(funding_status=FUNDING_STATUS[1][0])
-                                               & Q(organization=organization)).distinct().count()
-        else:
-            funded = Activity.objects.filter(Q(activity_status__firstdate__gte=self.start_date)
-                                    & Q(activity_status__firstdate__lte=self.end_date)
-                                    & Q(funding_status=FUNDING_STATUS[0][0])).distinct().count()
+        if self.isc != 'All':
+            print(self.isc)
+            print(ImmunizationComponent.objects.filter(name__icontains=self.isc))
+            args.update({'immunization_component__name__icontains': self.isc})
 
-            unfunded = Activity.objects.filter(Q(activity_status__firstdate__gte=self.start_date)
-                                              & Q(activity_status__firstdate__lte=self.end_date)
-                                              & Q(funding_status=FUNDING_STATUS[1][0])).distinct().count()
+        args.update({
+            'activity_status__firstdate__gte': self.start_date,
+            'activity_status__firstdate__lte': self.end_date,
+            'funding_status': FUNDING_STATUS[0][0]
+        })
+
+        funded = Activity.objects.filter(**args).distinct().count()
+        args.update({'funding_status': FUNDING_STATUS[1][0]})
+        unfunded = Activity.objects.filter(**args).distinct().count()
 
         summary = {
             'funded': funded,
@@ -191,7 +189,6 @@ class PlannedActivitiesPerQuarterStats(RequestSuperClass):
         super(PlannedActivitiesPerQuarterStats, self).get(request)
         quarter = 0
         summary = []
-
         args = {}
 
         if self.organization != 'All':
