@@ -22,6 +22,7 @@ class RequestSuperClass(APIView):
         self.end_period = replace_quotes(request.query_params.get('end_period', '201902'))
         self.year = int(replace_quotes(request.query_params.get('year', '2019')))
         self.organization = replace_quotes(request.query_params.get('organization', 'All'))
+        self.isc = replace_quotes(request.query_params.get('isc', 'All'))
 
         self.start_year = int(self.start_period[:4])
         self.start_quarter = int(self.start_period[4:])
@@ -37,20 +38,32 @@ class ActivityByOrganization(RequestSuperClass):
         super(ActivityByOrganization, self).get(request)
         summary = []
 
-        for organization in Organization.objects.all():
+        args = {}
+
+        if self.organization != 'All':
+            args.update({'name': self.organization})
+
+        organizations = Organization.objects.filter(**args)
+
+        for organization in organizations:
             completed = 0
             ongoing = 0
             not_done = 0
             partially_done = 0
+            activities_count = 0
 
             activities = organization.activity_set.all()
             activities = activities.filter(
                 Q(activity_date__date__gte=self.start_date) &
                 Q(activity_date__date__lte=self.end_date)).distinct()
 
-            activities_count = activities.count()
-
             for activity in activities:
+                if self.isc != 'All':
+                    # skip activities without this immunization component
+                    if activity.immunization_component.name != self.isc:
+                        continue
+                # for an activity to be completed or not_done all quarter must be completed or not_done
+                # partially_done happens when an activity is over due however, it has atleast one completed activity
                 activity_statuses = activity.activity_status.all()
                 activity_statuses_count = activity_statuses.count()
                 completed_count = activity_statuses.filter(status=COMPLETION_STATUS[0][0]).count()
@@ -66,6 +79,11 @@ class ActivityByOrganization(RequestSuperClass):
                     partially_done += 1
                 else:
                     ongoing += 1
+                activities_count += 1
+
+            # don't include organizations without activities
+            if activities_count == 0:
+                continue
 
             summary.append({
                 'organization': organization.name,
