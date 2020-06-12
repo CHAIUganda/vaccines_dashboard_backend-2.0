@@ -100,40 +100,62 @@ class ActivityStatusPercentages(RequestSuperClass):
         super(ActivityStatusPercentages, self).get(request)
 
         summary = dict()
-        activity_status_data = Activity.objects.aggregate(
-            completed_count=Count(Case(
-                When(Q(activity_status__status=COMPLETION_STATUS[0][0]) & Q(activity_status__firstdate__gte=self.start_date)
-                                               & Q(activity_status__firstdate__lte=self.end_date), then=1),
-                output_field=IntegerField(),
-            )),
-            not_done_count=Count(Case(
-                When(Q(activity_status__status=COMPLETION_STATUS[1][0]) & Q(activity_status__firstdate__gte=self.start_date)
-                                               & Q(activity_status__firstdate__lte=self.end_date), then=1),
-                output_field=IntegerField(),
-            )),
-            ongoing_count=Count(Case(
-                When(Q(activity_status__status=COMPLETION_STATUS[2][0]) & Q(activity_status__firstdate__gte=self.start_date)
-                                               & Q(activity_status__firstdate__lte=self.end_date), then=1),
-                output_field=IntegerField(),
-            )),
-        )
+        args = {}
+        completed = 0
+        ongoing = 0
+        not_done = 0
+        partially_done = 0
+        activities_count = 0
 
-        completed_count = float(activity_status_data['completed_count'])
-        not_done_count = float(activity_status_data['not_done_count'])
-        ongoing_count = float(activity_status_data['ongoing_count'])
+        if self.organization != 'All':
+            args.update({'name': self.organization})
+
+        organizations = Organization.objects.filter(**args)
+
+        for organization in organizations:
+            activities = organization.activity_set.all()
+            activities = activities.filter(
+                Q(activity_date__date__gte=self.start_date) &
+                Q(activity_date__date__lte=self.end_date)).distinct()
+
+            for activity in activities:
+                if self.isc != 'All':
+                    # skip activities without this immunization component
+                    if activity.immunization_component.name != self.isc:
+                        continue
+                # for an activity to be completed or not_done all quarter must be completed or not_done
+                # partially_done happens when an activity is over due however, it has atleast one completed activity
+                activity_statuses = activity.activity_status.all()
+                activity_statuses_count = activity_statuses.count()
+                completed_count = activity_statuses.filter(status=COMPLETION_STATUS[0][0]).count()
+                not_done_count = activity_statuses.filter(status=COMPLETION_STATUS[1][0]).count()
+                activity.activity_date.last()
+
+                if completed_count == activity_statuses_count:
+                    completed += 1
+                elif not_done_count == activity_statuses_count:
+                    not_done += 1
+                elif activity.activity_date.order_by(
+                        'date').last().date < datetime.datetime.now().date() and completed_count > 1:
+                    partially_done += 1
+                else:
+                    ongoing += 1
+                activities_count += 1
 
         try:
+            total = completed + not_done + ongoing
             percentages = {
-                'completed_percentage': round(
-                    completed_count / (completed_count + not_done_count + ongoing_count) * 100, 0),
-                'not_done_percentage': round(not_done_count / (completed_count + not_done_count + ongoing_count) * 100,
-                                             0),
-                'ongoing_percentage': round(ongoing_count / (completed_count + not_done_count + ongoing_count) * 100,
-                                            0),
+                'completed_percentage': generate_percentage(completed, total),
+                'not_done_percentage': generate_percentage(not_done, total),
+                'ongoing_percentage': generate_percentage(ongoing, total),
+                'partially_done_percentage': generate_percentage(partially_done, total),
             }
 
             count_data = {
-                'completed_count': completed_count, 'not_done_count': not_done_count, 'ongoing_count': ongoing_count
+                'completed_count': completed,
+                'not_done_count': not_done,
+                'ongoing_count': ongoing,
+                'partially_done': partially_done
             }
 
             summary.update({'percentages': percentages})
