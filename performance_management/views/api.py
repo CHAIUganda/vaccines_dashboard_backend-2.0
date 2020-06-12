@@ -320,7 +320,6 @@ class BudgetAllocationPerRegionStats(RequestSuperClass):
     def generate_total_budget_filter(self, filters, level):
         filters.update({'level': level})
         q_filters = generate_q(filters)
-        print(q_filters)
         total_budget_filter = Sum(
             Case(When(q_filters, then=F('activity_status__quarter_budget_usd')), default=Value(0),
                  output_field=IntegerField()))
@@ -429,35 +428,33 @@ class FundSourceMetrics(RequestSuperClass):
         super(FundSourceMetrics, self).get(request)
         summary = []
 
-        if self.organization != 'All':
-            total_budget_filter = lambda funding_source_organization: Sum(
-                Case(When(Q(activity_status__firstdate__gte=self.start_date) & Q(activity_status__firstdate__lte=self.end_date)
-                          & Q(organization__name=self.organization)
-                          & Q(funding_source_organization__name=funding_source_organization),
-                          then=F('activity_status__quarter_budget_usd')), default=Value(0),
-                     output_field=IntegerField()))
+        filters = {
+            'activity_status__firstdate__gte': self.start_date,
+            'activity_status__firstdate__lte': self.end_date
+        }
 
-        else:
-            total_budget_filter = lambda funding_source_organization: Sum(
-                Case(When(Q(activity_status__firstdate__gte=self.start_date) & Q(activity_status__firstdate__lte=self.end_date)
-                          & Q(funding_source_organization__name=funding_source_organization),
-                          then=F('activity_status__quarter_budget_usd')), default=Value(0),
-                     output_field=IntegerField()))
+        if self.organization != 'All':
+            filters.update({'organization__name': self.organization})
+
+        if self.isc != 'All':
+            filters.update({'immunization_component__name__icontains': self.isc})
+
 
         for org in FundingSourceOrganization.objects.all():
-            activity_funding_data = Activity.objects.aggregate(total_budget=total_budget_filter(org.name))
+            activity_funding_data = Activity.objects.aggregate(total_budget=self.generate_total_budget_filter(filters, org.name))
             summary.append({
                 'name': org.name,
                 'total_budget': activity_funding_data['total_budget']
             })
-
-        # organization = FundingSourceOrganization.objects.filter()
-        # if self.organization != 'All':
-        #     organization = organization.filter(name=replace_quotes(self.organization))
-        # organization = organization.annotate(activity_cost_usd=Sum('activity__activity_cost_usd'),
-        #                                      activity_cost_ugx=Sum('activity__activity_cost_ugx'))
-        # summary = organization.values('name', 'activity_cost_usd', 'activity_cost_ugx')
         return Response(summary)
+
+    def generate_total_budget_filter(self, filters, funding_source_organization):
+        filters.update({'funding_source_organization__name': funding_source_organization})
+        q_filters = generate_q(filters)
+        total_budget_filter = Sum(
+            Case(When(q_filters, then=F('activity_status__quarter_budget_usd')), default=Value(0),
+                 output_field=IntegerField()))
+        return total_budget_filter
 
 
 class ActivityMetrics(ListCreateAPIView):
