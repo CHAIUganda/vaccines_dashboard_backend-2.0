@@ -465,10 +465,19 @@ class ActivityMetrics(ListCreateAPIView):
 class BudgetPerQuarterStats(RequestSuperClass):
     def get(self, request):
         super(BudgetPerQuarterStats, self).get(request)
+        args = {}
+
+        if self.organization != 'All':
+            args.update({'activity__organization__name': self.organization})
+
+        if self.isc != 'All':
+            args.update({'activity__immunization_component__name__icontains': self.isc})
+
         quarter_budget_filter = lambda quarter, year: Sum(
             Case(When(quarter=quarter, year=year, then=F('quarter_budget_usd')), default=Value(0),
                  output_field=IntegerField()))
-        activity_status = ActivityStatus.objects.aggregate(q1=quarter_budget_filter(1, self.start_year),
+
+        activity_status = ActivityStatus.objects.filter(**args).aggregate(q1=quarter_budget_filter(1, self.start_year),
                                                            q2=quarter_budget_filter(2, self.start_year),
                                                            q3=quarter_budget_filter(3, self.start_year),
                                                            q4=quarter_budget_filter(4, self.start_year),
