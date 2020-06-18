@@ -34,6 +34,8 @@ class ActivityGetSerializer(serializers.ModelSerializer):
     immunization_component = ImmunizationComponentGetSerializer(read_only=True)
     activity_date = ActivityDatesGetSerializer(many=True, read_only=True)
     activity_status = ActivityStatusGetSerializer(many=True, read_only=True)
+    funding_source_organization = FundingSourceOrganizationsGetSerializer(read_only=True)
+    organization = OrganizationsGetSerializer(read_only=True)
 
     class Meta:
         model = Activity
