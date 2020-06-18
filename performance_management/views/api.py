@@ -516,14 +516,52 @@ class FundSourceMetrics(RequestSuperClass):
         return total_budget_filter
 
 class ActivityMetrics(ListCreateAPIView):
-    queryset = Activity.objects.all()
     serializer_class = ActivityGetSerializer
 
+    def get_queryset(self):
+
+        queryset = Activity.objects.all()
+
+        self.start_period = replace_quotes(self.request.query_params.get('start_period', '201901'))
+        self.end_period = replace_quotes(self.request.query_params.get('end_period', '201902'))
+        self.organization = replace_quotes(self.request.query_params.get('organization', 'All'))
+        self.fundingsource = replace_quotes(self.request.query_params.get('fundingsource', 'All'))
+        try:
+            # remove & sign and only use the first text
+            self.isc = replace_quotes(self.request.query_params.get('isc', 'All')).split('&')[0]
+        except IndexError as e:
+            print(e)
+            self.isc = 'All'
+
+        self.start_year = int(self.start_period[:4])
+        self.start_quarter = int(self.start_period[4:])
+        self.end_year = int(self.end_period[:4])
+        self.end_quarter = int(self.end_period[4:])
+        self.start_date = datetime.datetime(self.start_year, quarter_months[self.start_quarter][0], 1)
+        self.end_date = datetime.datetime(self.end_year, quarter_months[self.end_quarter][2], 1)
+        self.activity_status = replace_quotes(self.request.query_params.get('activity_status', 'Completed'))
+
+        filters = {
+            'activity_status__firstdate__gte': self.start_date,
+            'activity_status__firstdate__lte': self.end_date
+        }
+
+        if self.fundingsource != 'All':
+            filters.update({'funding_source_organization__name': self.fundingsource})
+
+        if self.organization != 'All':
+            filters.update({'organization__name': self.organization})
+
+        if self.isc != 'All':
+            filters.update({'immunization_component__name__icontains': self.isc})
+
+        queryset = queryset.filter(**filters).order_by('name').distinct('name')
+
+        return queryset
 
 class BudgetPerQuarterStats(RequestSuperClass):
     def get(self, request):
         super(BudgetPerQuarterStats, self).get(request)
-        # args = {}
 
         filters = {
             'firstdate__gte': self.start_date,
