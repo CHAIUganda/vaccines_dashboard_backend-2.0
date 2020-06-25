@@ -222,10 +222,15 @@ class PlannedActivitiesPerQuarterStats(RequestSuperClass):
         organizations = Organization.objects.filter(**args)
 
         for x in range(6):
+            # increment year and quarter and you traverse the quarters
             if x > 3 and quarter > 3:
                 self.start_year += 1
                 quarter = 0
             quarter += 1
+
+            # filter the quarters
+            if datetime.datetime(self.start_year, quarter_months[quarter][0], 1) > self.end_date:
+                break
 
             for organization in organizations:
                 completed = 0
