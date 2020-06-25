@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from performance_management.models import Organization, ImmunizationComponent, Activity, ActivityDates, ActivityStatus
+from performance_management.models import Organization, ImmunizationComponent, Activity, ActivityDates, ActivityStatus, FundingSourceOrganization
 
 
 class OrganizationsGetSerializer(serializers.ModelSerializer):
@@ -7,6 +7,10 @@ class OrganizationsGetSerializer(serializers.ModelSerializer):
         model = Organization
         fields = ('name',)
 
+class FundingSourceOrganizationsGetSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = FundingSourceOrganization
+        fields = ('name',)
 
 class ImmunizationComponentGetSerializer(serializers.ModelSerializer):
     class Meta:
@@ -30,6 +34,8 @@ class ActivityGetSerializer(serializers.ModelSerializer):
     immunization_component = ImmunizationComponentGetSerializer(read_only=True)
     activity_date = ActivityDatesGetSerializer(many=True, read_only=True)
     activity_status = ActivityStatusGetSerializer(many=True, read_only=True)
+    funding_source_organization = FundingSourceOrganizationsGetSerializer(read_only=True)
+    organization = OrganizationsGetSerializer(read_only=True)
 
     class Meta:
         model = Activity
