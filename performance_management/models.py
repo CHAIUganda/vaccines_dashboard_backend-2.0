@@ -77,7 +77,8 @@ class ActivityStatus(models.Model):
     status = models.CharField(choices=COMPLETION_STATUS, max_length=1000, default=COMPLETION_STATUS[0][1])
 
     def __str__(self):
-        return "%s %s" % (str(self.quarter), self.status)
+        activity = self.activity_set.first()
+        return "Activity %s - %s %s" % (str(activity.number), str(self.quarter), self.status)
 
 
 class ImmunizationComponent(models.Model):

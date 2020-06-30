@@ -1,4 +1,7 @@
+from django.contrib.admin.models import LogEntry
 from rest_framework import serializers
+
+from dashboard.models import DashboardUser
 from performance_management.models import Organization, ImmunizationComponent, Activity, ActivityDates, ActivityStatus, FundingSourceOrganization
 
 
@@ -39,4 +42,18 @@ class ActivityGetSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Activity
+        fields = '__all__'
+
+
+class UserGetSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = DashboardUser
+        fields = '__all__'
+
+
+class LogEntrySerializer(serializers.ModelSerializer):
+    user = UserGetSerializer()
+
+    class Meta:
+        model = LogEntry
         fields = '__all__'

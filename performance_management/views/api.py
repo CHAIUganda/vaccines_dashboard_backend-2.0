@@ -1,3 +1,4 @@
+from django.contrib.admin.models import LogEntry
 from django.core.serializers.json import Serializer
 from django.db.models import Sum, Case, Value, When, Avg, FloatField, IntegerField, Count
 from django.db.models.expressions import F, Q, ExpressionWrapper
@@ -8,7 +9,7 @@ from utility import replace_quotes, quarter_months, month_to_string, generate_pe
 from dateutil.relativedelta import relativedelta
 from rest_framework.generics import ListCreateAPIView, RetrieveUpdateAPIView
 from performance_management.serializers import OrganizationsGetSerializer, ImmunizationComponentGetSerializer, \
-    ActivityGetSerializer, ActivityStatusGetSerializer
+    ActivityGetSerializer, ActivityStatusGetSerializer, LogEntrySerializer
 import datetime
 import collections
 from decimal import Decimal
@@ -594,6 +595,12 @@ class BudgetPerQuarterStats(RequestSuperClass):
                                                                              q6=quarter_budget_filter(2, self.start_year + 1))
         return Response(activity_status)
 
+
 class ActivityStatusRetrieveUpdate(RetrieveUpdateAPIView):
     queryset = ActivityStatus.objects.all()
     serializer_class = ActivityStatusGetSerializer
+
+
+class LogEntryView(ListCreateAPIView):
+    queryset = LogEntry.objects.filter(content_type__model='activitystatus')
+    serializer_class = LogEntrySerializer

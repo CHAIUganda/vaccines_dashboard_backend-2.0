@@ -21,5 +21,6 @@ urlpatterns = [
     url(r'^api/import$', performance_management.views.main.DataImportView.as_view(), name='import-performance'),
 
     url(r'^api/budgetallocationperimplementingagency',
-        performance_management.views.api.BudgetAllocationPerImplementingAgency.as_view(), name='budgetallocationperimplementingagency')
+        performance_management.views.api.BudgetAllocationPerImplementingAgency.as_view(), name='budgetallocationperimplementingagency'),
+    url(r'^api/logentrys', performance_management.views.api.LogEntryView.as_view(), name='log-entry'),
 ]
