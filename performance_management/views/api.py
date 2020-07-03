@@ -211,6 +211,7 @@ class FundingSourceOrganizationsList(ListCreateAPIView):
     queryset = FundingSourceOrganization.objects.all()
     serializer_class = OrganizationsGetSerializer
 
+
 class ImmunizationComponentList(ListCreateAPIView):
     queryset = ImmunizationComponent.objects.all()
     serializer_class = ImmunizationComponentGetSerializer
@@ -448,6 +449,7 @@ class ActivityStatusProgressStats(RequestSuperClass):
             print(e)
         return Response(summary)
 
+
 class BudgetAllocationPerImplementingAgency(RequestSuperClass):
     def get(self, request):
         super(BudgetAllocationPerImplementingAgency, self).get(request)
@@ -469,7 +471,8 @@ class BudgetAllocationPerImplementingAgency(RequestSuperClass):
             filters.update({'immunization_component__name__icontains': self.isc})
 
         for org in Organization.objects.filter(**comp_args):
-            activity_funding_data = Activity.objects.aggregate(total_budget=self.generate_total_budget_filter(filters, org.name))
+            activity_funding_data = Activity.objects.aggregate(
+                total_budget=self.generate_total_budget_filter(filters, org.name))
             summary.append({
                 'name': org.name,
                 'activity_cost_usd': activity_funding_data['total_budget']
@@ -484,6 +487,7 @@ class BudgetAllocationPerImplementingAgency(RequestSuperClass):
             Case(When(q_filters, then=F('activity_status__quarter_budget_usd')), default=Value(0),
                  output_field=IntegerField()))
         return total_budget_filter
+
 
 class FundSourceMetrics(RequestSuperClass):
     def get(self, request):
@@ -506,7 +510,8 @@ class FundSourceMetrics(RequestSuperClass):
             filters.update({'immunization_component__name__icontains': self.isc})
 
         for org in FundingSourceOrganization.objects.filter(**comp_args):
-            activity_funding_data = Activity.objects.aggregate(total_budget=self.generate_total_budget_filter(filters, org.name))
+            activity_funding_data = Activity.objects.aggregate(
+                total_budget=self.generate_total_budget_filter(filters, org.name))
             summary.append({
                 'name': org.name,
                 'total_budget': activity_funding_data['total_budget']
@@ -520,6 +525,7 @@ class FundSourceMetrics(RequestSuperClass):
             Case(When(q_filters, then=F('activity_status__quarter_budget_usd')), default=Value(0),
                  output_field=IntegerField()))
         return total_budget_filter
+
 
 class ActivityMetrics(ListCreateAPIView):
     serializer_class = ActivityGetSerializer
@@ -565,6 +571,7 @@ class ActivityMetrics(ListCreateAPIView):
 
         return queryset
 
+
 class BudgetPerQuarterStats(RequestSuperClass):
     def get(self, request):
         super(BudgetPerQuarterStats, self).get(request)
@@ -583,16 +590,18 @@ class BudgetPerQuarterStats(RequestSuperClass):
         if self.isc != 'All':
             filters.update({'activity__immunization_component__name__icontains': self.isc})
 
-        def quarter_budget_filter(quarter, year): return Sum(
-            Case(When(quarter=quarter, year=year, then=F('quarter_budget_usd')), default=Value(0),
-                 output_field=IntegerField()))
+        def quarter_budget_filter(quarter, year):
+            return Sum(
+                Case(When(quarter=quarter, year=year, then=F('quarter_budget_usd')), default=Value(0),
+                     output_field=IntegerField()))
 
-        activity_status = ActivityStatus.objects.filter(**filters).aggregate(q1=quarter_budget_filter(1, self.start_year),
-                                                                             q2=quarter_budget_filter(2, self.start_year),
-                                                                             q3=quarter_budget_filter(3, self.start_year),
-                                                                             q4=quarter_budget_filter(4, self.start_year),
-                                                                             q5=quarter_budget_filter(1, self.start_year + 1),
-                                                                             q6=quarter_budget_filter(2, self.start_year + 1))
+        activity_status = ActivityStatus.objects.filter(**filters).aggregate(
+            q1=quarter_budget_filter(1, self.start_year),
+            q2=quarter_budget_filter(2, self.start_year),
+            q3=quarter_budget_filter(3, self.start_year),
+            q4=quarter_budget_filter(4, self.start_year),
+            q5=quarter_budget_filter(1, self.start_year + 1),
+            q6=quarter_budget_filter(2, self.start_year + 1))
         return Response(activity_status)
 
 

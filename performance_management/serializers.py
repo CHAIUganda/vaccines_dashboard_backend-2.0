@@ -1,5 +1,6 @@
 from django.utils import timezone
 from rest_framework import serializers
+from dashboard.models import DashboardUser
 from performance_management.models import Organization, ImmunizationComponent, Activity, ActivityDates, ActivityStatus, FundingSourceOrganization
 
 
@@ -33,12 +34,19 @@ class ActivityStatusGetSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
+class UserGetSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = DashboardUser
+        fields = '__all__'
+
+
 class ActivityGetSerializer(serializers.ModelSerializer):
     immunization_component = ImmunizationComponentGetSerializer(read_only=True)
     activity_date = ActivityDatesGetSerializer(many=True, read_only=True)
     activity_status = ActivityStatusGetSerializer(many=True, read_only=True)
     funding_source_organization = FundingSourceOrganizationsGetSerializer(read_only=True)
     organization = OrganizationsGetSerializer(read_only=True)
+    updated_by = UserGetSerializer(read_only=True)
 
     class Meta:
         model = Activity
