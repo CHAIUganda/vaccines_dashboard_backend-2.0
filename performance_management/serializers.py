@@ -1,7 +1,5 @@
-from django.contrib.admin.models import LogEntry
+from django.utils import timezone
 from rest_framework import serializers
-
-from dashboard.models import DashboardUser
 from performance_management.models import Organization, ImmunizationComponent, Activity, ActivityDates, ActivityStatus, FundingSourceOrganization
 
 
@@ -10,10 +8,12 @@ class OrganizationsGetSerializer(serializers.ModelSerializer):
         model = Organization
         fields = ('name',)
 
+
 class FundingSourceOrganizationsGetSerializer(serializers.ModelSerializer):
     class Meta:
         model = FundingSourceOrganization
         fields = ('name',)
+
 
 class ImmunizationComponentGetSerializer(serializers.ModelSerializer):
     class Meta:
@@ -42,18 +42,4 @@ class ActivityGetSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Activity
-        fields = '__all__'
-
-
-class UserGetSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = DashboardUser
-        fields = '__all__'
-
-
-class LogEntrySerializer(serializers.ModelSerializer):
-    user = UserGetSerializer()
-
-    class Meta:
-        model = LogEntry
         fields = '__all__'

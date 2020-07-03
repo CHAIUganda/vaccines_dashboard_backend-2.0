@@ -19,8 +19,6 @@ urlpatterns = [
     url(r'^api/budgetperquarter', performance_management.views.api.BudgetPerQuarterStats.as_view(), name='budgetperquarter'),
     url(r'^api/activitystatuses/(?P<pk>\d+)', performance_management.views.api.ActivityStatusRetrieveUpdate.as_view(), name='activitystatus'),
     url(r'^api/import$', performance_management.views.main.DataImportView.as_view(), name='import-performance'),
-
     url(r'^api/budgetallocationperimplementingagency',
         performance_management.views.api.BudgetAllocationPerImplementingAgency.as_view(), name='budgetallocationperimplementingagency'),
-    url(r'^api/logentrys', performance_management.views.api.LogEntryView.as_view(), name='log-entry'),
 ]

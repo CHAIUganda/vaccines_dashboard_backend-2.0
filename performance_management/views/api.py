@@ -9,7 +9,7 @@ from utility import replace_quotes, quarter_months, month_to_string, generate_pe
 from dateutil.relativedelta import relativedelta
 from rest_framework.generics import ListCreateAPIView, RetrieveUpdateAPIView
 from performance_management.serializers import OrganizationsGetSerializer, ImmunizationComponentGetSerializer, \
-    ActivityGetSerializer, ActivityStatusGetSerializer, LogEntrySerializer
+    ActivityGetSerializer, ActivityStatusGetSerializer
 import datetime
 import collections
 from decimal import Decimal
@@ -599,8 +599,3 @@ class BudgetPerQuarterStats(RequestSuperClass):
 class ActivityStatusRetrieveUpdate(RetrieveUpdateAPIView):
     queryset = ActivityStatus.objects.all()
     serializer_class = ActivityStatusGetSerializer
-
-
-class LogEntryView(ListCreateAPIView):
-    queryset = LogEntry.objects.filter(content_type__model='activitystatus')
-    serializer_class = LogEntrySerializer

@@ -1,8 +1,10 @@
 from __future__ import unicode_literals
 
-from django.db import models
-from dashboard.models import District
+from django.utils import timezone
 
+from django.db import models
+from dashboard.models import District, DashboardUser
+from performance_management.current_user import get_current_user
 
 QUARTERS = (
     (1, "Q1"),
@@ -77,8 +79,20 @@ class ActivityStatus(models.Model):
     status = models.CharField(choices=COMPLETION_STATUS, max_length=1000, default=COMPLETION_STATUS[0][1])
 
     def __str__(self):
-        activity = self.activity_set.first()
-        return "Activity %s - %s %s" % (str(activity.number), str(self.quarter), self.status)
+        return "%s %s %s" % (str(self.id), str(self.quarter), self.status)
+
+    def save(self, *args, **kwargs):
+        try:
+            user = get_current_user()
+            if not user.is_anonymous():
+                # get attached activity and update fields
+                activity = self.activity_set.last()
+                activity.updated_by = user
+                activity.updated_at = timezone.now()
+                activity.save(update_fields=['updated_by', 'updated_at'])
+        except Exception as e:
+            print(e)
+        super(ActivityStatus, self).save(*args, **kwargs)
 
 
 class ImmunizationComponent(models.Model):
@@ -109,9 +123,22 @@ class Activity(models.Model):
     organization = models.ForeignKey(Organization, null=True, blank=True)
     activity_date = models.ManyToManyField(ActivityDates)
     activity_status = models.ManyToManyField(ActivityStatus)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_by = models.ForeignKey(DashboardUser, null=True, blank=True)
+    updated_at = models.DateTimeField(null=True, blank=True)
 
     def __str__(self):
         return "%s" % self.id
+
+    def save(self, *args, **kwargs):
+        try:
+            user = get_current_user()
+            if not user.is_anonymous():
+                self.updated_by = user
+                self.updated_at = timezone.now()
+        except Exception as e:
+            print(e)
+        super(Activity, self).save(*args, **kwargs)
 
 
 class ChangeLog(models.Model):

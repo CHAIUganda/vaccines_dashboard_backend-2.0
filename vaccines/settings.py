@@ -50,6 +50,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     # 'vaccines.middleware.corsMiddleware'
+    'performance_management.current_user.CurrentUserRequestMiddleware',
 )
 
 ROOT_URLCONF = 'vaccines.urls'
