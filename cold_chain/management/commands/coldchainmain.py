@@ -7,12 +7,12 @@ import datetime
 import random
 
 
-def import_functionality(excel_file, year, month):
+def import_coldchainmain(excel_file, year, month):
     """
-    Extracts data from CCEM%20Datasets_Functionality%20and%20Optimality_June%202019.xlsx
+    Extracts data from ColdChainMain.xlsx
     """
-    workbook = load_workbook(excel_file, read_only=True, use_iterators=True)
-    # spaces in the sheet name may cause errors
+    workbook = load_workbook(excel_file, read_only=True, use_iterators=True, data_only=True)
+    # # spaces in the sheet name may cause errors
     worksheet_name = "Functionality_and_Optimality"
     workbook_results = workbook.get_sheet_by_name(worksheet_name)
 
@@ -32,8 +32,7 @@ def import_functionality(excel_file, year, month):
             older_than_ten_years = row[12].value
             suboptiomal_cce = row[13].value
             cce_functionality_status = row[14].value
-
-            district, _ = District.objects.get_or_create(name__icontains=district)
+            district = District.objects.filter(name__icontains=district).first()
 
             try:
                 facility = ColdChainFacility()
@@ -42,10 +41,11 @@ def import_functionality(excel_file, year, month):
                 facility.code = facility_code
 
                 try:
-                    facility_type, _ = FacilityType.objects.get_or_create(name__icontains=type_of_facility)
-                    facility.type = facility_type
+                    facility_type = FacilityType.objects.filter(name=type_of_facility).first()
                 except Exception as e:
                     print(e)
+                    facility_type = FacilityType.objects.create(name=type_of_facility)
+                facility.type = facility_type
                 facility.save()
             except Exception as e:
                 print(e)
@@ -58,7 +58,7 @@ def import_functionality(excel_file, year, month):
                 refrige = Refrigerator()
                 refrige.make = cce_make
                 refrige.model = cce_model
-                refrige.serial_number = cce_serial_number
+                refrige.serial_number = cce_serial_number if cce_serial_number != None else random.randint(26150562344, 29999999999)
                 refrige.supply_year = datetime.datetime(supply_year, 1, 1)
                 refrige.cold_chain_facility = facility
                 refrige.save()
@@ -66,8 +66,8 @@ def import_functionality(excel_file, year, month):
             refrige_detail = RefrigeratorDetail()
             refrige_detail.refrigerator = refrige
             refrige_detail.district = district
-            refrige_detail.available_net_storage_volume = available_net_storage_volume
-            refrige_detail.required_net_storage_volume = required_net_storage_volume
+            refrige_detail.available_net_storage_volume = int(float(available_net_storage_volume)) if available_net_storage_volume != None else 0
+            refrige_detail.required_net_storage_volume = int(float(required_net_storage_volume)) if required_net_storage_volume != None else 0
             refrige_detail.functionality_status = cce_functionality_status
             refrige_detail.year = year
             refrige_detail.month = month
@@ -76,11 +76,25 @@ def import_functionality(excel_file, year, month):
             print(traceback.print_exc())
             print(e)
 
+    worksheet_name = "Eligible_HF_List_by_District"
+    workbook_results = workbook.get_sheet_by_name(worksheet_name)
+
+    for row in workbook_results.iter_rows('B%s:I%s' % (workbook_results.min_row + 1, workbook_results.max_row)):
+        try:
+            fc = EligibleFacilityMetric()
+            fc.district = District.objects.filter(name__icontains=row[0].value).first()
+            fc.total_eligible_facility = int(row[4].value)
+            fc.date = datetime.datetime(int(year), int(month), 1)
+            fc.total_number_immunizing_facility = int(row[5].value)
+            fc.save()
+        except Exception as e:
+            print(e)
+
 
 class Command(BaseCommand):
-    args = '<path to dataset file>, year, year_half'
-    help = """ Import functionality. Imports the cold chain CCE data. 
+    args = '<path to dataset file>, year, month'
+    help = """ Import functionality. Imports the cold chain data 
             Pass the excel file link, year and period of the year"""
 
     def handle(self, *args, **options):
-        import_functionality(args[0], args[1], args[2])
+        import_coldchainmain(args[0], args[1], args[2])

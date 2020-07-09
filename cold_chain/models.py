@@ -77,10 +77,11 @@ class RefrigeratorDetail(models.Model):
     district = models.ForeignKey(District, on_delete=models.SET_NULL, null=True, blank=True)
     year = models.IntegerField(default=2019)
     month = models.IntegerField(default=1)
-    available_net_storage_volume = models.IntegerField()
-    required_net_storage_volume = models.IntegerField()
+    available_net_storage_volume = models.IntegerField(null=True, blank=True)
+    required_net_storage_volume = models.IntegerField(null=True, blank=True)
     functionality_status = models.CharField(choices=FUNCTIONALITY_STATUS, max_length=20,
                                             default=FUNCTIONALITY_STATUS[0][0])
+    # temperature is tracked from TempReport
     temperature = models.FloatField(null=True, blank=True,
                                     help_text='below 2 degrees is freeze alarm, above 8 degrees is heat alarm')
     created_at = models.DateTimeField(auto_now_add=True)

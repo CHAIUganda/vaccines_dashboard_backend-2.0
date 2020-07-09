@@ -196,6 +196,11 @@ GENERIC_DATA_IMPORT = {
         'name': 'Performance Management Data',
         'params': ('year',),
         'function': 'performance_management.management.commands.performance_management_command.import_performance_management'
+    },
+    'import_coldchainmain': {
+        'name': 'Performance Management Data',
+        'params': ('year', 'month',),
+        'function': 'cold_chain.management.commands.coldchainmain.import_coldchainmain'
     }
 }
 
