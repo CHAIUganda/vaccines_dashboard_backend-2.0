@@ -28,15 +28,17 @@ class ActivityDatesGetSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-class ActivityStatusGetSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = ActivityStatus
-        fields = '__all__'
-
-
 class UserGetSerializer(serializers.ModelSerializer):
     class Meta:
         model = DashboardUser
+        fields = '__all__'
+
+
+class ActivityStatusGetSerializer(serializers.ModelSerializer):
+    updated_by = UserGetSerializer(read_only=True)
+
+    class Meta:
+        model = ActivityStatus
         fields = '__all__'
 
 

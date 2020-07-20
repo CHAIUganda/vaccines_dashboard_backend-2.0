@@ -77,6 +77,8 @@ class ActivityStatus(models.Model):
     lastdate = models.DateField(null=True, blank=True)
     quarter_budget_usd = models.IntegerField(default=0, null=True, blank=True)
     status = models.CharField(choices=COMPLETION_STATUS, max_length=1000, default=COMPLETION_STATUS[0][1])
+    updated_by = models.ForeignKey(DashboardUser, null=True, blank=True)
+    updated_at = models.DateTimeField(null=True, blank=True)
 
     def __str__(self):
         return "%s %s %s" % (str(self.id), str(self.quarter), self.status)
@@ -86,10 +88,8 @@ class ActivityStatus(models.Model):
             user = get_current_user()
             if not user.is_anonymous():
                 # get attached activity and update fields
-                activity = self.activity_set.last()
-                activity.updated_by = user
-                activity.updated_at = timezone.now()
-                activity.save(update_fields=['updated_by', 'updated_at'])
+                self.updated_by = user
+                self.updated_at = timezone.now()
         except Exception as e:
             print(e)
         super(ActivityStatus, self).save(*args, **kwargs)
