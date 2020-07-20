@@ -31,7 +31,7 @@ class ActivityDatesGetSerializer(serializers.ModelSerializer):
 class UserGetSerializer(serializers.ModelSerializer):
     class Meta:
         model = DashboardUser
-        fields = '__all__'
+        fields = ('id', 'last_login', 'is_superuser', 'email', 'is_staff', 'is_active', 'date_joined', 'access_level')
 
 
 class ActivityStatusGetSerializer(serializers.ModelSerializer):
