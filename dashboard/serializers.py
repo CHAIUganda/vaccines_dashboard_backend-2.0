@@ -1,7 +1,7 @@
 import json
 from rest_framework import serializers
 from rest_framework.serializers import ModelSerializer
-from dashboard.models import Stock, YearMonth
+from dashboard.models import Stock, DashboardUser
 
 
 class FacilityScoreSerializer(ModelSerializer):
@@ -18,3 +18,8 @@ class JSONSerializerField(serializers.Field):
     def to_representation(self, value):
         return value
 
+
+class UserSerializer(ModelSerializer):
+    class Meta:
+        model = DashboardUser
+        fields = '__all__'

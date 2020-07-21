@@ -8,9 +8,12 @@ from django.http import HttpResponse
 from django.views.generic import TemplateView
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from rest_framework.generics import ListCreateAPIView
 from dashboard.helpers import *
 from dashboard.models import *
 from django.utils import timezone
+
+from dashboard.serializers import UserSerializer
 
 
 class ApiParams(Serializer):
@@ -364,3 +367,8 @@ class FinanceUpdateApiView(LoginRequiredMixin, TemplateView):
         data_row.save()
 
         return HttpResponse("ok")
+
+
+class UserView(ListCreateAPIView):
+    queryset = DashboardUser.objects.all()
+    serializer_class = UserSerializer
