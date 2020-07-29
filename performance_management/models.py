@@ -87,7 +87,6 @@ class ActivityStatus(models.Model):
         try:
             user = get_current_user()
             if not user.is_anonymous():
-                # get attached activity and update fields
                 self.updated_by = user
                 self.updated_at = timezone.now()
         except Exception as e:

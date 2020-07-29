@@ -608,3 +608,9 @@ class BudgetPerQuarterStats(RequestSuperClass):
 class ActivityStatusRetrieveUpdate(RetrieveUpdateAPIView):
     queryset = ActivityStatus.objects.all()
     serializer_class = ActivityStatusGetSerializer
+
+
+class ActivityRetrieveUpdate(RetrieveUpdateAPIView):
+    queryset = Activity.objects.all()
+    serializer_class = ActivityGetSerializer
+
