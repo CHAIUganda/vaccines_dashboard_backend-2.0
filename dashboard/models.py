@@ -35,6 +35,7 @@ class DashboardUser(AbstractEmailUser):
             (DISTRICT, DISTRICT),
             (IIP, IIP)), max_length=50)
     access_area = CharField(max_length=250, null=True, blank=True)
+    immunization_component = models.ForeignKey('performance_management.ImmunizationComponent', null=True, blank=True)
 
     def get_full_name(self):
         return self.email
@@ -44,6 +45,10 @@ class DashboardUser(AbstractEmailUser):
 
     class Meta:
         app_label = 'dashboard'
+
+    def save(self, *args, **kwargs):
+        self.set_password(self.password)
+        super(DashboardUser, self).save(*args, **kwargs)
 
 
 MONTHS = (
