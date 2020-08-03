@@ -19,7 +19,7 @@ class FundingSourceOrganizationsGetSerializer(serializers.ModelSerializer):
 class ImmunizationComponentGetSerializer(serializers.ModelSerializer):
     class Meta:
         model = ImmunizationComponent
-        fields = ('name',)
+        fields = '__all__'
 
 
 class ActivityDatesGetSerializer(serializers.ModelSerializer):
