@@ -8,7 +8,7 @@ from django.http import HttpResponse
 from django.views.generic import TemplateView
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from rest_framework.generics import ListCreateAPIView
+from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
 from dashboard.helpers import *
 from dashboard.models import *
 from django.utils import timezone
@@ -378,3 +378,8 @@ class UserView(ListCreateAPIView):
             return UserSerializer
         else:
             return UserGetSerializer
+
+
+class UserEditView(RetrieveUpdateDestroyAPIView):
+    queryset = DashboardUser.objects.all()
+    serializer_class = UserGetSerializer
