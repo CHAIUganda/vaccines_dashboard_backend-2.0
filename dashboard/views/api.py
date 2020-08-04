@@ -14,6 +14,7 @@ from dashboard.models import *
 from django.utils import timezone
 
 from dashboard.serializers import UserSerializer
+from performance_management.serializers import UserGetSerializer
 
 
 class ApiParams(Serializer):
@@ -371,4 +372,9 @@ class FinanceUpdateApiView(LoginRequiredMixin, TemplateView):
 
 class UserView(ListCreateAPIView):
     queryset = DashboardUser.objects.all()
-    serializer_class = UserSerializer
+
+    def get_serializer_class(self):
+        if self.request.method == 'POST':
+            return UserSerializer
+        else:
+            return UserGetSerializer

@@ -29,9 +29,11 @@ class ActivityDatesGetSerializer(serializers.ModelSerializer):
 
 
 class UserGetSerializer(serializers.ModelSerializer):
+    immunization_component = ImmunizationComponentGetSerializer(read_only=True)
+
     class Meta:
         model = DashboardUser
-        fields = ('id', 'last_login', 'is_superuser', 'email', 'is_staff', 'is_active', 'date_joined', 'access_level')
+        fields = ('id', 'last_login', 'is_superuser', 'email', 'is_staff', 'is_active', 'date_joined', 'access_level', 'immunization_component')
 
 
 class ActivityStatusGetSerializer(serializers.ModelSerializer):
