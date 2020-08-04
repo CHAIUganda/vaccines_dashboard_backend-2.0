@@ -20,6 +20,8 @@ class JSONSerializerField(serializers.Field):
 
 
 class UserSerializer(ModelSerializer):
+    date_joined = serializers.DateField(read_only=True)
+
     class Meta:
         model = DashboardUser
         fields = '__all__'
