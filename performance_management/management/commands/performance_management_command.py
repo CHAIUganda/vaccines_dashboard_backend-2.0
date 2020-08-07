@@ -10,9 +10,7 @@ from utility import add_months, encode_unicode, quarter_months
 def import_performance_management(excel_file, year):
     # data_only allow the return of values not formulae
     workbook = load_workbook(excel_file, read_only=True, use_iterators=True, data_only=True)
-    # spaces in the sheet name may cause errors
-    # todo. replace with first sheet name
-    worksheet_name = "Jan20-Jun21"
+    worksheet_name = "Table"
     workbook_results = workbook.get_sheet_by_name(worksheet_name)
 
     for row in workbook_results.iter_rows('A%s:BG%s' % (workbook_results.min_row + 4, workbook_results.max_row)):
