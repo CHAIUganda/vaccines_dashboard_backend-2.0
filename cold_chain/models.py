@@ -2,7 +2,7 @@ from __future__ import unicode_literals
 
 from django.db import models
 from django.db.models import *
-from dashboard.models import District
+from dashboard.models import District, Facility, SubCounty
 
 QUARTER = "Quarter"
 
@@ -111,6 +111,8 @@ class EligibleFacilityMetric(models.Model):
 
 class TempReport(models.Model):
     district = models.ForeignKey(District, on_delete=models.SET_NULL, null=True, blank=True)
+    subcounty = models.ForeignKey(SubCounty, on_delete=models.SET_NULL, null=True, blank=True)
+    facility = models.ForeignKey(Facility, on_delete=models.SET_NULL, null=True, blank=True)
     heat_alarm = models.IntegerField(default=0)
     cold_alarm = models.IntegerField(default=0)
     year = models.IntegerField(default=2019)
