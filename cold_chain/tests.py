@@ -43,51 +43,63 @@ class TestTempMonitoring(APITestCase):
                 {
                     "data": [
                         {
-                            "submitted": True,
+                            "submitted": 2,
+                            "total": 3,
                             "month": 1
                         },
                         {
-                            "submitted": False,
+                            "submitted": 0,
+                            "total": 1,
                             "month": 2
                         },
                         {
-                            "submitted": False,
+                            "submitted": 0,
+                            "total": 0,
                             "month": 3
                         },
                         {
-                            "submitted": False,
+                            "submitted": 0,
+                            "total": 0,
                             "month": 4
                         },
                         {
-                            "submitted": False,
+                            "submitted": 0,
+                            "total": 0,
                             "month": 5
                         },
                         {
-                            "submitted": False,
+                            "submitted": 0,
+                            "total": 0,
                             "month": 6
                         },
                         {
-                            "submitted": False,
+                            "submitted": 0,
+                            "total": 0,
                             "month": 7
                         },
                         {
-                            "submitted": False,
+                            "submitted": 0,
+                            "total": 0,
                             "month": 8
                         },
                         {
-                            "submitted": False,
+                            "submitted": 0,
+                            "total": 0,
                             "month": 9
                         },
                         {
-                            "submitted": False,
+                            "submitted": 0,
+                            "total": 0,
                             "month": 10
                         },
                         {
-                            "submitted": False,
+                            "submitted": 0,
+                            "total": 0,
                             "month": 11
                         },
                         {
-                            "submitted": False,
+                            "submitted": 0,
+                            "total": 0,
                             "month": 12
                         }
                     ],
@@ -131,8 +143,6 @@ class TestTempMonitoring(APITestCase):
         url = reverse("tempreportingrate")
         response = self.client.get(url, kwargs)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        print(response.json())
-        print(response_data)
         self.assertEqual(response.json(), response_data)
 
     def test_temperature_reporting_rate_at_national_level(self):
@@ -144,51 +154,63 @@ class TestTempMonitoring(APITestCase):
                 {
                     "data": [
                         {
-                            "submitted": True,
+                            "submitted": 2,
+                            "total": 3,
                             "month": 1
                         },
                         {
-                            "submitted": False,
+                            "submitted": 0,
+                            "total": 1,
                             "month": 2
                         },
                         {
-                            "submitted": False,
+                            "submitted": 0,
+                            "total": 0,
                             "month": 3
                         },
                         {
-                            "submitted": False,
+                            "submitted": 0,
+                            "total": 0,
                             "month": 4
                         },
                         {
-                            "submitted": False,
+                            "submitted": 0,
+                            "total": 0,
                             "month": 5
                         },
                         {
-                            "submitted": False,
+                            "submitted": 0,
+                            "total": 0,
                             "month": 6
                         },
                         {
-                            "submitted": False,
+                            "submitted": 0,
+                            "total": 0,
                             "month": 7
                         },
                         {
-                            "submitted": False,
+                            "submitted": 0,
+                            "total": 0,
                             "month": 8
                         },
                         {
-                            "submitted": False,
+                            "submitted": 0,
+                            "total": 0,
                             "month": 9
                         },
                         {
-                            "submitted": False,
+                            "submitted": 0,
+                            "total": 0,
                             "month": 10
                         },
                         {
-                            "submitted": False,
+                            "submitted": 0,
+                            "total": 0,
                             "month": 11
                         },
                         {
-                            "submitted": False,
+                            "submitted": 0,
+                            "total": 0,
                             "month": 12
                         }
                     ],
@@ -197,51 +219,63 @@ class TestTempMonitoring(APITestCase):
                 {
                     "data": [
                         {
-                            "submitted": True,
+                            "submitted": 1,
+                            "total": 2,
                             "month": 1
                         },
                         {
-                            "submitted": True,
+                            "submitted": 2,
+                            "total": 2,
                             "month": 2
                         },
                         {
-                            "submitted": False,
+                            "submitted": 0,
+                            "total": 0,
                             "month": 3
                         },
                         {
-                            "submitted": False,
+                            "submitted": 0,
+                            "total": 0,
                             "month": 4
                         },
                         {
-                            "submitted": False,
+                            "submitted": 0,
+                            "total": 0,
                             "month": 5
                         },
                         {
-                            "submitted": False,
+                            "submitted": 0,
+                            "total": 0,
                             "month": 6
                         },
                         {
-                            "submitted": False,
+                            "submitted": 0,
+                            "total": 0,
                             "month": 7
                         },
                         {
-                            "submitted": False,
+                            "submitted": 0,
+                            "total": 0,
                             "month": 8
                         },
                         {
-                            "submitted": False,
+                            "submitted": 0,
+                            "total": 0,
                             "month": 9
                         },
                         {
-                            "submitted": False,
+                            "submitted": 0,
+                            "total": 0,
                             "month": 10
                         },
                         {
-                            "submitted": False,
+                            "submitted": 0,
+                            "total": 0,
                             "month": 11
                         },
                         {
-                            "submitted": False,
+                            "submitted": 0,
+                            "total": 0,
                             "month": 12
                         }
                     ],
@@ -285,6 +319,4 @@ class TestTempMonitoring(APITestCase):
         url = reverse("tempreportingrate")
         response = self.client.get(url, kwargs)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        print(response.json())
-        print(response_data)
         self.assertEqual(response.json(), response_data)
