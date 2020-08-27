@@ -849,8 +849,6 @@ class TempReportingRateStats(RequestSuperClass):
         if self.district_name != 'national':
             # reset the data when filtering for one district
             district = District.objects.filter(name__icontains=self.district_name).first()
-            # if district:
-            #     data = self.generate_monthly_submission_data(district)
 
             for month in range(1, 13):
                 reported_count_aggregate = Sum(
@@ -873,15 +871,16 @@ class TempReportingRateStats(RequestSuperClass):
                     monthly_submission_data_percentages[month] = int(
                         round(reported_count / float(total_count) * 100, 0))
                     monthly_submission_data[month] = reported_count
-                    data.append({'month': month, 'submitted': reported_count, 'total': total_count})
+                    data.append({'month': month, 'submitted_facilities': reported_count, 'total_facilities': total_count})
                 else:
-                    data.append({'month': month, 'submitted': 0, 'total': 0})
+                    data.append({'month': month, 'submitted_facilities': 0, 'total_facilities': 0})
             heat_graph_data.append({'district': district.name, 'data': data})
         else:
             districts = District.objects.all()
             for district in districts:
                 data = self.generate_monthly_submission_data(district)
                 heat_graph_data.append({'district': district.name, 'data': data})
+            print('step4')
 
             for month in range(1, 13):
                 reported_count_aggregate = Sum(
@@ -912,26 +911,16 @@ class TempReportingRateStats(RequestSuperClass):
         return Response(summary)
 
     def generate_monthly_submission_data(self, district=None):
-        data = []
-        for month in range(1, 13):
-            reported_count_aggregate = Sum(
-                Case(When((Q(heat_alarm__gt=0) | Q(cold_alarm__gt=0)) & Q(year=self.year) & Q(month=month)
-                          & Q(district__name=district.name), then=1),
-                     When((Q(heat_alarm__lte=0) | Q(cold_alarm__lte=0)) & Q(year=self.year) & Q(month=month)
-                          & Q(district__name=district.name),
-                          then=0), output_field=IntegerField()))
+        temp_reports = TempReport.objects.filter(Q(district=district) & Q(year=self.year))
+        # create dummy data
+        months_data = dict()
+        for i in range(1, 13):
+            months_data.update({i: {'submitted': 0, 'total': 0}})
 
-            total_count_aggregate = Sum(
-                Case(When(Q(year=self.year) & Q(month=month) & Q(district__name=district.name), then=1),
-                     When(Q(year=self.year) & Q(month=month) & Q(district__name=district.name), then=0),
-                     output_field=IntegerField()))
+        # iterate over all the reports and get submissions and total facilities
+        for temp_report in temp_reports:
+            submitted = 1 if temp_report.heat_alarm or temp_report.cold_alarm else 0
+            months_data.update({temp_report.month: {'submitted': months_data[temp_report.month]['submitted'] + submitted, 'total': months_data[temp_report.month]['total'] + 1}})
 
-            temp_reports = TempReport.objects.all()
-            reported_count = temp_reports.aggregate(reported_count=reported_count_aggregate)['reported_count']
-            total_count = temp_reports.aggregate(total_count=total_count_aggregate)['total_count']
-
-            if total_count or reported_count:
-                data.append({'month': month, 'submitted': reported_count, 'total': total_count})
-            else:
-                data.append({'month': month, 'submitted': 0, 'total': 0})
-        return data
+        return [{"month": data[0], "total_facilities": data[1]['total'], "submitted_facilities": data[1]['submitted']}
+                for data in months_data.items()]

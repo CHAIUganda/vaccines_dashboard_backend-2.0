@@ -43,63 +43,63 @@ class TestTempMonitoring(APITestCase):
                 {
                     "data": [
                         {
-                            "submitted": 2,
-                            "total": 3,
+                            "submitted_facilities": 2,
+                            "total_facilities": 3,
                             "month": 1
                         },
                         {
-                            "submitted": 0,
-                            "total": 1,
+                            "submitted_facilities": 0,
+                            "total_facilities": 1,
                             "month": 2
                         },
                         {
-                            "submitted": 0,
-                            "total": 0,
+                            "submitted_facilities": 0,
+                            "total_facilities": 0,
                             "month": 3
                         },
                         {
-                            "submitted": 0,
-                            "total": 0,
+                            "submitted_facilities": 0,
+                            "total_facilities": 0,
                             "month": 4
                         },
                         {
-                            "submitted": 0,
-                            "total": 0,
+                            "submitted_facilities": 0,
+                            "total_facilities": 0,
                             "month": 5
                         },
                         {
-                            "submitted": 0,
-                            "total": 0,
+                            "submitted_facilities": 0,
+                            "total_facilities": 0,
                             "month": 6
                         },
                         {
-                            "submitted": 0,
-                            "total": 0,
+                            "submitted_facilities": 0,
+                            "total_facilities": 0,
                             "month": 7
                         },
                         {
-                            "submitted": 0,
-                            "total": 0,
+                            "submitted_facilities": 0,
+                            "total_facilities": 0,
                             "month": 8
                         },
                         {
-                            "submitted": 0,
-                            "total": 0,
+                            "submitted_facilities": 0,
+                            "total_facilities": 0,
                             "month": 9
                         },
                         {
-                            "submitted": 0,
-                            "total": 0,
+                            "submitted_facilities": 0,
+                            "total_facilities": 0,
                             "month": 10
                         },
                         {
-                            "submitted": 0,
-                            "total": 0,
+                            "submitted_facilities": 0,
+                            "total_facilities": 0,
                             "month": 11
                         },
                         {
-                            "submitted": 0,
-                            "total": 0,
+                            "submitted_facilities": 0,
+                            "total_facilities": 0,
                             "month": 12
                         }
                     ],
@@ -154,63 +154,63 @@ class TestTempMonitoring(APITestCase):
                 {
                     "data": [
                         {
-                            "submitted": 2,
-                            "total": 3,
+                            "submitted_facilities": 2,
+                            "total_facilities": 3,
                             "month": 1
                         },
                         {
-                            "submitted": 0,
-                            "total": 1,
+                            "submitted_facilities": 0,
+                            "total_facilities": 1,
                             "month": 2
                         },
                         {
-                            "submitted": 0,
-                            "total": 0,
+                            "submitted_facilities": 0,
+                            "total_facilities": 0,
                             "month": 3
                         },
                         {
-                            "submitted": 0,
-                            "total": 0,
+                            "submitted_facilities": 0,
+                            "total_facilities": 0,
                             "month": 4
                         },
                         {
-                            "submitted": 0,
-                            "total": 0,
+                            "submitted_facilities": 0,
+                            "total_facilities": 0,
                             "month": 5
                         },
                         {
-                            "submitted": 0,
-                            "total": 0,
+                            "submitted_facilities": 0,
+                            "total_facilities": 0,
                             "month": 6
                         },
                         {
-                            "submitted": 0,
-                            "total": 0,
+                            "submitted_facilities": 0,
+                            "total_facilities": 0,
                             "month": 7
                         },
                         {
-                            "submitted": 0,
-                            "total": 0,
+                            "submitted_facilities": 0,
+                            "total_facilities": 0,
                             "month": 8
                         },
                         {
-                            "submitted": 0,
-                            "total": 0,
+                            "submitted_facilities": 0,
+                            "total_facilities": 0,
                             "month": 9
                         },
                         {
-                            "submitted": 0,
-                            "total": 0,
+                            "submitted_facilities": 0,
+                            "total_facilities": 0,
                             "month": 10
                         },
                         {
-                            "submitted": 0,
-                            "total": 0,
+                            "submitted_facilities": 0,
+                            "total_facilities": 0,
                             "month": 11
                         },
                         {
-                            "submitted": 0,
-                            "total": 0,
+                            "submitted_facilities": 0,
+                            "total_facilities": 0,
                             "month": 12
                         }
                     ],
@@ -219,63 +219,63 @@ class TestTempMonitoring(APITestCase):
                 {
                     "data": [
                         {
-                            "submitted": 1,
-                            "total": 2,
+                            "submitted_facilities": 1,
+                            "total_facilities": 2,
                             "month": 1
                         },
                         {
-                            "submitted": 2,
-                            "total": 2,
+                            "submitted_facilities": 2,
+                            "total_facilities": 2,
                             "month": 2
                         },
                         {
-                            "submitted": 0,
-                            "total": 0,
+                            "submitted_facilities": 0,
+                            "total_facilities": 0,
                             "month": 3
                         },
                         {
-                            "submitted": 0,
-                            "total": 0,
+                            "submitted_facilities": 0,
+                            "total_facilities": 0,
                             "month": 4
                         },
                         {
-                            "submitted": 0,
-                            "total": 0,
+                            "submitted_facilities": 0,
+                            "total_facilities": 0,
                             "month": 5
                         },
                         {
-                            "submitted": 0,
-                            "total": 0,
+                            "submitted_facilities": 0,
+                            "total_facilities": 0,
                             "month": 6
                         },
                         {
-                            "submitted": 0,
-                            "total": 0,
+                            "submitted_facilities": 0,
+                            "total_facilities": 0,
                             "month": 7
                         },
                         {
-                            "submitted": 0,
-                            "total": 0,
+                            "submitted_facilities": 0,
+                            "total_facilities": 0,
                             "month": 8
                         },
                         {
-                            "submitted": 0,
-                            "total": 0,
+                            "submitted_facilities": 0,
+                            "total_facilities": 0,
                             "month": 9
                         },
                         {
-                            "submitted": 0,
-                            "total": 0,
+                            "submitted_facilities": 0,
+                            "total_facilities": 0,
                             "month": 10
                         },
                         {
-                            "submitted": 0,
-                            "total": 0,
+                            "submitted_facilities": 0,
+                            "total_facilities": 0,
                             "month": 11
                         },
                         {
-                            "submitted": 0,
-                            "total": 0,
+                            "submitted_facilities": 0,
+                            "total_facilities": 0,
                             "month": 12
                         }
                     ],
