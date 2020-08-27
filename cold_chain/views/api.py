@@ -8,6 +8,7 @@ from cold_chain.models import *
 from utility import replace_quotes, quarter_months, month_to_string, generate_percentage
 from dateutil.relativedelta import relativedelta
 import datetime
+from dashboard.models import Facility
 import collections
 from decimal import Decimal
 
@@ -838,16 +839,13 @@ class TempReportingRateStats(RequestSuperClass):
         summary = dict()
         monthly_submission_data = {1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0,
                                    7: 0, 8: 0, 9: 0, 10: 0, 11: 0, 12: 0}
-        monthly_submission_data_percentages = dict()
+        monthly_submission_data_percentages = {1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0,
+                                               7: 0, 8: 0, 9: 0, 10: 0, 11: 0, 12: 0}
 
         districts = District.objects.all()
         districts_total = districts.count()
         heat_graph_data = []
         submission_percentages_graph_data = []
-
-        for district in districts:
-            data = self.generate_montly_submission_data(district, monthly_submission_data)
-            heat_graph_data.append({'district': district.name, 'data': data})
 
         if self.district_name != 'national':
             # reset the data when filtering for one district
@@ -858,9 +856,33 @@ class TempReportingRateStats(RequestSuperClass):
                 data = self.generate_montly_submission_data(district, monthly_submission_data)
                 heat_graph_data.append({'district': district.name, 'data': data})
 
+            submission_count = 0
+            temp_report = TempReport.objects.filter(Q(district__name__icontains=self.district_name) & Q(year=self.year))
+            for temp in temp_report:
+                if temp.heat_alarm > 0 or temp.cold_alarm > 0:
+                    submission_count += 1
+
             for month in range(1, 13):
-                monthly_submission_data_percentages[month] = int(
-                    round(monthly_submission_data[month] / 1.0 * 100, 0))
+                reported_count_aggregate = Sum(
+                    Case(When((Q(heat_alarm__gt=0) | Q(cold_alarm__gt=0)) & Q(year=self.year) & Q(month=month)
+                              & Q(district__name=district.name), then=1),
+                         When((Q(heat_alarm__lte=0) | Q(cold_alarm__lte=0)) & Q(year=self.year) & Q(month=month)
+                              & Q(district__name=district.name), then=0),
+                         output_field=IntegerField()))
+
+                total_count_aggregate = Sum(
+                    Case(When(Q(year=self.year) & Q(month=month) & Q(district__name=district.name), then=1),
+                         When(Q(year=self.year) & Q(month=month) & Q(district__name=district.name), then=0),
+                         output_field=IntegerField()))
+
+                temp_reports = TempReport.objects.all()
+                reported_count = temp_reports.aggregate(reported_count=reported_count_aggregate)['reported_count']
+                total_count = temp_reports.aggregate(total_count=total_count_aggregate)['total_count']
+
+                if total_count and reported_count:
+                    monthly_submission_data_percentages[month] = int(
+                        round(reported_count / float(total_count) * 100, 0))
+                    monthly_submission_data[month] = reported_count
         else:
             for month in range(1, 13):
                 monthly_submission_data_percentages[month] = int(
@@ -876,12 +898,14 @@ class TempReportingRateStats(RequestSuperClass):
 
     def generate_montly_submission_data(self, district, monthly_submission_data):
         data = []
-        temp_reports = TempReport.objects.filter(Q(district=district) & Q(year=self.year))
+        temp_reports = TempReport.objects.filter((Q(heat_alarm__gt=0) | Q(cold_alarm__gt=0)) & Q(year=self.year) & Q(district=district))
+
         if temp_reports:
             report_months = [temp_report.month for temp_report in temp_reports]
             for month in range(1, 13):
                 submitted = month in report_months
                 data.append({'month': month, 'submitted': submitted})
+                # todo may not need this
                 if submitted:
                     monthly_submission_data[month] = monthly_submission_data[month] + 1
         return data

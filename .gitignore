@@ -153,3 +153,4 @@ node_modules/
 # dashboard/static/vendor/*
 #
 /venv
+*.sql

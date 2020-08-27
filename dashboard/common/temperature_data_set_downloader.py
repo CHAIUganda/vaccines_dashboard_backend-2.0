@@ -48,7 +48,11 @@ class TemperatureDataSetDownloader(object):
 
         for counter, value in enumerate(data_values):
 
-            facility = Facility.objects.get(identifier=value['orgUnit'])
+            try:
+                facility = Facility.objects.get(identifier=value['orgUnit'])
+            except Exception as e:
+                print(e)
+                continue
 
             district = facility
 
