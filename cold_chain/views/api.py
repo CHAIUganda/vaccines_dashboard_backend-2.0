@@ -34,157 +34,10 @@ class Districts(APIView):
         return Response(districts)
 
 
-class FacilityTypes(APIView):
-    def get(self, request):
-        district = request.query_params.get('district', None)
-        kwargs = {}
-        if district and district.lower() != 'national':
-            kwargs.update({'district': district})
-        facility_types = ColdChainFacility.objects.filter(**kwargs).values('type__group').annotate(count=Count('id'))
-        return Response(facility_types)
-
-
 class CareLevels(APIView):
     def get(self, request):
         carelevels = FacilityType.objects.all().values('group').distinct().order_by('group')
         return Response(carelevels)
-
-
-class ImmunizingFacilities(APIView):
-    def get(self, request):
-        district = request.query_params.get('district', None)
-        carelevel = request.query_params.get('carelevel', None)
-        startQuarter = request.query_params.get('startQuarter', '201601')
-        endQuarter = request.query_params.get('endQuarter', None)
-
-        # Create arguments for filtering
-        args = {'quarter__gte': startQuarter}
-
-        if district:
-            args.update({'facility__district': district})
-
-        if carelevel:
-            args.update({'facility__type__group': carelevel})
-
-        if endQuarter:
-            args.update({'quarter__lte': endQuarter})
-
-        summary = ImmunizingFacility.objects.filter(**args) \
-            .values(
-            'quarter',
-            'static',
-            'outreach',
-            'ficc_storage',
-            'facility',
-            'facility__district',
-            'facility__name',
-            'facility__type__group',
-            'facility__code')
-        return Response(summary)
-
-
-class DistrictImmunizingFacilities(APIView):
-    def get(self, request):
-        district = request.query_params.get('district', None)
-        carelevel = request.query_params.get('carelevel', None)
-        startQuarter = request.query_params.get('startQuarter', '201601')
-        endQuarter = request.query_params.get('endQuarter', None)
-
-        # Create arguments for filtering
-        args = {'quarter__gte': startQuarter}
-
-        if district:
-            args.update({'facility__district': district})
-
-        if carelevel:
-            args.update({'facility__type__group': carelevel})
-
-        if endQuarter:
-            args.update({'quarter__lte': endQuarter})
-
-        summary = ImmunizingFacility.objects.filter(**args) \
-            .values('facility__district') \
-            .annotate(immunizing=(Count(Q(static='True') | Q(outreach='True'))),
-                      immunizing_with_fridge=(Count(Q(static='True') & Q(outreach='True') & Q(ficc_storage='False'))),
-                      Total_facilities=(Count('facility__code'))) \
-            .order_by('facility__district') \
-            .values(
-            'facility__district',
-            'immunizing',
-            'Total_facilities',
-            'quarter',
-            'immunizing_with_fridge'
-        )
-        return Response(summary)
-
-
-class Refrigerators(APIView):
-    def get(self, request):
-        district = request.query_params.get('district', None)
-        carelevel = request.query_params.get('carelevel', None)
-        startQuarter = request.query_params.get('startQuarter', '201601')
-        endQuarter = request.query_params.get('endQuarter', None)
-
-        # Create arguments for filtering
-        args = {'quarter__gte': startQuarter}
-
-        if district:
-            args.update({'facility__district': district})
-
-        if carelevel:
-            args.update({'facility__type__group': carelevel})
-
-        if endQuarter:
-            args.update({'quarter__lte': endQuarter})
-
-        summary = Refrigerator.objects.filter() \
-            .values(
-            'number_existing',
-            'working_well',
-            'needs_maintenance',
-            'not_working',
-            'facility__district',
-            'facility__name',
-            'quarter')
-        return Response(summary)
-
-
-class DistrictRefrigerators(APIView):
-    def get(self, request):
-        district = request.query_params.get('district', None)
-        carelevel = request.query_params.get('carelevel', None)
-        startQuarter = request.query_params.get('startQuarter', '201602')
-        endQuarter = request.query_params.get('endQuarter', None)
-
-        # Create arguments for filtering
-        args = {'quarter__gte': startQuarter}
-
-        if district and district.lower() != 'national':
-            args.update({'facility__district': district})
-
-        if carelevel:
-            args.update({'facility__type__group': carelevel})
-
-        if endQuarter:
-            args.update({'quarter__lte': endQuarter})
-
-        summary = Refrigerator.objects.filter(**args) \
-            .values('facility__district') \
-            .annotate(working_well=Sum('working_well'),
-                      needs_maintenance=Sum('needs_maintenance'),
-                      not_working=Sum('not_working'),
-                      total_facilities=Count('facility__code'),
-                      number_existing=Sum('number_existing')) \
-            .order_by('-not_working') \
-            .values(
-            'working_well',
-            'needs_maintenance',
-            'not_working',
-            'quarter',
-            'number_existing',
-            'total_facilities',
-            'facility__district')
-        return Response(summary)
 
 
 class FacilityRefrigerators(APIView):
@@ -619,7 +472,8 @@ class EligibleFacilityStats(RequestSuperClass):
         total_number_immunizing_facility = metrics.aggregate(Sum('total_number_immunizing_facility'))['total_number_immunizing_facility__sum']
 
         try:
-            percentage_cce_coverage_rate = generate_percentage(total_number_immunizing_facility, total_eligible_facilities)
+            percentage_cce_coverage_rate = generate_percentage(total_number_immunizing_facility,
+                                                               total_eligible_facilities)
             percentage_not_cce_coverage_rate = 100 - percentage_cce_coverage_rate
         except (TypeError, ZeroDivisionError) as e:
             print(e)
@@ -877,10 +731,17 @@ class TempReportingRateStats(RequestSuperClass):
             heat_graph_data.append({'district': district.name, 'data': data})
         else:
             districts = District.objects.all()
+            temp_reports = TempReport.objects.filter(Q(year=self.year))
+            # the option values('month') is GROUP BY "cold_chain_tempreport"."month"
+            temp_reports_queryset = temp_reports.values('month').annotate(submitted_facilities=Count(
+                Case(When(Q(cold_alarm__gt=0) | Q(heat_alarm__gt=0), then=1), output_field=IntegerField())),
+                                                  total_facilities=Count('id')).values('month', 'submitted_facilities',
+                                                                                 'total_facilities')
+
             for district in districts:
-                data = self.generate_monthly_submission_data(district)
+                data = list(temp_reports_queryset.filter(district=district))
+                data = self.generate_empty_months(data)
                 heat_graph_data.append({'district': district.name, 'data': data})
-            print('step4')
 
             for month in range(1, 13):
                 reported_count_aggregate = Sum(
@@ -910,17 +771,16 @@ class TempReportingRateStats(RequestSuperClass):
         summary.update({'submission_percentages_graph_data': submission_percentages_graph_data})
         return Response(summary)
 
-    def generate_monthly_submission_data(self, district=None):
-        temp_reports = TempReport.objects.filter(Q(district=district) & Q(year=self.year))
-        # create dummy data
-        months_data = dict()
+    def generate_empty_months(self, data):
+        months_data = []
         for i in range(1, 13):
-            months_data.update({i: {'submitted': 0, 'total': 0}})
-
-        # iterate over all the reports and get submissions and total facilities
-        for temp_report in temp_reports:
-            submitted = 1 if temp_report.heat_alarm or temp_report.cold_alarm else 0
-            months_data.update({temp_report.month: {'submitted': months_data[temp_report.month]['submitted'] + submitted, 'total': months_data[temp_report.month]['total'] + 1}})
-
-        return [{"month": data[0], "total_facilities": data[1]['total'], "submitted_facilities": data[1]['submitted']}
-                for data in months_data.items()]
+            months_data.append({'month': i, 'submitted_facilities': 0, 'total_facilities': 0})
+        for index, item in enumerate(months_data):
+            try:
+                if item['month'] == data[index]['month']:
+                    continue
+            except Exception as e:
+                print(e)
+                data.append(item)
+        # sort data by months number
+        return sorted(data, key=lambda i: i['month'])
