@@ -740,8 +740,7 @@ class TempReportingRateStats(RequestSuperClass):
 
             for district in districts:
                 data = list(temp_reports_queryset.filter(district=district))
-                data = self.generate_empty_months(data)
-                heat_graph_data.append({'district': district.name, 'data': data})
+                heat_graph_data.append({'district': district.name, 'data': self.generate_empty_months(data)})
 
             for month in range(1, 13):
                 reported_count_aggregate = Sum(
@@ -784,3 +783,31 @@ class TempReportingRateStats(RequestSuperClass):
                 data.append(item)
         # sort data by months number
         return sorted(data, key=lambda i: i['month'])
+
+
+class OverviewStats(RequestSuperClass):
+    """
+    Returns data for the coldchain overview panel
+    """
+
+    def get(self, request):
+        super(OverviewStats, self).get(request)
+        sufficient_storage_sites = District.objects.filter(
+            Q(refrigeratordetail__year__gte=self.year) &
+            Q(refrigeratordetail__year__lte=self.year + 1)).order_by('name') \
+            .annotate(available_net_storage_volume=Sum('refrigeratordetail__available_net_storage_volume'),
+                      required_net_storage_volume=Sum('refrigeratordetail__required_net_storage_volume'),
+                      gap=F('available_net_storage_volume') - F('required_net_storage_volume')) \
+            .filter(gap__gte=0)
+
+        all_sites = District.objects.count()
+        sufficiency_percentage_at_sites = generate_percentage(sufficient_storage_sites.count(), all_sites)
+        print('sufficiency_percentage_at_sites')
+        print(sufficiency_percentage_at_sites)
+        print(sufficient_storage_sites.count())
+        print(sufficient_storage_sites)
+        print(all_sites)
+        response_data = {
+            "sufficiency_percentage_at_sites": sufficiency_percentage_at_sites,
+        }
+        return Response(response_data)
