@@ -10,6 +10,7 @@ from django.utils import timezone
 
 class TestTempMonitoring(APITestCase):
     def setUp(self):
+        # todo add test to remove national, district stores and Sub-District Store
         self.district = District.objects.create(name="Kampala District", identifier="kampala")
         self.district2 = District.objects.create(name="Jinja District", identifier="jinja")
         self.district3 = District.objects.create(name="Masaka District", identifier="masaka")
@@ -696,7 +697,9 @@ class TestTempMonitoring(APITestCase):
             "sufficiency_percentage_at_sites": 25,
             "sufficiency_percentage_at_dvs": 67,
             "sufficiency_percentage_at_hfs": 50,
-            "optimality_percentage_at_sites": 46
+            "optimality_percentage_at_sites": 46,
+            "optimality_percentage_at_dvs": 57,
+            "optimality_percentage_at_hfs": 33
         }
         kwargs = {"year": 2019}
         response = self.client.get(url, kwargs)

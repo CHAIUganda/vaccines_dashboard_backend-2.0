@@ -793,19 +793,24 @@ class OverviewStats(RequestSuperClass):
 
     def get(self, request):
         super(OverviewStats, self).get(request)
+        self.ten_years_ago_date = datetime.datetime.now() - relativedelta(years=10)
+
         return Response({
             "sufficiency_percentage_at_sites": self.generate_sufficiency_percentage_at_sites,
             "sufficiency_percentage_at_dvs": self.generate_sufficiency_percentage_at_dvs(),
             "sufficiency_percentage_at_hfs": self.generate_sufficiency_percentage_at_hfs(),
-            "optimality_percentage_at_sites": self.generate_optimality_percentage_at_sites()
+            "optimality_percentage_at_sites": self.generate_optimality_percentage_at_sites(),
+            "optimality_percentage_at_dvs": self.generate_optimality_percentage_at_dvs(),
+            "optimality_percentage_at_hfs": self.generate_optimality_percentage_at_hfs()
         })
 
     @property
     def generate_sufficiency_percentage_at_sites(self):
+        # exclude national store because it will greatly affect the accuracy
         sufficient_storage_sites = District.objects.filter(
             Q(refrigeratordetail__year__gte=self.year) &
             Q(refrigeratordetail__year__lte=self.year + 1)) \
-            .order_by('name') \
+            .exclude(refrigeratordetail__cold_chain_facility__type__name='National Store').order_by('name') \
             .annotate(available_net_storage_volume=Sum('refrigeratordetail__available_net_storage_volume'),
                       required_net_storage_volume=Sum('refrigeratordetail__required_net_storage_volume'),
                       gap=F('available_net_storage_volume') - F('required_net_storage_volume')) \
@@ -818,8 +823,8 @@ class OverviewStats(RequestSuperClass):
         sufficient_storage_at_dvs = ColdChainFacility.objects.filter(
             Q(refrigeratordetail__year__gte=self.year) &
             Q(refrigeratordetail__year__lte=self.year + 1) &
-            Q(type__name__icontains='District Store')) \
-            .order_by('name') \
+            Q(type__name__icontains='District Store') &
+            ~Q(type__name='National Store')).order_by('name') \
             .annotate(available_net_storage_volume=Sum('refrigeratordetail__available_net_storage_volume'),
                       required_net_storage_volume=Sum('refrigeratordetail__required_net_storage_volume'),
                       gap=F('available_net_storage_volume') - F('required_net_storage_volume')) \
@@ -827,15 +832,14 @@ class OverviewStats(RequestSuperClass):
         # this prevents counting even facilities that did not report
         all_dvs = ColdChainFacility.objects.filter(Q(refrigeratordetail__year__gte=self.year) &
                                                    Q(refrigeratordetail__year__lte=self.year + 1) &
-                                                   Q(type__name__icontains='District Store')).distinct().count()
+                                                   Q(type__name__icontains='Store')).distinct().count()
         return generate_percentage(sufficient_storage_at_dvs, all_dvs)
 
     def generate_sufficiency_percentage_at_hfs(self):
         sufficient_storage_at_hfs = ColdChainFacility.objects.filter(
             Q(refrigeratordetail__year__gte=self.year) &
             Q(refrigeratordetail__year__lte=self.year + 1) &
-            ~Q(type__name__icontains='District Store')) \
-            .order_by('name') \
+            ~Q(type__name__icontains='Store')).order_by('name') \
             .annotate(available_net_storage_volume=Sum('refrigeratordetail__available_net_storage_volume'),
                       required_net_storage_volume=Sum('refrigeratordetail__required_net_storage_volume'),
                       gap=F('available_net_storage_volume') - F('required_net_storage_volume')) \
@@ -843,11 +847,25 @@ class OverviewStats(RequestSuperClass):
         # this prevents counting even facilities that did not report
         all_hfs = ColdChainFacility.objects.filter(Q(refrigeratordetail__year__gte=self.year) &
                                                    Q(refrigeratordetail__year__lte=self.year + 1) &
-                                                   ~Q(type__name__icontains='District Store')).distinct().count()
+                                                   ~Q(type__name__icontains='Store')).distinct().count()
         return generate_percentage(sufficient_storage_at_hfs, all_hfs)
 
     def generate_optimality_percentage_at_sites(self):
-        ten_years_ago_date = datetime.datetime.now() - relativedelta(years=10)
-        optimal_cce = Refrigerator.objects.filter(supply_year__gt=ten_years_ago_date).count()
+        optimal_cce = Refrigerator.objects.filter(supply_year__gt=self.ten_years_ago_date).count()
         total_cce = Refrigerator.objects.count()
+        return generate_percentage(optimal_cce, total_cce)
+
+    def generate_optimality_percentage_at_dvs(self):
+        optimal_cce = Refrigerator.objects.filter(supply_year__gt=self.ten_years_ago_date,
+                                                  cold_chain_facility__type__name__icontains='Store') \
+            .exclude(cold_chain_facility__type__name='National Store').count()
+        total_cce = Refrigerator.objects.filter(cold_chain_facility__type__name__icontains='Store') \
+            .exclude(cold_chain_facility__type__name='National Store').count()
+        return generate_percentage(optimal_cce, total_cce)
+
+    def generate_optimality_percentage_at_hfs(self):
+        optimal_cce = Refrigerator.objects.filter(supply_year__gt=self.ten_years_ago_date) \
+            .exclude(cold_chain_facility__type__name__icontains='Store').count()
+        total_cce = Refrigerator.objects.all() \
+            .exclude(cold_chain_facility__type__name__icontains='Store').count()
         return generate_percentage(optimal_cce, total_cce)
