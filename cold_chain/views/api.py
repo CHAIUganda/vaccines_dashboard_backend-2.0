@@ -794,11 +794,13 @@ class OverviewStats(RequestSuperClass):
     def get(self, request):
         super(OverviewStats, self).get(request)
         return Response({
-            "sufficiency_percentage_at_sites": self.generate_sufficiency_percentage_at_sites(),
+            "sufficiency_percentage_at_sites": self.generate_sufficiency_percentage_at_sites,
             "sufficiency_percentage_at_dvs": self.generate_sufficiency_percentage_at_dvs(),
-            "sufficiency_percentage_at_hfs": self.generate_sufficiency_percentage_at_hfs()
+            "sufficiency_percentage_at_hfs": self.generate_sufficiency_percentage_at_hfs(),
+            "optimality_percentage_at_sites": self.generate_optimality_percentage_at_sites()
         })
 
+    @property
     def generate_sufficiency_percentage_at_sites(self):
         sufficient_storage_sites = District.objects.filter(
             Q(refrigeratordetail__year__gte=self.year) &
@@ -810,8 +812,7 @@ class OverviewStats(RequestSuperClass):
             .filter(gap__gte=0).count()
         all_sites = District.objects.filter(Q(refrigeratordetail__year__gte=self.year) &
                                             Q(refrigeratordetail__year__lte=self.year + 1)).distinct().count()
-        sufficiency_percentage_at_sites = generate_percentage(sufficient_storage_sites, all_sites)
-        return sufficiency_percentage_at_sites
+        return generate_percentage(sufficient_storage_sites, all_sites)
 
     def generate_sufficiency_percentage_at_dvs(self):
         sufficient_storage_at_dvs = ColdChainFacility.objects.filter(
@@ -843,5 +844,10 @@ class OverviewStats(RequestSuperClass):
         all_hfs = ColdChainFacility.objects.filter(Q(refrigeratordetail__year__gte=self.year) &
                                                    Q(refrigeratordetail__year__lte=self.year + 1) &
                                                    ~Q(type__name__icontains='District Store')).distinct().count()
-        sufficiency_percentage_at_hfs = generate_percentage(sufficient_storage_at_hfs, all_hfs)
-        return sufficiency_percentage_at_hfs
+        return generate_percentage(sufficient_storage_at_hfs, all_hfs)
+
+    def generate_optimality_percentage_at_sites(self):
+        ten_years_ago_date = datetime.datetime.now() - relativedelta(years=10)
+        optimal_cce = Refrigerator.objects.filter(supply_year__gt=ten_years_ago_date).count()
+        total_cce = Refrigerator.objects.count()
+        return generate_percentage(optimal_cce, total_cce)

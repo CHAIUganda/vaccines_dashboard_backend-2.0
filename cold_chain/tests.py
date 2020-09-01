@@ -75,7 +75,7 @@ class TestTempMonitoring(APITestCase):
 
         self.refrigerator = Refrigerator.objects.create(cold_chain_facility=self.coldchain_facility_ds,
                                                         serial_number="test1", make="SONY",
-                                                        model="test1", supply_year=timezone.datetime(2019, 4, 4))
+                                                        model="test1", supply_year=timezone.datetime(2009, 4, 4))
         self.refrigerator_detail = RefrigeratorDetail.objects.create(refrigerator=self.refrigerator,
                                                                      district=self.district,
                                                                      available_net_storage_volume=372, temperature=4,
@@ -85,7 +85,7 @@ class TestTempMonitoring(APITestCase):
         self.refrigerator2 = Refrigerator.objects.create(cold_chain_facility=self.coldchain_facility_ds,
                                                          serial_number=get_random_string(length=8), make="SONY",
                                                          model=get_random_string(length=5),
-                                                         supply_year=timezone.datetime(2019, 4, 4))
+                                                         supply_year=timezone.datetime(2009, 4, 4))
         self.refrigerator_detail2 = RefrigeratorDetail.objects.create(refrigerator=self.refrigerator2,
                                                                       district=self.district,
                                                                       available_net_storage_volume=674, temperature=4,
@@ -105,7 +105,7 @@ class TestTempMonitoring(APITestCase):
         self.refrigerator4 = Refrigerator.objects.create(cold_chain_facility=self.coldchain_facility2,
                                                          serial_number=get_random_string(length=8), make="SONY",
                                                          model=get_random_string(length=5),
-                                                         supply_year=timezone.datetime(2019, 4, 4))
+                                                         supply_year=timezone.datetime(2009, 4, 4))
         self.refrigerator_detail4 = RefrigeratorDetail.objects.create(refrigerator=self.refrigerator4,
                                                                       district=self.district2,
                                                                       available_net_storage_volume=691, temperature=4,
@@ -125,7 +125,7 @@ class TestTempMonitoring(APITestCase):
         self.refrigerator6 = Refrigerator.objects.create(cold_chain_facility=self.coldchain_facility3,
                                                          serial_number=get_random_string(length=8), make="SONY",
                                                          model=get_random_string(length=5),
-                                                         supply_year=timezone.datetime(2019, 4, 4))
+                                                         supply_year=timezone.datetime(2009, 4, 4))
         self.refrigerator_detail6 = RefrigeratorDetail.objects.create(refrigerator=self.refrigerator6,
                                                                       district=self.district3,
                                                                       available_net_storage_volume=691, temperature=4,
@@ -155,7 +155,7 @@ class TestTempMonitoring(APITestCase):
         self.refrigerator9 = Refrigerator.objects.create(cold_chain_facility=self.coldchain_facility6_ds,
                                                          serial_number=get_random_string(length=8), make="SONY",
                                                          model=get_random_string(length=5),
-                                                         supply_year=timezone.datetime(2019, 4, 4))
+                                                         supply_year=timezone.datetime(2009, 4, 4))
         self.refrigerator_detail9 = RefrigeratorDetail.objects.create(refrigerator=self.refrigerator9,
                                                                       district=self.district3,
                                                                       available_net_storage_volume=191, temperature=5,
@@ -172,31 +172,31 @@ class TestTempMonitoring(APITestCase):
                                                                        required_net_storage_volume=778,
                                                                        functionality_status=FUNCTIONALITY_STATUS[0])
 
-        self.refrigerator10 = Refrigerator.objects.create(cold_chain_facility=self.coldchain_facility9,
+        self.refrigerator11 = Refrigerator.objects.create(cold_chain_facility=self.coldchain_facility9,
                                                           serial_number=get_random_string(length=8), make="SONY",
                                                           model=get_random_string(length=5),
-                                                          supply_year=timezone.datetime(2019, 4, 4))
-        self.refrigerator_detail10 = RefrigeratorDetail.objects.create(refrigerator=self.refrigerator10,
-                                                                       district=self.district4,
-                                                                       available_net_storage_volume=791, temperature=5,
-                                                                       required_net_storage_volume=778,
-                                                                       functionality_status=FUNCTIONALITY_STATUS[0])
-
-        self.refrigerator11 = Refrigerator.objects.create(cold_chain_facility=self.coldchain_facility8_ds,
-                                                          serial_number=get_random_string(length=8), make="SONY",
-                                                          model=get_random_string(length=5),
-                                                          supply_year=timezone.datetime(2019, 4, 4))
+                                                          supply_year=timezone.datetime(2009, 4, 4))
         self.refrigerator_detail11 = RefrigeratorDetail.objects.create(refrigerator=self.refrigerator11,
                                                                        district=self.district4,
                                                                        available_net_storage_volume=791, temperature=5,
                                                                        required_net_storage_volume=778,
                                                                        functionality_status=FUNCTIONALITY_STATUS[0])
 
-        self.refrigerator12 = Refrigerator.objects.create(cold_chain_facility=self.coldchain_facility10,
+        self.refrigerator12 = Refrigerator.objects.create(cold_chain_facility=self.coldchain_facility8_ds,
                                                           serial_number=get_random_string(length=8), make="SONY",
                                                           model=get_random_string(length=5),
                                                           supply_year=timezone.datetime(2019, 4, 4))
         self.refrigerator_detail12 = RefrigeratorDetail.objects.create(refrigerator=self.refrigerator12,
+                                                                       district=self.district4,
+                                                                       available_net_storage_volume=791, temperature=5,
+                                                                       required_net_storage_volume=778,
+                                                                       functionality_status=FUNCTIONALITY_STATUS[0])
+
+        self.refrigerator13 = Refrigerator.objects.create(cold_chain_facility=self.coldchain_facility10,
+                                                          serial_number=get_random_string(length=8), make="SONY",
+                                                          model=get_random_string(length=5),
+                                                          supply_year=timezone.datetime(2009, 4, 4))
+        self.refrigerator_detail13 = RefrigeratorDetail.objects.create(refrigerator=self.refrigerator13,
                                                                        district=self.district4,
                                                                        available_net_storage_volume=134, temperature=5,
                                                                        required_net_storage_volume=652,
@@ -695,7 +695,8 @@ class TestTempMonitoring(APITestCase):
         response_data = {
             "sufficiency_percentage_at_sites": 25,
             "sufficiency_percentage_at_dvs": 67,
-            "sufficiency_percentage_at_hfs": 50
+            "sufficiency_percentage_at_hfs": 50,
+            "optimality_percentage_at_sites": 46
         }
         kwargs = {"year": 2019}
         response = self.client.get(url, kwargs)
