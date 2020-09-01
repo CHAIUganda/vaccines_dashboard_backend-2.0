@@ -69,6 +69,9 @@ class TestTempMonitoring(APITestCase):
         self.coldchain_facility9 = ColdChainFacility.objects.create(name="coldfacility9", district=self.district4,
                                                                     code=get_random_string(length=12),
                                                                     type=self.public_hciv_facility_type)
+        self.coldchain_facility10 = ColdChainFacility.objects.create(name="coldfacility10", district=self.district4,
+                                                                    code=get_random_string(length=12),
+                                                                    type=self.public_hciv_facility_type)
 
         self.refrigerator = Refrigerator.objects.create(cold_chain_facility=self.coldchain_facility_ds,
                                                         serial_number="test1", make="SONY",
@@ -187,6 +190,16 @@ class TestTempMonitoring(APITestCase):
                                                                        district=self.district4,
                                                                        available_net_storage_volume=791, temperature=5,
                                                                        required_net_storage_volume=778,
+                                                                       functionality_status=FUNCTIONALITY_STATUS[0])
+
+        self.refrigerator12 = Refrigerator.objects.create(cold_chain_facility=self.coldchain_facility10,
+                                                          serial_number=get_random_string(length=8), make="SONY",
+                                                          model=get_random_string(length=5),
+                                                          supply_year=timezone.datetime(2019, 4, 4))
+        self.refrigerator_detail12 = RefrigeratorDetail.objects.create(refrigerator=self.refrigerator12,
+                                                                       district=self.district4,
+                                                                       available_net_storage_volume=134, temperature=5,
+                                                                       required_net_storage_volume=652,
                                                                        functionality_status=FUNCTIONALITY_STATUS[0])
 
     def test_temperature_reporting_rate_per_district(self):
@@ -680,8 +693,9 @@ class TestTempMonitoring(APITestCase):
 
         url = reverse("overviewstats")
         response_data = {
-            "sufficiency_percentage_at_sites": 50,
-            "sufficiency_percentage_at_dvs": 67
+            "sufficiency_percentage_at_sites": 25,
+            "sufficiency_percentage_at_dvs": 67,
+            "sufficiency_percentage_at_hfs": 50
         }
         kwargs = {"year": 2019}
         response = self.client.get(url, kwargs)
