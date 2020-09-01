@@ -469,7 +469,8 @@ class EligibleFacilityStats(RequestSuperClass):
             metrics = metrics.filter(district__name__icontains=self.district_name)
 
         total_eligible_facilities = metrics.aggregate(Sum('total_eligible_facility'))['total_eligible_facility__sum']
-        total_number_immunizing_facility = metrics.aggregate(Sum('total_number_immunizing_facility'))['total_number_immunizing_facility__sum']
+        total_number_immunizing_facility = metrics.aggregate(Sum('total_number_immunizing_facility'))[
+            'total_number_immunizing_facility__sum']
 
         try:
             percentage_cce_coverage_rate = generate_percentage(total_number_immunizing_facility,
@@ -725,7 +726,8 @@ class TempReportingRateStats(RequestSuperClass):
                     monthly_submission_data_percentages[month] = int(
                         round(reported_count / float(total_count) * 100, 0))
                     monthly_submission_data[month] = reported_count
-                    data.append({'month': month, 'submitted_facilities': reported_count, 'total_facilities': total_count})
+                    data.append({'month': month, 'submitted_facilities': reported_count,
+                                 'total_facilities': total_count})
                 else:
                     data.append({'month': month, 'submitted_facilities': 0, 'total_facilities': 0})
             heat_graph_data.append({'district': district.name, 'data': data})
@@ -735,8 +737,7 @@ class TempReportingRateStats(RequestSuperClass):
             # the option values('month') is GROUP BY "cold_chain_tempreport"."month"
             temp_reports_queryset = temp_reports.values('month').annotate(submitted_facilities=Count(
                 Case(When(Q(cold_alarm__gt=0) | Q(heat_alarm__gt=0), then=1), output_field=IntegerField())),
-                                                  total_facilities=Count('id')).values('month', 'submitted_facilities',
-                                                                                 'total_facilities')
+                total_facilities=Count('id')).values('month', 'submitted_facilities', 'total_facilities')
 
             for district in districts:
                 data = list(temp_reports_queryset.filter(district=district))
@@ -794,20 +795,35 @@ class OverviewStats(RequestSuperClass):
         super(OverviewStats, self).get(request)
         sufficient_storage_sites = District.objects.filter(
             Q(refrigeratordetail__year__gte=self.year) &
-            Q(refrigeratordetail__year__lte=self.year + 1)).order_by('name') \
+            Q(refrigeratordetail__year__lte=self.year + 1) &
+            ~Q(refrigeratordetail__cold_chain_facility__type__name='District Store')).order_by('name') \
             .annotate(available_net_storage_volume=Sum('refrigeratordetail__available_net_storage_volume'),
                       required_net_storage_volume=Sum('refrigeratordetail__required_net_storage_volume'),
                       gap=F('available_net_storage_volume') - F('required_net_storage_volume')) \
-            .filter(gap__gte=0)
+            .filter(gap__gte=0).count()
 
-        all_sites = District.objects.count()
-        sufficiency_percentage_at_sites = generate_percentage(sufficient_storage_sites.count(), all_sites)
-        print('sufficiency_percentage_at_sites')
-        print(sufficiency_percentage_at_sites)
-        print(sufficient_storage_sites.count())
-        print(sufficient_storage_sites)
-        print(all_sites)
+        all_sites = District.objects.filter(Q(refrigeratordetail__year__gte=self.year) &
+                                            Q(refrigeratordetail__year__lte=self.year + 1)).distinct().count()
+        sufficiency_percentage_at_sites = generate_percentage(sufficient_storage_sites, all_sites)
+
+        sufficient_storage_at_dvs = ColdChainFacility.objects.filter(
+            Q(refrigeratordetail__year__gte=self.year) &
+            Q(refrigeratordetail__year__lte=self.year + 1) &
+            Q(type__name__icontains='District Store')) \
+            .order_by('name') \
+            .annotate(available_net_storage_volume=Sum('refrigeratordetail__available_net_storage_volume'),
+                      required_net_storage_volume=Sum('refrigeratordetail__required_net_storage_volume'),
+                      gap=F('available_net_storage_volume') - F('required_net_storage_volume')) \
+            .filter(gap__gt=0).count()
+
+        # this prevents counting even facilities that did not report
+        all_dvs = ColdChainFacility.objects.filter(Q(refrigeratordetail__year__gte=self.year) &
+                                                   Q(refrigeratordetail__year__lte=self.year + 1) &
+                                                   Q(type__name__icontains='District Store')).distinct().count()
+        sufficiency_percentage_at_dvs = generate_percentage(sufficient_storage_at_dvs, all_dvs)
+
         response_data = {
             "sufficiency_percentage_at_sites": sufficiency_percentage_at_sites,
+            "sufficiency_percentage_at_dvs": sufficiency_percentage_at_dvs
         }
         return Response(response_data)

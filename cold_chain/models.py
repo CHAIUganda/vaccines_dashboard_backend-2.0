@@ -75,6 +75,7 @@ class Refrigerator(models.Model):
 class RefrigeratorDetail(models.Model):
     refrigerator = models.ForeignKey(Refrigerator, on_delete=models.SET_NULL, null=True, blank=True)
     district = models.ForeignKey(District, on_delete=models.SET_NULL, null=True, blank=True)
+    cold_chain_facility = models.ForeignKey(ColdChainFacility, on_delete=models.SET_NULL, null=True, blank=True)
     year = models.IntegerField(default=2019)
     month = models.IntegerField(default=1)
     available_net_storage_volume = models.IntegerField(null=True, blank=True)
@@ -88,6 +89,10 @@ class RefrigeratorDetail(models.Model):
 
     class Meta:
         unique_together = ("refrigerator", "district", "year", "month")
+
+    def save(self, force_insert=False, force_update=False, *args, **kwargs):
+        self.cold_chain_facility = self.refrigerator.cold_chain_facility
+        super(RefrigeratorDetail, self).save(force_insert, force_update, *args, **kwargs)
 
     def __str__(self):
         return "%s %s" % (self.refrigerator, self.temperature)

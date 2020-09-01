@@ -39,12 +39,7 @@ def import_coldchainmain(excel_file, year, month):
                 facility.name = facility_name
                 facility.district = district
                 facility.code = facility_code
-
-                try:
-                    facility_type = FacilityType.objects.filter(name=type_of_facility).first()
-                except Exception as e:
-                    print(e)
-                    facility_type = FacilityType.objects.create(name=type_of_facility)
+                facility_type = FacilityType.objects.get_or_create(name=type_of_facility)
                 facility.type = facility_type
                 facility.save()
             except Exception as e:
