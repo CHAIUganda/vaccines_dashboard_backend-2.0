@@ -802,8 +802,8 @@ class OverviewStats(RequestSuperClass):
     def generate_sufficiency_percentage_at_sites(self):
         sufficient_storage_sites = District.objects.filter(
             Q(refrigeratordetail__year__gte=self.year) &
-            Q(refrigeratordetail__year__lte=self.year + 1) &
-            ~Q(refrigeratordetail__cold_chain_facility__type__name='District Store')).order_by('name') \
+            Q(refrigeratordetail__year__lte=self.year + 1)) \
+            .order_by('name') \
             .annotate(available_net_storage_volume=Sum('refrigeratordetail__available_net_storage_volume'),
                       required_net_storage_volume=Sum('refrigeratordetail__required_net_storage_volume'),
                       gap=F('available_net_storage_volume') - F('required_net_storage_volume')) \

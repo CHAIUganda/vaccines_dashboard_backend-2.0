@@ -70,8 +70,8 @@ class TestTempMonitoring(APITestCase):
                                                                     code=get_random_string(length=12),
                                                                     type=self.public_hciv_facility_type)
         self.coldchain_facility10 = ColdChainFacility.objects.create(name="coldfacility10", district=self.district4,
-                                                                    code=get_random_string(length=12),
-                                                                    type=self.public_hciv_facility_type)
+                                                                     code=get_random_string(length=12),
+                                                                     type=self.public_hciv_facility_type)
 
         self.refrigerator = Refrigerator.objects.create(cold_chain_facility=self.coldchain_facility_ds,
                                                         serial_number="test1", make="SONY",
