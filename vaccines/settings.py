@@ -138,7 +138,7 @@ DHIS2_PASS = 'Dhis2019!'
 DHIS2_ADDRESS = 'https://hmis2.health.go.ug'
 
 DHIS2_NEW_USER = 'm&e.chai'
-DHIS2_NEW_PASS = 'Chai@2020$$$'
+DHIS2_NEW_PASS = 'Chai@2020###'
 DHIS2_NEW_ADDRESS = 'https://hmis.health.go.ug'
 
 # Details of library and configuration
