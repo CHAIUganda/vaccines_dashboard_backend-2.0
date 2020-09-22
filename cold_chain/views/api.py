@@ -816,7 +816,9 @@ class OverviewStats(RequestSuperClass):
                       gap=F('available_net_storage_volume') - F('required_net_storage_volume')) \
             .filter(gap__gte=0).count()
         all_sites = District.objects.filter(Q(refrigeratordetail__year__gte=self.year) &
-                                            Q(refrigeratordetail__year__lte=self.year + 1)).distinct().count()
+                                            Q(refrigeratordetail__year__lte=self.year + 1)) \
+            .exclude(refrigeratordetail__cold_chain_facility__type__name='National Store') \
+            .distinct().count()
         return generate_percentage(sufficient_storage_sites, all_sites)
 
     def generate_sufficiency_percentage_at_dvs(self):
@@ -851,7 +853,7 @@ class OverviewStats(RequestSuperClass):
         return generate_percentage(sufficient_storage_at_hfs, all_hfs)
 
     def generate_optimality_percentage_at_sites(self):
-        optimal_cce = Refrigerator.objects.filter(supply_year__gt=self.ten_years_ago_date).count()
+        optimal_cce = Refrigerator.objects.filter(supply_year__gt=self.ten_years_ago_date).exclude(cold_chain_facility__type__name='National Store').count()
         total_cce = Refrigerator.objects.count()
         return generate_percentage(optimal_cce, total_cce)
 
