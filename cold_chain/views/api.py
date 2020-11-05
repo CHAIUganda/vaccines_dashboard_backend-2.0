@@ -796,7 +796,7 @@ class OverviewStats(RequestSuperClass):
         self.ten_years_ago_date = datetime.datetime.now() - relativedelta(years=10)
 
         return Response({
-            "sufficiency_percentage_at_sites": self.generate_sufficiency_percentage_at_sites(),
+            "sufficiency_percentage_at_sites": self.generate_sufficiency_percentage_at_sites,
             "sufficiency_percentage_at_dvs": self.generate_sufficiency_percentage_at_dvs(),
             "sufficiency_percentage_at_hfs": self.generate_sufficiency_percentage_at_hfs(),
             "optimality_percentage_at_sites": self.generate_optimality_percentage_at_sites(),
