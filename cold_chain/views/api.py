@@ -8,7 +8,7 @@ from cold_chain.models import *
 from utility import replace_quotes, quarter_months, month_to_string, generate_percentage
 from dateutil.relativedelta import relativedelta
 import datetime
-from dashboard.models import Facility
+from dashboard.models import Facility, Region
 import collections
 from decimal import Decimal
 
@@ -28,6 +28,12 @@ class Quarters(APIView):
         return Response(quarters)
 
 
+class Regions(APIView):
+    def get(self, request):
+        region = Region.objects.all().values('name')
+        return Response(region)
+
+
 class Districts(APIView):
     def get(self, request):
         districts = ColdChainFacility.objects.all().values('district').distinct().order_by('district')
@@ -43,6 +49,7 @@ class CareLevels(APIView):
 class RequestSuperClass(APIView):
     def get(self, request):
         self.district_name = replace_quotes(request.query_params.get('district', 'national'))
+        self.region = replace_quotes(request.query_params.get('region', 'all'))
         self.facility_type = replace_quotes(request.query_params.get('carelevel', 'all'))
         self.start_period = replace_quotes(request.query_params.get('start_period', '201901'))
         self.end_period = replace_quotes(request.query_params.get('end_period', '201902'))
@@ -548,22 +555,30 @@ class TempReportingRateStats(RequestSuperClass):
         heat_graph_data = []
         submission_percentages_graph_data = []
         data = []
+        filters = dict()
+
+        if self.region != 'all':
+            filters.update({'region__name': self.region})
 
         if self.district_name != 'national':
             # reset the data when filtering for one district
-            district = District.objects.filter(name__icontains=self.district_name).first()
+            filters.update({'name__icontains': self.district_name})
+            district = District.objects.filter(**filters).first()
+            district = self.requery_district_when_region_is_mismatch(district)
 
             for month in range(1, 13):
                 reported_count_aggregate = Sum(
                     Case(When((Q(heat_alarm__gt=0) | Q(cold_alarm__gt=0)) & Q(year=self.year) & Q(month=month)
-                              & Q(district__name=district.name), then=1),
+                              & Q(district__name=district.name) & Q(district__region__name=self.region), then=1),
                          When((Q(heat_alarm__lte=0) | Q(cold_alarm__lte=0)) & Q(year=self.year) & Q(month=month)
-                              & Q(district__name=district.name), then=0),
+                              & Q(district__name=district.name) & Q(district__region__name=self.region), then=0),
                          output_field=IntegerField()))
 
                 total_count_aggregate = Sum(
-                    Case(When(Q(year=self.year) & Q(month=month) & Q(district__name=district.name), then=1),
-                         When(Q(year=self.year) & Q(month=month) & Q(district__name=district.name), then=0),
+                    Case(When(Q(year=self.year) & Q(month=month) & Q(district__name=district.name) & Q(
+                        district__region__name=self.region), then=1),
+                         When(Q(year=self.year) & Q(month=month) & Q(district__name=district.name) & Q(
+                             district__region__name=self.region), then=0),
                          output_field=IntegerField()))
 
                 temp_reports = TempReport.objects.all()
@@ -580,8 +595,14 @@ class TempReportingRateStats(RequestSuperClass):
                     data.append({'month': month, 'submitted_facilities': 0, 'total_facilities': 0})
             heat_graph_data.append({'district': district.name, 'data': data})
         else:
-            districts = District.objects.all()
-            temp_reports = TempReport.objects.filter(Q(year=self.year))
+            districts = District.objects.filter(**filters)
+            temp_filters = {
+                'year': self.year
+            }
+            if self.region != 'all':
+                temp_filters.update({'district__region__name': self.region})
+
+            temp_reports = TempReport.objects.filter(**temp_filters)
             # the option values('month') is GROUP BY "cold_chain_tempreport"."month"
             temp_reports_queryset = temp_reports.values('month').annotate(submitted_facilities=Count(
                 Case(When(Q(cold_alarm__gt=0) | Q(heat_alarm__gt=0), then=1), output_field=IntegerField())),
@@ -589,7 +610,8 @@ class TempReportingRateStats(RequestSuperClass):
 
             for district in districts:
                 data = list(temp_reports_queryset.filter(district=district))
-                heat_graph_data.append({'district': district.name, 'data': self.generate_empty_months(data)})
+                heat_graph_data.append(
+                    {'district': district.name, 'data': self.generate_default_values_for_missing_months(data)})
 
             for month in range(1, 13):
                 reported_count_aggregate = Sum(
@@ -602,7 +624,7 @@ class TempReportingRateStats(RequestSuperClass):
                          When(Q(year=self.year) & Q(month=month), then=0),
                          output_field=IntegerField()))
 
-                temp_reports = TempReport.objects.all()
+                # temp_reports = TempReport.objects.all()
                 reported_count = temp_reports.aggregate(reported_count=reported_count_aggregate)['reported_count']
                 total_count = temp_reports.aggregate(total_count=total_count_aggregate)['total_count']
 
@@ -619,7 +641,12 @@ class TempReportingRateStats(RequestSuperClass):
         summary.update({'submission_percentages_graph_data': submission_percentages_graph_data})
         return Response(summary)
 
-    def generate_empty_months(self, data):
+    def requery_district_when_region_is_mismatch(self, district):
+        if not district:
+            district = District.objects.filter(name__icontains=self.district_name).first()
+        return district
+
+    def generate_default_values_for_missing_months(self, data):
         months_data = []
         for i in range(1, 13):
             months_data.append({'month': i, 'submitted_facilities': 0, 'total_facilities': 0})
@@ -710,7 +737,8 @@ class OverviewStats(RequestSuperClass):
             return 0
 
     def generate_optimality_percentage_at_sites(self):
-        optimal_cce = Refrigerator.objects.filter(supply_year__gt=self.ten_years_ago_date).exclude(cold_chain_facility__type__name='National Store').count()
+        optimal_cce = Refrigerator.objects.filter(supply_year__gt=self.ten_years_ago_date).exclude(
+            cold_chain_facility__type__name='National Store').count()
         total_cce = Refrigerator.objects.count()
         try:
             return generate_percentage(optimal_cce, total_cce)
