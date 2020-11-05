@@ -796,7 +796,7 @@ class OverviewStats(RequestSuperClass):
         self.ten_years_ago_date = datetime.datetime.now() - relativedelta(years=10)
 
         return Response({
-            "sufficiency_percentage_at_sites": self.generate_sufficiency_percentage_at_sites,
+            "sufficiency_percentage_at_sites": self.generate_sufficiency_percentage_at_sites(),
             "sufficiency_percentage_at_dvs": self.generate_sufficiency_percentage_at_dvs(),
             "sufficiency_percentage_at_hfs": self.generate_sufficiency_percentage_at_hfs(),
             "optimality_percentage_at_sites": self.generate_optimality_percentage_at_sites(),
@@ -819,7 +819,10 @@ class OverviewStats(RequestSuperClass):
                                             Q(refrigeratordetail__year__lte=self.year + 1)) \
             .exclude(refrigeratordetail__cold_chain_facility__type__name='National Store') \
             .distinct().count()
-        return generate_percentage(sufficient_storage_sites, all_sites)
+        try:
+            return generate_percentage(sufficient_storage_sites, all_sites)
+        except ZeroDivisionError:
+            return 0
 
     def generate_sufficiency_percentage_at_dvs(self):
         sufficient_storage_at_dvs = ColdChainFacility.objects.filter(
@@ -835,7 +838,10 @@ class OverviewStats(RequestSuperClass):
         all_dvs = ColdChainFacility.objects.filter(Q(refrigeratordetail__year__gte=self.year) &
                                                    Q(refrigeratordetail__year__lte=self.year + 1) &
                                                    Q(type__name__icontains='Store')).distinct().count()
-        return generate_percentage(sufficient_storage_at_dvs, all_dvs)
+        try:
+            return generate_percentage(sufficient_storage_at_dvs, all_dvs)
+        except ZeroDivisionError:
+            return 0
 
     def generate_sufficiency_percentage_at_hfs(self):
         sufficient_storage_at_hfs = ColdChainFacility.objects.filter(
@@ -850,12 +856,18 @@ class OverviewStats(RequestSuperClass):
         all_hfs = ColdChainFacility.objects.filter(Q(refrigeratordetail__year__gte=self.year) &
                                                    Q(refrigeratordetail__year__lte=self.year + 1) &
                                                    ~Q(type__name__icontains='Store')).distinct().count()
-        return generate_percentage(sufficient_storage_at_hfs, all_hfs)
+        try:
+            return generate_percentage(sufficient_storage_at_hfs, all_hfs)
+        except ZeroDivisionError:
+            return 0
 
     def generate_optimality_percentage_at_sites(self):
         optimal_cce = Refrigerator.objects.filter(supply_year__gt=self.ten_years_ago_date).exclude(cold_chain_facility__type__name='National Store').count()
         total_cce = Refrigerator.objects.count()
-        return generate_percentage(optimal_cce, total_cce)
+        try:
+            return generate_percentage(optimal_cce, total_cce)
+        except ZeroDivisionError:
+            return 0
 
     def generate_optimality_percentage_at_dvs(self):
         optimal_cce = Refrigerator.objects.filter(supply_year__gt=self.ten_years_ago_date,
@@ -863,11 +875,17 @@ class OverviewStats(RequestSuperClass):
             .exclude(cold_chain_facility__type__name='National Store').count()
         total_cce = Refrigerator.objects.filter(cold_chain_facility__type__name__icontains='Store') \
             .exclude(cold_chain_facility__type__name='National Store').count()
-        return generate_percentage(optimal_cce, total_cce)
+        try:
+            return generate_percentage(optimal_cce, total_cce)
+        except ZeroDivisionError:
+            return 0
 
     def generate_optimality_percentage_at_hfs(self):
         optimal_cce = Refrigerator.objects.filter(supply_year__gt=self.ten_years_ago_date) \
             .exclude(cold_chain_facility__type__name__icontains='Store').count()
         total_cce = Refrigerator.objects.all() \
             .exclude(cold_chain_facility__type__name__icontains='Store').count()
-        return generate_percentage(optimal_cce, total_cce)
+        try:
+            return generate_percentage(optimal_cce, total_cce)
+        except ZeroDivisionError:
+            return 0
