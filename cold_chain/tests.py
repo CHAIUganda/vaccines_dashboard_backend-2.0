@@ -9,6 +9,11 @@ from django.utils import timezone
 
 
 class TestTempMonitoring(APITestCase):
+    """
+    Run tests using these commands
+    docker exec -it vc_dashboard_vaccines_1 /bin/bash
+    python ./manage.py test -v=1 cold_chain
+    """
     def setUp(self):
         # todo add test to remove national, district stores and Sub-District Store
         self.district = District.objects.create(name="Kampala District", identifier="kampala")
@@ -702,6 +707,54 @@ class TestTempMonitoring(APITestCase):
             "optimality_percentage_at_hfs": 33
         }
         kwargs = {"year": 2019}
+        response = self.client.get(url, kwargs)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.json(), response_data)
+
+    def test_capacity_stats(self):
+        facilities = ColdChainFacility.objects.filter(Q(refrigeratordetail__year__gte=2019) &
+                                                      Q(refrigeratordetail__year__lte=2020) &
+                                                      Q(type__name__icontains='District Store')).distinct().count()
+        self.assertEqual(facilities, 3)
+
+        url = reverse("capacitymetricsstats")
+        response_data = {
+            "overall_total_available": 0,
+            "gap_metrics": {
+                "positive_gap_percentage": 0,
+                "negative_gap_count": 0,
+                "negative_gap_percentage": 0,
+                "positive_gap_count": 0,
+                "facilities_with_cce": 0
+            },
+            "required_available_comparison_metrics": [
+                {
+                    "total_required": 0,
+                    "quarter": 1,
+                    "total_available": 0,
+                    "year": 2019
+                },
+                {
+                    "total_required": 0,
+                    "quarter": 2,
+                    "total_available": 0,
+                    "year": 2019
+                },
+                {
+                    "total_required": 0,
+                    "quarter": 3,
+                    "total_available": 0,
+                    "year": 2019
+                },
+                {
+                    "total_required": 0,
+                    "quarter": 4,
+                    "total_available": 0,
+                    "year": 2019
+                }
+            ]
+        }
+        kwargs = {"start_period": 201901, "end_period": 202001, "carelevel": "Public  HCIII"}
         response = self.client.get(url, kwargs)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.json(), response_data)

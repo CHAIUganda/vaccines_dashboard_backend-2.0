@@ -42,7 +42,7 @@ class Districts(APIView):
 
 class CareLevels(APIView):
     def get(self, request):
-        carelevels = FacilityType.objects.all().values('group').distinct().order_by('group')
+        carelevels = FacilityType.objects.all().values('name').distinct().order_by('name')
         return Response(carelevels)
 
 
@@ -208,12 +208,21 @@ class CapacityMetricsStats(RequestSuperClass):
     def get(self, request):
         super(CapacityMetricsStats, self).get(request)
         statistics = []
+        gap_metrics = []
         overall_total_available = 0
         iterator_year = self.start_year
         summary = dict()
 
         while (iterator_year <= self.end_year):
             for quarter in range(1, 5):
+                positive_gap_count = 0
+                negative_gap_count = 0
+                total_available_net_storage_volume = 0
+                total_required_net_storage_volume = 0
+                positive_gap_percentage = 0
+                negative_gap_percentage = 0
+                current_district = ''
+
                 all_fridges = RefrigeratorDetail.objects.filter(Q(year=iterator_year)).exclude(
                     district__name__isnull=True).exclude(district__name__exact='').order_by('district')
                 all_fridges, all_fridges_per_half = self.add_data_filters(self.district_name, self.facility_type,
@@ -231,10 +240,40 @@ class CapacityMetricsStats(RequestSuperClass):
                                    'total_required': total_required,
                                    'quarter': quarter,
                                    'year': iterator_year})
+
+                districts_with_cce = [fridge.district for fridge in all_fridges_per_half]
+                facilities_with_cce = [fridge.refrigerator.cold_chain_facility for fridge in all_fridges_per_half]
+
+                for fridge_detail in all_fridges_per_half:
+                    gap = fridge_detail.available_net_storage_volume - fridge_detail.required_net_storage_volume
+                    if gap > 0:
+                        positive_gap_count += 1
+                    else:
+                        negative_gap_count += 1
+
+                districts_with_cce_count = len(set(districts_with_cce))
+                facilities_with_cce = len(set(facilities_with_cce))
+
+                try:
+                    positive_gap_percentage = round((positive_gap_count / float(all_fridges_per_half.count())) * 100, 0)
+                    negative_gap_percentage = round((negative_gap_count / float(all_fridges_per_half.count())) * 100, 0)
+                except (TypeError, ZeroDivisionError) as e:
+                    print(e)
+
+                gap_metrics.append({
+                    'positive_gap_count': positive_gap_count,
+                    'negative_gap_count': negative_gap_count,
+                    'facilities_with_cce': facilities_with_cce,
+                    'positive_gap_percentage': positive_gap_percentage,
+                    'negative_gap_percentage': negative_gap_percentage,
+                    'quarter': quarter,
+                    'year': iterator_year
+                })
+
             iterator_year = iterator_year + 1
         summary.update({'required_available_comparison_metrics': statistics})
         summary.update({'overall_total_available': overall_total_available})
-        summary.update({'gap_metrics': self.generate_gap_data()})
+        summary.update({'gap_metrics': gap_metrics})
         return Response(summary)
 
     def generate_gap_data(self):
@@ -287,7 +326,7 @@ class CapacityMetricsStats(RequestSuperClass):
             'negative_gap_count': negative_gap_count,
             'facilities_with_cce': facilities_with_cce,
             'positive_gap_percentage': positive_gap_percentage,
-            'negative_gap_percentage': negative_gap_percentage
+            'negative_gap_percentage': negative_gap_percentage,
         }
 
 
