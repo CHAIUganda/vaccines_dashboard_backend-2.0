@@ -33,7 +33,7 @@ class Months(APIView):
 
 class Districts(APIView):
     def get(self, request):
-        districts = District.objects.all().values('name').order_by('name')
+        districts = District.objects.all().values('name', 'region__name').order_by('name')
         return Response(districts)
 
 
