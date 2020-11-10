@@ -213,15 +213,12 @@ class CapacityMetricsStats(RequestSuperClass):
         iterator_year = self.start_year
         summary = dict()
 
-        while (iterator_year <= self.end_year):
+        while iterator_year <= self.end_year:
             for quarter in range(1, 5):
                 positive_gap_count = 0
                 negative_gap_count = 0
-                total_available_net_storage_volume = 0
-                total_required_net_storage_volume = 0
                 positive_gap_percentage = 0
                 negative_gap_percentage = 0
-                current_district = ''
 
                 all_fridges = RefrigeratorDetail.objects.filter(Q(year=iterator_year)).exclude(
                     district__name__isnull=True).exclude(district__name__exact='').order_by('district')
@@ -241,7 +238,6 @@ class CapacityMetricsStats(RequestSuperClass):
                                    'quarter': quarter,
                                    'year': iterator_year})
 
-                districts_with_cce = [fridge.district for fridge in all_fridges_per_half]
                 facilities_with_cce = [fridge.refrigerator.cold_chain_facility for fridge in all_fridges_per_half]
 
                 for fridge_detail in all_fridges_per_half:
@@ -250,9 +246,6 @@ class CapacityMetricsStats(RequestSuperClass):
                         positive_gap_count += 1
                     else:
                         negative_gap_count += 1
-
-                districts_with_cce_count = len(set(districts_with_cce))
-                facilities_with_cce = len(set(facilities_with_cce))
 
                 try:
                     positive_gap_percentage = round((positive_gap_count / float(all_fridges_per_half.count())) * 100, 0)
@@ -263,7 +256,7 @@ class CapacityMetricsStats(RequestSuperClass):
                 gap_metrics.append({
                     'positive_gap_count': positive_gap_count,
                     'negative_gap_count': negative_gap_count,
-                    'facilities_with_cce': facilities_with_cce,
+                    'facilities_with_cce': len(set(facilities_with_cce)),
                     'positive_gap_percentage': positive_gap_percentage,
                     'negative_gap_percentage': negative_gap_percentage,
                     'quarter': quarter,
@@ -275,59 +268,6 @@ class CapacityMetricsStats(RequestSuperClass):
         summary.update({'overall_total_available': overall_total_available})
         summary.update({'gap_metrics': gap_metrics})
         return Response(summary)
-
-    def generate_gap_data(self):
-        positive_gap_count = 0
-        negative_gap_count = 0
-        total_available_net_storage_volume = 0
-        total_required_net_storage_volume = 0
-        positive_gap_percentage = 0
-        negative_gap_percentage = 0
-        districts_with_cce = []
-        facilities_with_cce = []
-        current_district = ''
-
-        all_fridges = RefrigeratorDetail.objects.filter(
-            Q(year__gte=self.start_year) & Q(year__lte=self.end_year)).exclude(
-            district__name__isnull=True).exclude(district__name__exact='').order_by('district')
-
-        if self.district_name != 'national':
-            all_fridges = all_fridges.filter(district__name=self.district_name)
-
-        districts_with_cce += [fridge.district for fridge in all_fridges]
-        facilities_with_cce += [fridge.refrigerator.cold_chain_facility for fridge in all_fridges]
-        for fridge_detail in all_fridges:
-
-            if fridge_detail.district.name != current_district:
-                gap = total_available_net_storage_volume - total_required_net_storage_volume
-
-                if gap > 0:
-                    positive_gap_count += 1
-                else:
-                    negative_gap_count += 1
-
-                # reset values after making data object for the district
-                current_district = fridge_detail.district.name
-                total_available_net_storage_volume = 0
-                total_required_net_storage_volume = 0
-            total_available_net_storage_volume += fridge_detail.available_net_storage_volume
-            total_required_net_storage_volume += fridge_detail.required_net_storage_volume
-        districts_with_cce_count = len(set(districts_with_cce))
-        facilities_with_cce = len(set(facilities_with_cce))
-
-        try:
-            positive_gap_percentage = round((positive_gap_count / float(districts_with_cce_count)) * 100, 0)
-            negative_gap_percentage = round((negative_gap_count / float(districts_with_cce_count)) * 100, 0)
-        except (TypeError, ZeroDivisionError) as e:
-            print(e)
-
-        return {
-            'positive_gap_count': positive_gap_count,
-            'negative_gap_count': negative_gap_count,
-            'facilities_with_cce': facilities_with_cce,
-            'positive_gap_percentage': positive_gap_percentage,
-            'negative_gap_percentage': negative_gap_percentage,
-        }
 
 
 class EligibleFacilityMetrics(RequestSuperClass):
