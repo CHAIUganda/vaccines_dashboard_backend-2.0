@@ -365,7 +365,8 @@ class OptimalityStats(RequestSuperClass):
         summary = dict()
 
         ten_years_ago_date = datetime.datetime(self.year, 1, 1) - relativedelta(years=10)
-        facility_type = 'District Store'
+        # todo get optimal way of getting this variable(from db)
+        facility_type = 'DISTRICT STORE'
 
         dvs, hf, optimal_bar_graph_metrics = self.get_dvs_and_hf_for_cce_metrics(facility_type, ten_years_ago_date)
         dvs_sites, hf_sites = self.get_dvs_and_hf_for_sites_metrics(facility_type, ten_years_ago_date)
@@ -400,7 +401,7 @@ class OptimalityStats(RequestSuperClass):
             refrigeratordetail__refrigerator__cold_chain_facility__type__name__icontains=facility_type)
 
         district_store_cce_overall_total = RefrigeratorDetail.objects.filter(
-            Q(refrigerator__cold_chain_facility__type__name__icontains=facility_type)).count()
+            Q(refrigerator__cold_chain_facility__type__name=facility_type)).count()
         districts_store_optimal_cce = districts.aggregate(dvs_optimal=optimal)['dvs_optimal']
         try:
             dvs = int(round(districts_store_optimal_cce / float(district_store_cce_overall_total) * 100, 0))
@@ -431,15 +432,17 @@ class OptimalityStats(RequestSuperClass):
             print(e)
 
         for quarter in quarter_months:
-            data = districts.filter(refrigeratordetail__month__in=quarter_months[quarter]).aggregate(
-                dvs_optimal=optimal, dvs_not_optimal=not_optimal)
+            # todo change tenyearsago date by quarter
+            data = districts.filter(Q(refrigeratordetail__month__in=quarter_months[quarter]) &
+                                    Q(refrigeratordetail__year=self.year)) \
+                .aggregate(dvs_optimal=optimal, dvs_not_optimal=not_optimal)
 
             cce_overall_total = 0
             cce_optimal = 0
 
             if data:
-                cce_overall_total = data['dvs_optimal'] if data['dvs_optimal'] else 0 + data['dvs_not_optimal'] \
-                    if data['dvs_not_optimal'] else 0
+                cce_overall_total = data['dvs_optimal'] if data['dvs_optimal'] else 0
+                cce_overall_total += data['dvs_not_optimal'] if data['dvs_not_optimal'] else 0
                 cce_optimal = data['dvs_optimal'] if data['dvs_optimal'] else 0
 
             optimal_bar_graph_metrics.append({

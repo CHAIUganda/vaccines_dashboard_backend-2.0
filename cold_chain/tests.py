@@ -763,7 +763,7 @@ class TestTempMonitoring(APITestCase):
 
     def test_tempheatfreezestats(self):
         # todo fix test
-        url = reverse("tempreportmetrics")
+        url = reverse("tempheatfreezestats")
         response_data = [
             {
                 "heat_alarm__sum": 11045,
@@ -843,3 +843,24 @@ class TestTempMonitoring(APITestCase):
         response = self.client.get(url, kwargs)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.json(), response_data)
+
+    def testtest(self):
+        # todo fix test
+        url = reverse("tempreportmetrics")
+        response_data = [
+            {
+                "heat_alarm_value": 2,
+                "freeze_alarm_value": 0,
+                "district__name": "Mbarara District"
+            },
+            {
+                "heat_alarm_value": 7,
+                "freeze_alarm_value": 0,
+                "district__name": "Amuria District"
+            },
+            {
+                "heat_alarm_value": 0,
+                "freeze_alarm_value": 0,
+                "district__name": "Kumi District"
+            }
+        ]
