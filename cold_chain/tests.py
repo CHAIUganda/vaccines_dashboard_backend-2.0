@@ -14,6 +14,7 @@ class TestTempMonitoring(APITestCase):
     docker exec -it vc_dashboard_vaccines_1 /bin/bash
     python ./manage.py test -v=1 cold_chain
     """
+
     def setUp(self):
         # todo add test to remove national, district stores and Sub-District Store
         self.district = District.objects.create(name="Kampala District", identifier="kampala")
@@ -712,6 +713,7 @@ class TestTempMonitoring(APITestCase):
         self.assertEqual(response.json(), response_data)
 
     def test_capacity_stats(self):
+        # todo fix test
         facilities = ColdChainFacility.objects.filter(Q(refrigeratordetail__year__gte=2019) &
                                                       Q(refrigeratordetail__year__lte=2020) &
                                                       Q(type__name__icontains='District Store')).distinct().count()
@@ -755,6 +757,89 @@ class TestTempMonitoring(APITestCase):
             ]
         }
         kwargs = {"start_period": 201901, "end_period": 202001, "carelevel": "Public  HCIII"}
+        response = self.client.get(url, kwargs)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.json(), response_data)
+
+    def test_tempheatfreezestats(self):
+        # todo fix test
+        url = reverse("tempreportmetrics")
+        response_data = [
+            {
+                "heat_alarm__sum": 11045,
+                "cold_alarm__sum": 287,
+                "month": 1,
+                "year": 2020
+            },
+            {
+                "heat_alarm__sum": 3960,
+                "cold_alarm__sum": 306,
+                "month": 2,
+                "year": 2020
+            },
+            {
+                "heat_alarm__sum": 3424,
+                "cold_alarm__sum": 377,
+                "month": 3,
+                "year": 2020
+            },
+            {
+                "heat_alarm__sum": None,
+                "cold_alarm__sum": None,
+                "month": 4,
+                "year": 2020
+            },
+            {
+                "heat_alarm__sum": None,
+                "cold_alarm__sum": None,
+                "month": 5,
+                "year": 2020
+            },
+            {
+                "heat_alarm__sum": None,
+                "cold_alarm__sum": None,
+                "month": 6,
+                "year": 2020
+            },
+            {
+                "heat_alarm__sum": None,
+                "cold_alarm__sum": None,
+                "month": 7,
+                "year": 2020
+            },
+            {
+                "heat_alarm__sum": None,
+                "cold_alarm__sum": None,
+                "month": 8,
+                "year": 2020
+            },
+            {
+                "heat_alarm__sum": None,
+                "cold_alarm__sum": None,
+                "month": 9,
+                "year": 2020
+            },
+            {
+                "heat_alarm__sum": None,
+                "cold_alarm__sum": None,
+                "month": 10,
+                "year": 2020
+            },
+            {
+                "heat_alarm__sum": None,
+                "cold_alarm__sum": None,
+                "month": 11,
+                "year": 2020
+            },
+            {
+                "heat_alarm__sum": None,
+                "cold_alarm__sum": None,
+                "month": 12,
+                "year": 2020
+            }
+        ]
+
+        kwargs = {"year": 2020, "region": "Central Region"}
         response = self.client.get(url, kwargs)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.json(), response_data)

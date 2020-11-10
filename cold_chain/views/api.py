@@ -503,12 +503,18 @@ class TempHeatAndFreezeStats(RequestSuperClass):
     def get(self, request):
         super(TempHeatAndFreezeStats, self).get(request)
         summary = []
+        filters = dict()
+
+        if self.region != 'all':
+            filters.update({'district__region__name': self.region})
 
         for month in range(1, 13):
-            temp_reports = TempReport.objects.filter(Q(month=month) & Q(year=self.year)).order_by('district') \
+            filters.update({'month': month, 'year': self.year})
+            temp_reports = TempReport.objects.filter(**filters).order_by('district') \
                 .select_related('district')
             if self.district_name != 'national':
-                temp_reports = temp_reports.filter(Q(district__name__icontains=self.district_name))
+                filters.update({'district__name__icontains': self.district_name})
+                temp_reports = temp_reports.filter(**filters)
             temp_reports = temp_reports.aggregate(Sum('heat_alarm'), Sum('cold_alarm'))
             temp_reports.update({
                 'month': month,
