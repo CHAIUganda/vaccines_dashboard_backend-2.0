@@ -329,27 +329,46 @@ class OptimalityMetric(RequestSuperClass):
 
         ten_years_ago_date = datetime.datetime.now() - relativedelta(years=10)
 
-        optimal = Sum(Case(When(refrigeratordetail__refrigerator__supply_year__lte=ten_years_ago_date,
-                                refrigeratordetail__year=self.start_year, then=0),
-                           When(refrigeratordetail__refrigerator__supply_year__gte=ten_years_ago_date,
-                                refrigeratordetail__year=self.start_year, then=1),
-                           output_field=IntegerField()))
-
-        not_optimal = Sum(Case(When(refrigeratordetail__refrigerator__supply_year__lte=ten_years_ago_date,
-                                    refrigeratordetail__year=self.start_year, then=1),
+        if self.region != 'all':
+            optimal = Sum(Case(When(refrigeratordetail__refrigerator__supply_year__lte=ten_years_ago_date,
+                                    refrigeratordetail__year=self.start_year, region__name=self.region, then=0),
                                When(refrigeratordetail__refrigerator__supply_year__gte=ten_years_ago_date,
-                                    refrigeratordetail__year=self.start_year, then=0),
+                                    refrigeratordetail__year=self.start_year, region__name=self.region, then=1),
                                output_field=IntegerField()))
 
-        total_cce = Case(When(refrigeratordetail__year=self.start_year, then=Count('refrigeratordetail__refrigerator')),
-                         When(~Q(refrigeratordetail__year=self.start_year), then=None))
+            not_optimal = Sum(Case(When(refrigeratordetail__refrigerator__supply_year__lte=ten_years_ago_date,
+                                        refrigeratordetail__year=self.start_year, region__name=self.region, then=1),
+                                   When(refrigeratordetail__refrigerator__supply_year__gte=ten_years_ago_date,
+                                        refrigeratordetail__year=self.start_year, region__name=self.region, then=0),
+                                   output_field=IntegerField()))
+
+            total_cce = Case(
+                When(refrigeratordetail__year=self.start_year, region__name=self.region,
+                     then=Count('refrigeratordetail__refrigerator')),
+                When(~Q(refrigeratordetail__year=self.start_year) & Q(region__name=self.region), then=None))
+        else:
+            optimal = Sum(Case(When(refrigeratordetail__refrigerator__supply_year__lte=ten_years_ago_date,
+                                    refrigeratordetail__year=self.start_year, then=0),
+                               When(refrigeratordetail__refrigerator__supply_year__gte=ten_years_ago_date,
+                                    refrigeratordetail__year=self.start_year, then=1),
+                               output_field=IntegerField()))
+
+            not_optimal = Sum(Case(When(refrigeratordetail__refrigerator__supply_year__lte=ten_years_ago_date,
+                                        refrigeratordetail__year=self.start_year, then=1),
+                                   When(refrigeratordetail__refrigerator__supply_year__gte=ten_years_ago_date,
+                                        refrigeratordetail__year=self.start_year, then=0),
+                                   output_field=IntegerField()))
+
+            total_cce = Case(
+                When(refrigeratordetail__year=self.start_year, then=Count('refrigeratordetail__refrigerator')),
+                When(~Q(refrigeratordetail__year=self.start_year), then=None))
 
         summary = District.objects.annotate(optimal=optimal, not_optimal=not_optimal, total_cce=total_cce)
 
         if self.facility_type.lower() != 'all':
             summary = summary.filter(
                 refrigeratordetail__refrigerator__cold_chain_facility__type__name=self.facility_type)
-        return Response(summary.values('name', 'optimal', 'not_optimal', 'total_cce'))
+        return Response(summary.values('name', 'optimal', 'not_optimal', 'total_cce').filter(total_cce__gt=0))
 
 
 class OptimalityStats(RequestSuperClass):

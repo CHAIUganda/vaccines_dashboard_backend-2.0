@@ -844,7 +844,7 @@ class TestTempMonitoring(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.json(), response_data)
 
-    def testtest(self):
+    def test_tempreportmetrics(self):
         # todo fix test
         url = reverse("tempreportmetrics")
         response_data = [
@@ -864,3 +864,37 @@ class TestTempMonitoring(APITestCase):
                 "district__name": "Kumi District"
             }
         ]
+
+        kwargs = {"year": 2020, "region": "Central Region"}
+        response = self.client.get(url, kwargs)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.json(), response_data)
+
+    def test_optimalitymetrics(self):
+        # todo fix test
+        url = reverse("optimalitymetrics")
+        response_data = [
+            {
+                "optimal": None,
+                "total_cce": None,
+                "name": "Kitagwenda District",
+                "not_optimal": None
+            },
+            {
+                "optimal": None,
+                "total_cce": None,
+                "name": "Buikwe District",
+                "not_optimal": None
+            },
+            {
+                "optimal": None,
+                "total_cce": None,
+                "name": "Namayingo District",
+                "not_optimal": None
+            }
+        ]
+
+        kwargs = {"start_period": 202001, "end_period": 202101, "region": "Central Region"}
+        response = self.client.get(url, kwargs)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.json(), response_data)
