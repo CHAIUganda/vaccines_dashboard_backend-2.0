@@ -304,7 +304,7 @@ class EligibleFacilityStats(RequestSuperClass):
         percentage_cce_coverage_rate = 0
         percentage_not_cce_coverage_rate = 0
         # todo change to date filter
-        metrics = EligibleFacilityMetric.objects.filter(Q(year__gte=self.start_year) & Q(year__lte=self.end_year)) \
+        metrics = EligibleFacilityMetric.objects.filter(Q(date__gte=datetime.datetime(self.start_year, quarter_months[self.start_quarter][0], 1)) & Q(date__lte=datetime.datetime(self.end_year, quarter_months[self.end_quarter][0], 1))) \
             .exclude(district__name__isnull=True).exclude(district__name__exact='')
 
         if self.district_name.lower() != 'national':
