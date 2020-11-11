@@ -927,3 +927,19 @@ class TestTempMonitoring(APITestCase):
         response = self.client.get(url, kwargs)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.json(), response_data)
+
+    def test_eligiblefacilitiesstats(self):
+        # todo fix test
+        url = reverse("eligiblefacilitiesstats")
+        response_data = {
+            "cce_coverage_pie_chart": {
+                "percentage_not_cce_coverage_rate": 71,
+                "percentage_cce_coverage_rate": 29
+            },
+            "total_eligible_facilities": 3111
+        }
+
+        kwargs = {"start_period": 202001, "end_period": 202101, "region": "Central Region"}
+        response = self.client.get(url, kwargs)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.json(), response_data)

@@ -310,6 +310,9 @@ class EligibleFacilityStats(RequestSuperClass):
         if self.district_name.lower() != 'national':
             metrics = metrics.filter(district__name__icontains=self.district_name)
 
+        if self.region.lower() != 'all':
+            metrics = metrics.filter(district__region__name=self.region)
+
         total_eligible_facilities = metrics.aggregate(Sum('total_eligible_facility'))['total_eligible_facility__sum']
         total_number_immunizing_facility = metrics.aggregate(Sum('total_number_immunizing_facility'))[
             'total_number_immunizing_facility__sum']
