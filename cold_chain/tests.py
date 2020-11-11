@@ -898,3 +898,32 @@ class TestTempMonitoring(APITestCase):
         response = self.client.get(url, kwargs)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.json(), response_data)
+
+    def test_eligiblefacilitiesmetrics(self):
+        # todo fix test
+        url = reverse("eligiblefacilitiesmetrics")
+        response_data = [
+            {
+                "total_number_immunizing_facility": 12,
+                "total_eligible_facility": 20,
+                "cce_coverage_rate": 60,
+                "district__name": "Abim District"
+            },
+            {
+                "total_number_immunizing_facility": 18,
+                "total_eligible_facility": 50,
+                "cce_coverage_rate": 36,
+                "district__name": "Adjumani District"
+            },
+            {
+                "total_number_immunizing_facility": 23,
+                "total_eligible_facility": 42,
+                "cce_coverage_rate": 55,
+                "district__name": "Agago District"
+            },
+        ]
+
+        kwargs = {"start_period": 202001, "end_period": 202101, "region": "Central Region"}
+        response = self.client.get(url, kwargs)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.json(), response_data)

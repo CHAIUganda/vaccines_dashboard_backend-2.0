@@ -281,10 +281,18 @@ class EligibleFacilityMetrics(RequestSuperClass):
     def get(self, request):
         super(EligibleFacilityMetrics, self).get(request)
 
-        metrics = EligibleFacilityMetric.objects.filter(Q(year__gte=self.start_year) & Q(year__lte=self.end_year)) \
-            .exclude(district__name__isnull=True).exclude(district__name__exact='') \
-            .values('district__name', 'total_eligible_facility', 'total_number_immunizing_facility',
-                    'cce_coverage_rate')
+        if self.region != 'all':
+            metrics = EligibleFacilityMetric.objects.filter(Q(year__gte=self.start_year)
+                                                            & Q(year__lte=self.end_year)
+                                                            & Q(district__region__name=self.region)) \
+                .exclude(district__name__isnull=True).exclude(district__name__exact='') \
+                .values('district__name', 'total_eligible_facility', 'total_number_immunizing_facility',
+                        'cce_coverage_rate')
+        else:
+            metrics = EligibleFacilityMetric.objects.filter(Q(year__gte=self.start_year) & Q(year__lte=self.end_year)) \
+                .exclude(district__name__isnull=True).exclude(district__name__exact='') \
+                .values('district__name', 'total_eligible_facility', 'total_number_immunizing_facility',
+                        'cce_coverage_rate')
 
         return Response(metrics)
 
