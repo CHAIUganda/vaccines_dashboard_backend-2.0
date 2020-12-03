@@ -78,7 +78,10 @@ class FunctionalityMetrics(RequestSuperClass):
         total_not_working = 0
         total_needs_repair = 0
 
-        districts = District.objects.all().order_by('name')
+        if self.region.lower() != "all":
+            districts = District.objects.filter(region__name=self.region).order_by('name')
+        else:
+            districts = District.objects.all().order_by('name')
 
         for district in districts:
             working = RefrigeratorDetail.objects.filter(Q(functionality_status__icontains=FUNCTIONALITY_STATUS[0][
@@ -281,7 +284,7 @@ class EligibleFacilityMetrics(RequestSuperClass):
     def get(self, request):
         super(EligibleFacilityMetrics, self).get(request)
 
-        if self.region != 'all':
+        if self.region.lower() != 'all':
             metrics = EligibleFacilityMetric.objects.filter(Q(year__gte=self.start_year)
                                                             & Q(year__lte=self.end_year)
                                                             & Q(district__region__name=self.region)) \

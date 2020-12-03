@@ -943,3 +943,28 @@ class TestTempMonitoring(APITestCase):
         response = self.client.get(url, kwargs)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.json(), response_data)
+
+    def test_functionalitymetrics(self):
+        # todo fix test
+        url = reverse("functionalitymetrics")
+        response_data = [
+            {
+                "not_working": 12,
+                "total_cce": 75,
+                "working": 63,
+                "district": "Buikwe District",
+                "needs_repair": 0
+            },
+            {
+                "not_working": 6,
+                "total_cce": 27,
+                "working": 21,
+                "district": "Bukomansimbi District",
+                "needs_repair": 0
+            }
+        ]
+
+        kwargs = {"start_period": 201901, "end_period": 202001, "region": "Central Region"}
+        response = self.client.get(url, kwargs)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.json(), response_data)
