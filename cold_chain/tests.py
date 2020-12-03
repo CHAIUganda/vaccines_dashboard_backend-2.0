@@ -3,7 +3,7 @@ from rest_framework import status
 from rest_framework.test import APITestCase
 
 from cold_chain.models import *
-from dashboard.models import Facility
+from dashboard.models import Facility, Region
 from django.utils.crypto import get_random_string
 from django.utils import timezone
 
@@ -17,11 +17,18 @@ class TestTempMonitoring(APITestCase):
 
     def setUp(self):
         # todo add test to remove national, district stores and Sub-District Store
-        self.district = District.objects.create(name="Kampala District", identifier="kampala")
-        self.district2 = District.objects.create(name="Jinja District", identifier="jinja")
-        self.district3 = District.objects.create(name="Masaka District", identifier="masaka")
-        self.district4 = District.objects.create(name="Mbarara District", identifier="mbarara")
-        self.district5 = District.objects.create(name="Gulu District", identifier="gulu")
+        self.central_region = Region.objects.create(name="Central Region", identifier="central")
+        self.eastern_region = Region.objects.create(name="Eastern Region", identifier="eastern")
+        self.western_region = Region.objects.create(name="Western Region", identifier="western")
+        self.northern_region = Region.objects.create(name="Northern Region", identifier="northern")
+        self.district = District.objects.create(name="Kampala District", identifier="kampala",
+                                                region=self.central_region)
+        self.district2 = District.objects.create(name="Jinja District", identifier="jinja", region=self.eastern_region)
+        self.district3 = District.objects.create(name="Masaka District", identifier="masaka",
+                                                 region=self.central_region)
+        self.district4 = District.objects.create(name="Mbarara District", identifier="mbarara",
+                                                 region=self.western_region)
+        self.district5 = District.objects.create(name="Gulu District", identifier="gulu", region=self.northern_region)
         self.facility1 = Facility.objects.create(name="facility1", identifier="facility1")
         self.facility2 = Facility.objects.create(name="facility2", identifier="facility2")
         self.facility3 = Facility.objects.create(name="facility3", identifier="facility3")
@@ -952,17 +959,101 @@ class TestTempMonitoring(APITestCase):
                 "not_working": 12,
                 "total_cce": 75,
                 "working": 63,
-                "district": "Buikwe District",
-                "needs_repair": 0
-            },
-            {
-                "not_working": 6,
-                "total_cce": 27,
-                "working": 21,
-                "district": "Bukomansimbi District",
+                "district": "Kampala District",
                 "needs_repair": 0
             }
         ]
+
+        kwargs = {"start_period": 201901, "end_period": 202001, "region": "Central Region"}
+        response = self.client.get(url, kwargs)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.json(), response_data)
+
+    def test_capacitymetricsstats(self):
+        # todo fix test
+        url = reverse("capacitymetricsstats")
+        response_data = {
+            "overall_total_available": 384312,
+            "gap_metrics": [
+                {
+                    "facilities_with_cce": 0,
+                    "negative_gap_count": 0,
+                    "negative_gap_percentage": 0,
+                    "positive_gap_percentage": 0,
+                    "year": 2019,
+                    "quarter": 1,
+                    "positive_gap_count": 0
+                },
+                {
+                    "facilities_with_cce": 0,
+                    "negative_gap_count": 0,
+                    "negative_gap_percentage": 0,
+                    "positive_gap_percentage": 0,
+                    "year": 2019,
+                    "quarter": 2,
+                    "positive_gap_count": 0
+                },
+                {
+                    "facilities_with_cce": 0,
+                    "negative_gap_count": 0,
+                    "negative_gap_percentage": 0,
+                    "positive_gap_percentage": 0,
+                    "year": 2019,
+                    "quarter": 3,
+                    "positive_gap_count": 0
+                },
+                {
+                    "facilities_with_cce": 0,
+                    "negative_gap_count": 0,
+                    "negative_gap_percentage": 0,
+                    "positive_gap_percentage": 0,
+                    "year": 2019,
+                    "quarter": 4,
+                    "positive_gap_count": 0
+                },
+                {
+                    "facilities_with_cce": 3178,
+                    "negative_gap_count": 724,
+                    "negative_gap_percentage": 14.0,
+                    "positive_gap_percentage": 86.0,
+                    "year": 2020,
+                    "quarter": 1,
+                    "positive_gap_count": 4433
+                }
+            ],
+            "required_available_comparison_metrics": [
+                {
+                    "total_required": 0,
+                    "quarter": 1,
+                    "total_available": 0,
+                    "year": 2019
+                },
+                {
+                    "total_required": 0,
+                    "quarter": 2,
+                    "total_available": 0,
+                    "year": 2019
+                },
+                {
+                    "total_required": 0,
+                    "quarter": 3,
+                    "total_available": 0,
+                    "year": 2019
+                },
+                {
+                    "total_required": 0,
+                    "quarter": 4,
+                    "total_available": 0,
+                    "year": 2019
+                },
+                {
+                    "total_required": 59806,
+                    "quarter": 1,
+                    "total_available": 384312,
+                    "year": 2020
+                }
+            ]
+        }
 
         kwargs = {"start_period": 201901, "end_period": 202001, "region": "Central Region"}
         response = self.client.get(url, kwargs)

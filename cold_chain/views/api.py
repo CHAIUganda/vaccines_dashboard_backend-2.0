@@ -240,7 +240,14 @@ class CapacityMetricsStats(RequestSuperClass):
                 positive_gap_percentage = 0
                 negative_gap_percentage = 0
 
-                all_fridges = RefrigeratorDetail.objects.filter(Q(year=iterator_year)).exclude(
+                filters = {
+                    "year": iterator_year
+                }
+
+                if self.region.lower() != "all":
+                    filters.update({"district__region__name": self.region})
+
+                all_fridges = RefrigeratorDetail.objects.filter(generate_q(filters)).exclude(
                     district__name__isnull=True).exclude(district__name__exact='').order_by('district')
                 all_fridges, all_fridges_per_half = self.add_data_filters(self.district_name, self.facility_type,
                                                                           all_fridges, quarter)
