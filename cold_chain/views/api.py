@@ -338,7 +338,9 @@ class EligibleFacilityStats(RequestSuperClass):
         percentage_cce_coverage_rate = 0
         percentage_not_cce_coverage_rate = 0
         # todo change to date filter
-        metrics = EligibleFacilityMetric.objects.filter(Q(date__gte=datetime.datetime(self.start_year, quarter_months[self.start_quarter][0], 1)) & Q(date__lte=datetime.datetime(self.end_year, quarter_months[self.end_quarter][0], 1))) \
+        metrics = EligibleFacilityMetric.objects.filter(
+            Q(date__gte=datetime.datetime(self.start_year, quarter_months[self.start_quarter][0], 1)) & Q(
+                date__lte=datetime.datetime(self.end_year, quarter_months[self.end_quarter][0], 1))) \
             .exclude(district__name__isnull=True).exclude(district__name__exact='')
 
         if self.district_name.lower() != 'national':
@@ -374,7 +376,7 @@ class OptimalityMetric(RequestSuperClass):
 
         ten_years_ago_date = datetime.datetime.now() - relativedelta(years=10)
 
-        if self.region != 'all':
+        if self.region.lower() != 'all':
             optimal = Sum(Case(When(refrigeratordetail__refrigerator__supply_year__lte=ten_years_ago_date,
                                     refrigeratordetail__year=self.start_year, region__name=self.region, then=0),
                                When(refrigeratordetail__refrigerator__supply_year__gte=ten_years_ago_date,
@@ -429,7 +431,7 @@ class OptimalityStats(RequestSuperClass):
         summary = dict()
 
         ten_years_ago_date = datetime.datetime(self.year, 1, 1) - relativedelta(years=10)
-        # todo get optimal way of getting this variable(from db)
+        # todo find optimal way of getting this variable(from db)
         facility_type = 'DISTRICT STORE'
 
         dvs, hf, optimal_bar_graph_metrics = self.get_dvs_and_hf_for_cce_metrics(facility_type, ten_years_ago_date)
@@ -461,11 +463,19 @@ class OptimalityStats(RequestSuperClass):
 
         # Returns duplicates districts, each district mapped to a RefrigeratorDetail(Refrigerator)
         # This is used to reduce on the number of queries
-        districts = District.objects.filter(
-            refrigeratordetail__refrigerator__cold_chain_facility__type__name__icontains=facility_type)
+        filters = {
+            "refrigeratordetail__refrigerator__cold_chain_facility__type__name__icontains": facility_type
+        }
+        if self.region.lower() != "all":
+            filters.update({"region__name": self.region})
+        districts = District.objects.filter(generate_q(filters))
 
-        district_store_cce_overall_total = RefrigeratorDetail.objects.filter(
-            Q(refrigerator__cold_chain_facility__type__name=facility_type)).count()
+        filters = {
+            "refrigerator__cold_chain_facility__type__name": facility_type
+        }
+        if self.region.lower() != "all":
+            filters.update({"district__region__name": self.region})
+        district_store_cce_overall_total = RefrigeratorDetail.objects.filter(generate_q(filters)).count()
         districts_store_optimal_cce = districts.aggregate(dvs_optimal=optimal)['dvs_optimal']
         try:
             dvs = int(round(districts_store_optimal_cce / float(district_store_cce_overall_total) * 100, 0))
@@ -487,8 +497,16 @@ class OptimalityStats(RequestSuperClass):
                                     refrigeratordetail__year=self.year,
                                     then=0), output_field=IntegerField()))
 
-        districts = District.objects.filter()
-        hf_cce_overall_total = RefrigeratorDetail.objects.filter().count()
+        filters = {}
+        if self.region.lower() != "all":
+            filters.update({"region__name": self.region})
+        districts = District.objects.filter(generate_q(filters))
+
+        filters = {}
+        if self.region.lower() != "all":
+            filters.update({"district__region__name": self.region})
+
+        hf_cce_overall_total = RefrigeratorDetail.objects.filter(generate_q(filters)).count()
         hf_optimal_cce = districts.aggregate(hf_optimal=optimal)['hf_optimal']
         try:
             hf = int(round(hf_optimal_cce / float(hf_cce_overall_total) * 100, 0))
@@ -522,8 +540,20 @@ class OptimalityStats(RequestSuperClass):
         # district vaccine stores metrics
         optimal_bar_graph_metrics = dict()
 
-        optimal = Sum(Case(When(refrigerator__supply_year__lte=ten_years_ago_date, then=0),
-                           When(refrigerator__supply_year__gte=ten_years_ago_date, then=1),
+        filters_lte = {
+            "refrigerator__supply_year__lte": ten_years_ago_date
+        }
+        if self.region.lower() != "all":
+            filters_lte.update({"district__region__name": self.region})
+
+        filters_gte = {
+            "refrigerator__supply_year__gte": ten_years_ago_date
+        }
+        if self.region.lower() != "all":
+            filters_gte.update({"district__region__name": self.region})
+
+        optimal = Sum(Case(When(generate_q(filters_lte), then=0),
+                           When(generate_q(filters_gte), then=1),
                            output_field=IntegerField()))
         facilitys = ColdChainFacility.objects.annotate(optimal=optimal).filter(type__name=facility_type).select_related(
             'district')
@@ -572,7 +602,7 @@ class TempHeatAndFreezeStats(RequestSuperClass):
         summary = []
         filters = dict()
 
-        if self.region != 'all':
+        if self.region.lower() != 'all':
             filters.update({'district__region__name': self.region})
 
         for month in range(1, 13):
@@ -609,7 +639,7 @@ class TempReportingRateStats(RequestSuperClass):
         data = []
         filters = dict()
 
-        if self.region != 'all':
+        if self.region.lower() != 'all':
             filters.update({'region__name': self.region})
 
         if self.district_name != 'national':
@@ -651,7 +681,7 @@ class TempReportingRateStats(RequestSuperClass):
             temp_filters = {
                 'year': self.year
             }
-            if self.region != 'all':
+            if self.region.lower() != 'all':
                 temp_filters.update({'district__region__name': self.region})
 
             temp_reports = TempReport.objects.filter(**temp_filters)
@@ -734,7 +764,7 @@ class OverviewStats(RequestSuperClass):
     @property
     def generate_sufficiency_percentage_at_sites(self):
         # exclude national store because it will greatly affect the accuracy
-        if self.region != 'all':
+        if self.region.lower() != 'all':
             sufficient_storage_sites = District.objects.filter(
                 Q(refrigeratordetail__year__gte=self.year) &
                 Q(refrigeratordetail__year__lte=self.year + 1) & Q(region__name=self.region)) \
@@ -766,7 +796,7 @@ class OverviewStats(RequestSuperClass):
             return 0
 
     def generate_sufficiency_percentage_at_dvs(self):
-        if self.region != 'all':
+        if self.region.lower() != 'all':
             sufficient_storage_at_dvs = ColdChainFacility.objects.filter(
                 Q(refrigeratordetail__year__gte=self.year) &
                 Q(refrigeratordetail__year__lte=self.year + 1) &
@@ -797,7 +827,7 @@ class OverviewStats(RequestSuperClass):
             return 0
 
     def generate_sufficiency_percentage_at_hfs(self):
-        if self.region != 'all':
+        if self.region.lower() != 'all':
             sufficient_storage_at_hfs = ColdChainFacility.objects.filter(
                 Q(refrigeratordetail__year__gte=self.year) &
                 Q(refrigeratordetail__year__lte=self.year + 1) &
@@ -826,7 +856,7 @@ class OverviewStats(RequestSuperClass):
             return 0
 
     def generate_optimality_percentage_at_sites(self):
-        if self.region != 'all':
+        if self.region.lower() != 'all':
             region_object = Region.objects.get(name=self.region)
             optimal_cce = Refrigerator.objects.filter(supply_year__gt=self.ten_years_ago_date,
                                                       cold_chain_facility__district__region=region_object).exclude(
@@ -842,7 +872,7 @@ class OverviewStats(RequestSuperClass):
             return 0
 
     def generate_optimality_percentage_at_dvs(self):
-        if self.region != 'all':
+        if self.region.lower() != 'all':
             region_object = Region.objects.get(name=self.region)
             optimal_cce = Refrigerator.objects.filter(supply_year__gt=self.ten_years_ago_date,
                                                       cold_chain_facility__type__name__icontains='Store',
@@ -863,7 +893,7 @@ class OverviewStats(RequestSuperClass):
             return 0
 
     def generate_optimality_percentage_at_hfs(self):
-        if self.region != 'all':
+        if self.region.lower() != 'all':
             region_object = Region.objects.get(name=self.region)
             optimal_cce = Refrigerator.objects.filter(supply_year__gt=self.ten_years_ago_date,
                                                       cold_chain_facility__district__region=region_object) \

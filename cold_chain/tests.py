@@ -1082,3 +1082,44 @@ class TestTempMonitoring(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.json(), response_data)
 
+    def test_optimalitystats(self):
+        # todo fix test
+        url = reverse("optimalitystats")
+        response_data = {
+            "dvs_sites": 99,
+            "hf": 59,
+            "dvs": 70,
+            "optimal_bar_graph_metrics": [
+                {
+                    "quarter": 1,
+                    "cce_optimal": 3122,
+                    "cce_overall_total": 5157,
+                    "year": 2020
+                },
+                {
+                    "quarter": 2,
+                    "cce_optimal": 0,
+                    "cce_overall_total": 0,
+                    "year": 2020
+                },
+                {
+                    "quarter": 3,
+                    "cce_optimal": 0,
+                    "cce_overall_total": 0,
+                    "year": 2020
+                },
+                {
+                    "quarter": 4,
+                    "cce_optimal": 0,
+                    "cce_overall_total": 0,
+                    "year": 2020
+                }
+            ],
+            "hf_sites": 100
+        }
+
+        kwargs = {"year": 2020, "region": "Central Region"}
+        response = self.client.get(url, kwargs)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.json(), response_data)
+
