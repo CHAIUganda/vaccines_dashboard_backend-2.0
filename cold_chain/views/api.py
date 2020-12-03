@@ -207,8 +207,15 @@ class CapacityMetrics(RequestSuperClass):
     def get(self, request):
         super(CapacityMetrics, self).get(request)
 
-        summary = District.objects.filter(Q(refrigeratordetail__year__gte=self.start_year) &
-                                          Q(refrigeratordetail__year__lte=self.end_year)).order_by('name') \
+        filters = {
+            "refrigeratordetail__year__gte": self.start_year,
+            "refrigeratordetail__year__lte": self.end_year
+        }
+
+        if self.region.lower() != "all":
+            filters.update({"region__name": self.region})
+
+        summary = District.objects.filter(generate_q(filters)).order_by('name') \
             .annotate(available_net_storage_volume=Sum('refrigeratordetail__available_net_storage_volume'),
                       required_net_storage_volume=Sum('refrigeratordetail__required_net_storage_volume'),
                       gap=F('available_net_storage_volume') - F('required_net_storage_volume')) \

@@ -1059,3 +1059,26 @@ class TestTempMonitoring(APITestCase):
         response = self.client.get(url, kwargs)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.json(), response_data)
+
+    def test_capacitymetrics(self):
+        # todo fix test
+        url = reverse("capacitymetrics")
+        response_data = [
+            {
+                "available_net_storage_volume": 1705,
+                "required_net_storage_volume": 209,
+                "name": "Abim District",
+                "gap": 1496
+            },
+            {
+                "available_net_storage_volume": 2931,
+                "required_net_storage_volume": 664,
+                "name": "Adjumani District",
+                "gap": 2267
+            }]
+
+        kwargs = {"start_period": 201901, "end_period": 202001, "region": "Central Region"}
+        response = self.client.get(url, kwargs)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.json(), response_data)
+
