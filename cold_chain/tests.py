@@ -1123,3 +1123,110 @@ class TestTempMonitoring(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.json(), response_data)
 
+    def test_tempreportingratestats(self):
+        url = reverse("tempreportingrate")
+        response_data = {
+            "heat_graph_data": [
+                {
+                    "data": [
+                        {
+                            "submitted_facilities": 7,
+                            "total_facilities": 8,
+                            "month": 1
+                        },
+                        {
+                            "submitted_facilities": 9,
+                            "total_facilities": 9,
+                            "month": 2
+                        },
+                        {
+                            "submitted_facilities": 4,
+                            "total_facilities": 6,
+                            "month": 3
+                        },
+                        {
+                            "submitted_facilities": 0,
+                            "total_facilities": 0,
+                            "month": 4
+                        },
+                        {
+                            "submitted_facilities": 0,
+                            "total_facilities": 0,
+                            "month": 5
+                        },
+                        {
+                            "submitted_facilities": 0,
+                            "total_facilities": 0,
+                            "month": 6
+                        },
+                        {
+                            "submitted_facilities": 0,
+                            "total_facilities": 0,
+                            "month": 7
+                        },
+                        {
+                            "submitted_facilities": 0,
+                            "total_facilities": 0,
+                            "month": 8
+                        },
+                        {
+                            "submitted_facilities": 0,
+                            "total_facilities": 0,
+                            "month": 9
+                        },
+                        {
+                            "submitted_facilities": 0,
+                            "total_facilities": 0,
+                            "month": 10
+                        },
+                        {
+                            "submitted_facilities": 0,
+                            "total_facilities": 0,
+                            "month": 11
+                        },
+                        {
+                            "submitted_facilities": 0,
+                            "total_facilities": 0,
+                            "month": 12
+                        }
+                    ],
+                    "district": "Mayuge District"
+                }],
+            "submission_percentages_graph_data": [
+                {
+                    "submissions_percentages": {
+                        "1": 67,
+                        "2": 68,
+                        "3": 64,
+                        "4": 0,
+                        "5": 0,
+                        "6": 0,
+                        "7": 0,
+                        "8": 0,
+                        "9": 0,
+                        "10": 0,
+                        "11": 0,
+                        "12": 0
+                    },
+                    "monthly_submissions": {
+                        "1": 139,
+                        "2": 161,
+                        "3": 164,
+                        "4": 0,
+                        "5": 0,
+                        "6": 0,
+                        "7": 0,
+                        "8": 0,
+                        "9": 0,
+                        "10": 0,
+                        "11": 0,
+                        "12": 0
+                    }
+                }
+            ]
+        }
+
+        kwargs = {"year": 2020, "region": "Central Region"}
+        response = self.client.get(url, kwargs)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.json(), response_data)
