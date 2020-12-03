@@ -5,7 +5,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from cold_chain.helpers import *
 from cold_chain.models import *
-from utility import replace_quotes, quarter_months, month_to_string, generate_percentage
+from utility import replace_quotes, quarter_months, month_to_string, generate_percentage, generate_q
 from dateutil.relativedelta import relativedelta
 import datetime
 from dashboard.models import Facility, Region
@@ -121,23 +121,40 @@ class FunctionalityMetricsGraph(RequestSuperClass):
 
         while (self.start_year <= self.end_year):
             for quarter in range(1, 5):
-                working = RefrigeratorDetail.objects.filter(Q(functionality_status__icontains=FUNCTIONALITY_STATUS[0][
-                    0]) & Q(year=self.start_year))
-                working_total, working_per_half = self.add_data_filters(self.district_name, self.facility_type, working,
+                filters = {
+                    "functionality_status__icontains": FUNCTIONALITY_STATUS[0][0],
+                    "year": self.start_year,
+                }
+                if self.region.lower() != "all":
+                    filters.update({"district__region__name": self.region})
+
+                working = RefrigeratorDetail.objects.filter(generate_q(filters))
+                working_total, working_per_half = self.add_data_filters(self.district_name, self.facility_type,
+                                                                        working,
                                                                         quarter)
-                print(working_total)
                 functionality_working_total += working_total
 
-                not_working = RefrigeratorDetail.objects.filter(
-                    Q(functionality_status__icontains=FUNCTIONALITY_STATUS[1][
-                        0]) & Q(year=self.start_year))
-                not_working_total, not_working_per_half = self.add_data_filters(self.district_name, self.facility_type,
+                filters = {
+                    "functionality_status__icontains": FUNCTIONALITY_STATUS[1][0],
+                    "year": self.start_year,
+                }
+                if self.region.lower() != "all":
+                    filters.update({"district__region__name": self.region})
+
+                not_working = RefrigeratorDetail.objects.filter(generate_q(filters))
+                not_working_total, not_working_per_half = self.add_data_filters(self.district_name,
+                                                                                self.facility_type,
                                                                                 not_working, quarter)
                 functionality_not_working_total += not_working_total
 
-                needs_repair = RefrigeratorDetail.objects.filter(
-                    Q(functionality_status__icontains=FUNCTIONALITY_STATUS[2][
-                        0]) & Q(year=self.start_year))
+                filters = {
+                    "functionality_status__icontains": FUNCTIONALITY_STATUS[2][0],
+                    "year": self.start_year,
+                }
+                if self.region.lower() != "all":
+                    filters.update({"district__region__name": self.region})
+
+                needs_repair = RefrigeratorDetail.objects.filter(generate_q(filters))
                 needs_repair_total, needs_repair_per_half = self.add_data_filters(self.district_name,
                                                                                   self.facility_type,
                                                                                   needs_repair, quarter)
