@@ -67,6 +67,7 @@ class VaccineDoses(APIView):
     def get(self, request):
         district = request.query_params.get('district', None)
         vaccine = request.query_params.get('vaccine', None)
+        region = request.query_params.get('region', 'all')
         period = request.query_params.get('period', DHIS2VaccineDoseDataset.objects.all().order_by('period').last().period)
 
         args = {}
@@ -77,8 +78,10 @@ class VaccineDoses(APIView):
         if vaccine:
             args.update({'vaccine__name': vaccine})
 
-        if period:
+        if region.lower() != 'all':
+            args.update({'district__region__name': region})
 
+        if period:
             args.update({'period': period})
 
         summary = VaccineDose.objects.filter(**args) \

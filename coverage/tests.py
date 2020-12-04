@@ -52,3 +52,45 @@ class TestCoverage(TestCase):
         response = self.client.get(url, kwargs)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.json(), response_data)
+
+    def test_vaccinedoses(self):
+        # todo fix test and add more parameters
+        url = reversed('vaccinedoses')
+        response_data = [
+            {
+                "planned_consumption": 1113.0,
+                "first_dose": 578,
+                "coverage_rate": 51.9,
+                "period": 201906,
+                "district__name": "Zombo District",
+                "access": 51.93171608265948,
+                "last_dose": 578,
+                "under_immunized": -28.0,
+                "drop_out_rate": -4.84,
+                "vaccine__name": "BCG",
+                "Red_category": 4,
+                "consumed": 578,
+                "Not_immunized": 535.0
+            },
+            {
+                "planned_consumption": 1110.0,
+                "first_dose": 1149,
+                "coverage_rate": 103.5,
+                "period": 201906,
+                "district__name": "Nebbi District",
+                "access": 103.51351351351352,
+                "last_dose": 1149,
+                "under_immunized": 268.0,
+                "drop_out_rate": 23.32,
+                "vaccine__name": "BCG",
+                "Red_category": 2,
+                "consumed": 1149,
+                "Not_immunized": -39.0
+            }
+        ]
+
+        # todo create test with diff params
+        kwargs = {"vaccine": "PENTA", "period": 20219, "district": "Kampala District", "region": "Central Region"}
+        response = self.client.get(url, kwargs)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.json(), response_data)
