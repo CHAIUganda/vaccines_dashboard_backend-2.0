@@ -8,6 +8,8 @@ from cold_chain.helpers import *
 from coverage.models import *
 from django.db import connections
 
+from utility import replace_quotes
+
 
 class DHIS2VaccineDoses(APIView):
     def get(self, request):
@@ -147,6 +149,7 @@ class VaccineDosesByPeriod(APIView):
         start_year = request.query_params.get('startYear', default_start)
         end_year = request.query_params.get('endYear', default_end)
         period = request.query_params.get('period', None)
+        region = replace_quotes(request.query_params.get('region', 'all'))
         data_type = request.query_params.get('dataType', None)
         enable_district_grouping = request.query_params.get('enableDistrictGrouping', None)
 
@@ -185,6 +188,9 @@ class VaccineDosesByPeriod(APIView):
         if period is not None:
             start_period = "%s01" % period[0:4]
             filters.update({'period__gte': int(start_period), 'period__lte': int(period)})
+
+        if region.lower() != 'all':
+            filters.update({'district__region__name': region})
 
         if districts:
             # convert districts string into list of district names
