@@ -65,12 +65,10 @@ class CoverageRate(APIView):
 class StockAtHandByDistrictApi(APIView):
     def get(self, request):
         # Get the parameters
+        region = request.query_params.get('region', 'all')
         district = request.query_params.get('district', None)
         vaccine = request.query_params.get('vaccine', None)
         zone = request.query_params.get('zone', None)
-
-
-        startMonth, startYear = request.query_params.get('startMonth', 'Nov 2014').split(' ')
         endMonth, endYear= request.query_params.get('endMonth', 'Nov 2016').split(' ')
 
         # Create arguments for filtering
@@ -79,6 +77,9 @@ class StockAtHandByDistrictApi(APIView):
 
         if district and district.lower() != "national":
             args.update({'stock_requirement__district__name': district})
+
+        if region.lower() != "all":
+            args.update({'stock_requirement__district__region': Region.objects.get(name=region)})
 
         if vaccine:
             args.update({'stock_requirement__vaccine__name': vaccine})
