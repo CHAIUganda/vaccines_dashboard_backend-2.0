@@ -67,3 +67,30 @@ class Test(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.json(), response_data)
 
+    def test_stock_at_hand_by_month(self):
+        # todo fix test
+        response_data = [
+            {
+                "max_variance": -2420.0,
+                "ordered": 0.0,
+                "period_year": 2017,
+                "at_hand": 0.0,
+                "stock_requirement__coverage_target": 457,
+                "stock_requirement__minimum": 605,
+                "period": 201712,
+                "period_month": 12,
+                "min_variance": -605.0,
+                "stock_requirement__target": 457,
+                "district_name": "Abim District",
+                "stock_requirement__maximum": 2420,
+                "consumed": 1260.0,
+                "vaccine": "OPV"
+            }
+        ]
+
+        kwargs = {"startMonth": "Nov 2014", "endMonth": "Jan 2018", "district": "Arua District"}
+        url = reverse("stock_at_hand_by_month")
+        response = self.client.get(url, kwargs)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.json(), response_data)
+

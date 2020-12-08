@@ -153,6 +153,7 @@ class StockAtHandByMonthApi(APIView):
     def get(self, request):
         district = request.query_params.get('district', None)
         vaccine = request.query_params.get('vaccine', None)
+        region = request.query_params.get('region', 'all')
 
         # Create arguments for filtering
         startMonth, startYear = request.query_params.get('startMonth', 'Nov 2014').split(' ')
@@ -162,6 +163,9 @@ class StockAtHandByMonthApi(APIView):
         args = {'firstdate__range':date_range}
         if district:
             args.update({'stock_requirement__district__name': district})
+
+        if region.lower() != "all":
+            args.update({'stock_requirement__district__region': Region.objects.get(name=region)})
 
         if vaccine:
             args.update({'stock_requirement__vaccine__name': vaccine})
