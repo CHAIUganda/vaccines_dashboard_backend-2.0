@@ -94,3 +94,28 @@ class Test(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.json(), response_data)
 
+    def test_stockbydistrictvaccine(self):
+        response_data = [
+            {
+                "received": 11290.0,
+                "stock_requirement__maximum": 12450,
+                "at_hand": 2000.0,
+                "stock_requirement__coverage_target": 2973,
+                "stock_requirement__minimum": 3112,
+                "stock_requirement__district__name": "Arua District",
+                "period": 201606,
+                "month": 6,
+                "stock_requirement__target": 8919,
+                "ordered": 11300.0,
+                "stock_requirement__vaccine__name": "PENTA",
+                "consumed": 7172.0,
+                "stock_requirement__district__zone": 3
+            }
+        ]
+
+        kwargs = {"startMonth": "Nov 2014", "endMonth": "Jan 2018", "district": "Arua District", "vaccine": "PENTA"}
+        url = reverse("stock_by_district_vaccine")
+        response = self.client.get(url, kwargs)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.json(), response_data)
+

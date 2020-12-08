@@ -213,6 +213,7 @@ class StockByDistrictVaccineApi(APIView):
         district = request.query_params.get('district', None)
         districts = request.query_params.get('districts', None)
         vaccine = request.query_params.get('vaccine', "PENTA")
+        region = request.query_params.get('region', 'all')
         #month = request.query_params.get('month', None)
 
         startMonth, startYear = request.query_params.get('startMonth', 'Jan 2016').split(' ')
@@ -239,6 +240,9 @@ class StockByDistrictVaccineApi(APIView):
                 args.update({'stock_requirement__district__name': district})
             else:
                 grouping_fields = ['period']
+
+        if region.lower() != "all":
+            args.update({'stock_requirement__district__region': Region.objects.get(name=region)})
 
         if districts:
             # convert districts string into list of district names
