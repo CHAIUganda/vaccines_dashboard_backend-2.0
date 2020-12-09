@@ -8,7 +8,8 @@ SECRET_KEY = 'utk*7$&c36mlg75vy-!p5px#-jn^!3-u$j@02s50_+w+i7rt%('
 
 DEBUG = True
 
-ALLOWED_HOSTS = []
+# todo restrict to known urls
+ALLOWED_HOSTS = ['*']
 
 INSTALLED_APPS = (
     # 'django_cassandra_engine',
@@ -57,6 +58,8 @@ ROOT_URLCONF = 'vaccines.urls'
 
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True
+# todo restrict to known urls
+CSRF_TRUSTED_ORIGINS = ['*']
 CORS_ORIGIN_WHITELIST = [
     'http://localhost:3000',
 ]
