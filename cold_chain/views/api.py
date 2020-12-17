@@ -432,7 +432,7 @@ class OptimalityStats(RequestSuperClass):
 
         ten_years_ago_date = datetime.datetime(self.year, 1, 1) - relativedelta(years=10)
         # todo find optimal way of getting this variable(from db)
-        facility_type = 'DISTRICT STORE'
+        facility_type = 'district'
 
         dvs, hf, optimal_bar_graph_metrics = self.get_dvs_and_hf_for_cce_metrics(facility_type, ten_years_ago_date)
         dvs_sites, hf_sites = self.get_dvs_and_hf_for_sites_metrics(facility_type, ten_years_ago_date)
@@ -471,7 +471,7 @@ class OptimalityStats(RequestSuperClass):
         districts = District.objects.filter(generate_q(filters))
 
         filters = {
-            "refrigerator__cold_chain_facility__type__name": facility_type
+            "refrigerator__cold_chain_facility__type__name__icontains": facility_type
         }
         if self.region.lower() != "all":
             filters.update({"district__region__name": self.region})
@@ -555,7 +555,7 @@ class OptimalityStats(RequestSuperClass):
         optimal = Sum(Case(When(generate_q(filters_lte), then=0),
                            When(generate_q(filters_gte), then=1),
                            output_field=IntegerField()))
-        facilitys = ColdChainFacility.objects.annotate(optimal=optimal).filter(type__name=facility_type).select_related(
+        facilitys = ColdChainFacility.objects.annotate(optimal=optimal).filter(type__name__icontains=facility_type).select_related(
             'district')
         optimal_facilitys = facilitys.filter(optimal__gt=0)
 
