@@ -29,7 +29,7 @@ def import_performance_management(excel_file, year):
             activity_cost_ugx = row[11].value
             activity_cost_usd = row[12].value
             budget_assumption = row[13].value if row[12].value else ""
-            time_frame = row[14].value if row[12].value else ""
+            time_frame = clean_time_frame_data(row)
             responsible_focal_point = row[15].value if row[15].value else ""
             stackholder_focal_point = row[16].value if row[16].value else ""
 
@@ -134,6 +134,10 @@ def import_performance_management(excel_file, year):
         except Exception as e:
             print(traceback.print_exc())
             print(e)
+
+
+def clean_time_frame_data(row):
+    return row[14].value.split("00:00:00")[0] if row[12].value else ""
 
 
 class Command(BaseCommand):
