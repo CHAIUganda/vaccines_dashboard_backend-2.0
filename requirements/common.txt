@@ -1,4 +1,4 @@
-Django==1.9
+Django==2.2.24
 psycopg2-binary
 django-braces==1.8.1
 django-password-reset==0.8.1
