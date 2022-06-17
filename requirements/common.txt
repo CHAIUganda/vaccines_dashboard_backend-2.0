@@ -26,7 +26,7 @@ enum34==1.1.2
 robber==0.1.0
 model_mommy
 SQLAlchemy==1.0.15
-numpy==1.11.1
+numpy==1.21.0
 pandas==0.18.1
 django-easy-pdf==0.1.1
 xhtml2pdf
